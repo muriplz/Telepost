@@ -65,7 +65,7 @@ public class SetPostCommand implements CommandExecutor {
             atPlayer.addHome("home", new Location(world, nearpostX, (215) , nearpostZ), new SQLManager.SQLCallback<>() {
                 @Override
                 public void onSuccess(Boolean aBoolean) {
-
+                    player.sendMessage(ChatColor.GRAY+"You have successfully moved into the post at:"+ChatColor.GREEN + " (" + getnearpostX +  " , " + getnearpostZ +  ")" + ChatColor.GRAY + ".");
                 }
 
                 @Override
