@@ -2,6 +2,7 @@ package KryeitTPPlugin;
 
 import com.griefdefender.api.GriefDefender;
 import com.griefdefender.api.User;
+import com.griefdefender.api.claim.Claim;
 import com.griefdefender.api.permission.flag.Flag;
 import com.griefdefender.api.util.generator.DummyObjectProvider;
 import io.github.niestrat99.advancedteleport.api.ATPlayer;
@@ -77,9 +78,10 @@ public class SetPostCommand implements CommandExecutor {
                 }
             });
             final User user = GriefDefender.getCore().getUser(player.getUniqueId());
-            //I need to get the admin claim UUID (where the is a post) 
+            //I need to get the admin claim UUID (where the is a post)
+
+            //This is the flag i want to give to the sender, on the admin claim where the post is
             Flag flag_tp_to = DummyObjectProvider.createFor(Flag.class, "entity-teleport-to");
-            GriefDefender.getPermissionManager().setFlagPermission(flag_tp_to, true, );
         }
         return true;
     }
