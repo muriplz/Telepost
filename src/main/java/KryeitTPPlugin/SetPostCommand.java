@@ -74,7 +74,7 @@ public class SetPostCommand implements CommandExecutor {
                     player.sendMessage(ChatColor.RED+"Error moving your home: 002aa.");
                 }
             });
-
+            //Here I have to add GD perms to entity-teleport-to , in case he does not have them.
 
         return true;
     }
