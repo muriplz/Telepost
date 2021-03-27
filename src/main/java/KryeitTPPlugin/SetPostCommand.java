@@ -1,10 +1,5 @@
 package KryeitTPPlugin;
 
-import com.griefdefender.api.GriefDefender;
-import com.griefdefender.api.User;
-import com.griefdefender.api.claim.Claim;
-import com.griefdefender.api.permission.flag.Flag;
-import com.griefdefender.api.util.generator.DummyObjectProvider;
 import io.github.niestrat99.advancedteleport.api.ATPlayer;
 import io.github.niestrat99.advancedteleport.sql.SQLManager;
 import org.bukkit.Bukkit;
@@ -55,6 +50,7 @@ public class SetPostCommand implements CommandExecutor {
                 atPlayer.removeHome("home", new SQLManager.SQLCallback<>() {
                     @Override
                     public void onSuccess(Boolean data) {
+                        //Here I have to delete the GD perms to entity-teleport-to that post, in case he has the perms.
                     }
 
                     @Override
@@ -66,7 +62,8 @@ public class SetPostCommand implements CommandExecutor {
             double nearpostX = getnearpostX + 0.5;
             double nearpostZ = getnearpostZ + 0.5;
             World world = player.getWorld();
-            atPlayer.addHome("home", new Location(world, nearpostX, (215) , nearpostZ), new SQLManager.SQLCallback<>() {
+            Location location = new Location(world, nearpostX, (215) , nearpostZ);
+            atPlayer.addHome("home", location, new SQLManager.SQLCallback<>() {
                 @Override
                 public void onSuccess(Boolean aBoolean) {
                     player.sendMessage(ChatColor.GRAY+"You have successfully moved into the post at:"+ChatColor.GREEN + " (" + getnearpostX +  " , " + getnearpostZ +  ")" + ChatColor.GRAY + ".");
@@ -77,12 +74,9 @@ public class SetPostCommand implements CommandExecutor {
                     player.sendMessage(ChatColor.RED+"Error moving your home: 002aa.");
                 }
             });
-            final User user = GriefDefender.getCore().getUser(player.getUniqueId());
-            //I need to get the admin claim UUID (where the is a post)
 
-            //This is the flag i want to give to the sender, on the admin claim where the post is
-            Flag flag_tp_to = DummyObjectProvider.createFor(Flag.class, "entity-teleport-to");
-        }
+
         return true;
     }
+}
 }
