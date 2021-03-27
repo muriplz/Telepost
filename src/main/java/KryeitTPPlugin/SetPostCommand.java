@@ -50,7 +50,7 @@ public class SetPostCommand implements CommandExecutor {
                 atPlayer.removeHome("home", new SQLManager.SQLCallback<>() {
                     @Override
                     public void onSuccess(Boolean data) {
-                        //Here I have to delete the GD perms to entity-teleport-to that post, in case he has the perms.
+                        //Here I have to delete the GD perms to entity-teleport-to that post, in case he has the perms.(TODO)
                     }
 
                     @Override
@@ -74,7 +74,7 @@ public class SetPostCommand implements CommandExecutor {
                     player.sendMessage(ChatColor.RED+"Error moving your home: 002aa.");
                 }
             });
-            //Here I have to add GD perms to entity-teleport-to , in case he does not have them.
+            //Here I have to add GD perms to entity-teleport-to , in case he does not have them.(TODO)
 
         return true;
     }
