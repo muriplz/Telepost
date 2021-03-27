@@ -1,4 +1,4 @@
-package commands;
+package KryeitTPPlugin;
 
 import KryeitTPPlugin.KryeitTPPlugin;
 import io.github.niestrat99.advancedteleport.api.ATPlayer;

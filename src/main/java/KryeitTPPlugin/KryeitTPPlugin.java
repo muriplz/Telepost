@@ -1,7 +1,5 @@
 package KryeitTPPlugin;
 
-import commands.NearestPostCommand;
-import commands.SetPostCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.PluginDescriptionFile;

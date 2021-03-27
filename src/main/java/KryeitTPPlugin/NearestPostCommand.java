@@ -1,4 +1,4 @@
-package commands;
+package KryeitTPPlugin;
 
 import KryeitTPPlugin.KryeitTPPlugin;
 import org.bukkit.Bukkit;
@@ -52,7 +52,7 @@ public class NearestPostCommand implements CommandExecutor{
                 getnearpostZ = getnearpostZ + gap;
                 postnumberLocationZ += 1;
             }
-            player.sendMessage( ChatColor.GRAY + "You are on: ( " + playerX + " , " + playerZ + " ) and the nearest post is on:" + ChatColor.GREEN + " ( " + getnearpostX + " , " + getnearpostZ + " )" + ChatColor.GRAY + "." );
+            player.sendMessage( ChatColor.GRAY + "You are on: (" + playerX + " , " + playerZ + ") and the nearest post is on:" + ChatColor.GREEN + " (" + getnearpostX + " , " + getnearpostZ + ")" + ChatColor.GRAY + "." );
 
             return true;
         }
