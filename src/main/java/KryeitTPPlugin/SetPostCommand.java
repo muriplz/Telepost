@@ -1,6 +1,5 @@
 package KryeitTPPlugin;
 
-import KryeitTPPlugin.KryeitTPPlugin;
 import io.github.niestrat99.advancedteleport.api.ATPlayer;
 import io.github.niestrat99.advancedteleport.sql.SQLManager;
 import org.bukkit.Bukkit;
@@ -73,6 +72,7 @@ public class SetPostCommand implements CommandExecutor {
                     player.sendMessage(ChatColor.RED+"Error moving your home: 002aa.");
                 }
             });
+            
         }
         return true;
     }
