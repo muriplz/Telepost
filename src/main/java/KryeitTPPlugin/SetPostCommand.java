@@ -1,5 +1,7 @@
 package KryeitTPPlugin;
 
+import com.griefdefender.api.GriefDefender;
+import com.griefdefender.api.User;
 import io.github.niestrat99.advancedteleport.api.ATPlayer;
 import io.github.niestrat99.advancedteleport.sql.SQLManager;
 import org.bukkit.Bukkit;
@@ -72,7 +74,7 @@ public class SetPostCommand implements CommandExecutor {
                     player.sendMessage(ChatColor.RED+"Error moving your home: 002aa.");
                 }
             });
-            
+            final User user = GriefDefender.getCore().getUser(player.getUniqueId());
         }
         return true;
     }
