@@ -1,5 +1,8 @@
 package KryeitTPPlugin;
 
+import com.griefdefender.api.GriefDefender;
+import com.griefdefender.api.claim.Claim;
+import com.griefdefender.api.permission.flag.Flag;
 import io.github.niestrat99.advancedteleport.api.ATPlayer;
 import io.github.niestrat99.advancedteleport.sql.SQLManager;
 import org.bukkit.Bukkit;
@@ -11,6 +14,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.UUID;
 
 public class SetPostCommand implements CommandExecutor {
     int playerX, playerZ, gap, postnumberLocationX, postnumberLocationZ, getnearpostX, getnearpostZ;
@@ -49,9 +54,10 @@ public class SetPostCommand implements CommandExecutor {
             if(hashome){
                 atPlayer.removeHome("home", new SQLManager.SQLCallback<>() {
                     @Override
-                    public void onSuccess(Boolean data) {
-                        //Here I have to delete the GD perms to entity-teleport-to that post, in case he has the perms.(TODO)
+                    public void onSuccess(Boolean data) {player.sendMessage("TEST: Works.");
                     }
+                        //Here I have to delete the GD perms to entity-teleport-to that post, in case he has the perms.(TODO)
+
 
                     @Override
                     public void onFail() {
@@ -74,6 +80,10 @@ public class SetPostCommand implements CommandExecutor {
                     player.sendMessage(ChatColor.RED+"Error moving your home: 002aa.");
                 }
             });
+            //I call the claim containing the nearest post. (I think this is the way¿?)
+            Claim claim = GriefDefender.getCore().getClaimManager(player.getWorld().getUID()).getClaimAt(getnearpostX,215,getnearpostZ);
+            //Here I call the UUID of the player (In case he changes the nickname).
+            UUID uuid = player.getUniqueId();
             //Here I have to add GD perms to entity-teleport-to , in case he does not have them.(TODO)
 
         return true;

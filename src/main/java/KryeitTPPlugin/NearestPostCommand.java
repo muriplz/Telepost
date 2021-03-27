@@ -1,12 +1,12 @@
 package KryeitTPPlugin;
 
-import KryeitTPPlugin.KryeitTPPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 
 public class NearestPostCommand implements CommandExecutor{
@@ -29,7 +29,7 @@ public class NearestPostCommand implements CommandExecutor{
     }
 
     //  This commands aims to be /NearestPost in-game
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if( ! ( sender instanceof Player )) {
             Bukkit.getConsoleSender().sendMessage(plugin.name+ ChatColor.WHITE+"You cant execute this command from console.");
             return false;
