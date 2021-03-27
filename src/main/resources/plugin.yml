@@ -1,0 +1,8 @@
+main: KryeitTPPlugin.KryeitTPPlugin
+version: 0.0.2
+name: KryeitPlugin
+commands:
+  nearestpost:
+    description: nearest post.
+  setpost:
+    description: sets the nearest post as a home.
