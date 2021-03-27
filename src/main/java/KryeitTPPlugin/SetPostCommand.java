@@ -3,6 +3,7 @@ package KryeitTPPlugin;
 import com.griefdefender.api.GriefDefender;
 import com.griefdefender.api.claim.Claim;
 import com.griefdefender.api.permission.flag.Flag;
+import com.griefdefender.api.util.generator.DummyObjectProvider;
 import io.github.niestrat99.advancedteleport.api.ATPlayer;
 import io.github.niestrat99.advancedteleport.sql.SQLManager;
 import org.bukkit.Bukkit;
@@ -84,6 +85,8 @@ public class SetPostCommand implements CommandExecutor {
             Claim claim = GriefDefender.getCore().getClaimManager(player.getWorld().getUID()).getClaimAt(getnearpostX,215,getnearpostZ);
             //Here I call the UUID of the player (In case he changes the nickname).
             UUID uuid = player.getUniqueId();
+            //Here I call the flag, entity-teleport-to
+            public static final Flag ENTITY_TELEPORT_TO = DummyObjectProvider.createFor(Flag.class, "entity-teleport-to");
             //Here I have to add GD perms to entity-teleport-to , in case he does not have them.(TODO)
 
         return true;
