@@ -70,7 +70,7 @@ public class SetPostCommand implements CommandExecutor {
 
                 @Override
                 public void onFail() {
-                    player.sendMessage(ChatColor.RED+"Error deleting your last home: 001aa.");
+                    player.sendMessage(ChatColor.RED+"Error moving your home: 002aa.");
                 }
             });
         }
