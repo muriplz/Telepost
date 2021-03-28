@@ -1,5 +1,8 @@
-package KryeitTPPlugin;
+package muriplz.kryeittpplugin;
 
+
+import muriplz.kryeittpplugin.commands.NearestPostCommand;
+import muriplz.kryeittpplugin.commands.SetPostCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -19,8 +22,8 @@ public class KryeitTPPlugin extends JavaPlugin {
         Bukkit.getConsoleSender().sendMessage(name+ChatColor.WHITE+" The plugin has been deactivated.");
     }
     public void registerCommands() {
-        this.getCommand("nearestpost").setExecutor(new NearestPostCommand(this));
-        this.getCommand("setpost").setExecutor(new SetPostCommand(this));
+        Objects.requireNonNull(this.getCommand("nearestpost")).setExecutor(new NearestPostCommand(this));
+        Objects.requireNonNull(this.getCommand("setpost")).setExecutor(new SetPostCommand(this));
     }
 }
 

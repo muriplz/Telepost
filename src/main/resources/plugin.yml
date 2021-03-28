@@ -1,6 +1,6 @@
-main: KryeitTPPlugin.KryeitTPPlugin
-version: 0.0.2
-name: KryeitPlugin
+main: muriplz.kryeittpplugin.KryeitTPPlugin
+version: 1.0.0
+name: Kryeit-tpPlugin
 commands:
   nearestpost:
     description: nearest post.

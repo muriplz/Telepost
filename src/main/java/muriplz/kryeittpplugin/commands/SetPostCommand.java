@@ -1,7 +1,8 @@
-package KryeitTPPlugin;
+package muriplz.kryeittpplugin.commands;
 
 
 import io.github.niestrat99.advancedteleport.api.ATPlayer;
+import muriplz.kryeittpplugin.KryeitTPPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -56,9 +57,6 @@ public class SetPostCommand implements CommandExecutor {
                 atPlayer.addHome("home", location, null);
                 player.sendMessage(ChatColor.GREEN+"You have successfully set your home post at: ( "+getnearpostX+","+getnearpostZ+").");
             }
-
-
-
             return true;
         }
     }

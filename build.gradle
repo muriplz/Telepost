@@ -15,14 +15,13 @@ repositories {
     }
     maven { url = 'https://papermc.io/repo/repository/maven-public/' }
     maven { url = 'https://jitpack.io'}
-
 }
 
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
     compileOnly "org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT"
-    compile 'io.github.niestrat99:AdvancedTeleport-Bukkit:v5.4.7'
+    compile 'io.github.niestrat99:AdvancedTeleport-Bukkit:v5.4.6'
     compile 'com.github.Thatsmusic99:ConfigurationMaster:v1.0'
 }
 
