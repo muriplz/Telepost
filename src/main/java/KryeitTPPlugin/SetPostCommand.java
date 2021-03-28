@@ -30,7 +30,6 @@ public class SetPostCommand implements CommandExecutor {
         } else {
 
             Player player = (Player) sender;
-            player.sendMessage("1");
 
             playerX = player.getLocation().getBlockX();
             playerZ = player.getLocation().getBlockZ();
@@ -38,25 +37,27 @@ public class SetPostCommand implements CommandExecutor {
             postnumberLocationZ = playerZ / gap;
             getnearpostX = postnumberLocationX * gap;
             getnearpostZ = postnumberLocationZ * gap;
-            player.sendMessage("2");
+
             if (playerX - getnearpostX >= gap / 2) {
                 getnearpostX = getnearpostX + gap;
                 postnumberLocationX += 1;
             }
-            player.sendMessage("3");
+
             if (playerZ - getnearpostZ >= gap / 2) {
                 getnearpostZ = getnearpostZ + gap;
                 postnumberLocationZ += 1;
             }
-            player.sendMessage("4");
-            ATPlayer atPlayer = (ATPlayer) player;
+            ATPlayer atPlayer = ATPlayer.getPlayer(player);
             Location location = new Location(player.getWorld(), getnearpostX, 215, getnearpostZ);
-            player.sendMessage("5");
             if (atPlayer.hasMainHome()) {
-                player.sendMessage("6");
-                atPlayer.moveHome("home", location, null);
+                atPlayer.moveHome(atPlayer.getMainHome().getName(), location, null);
+                player.sendMessage(ChatColor.GREEN+"You have successfully moved your home post at: ( "+getnearpostX+","+getnearpostZ+").");
+            }else{
+                atPlayer.addHome("home", location, null);
+                player.sendMessage(ChatColor.GREEN+"You have successfully set your home post at: ( "+getnearpostX+","+getnearpostZ+").");
             }
-            player.sendMessage("7");
+
+
 
             return true;
         }
