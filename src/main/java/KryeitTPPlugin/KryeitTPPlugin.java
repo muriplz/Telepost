@@ -19,8 +19,8 @@ public class KryeitTPPlugin extends JavaPlugin {
         Bukkit.getConsoleSender().sendMessage(name+ChatColor.WHITE+" The plugin has been deactivated.");
     }
     public void registerCommands() {
-        Objects.requireNonNull(this.getCommand("nearestpost")).setExecutor(new NearestPostCommand(this));
-        Objects.requireNonNull(this.getCommand("setpost")).setExecutor(new SetPostCommand(this));
+        this.getCommand("nearestpost").setExecutor(new NearestPostCommand(this));
+        this.getCommand("setpost").setExecutor(new SetPostCommand(this));
     }
 }
 
