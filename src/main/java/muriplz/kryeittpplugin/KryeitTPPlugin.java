@@ -1,6 +1,8 @@
 package muriplz.kryeittpplugin;
 
 
+import muriplz.kryeittpplugin.commands.HomePostCommand;
+import muriplz.kryeittpplugin.commands.InviteCommand;
 import muriplz.kryeittpplugin.commands.NearestPostCommand;
 import muriplz.kryeittpplugin.commands.SetPostCommand;
 import org.bukkit.Bukkit;
@@ -14,6 +16,7 @@ public class KryeitTPPlugin extends JavaPlugin {
     PluginDescriptionFile pdffile = getDescription();
     public String name = ChatColor.YELLOW+"["+ChatColor.WHITE+pdffile.getName()+ChatColor.YELLOW+"]";
     public String version = pdffile.getVersion();
+
     public void onEnable(){
         Bukkit.getConsoleSender().sendMessage(name+ChatColor.GRAY+" The plugin has been activated. version: "+ChatColor.GREEN+version+ChatColor.GRAY+".");
         registerCommands();
@@ -24,6 +27,8 @@ public class KryeitTPPlugin extends JavaPlugin {
     public void registerCommands() {
         Objects.requireNonNull(this.getCommand("nearestpost")).setExecutor(new NearestPostCommand(this));
         Objects.requireNonNull(this.getCommand("setpost")).setExecutor(new SetPostCommand(this));
+        Objects.requireNonNull(this.getCommand("homepost")).setExecutor(new HomePostCommand(this));
+        Objects.requireNonNull(this.getCommand("invite")).setExecutor(new InviteCommand(this));
     }
 }
 

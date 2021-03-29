@@ -57,6 +57,7 @@ public class SetPostCommand implements CommandExecutor {
                 atPlayer.addHome("home", location, null);
                 player.sendMessage(ChatColor.GREEN+"You have successfully set your home post at: ( "+getnearpostX+","+getnearpostZ+").");
             }
+
             return true;
         }
     }
