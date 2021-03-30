@@ -31,7 +31,6 @@ public class InviteCommand implements CommandExecutor {
             Player player = (Player) sender;
             ATPlayer atPlayer = ATPlayer.getPlayer(player);
             if (command.getLabel().equalsIgnoreCase("invite")) {
-
                 if (args.length > 0) {
                     if (Bukkit.getPlayer(args[0]) != null) {
                         if (atPlayer.hasHome("home")) {
@@ -39,16 +38,18 @@ public class InviteCommand implements CommandExecutor {
                             String arg = args[0];
                             Player player2 = Bukkit.getPlayer(arg);
                             assert player2 != null;
+                            if(player==player2){
+                                player.sendMessage(ChatColor.RED+"You cant invite yourself.");
+                                return false;
+                            }
+                            if(!(player2.isOnline())){
+                                player.sendMessage(ChatColor.RED+"The player is not online or does not exist.");
+                            }
                             ATPlayer atPlayer2 = ATPlayer.getPlayer(player2);
                             String postinvited = player.getName();
                             atPlayer2.addHome(postinvited,location,null);
                             String name = player.getName();
                             String name2 = player2.getName();
-                            if(player==player2){
-                                player.sendMessage(ChatColor.RED+"You cant invite yourself.");
-                                return false;
-
-                            }
                             player.sendMessage(ChatColor.GREEN+"You have invited "+name2+" to your post.");
                             player2.sendMessage(ChatColor.GREEN+"You have been invited by "+name+" to his post, you have 5 minutes to use /visit <"+name+">.");
 
@@ -57,16 +58,13 @@ public class InviteCommand implements CommandExecutor {
                                 @Override
                                 public void run() {
                                     atPlayer2.removeHome(postinvited,null);
-                                    player.sendMessage(ChatColor.GRAY+"The player"+ChatColor.GREEN+" "+name+ChatColor.GRAY+" does not have access to your home post anymore.");
+                                    player.sendMessage(ChatColor.GRAY+"The player"+ChatColor.GREEN+" "+name2+ChatColor.GRAY+" does not have access to your home post anymore.");
                                     timer.cancel();
-
                                 }
                             },300000);
                         }
-
                     }
                     }
-
                 }else{
                 player.sendMessage(ChatColor.GRAY+"Use /invite <Player>.");
             }
