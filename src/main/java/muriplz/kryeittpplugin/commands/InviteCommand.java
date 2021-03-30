@@ -11,7 +11,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.concurrent.TimeUnit;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class InviteCommand implements CommandExecutor {
 
@@ -50,18 +51,23 @@ public class InviteCommand implements CommandExecutor {
                             player.sendMessage(ChatColor.GREEN+"You have invited "+name2+" to your post.");
                             player2.sendMessage(ChatColor.GREEN+"You have been invited by "+name+" to his post, you have 5 minutes to use /visit <"+name+">.");
 
-                            try {
-                                TimeUnit.MINUTES.sleep(5);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                            atPlayer2.removeHome(postinvited,null);
+                            final Timer timer = new Timer();
+                            timer.schedule(new TimerTask() {
+                                @Override
+                                public void run() {
+                                    atPlayer2.removeHome(postinvited,null);
+                                    timer.cancel();
+
+                                }
+                            },10000);
                         }
 
                     }
                     }
 
-                }
+                }else{
+                player.sendMessage(ChatColor.GRAY+"Use /invite <Player>.");
+            }
             }
             return true;
         }
