@@ -47,6 +47,7 @@ public class InviteCommand implements CommandExecutor {
                             if(player==player2){
                                 player.sendMessage(ChatColor.RED+"You cant invite yourself.");
                                 return false;
+
                             }
                             player.sendMessage(ChatColor.GREEN+"You have invited "+name2+" to your post.");
                             player2.sendMessage(ChatColor.GREEN+"You have been invited by "+name+" to his post, you have 5 minutes to use /visit <"+name+">.");
@@ -56,10 +57,11 @@ public class InviteCommand implements CommandExecutor {
                                 @Override
                                 public void run() {
                                     atPlayer2.removeHome(postinvited,null);
+                                    player.sendMessage(ChatColor.GRAY+"The player"+ChatColor.GREEN+" "+name+ChatColor.GRAY+" does not have access to your home post anymore.");
                                     timer.cancel();
 
                                 }
-                            },10000);
+                            },300000);
                         }
 
                     }
