@@ -44,6 +44,7 @@ public class InviteCommand implements CommandExecutor {
                             }
                             if(!(player2.isOnline())){
                                 player.sendMessage(ChatColor.RED+"The player is not online or does not exist.");
+                                return false;
                             }
                             ATPlayer atPlayer2 = ATPlayer.getPlayer(player2);
                             String postinvited = player.getName();
