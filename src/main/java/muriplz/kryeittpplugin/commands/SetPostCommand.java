@@ -52,10 +52,10 @@ public class SetPostCommand implements CommandExecutor {
             Location location = new Location(player.getWorld(), getnearpostX, 215, getnearpostZ);
             if (atPlayer.hasMainHome()) {
                 atPlayer.moveHome(atPlayer.getMainHome().getName(), location, null);
-                player.sendMessage(ChatColor.GREEN+"You have successfully moved your home post at: ( "+getnearpostX+","+getnearpostZ+").");
+                player.sendMessage(ChatColor.GREEN+"You have successfully moved your home post at: ("+getnearpostX+","+getnearpostZ+").");
             }else{
                 atPlayer.addHome("home", location, null);
-                player.sendMessage(ChatColor.GREEN+"You have successfully set your home post at: ( "+getnearpostX+","+getnearpostZ+").");
+                player.sendMessage(ChatColor.GREEN+"You have successfully set your home post at: ("+getnearpostX+","+getnearpostZ+").");
             }
 
             return true;
