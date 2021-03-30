@@ -11,6 +11,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.concurrent.TimeUnit;
+
 public class InviteCommand implements CommandExecutor {
 
     private final KryeitTPPlugin plugin;
@@ -31,34 +33,36 @@ public class InviteCommand implements CommandExecutor {
 
                 if (args.length > 0) {
                     if (Bukkit.getPlayer(args[0]) != null) {
-                        if (args.length > 1) {
-                            if (atPlayer.hasHome("home")) {
-                                Location location = atPlayer.getHome("home").getLocation();
-                                String arg = args[0];
-                                Player player2 = Bukkit.getPlayer(arg);
-                                assert player2 != null;
-                                ATPlayer atPlayer2 = ATPlayer.getPlayer(player2);
-                                String postinvited = player.getName();
-                                atPlayer2.addHome(postinvited,location,null);
-                                String name = player.getName();
-                                String name2 = player2.getName();
-                                player.sendMessage(ChatColor.GREEN+"You have invited "+name2+" to your post.");
-                                player2.sendMessage(ChatColor.GREEN+"You have been invited by "+name+" to his post, you have 5 minutes to use /visit <"+name+">.");
-                                try {
-                                    Thread.sleep(5000);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
-                                atPlayer2.removeHome(postinvited,null);
-
-
+                        if (atPlayer.hasHome("home")) {
+                            Location location = atPlayer.getHome("home").getLocation();
+                            String arg = args[0];
+                            Player player2 = Bukkit.getPlayer(arg);
+                            assert player2 != null;
+                            ATPlayer atPlayer2 = ATPlayer.getPlayer(player2);
+                            String postinvited = player.getName();
+                            atPlayer2.addHome(postinvited,location,null);
+                            String name = player.getName();
+                            String name2 = player2.getName();
+                            if(player==player2){
+                                player.sendMessage(ChatColor.RED+"You cant invite yourself.");
+                                return false;
                             }
+                            player.sendMessage(ChatColor.GREEN+"You have invited "+name2+" to your post.");
+                            player2.sendMessage(ChatColor.GREEN+"You have been invited by "+name+" to his post, you have 5 minutes to use /visit <"+name+">.");
+
+                            try {
+                                TimeUnit.MINUTES.sleep(5);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            atPlayer2.removeHome(postinvited,null);
                         }
-                    player.sendMessage(ChatColor.RED+"Please, choose a player to invite.");
+
                     }
+                    }
+
                 }
             }
             return true;
         }
     }
-}

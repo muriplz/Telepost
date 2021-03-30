@@ -6,3 +6,7 @@ commands:
     description: nearest post.
   setpost:
     description: sets the nearest post as a home.
+  invite:
+    description: invite a player to your home post.
+  homepost:
+    description: goes to your home post.
