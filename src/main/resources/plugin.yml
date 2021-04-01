@@ -10,3 +10,5 @@ commands:
     description: invite a player to your home post.
   homepost:
     description: goes to your home post.
+  visit:
+    description: visit a post.

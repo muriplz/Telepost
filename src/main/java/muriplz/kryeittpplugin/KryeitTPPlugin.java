@@ -1,10 +1,7 @@
 package muriplz.kryeittpplugin;
 
 
-import muriplz.kryeittpplugin.commands.HomePostCommand;
-import muriplz.kryeittpplugin.commands.InviteCommand;
-import muriplz.kryeittpplugin.commands.NearestPostCommand;
-import muriplz.kryeittpplugin.commands.SetPostCommand;
+import muriplz.kryeittpplugin.commands.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -29,6 +26,7 @@ public class KryeitTPPlugin extends JavaPlugin {
         Objects.requireNonNull(this.getCommand("setpost")).setExecutor(new SetPostCommand(this));
         Objects.requireNonNull(this.getCommand("homepost")).setExecutor(new HomePostCommand(this));
         Objects.requireNonNull(this.getCommand("invite")).setExecutor(new InviteCommand(this));
+        Objects.requireNonNull(this.getCommand("visit")).setExecutor(new VisitCommand(this));
     }
 }
 

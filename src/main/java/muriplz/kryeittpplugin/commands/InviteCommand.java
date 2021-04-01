@@ -63,6 +63,7 @@ public class InviteCommand implements CommandExecutor {
                                     timer.cancel();
                                 }
                             },300000);
+                            return true;
                         }
                     }
                     }
