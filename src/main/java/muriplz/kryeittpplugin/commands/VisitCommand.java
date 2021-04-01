@@ -38,7 +38,7 @@ public class VisitCommand implements CommandExecutor{
 
             World world = player.getWorld();
             String arg = args[0];
-            boolean a = Objects.requireNonNull(Bukkit.getPlayer(arg)).isOnline();
+            Boolean a = Bukkit.getPlayer(arg).isOnline();
 
             if (args.length == 1 && !a) {
                 Player player2 = Bukkit.getPlayer(arg);

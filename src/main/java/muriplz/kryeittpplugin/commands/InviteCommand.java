@@ -67,10 +67,12 @@ public class InviteCommand implements CommandExecutor {
                         }
                     }
                     }
-                }else{
-                player.sendMessage(ChatColor.GRAY+"Use /invite <Player>.");
+                }
+
+
             }
-            }
-            return true;
+        Player player = (Player) sender;
+        player.sendMessage(ChatColor.GRAY+"Use /invite <Player>.");
+        return true;
         }
     }
