@@ -4,6 +4,7 @@ import io.github.niestrat99.advancedteleport.api.ATPlayer;
 import io.github.niestrat99.advancedteleport.api.Home;
 import io.github.niestrat99.advancedteleport.api.Warp;
 import io.github.niestrat99.advancedteleport.commands.ATCommand;
+import io.github.niestrat99.advancedteleport.commands.warp.WarpsCommand;
 import muriplz.kryeittpplugin.KryeitTPPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -33,25 +34,27 @@ public class VisitCommand implements CommandExecutor{
             return false;
         }else {
             Player player = (Player) sender;
+            World world = player.getWorld();
+            String arg = args[0];
 
             if (command.getLabel().equalsIgnoreCase("visit")) {
                 if (args.length > 0) {
                     if (Bukkit.getPlayer(args[0]) != null) {
-                        String arg = args[0];
                         ATPlayer atPlayer = ATPlayer.getPlayer(player);
                         if(atPlayer.hasHome(arg)){
                             Location location = atPlayer.getHome(arg).getLocation();
-                            World world = player.getWorld();
-                            player.teleport(new Location(world,location.getBlockX()+0.5,(double) 215,location.getBlockZ()+0.5));
+                            player.teleport(new Location(world,location.getBlockX()+0.5, 215,location.getBlockZ()+0.5));
                             player.sendMessage(ChatColor.GREEN+"You have arrived to "+arg+"'s home post.");
                             return true;
                         }
-                        boolean a = true;
-                        while (a) {
-                            HashMap<String,Warp>() = Warp.getWarps();
-                        }
-                    }else{
-                        player.sendMessage("3");
+
+                    }
+                    else{
+                        Warp warp = Warp.getWarps().get(arg);
+                        Location location = warp.getLocation();
+                        Location newlocation = new Location(world,location.getBlockX()+0.5,215,location.getBlockZ()+0.5);
+                        player.teleport(newlocation);
+                        player.sendMessage(ChatColor.GREEN+"You welcome to "+arg+".");
                     }
                 }else{
                     player.sendMessage("2");
