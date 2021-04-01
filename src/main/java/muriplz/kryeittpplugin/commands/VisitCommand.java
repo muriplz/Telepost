@@ -1,10 +1,7 @@
 package muriplz.kryeittpplugin.commands;
 
 import io.github.niestrat99.advancedteleport.api.ATPlayer;
-import io.github.niestrat99.advancedteleport.api.Home;
 import io.github.niestrat99.advancedteleport.api.Warp;
-import io.github.niestrat99.advancedteleport.commands.ATCommand;
-import io.github.niestrat99.advancedteleport.commands.warp.WarpsCommand;
 import muriplz.kryeittpplugin.KryeitTPPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -36,32 +33,26 @@ public class VisitCommand implements CommandExecutor{
             Player player = (Player) sender;
             World world = player.getWorld();
             String arg = args[0];
+            Player player2 = Bukkit.getPlayer(arg);
 
-            if (command.getLabel().equalsIgnoreCase("visit")) {
-                if (args.length > 0) {
-                    if (Bukkit.getPlayer(args[0]) != null) {
-                        ATPlayer atPlayer = ATPlayer.getPlayer(player);
-                        if(atPlayer.hasHome(arg)){
-                            Location location = atPlayer.getHome(arg).getLocation();
-                            player.teleport(new Location(world,location.getBlockX()+0.5, 215,location.getBlockZ()+0.5));
-                            player.sendMessage(ChatColor.GREEN+"You have arrived to "+arg+"'s home post.");
-                            return true;
-                        }
 
-                    }
-                    else{
-                        Warp warp = Warp.getWarps().get(arg);
-                        Location location = warp.getLocation();
-                        Location newlocation = new Location(world,location.getBlockX()+0.5,215,location.getBlockZ()+0.5);
-                        player.teleport(newlocation);
-                        player.sendMessage(ChatColor.GREEN+"You welcome to "+arg+".");
-                    }
-                }else{
-                    player.sendMessage("2");
-                }
+            if(player2==null) {
+                Warp warp = Warp.getWarps().get(arg);
+                player.teleport(new Location(world,warp.getLocation().getBlockX()+0.5, 215,warp.getLocation().getBlockZ()+0.5));
+                player.sendMessage(ChatColor.GREEN+"Welcome to "+arg+".");
+                return true;
+                assert false;
             }else{
-                player.sendMessage("1");
-            }
+                if (player2.isOnline()) {
+                ATPlayer atPlayer = ATPlayer.getPlayer(player);
+                if(atPlayer.hasHome(arg)){
+                    Location location = atPlayer.getHome(arg).getLocation();
+                    player.teleport(new Location(world,location.getBlockX()+0.5, 215,location.getBlockZ()+0.5));
+                    player.sendMessage(ChatColor.GREEN+"Welcome to "+arg+"'s home post.");
+                    return true;
+                }
+            }else{ player.sendMessage(ChatColor.GREEN+"The player "+arg+" is not online or does not exist."); }}
+            player.sendMessage("Use /visit <PostName/PlayerName>.");
             return true;
         }
     }
