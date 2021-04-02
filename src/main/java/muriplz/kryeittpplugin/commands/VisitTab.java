@@ -39,9 +39,10 @@ public class VisitTab implements TabCompleter {
             for (String a : playersName){
                 if(a.toLowerCase().startsWith(args[0].toLowerCase())){
                     argument.add(a);
+
                 }
-                return argument;
-            }
+
+            }return argument;
         }
         return playersName;
         }
