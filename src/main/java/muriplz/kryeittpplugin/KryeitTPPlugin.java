@@ -4,10 +4,7 @@ package muriplz.kryeittpplugin;
 import muriplz.kryeittpplugin.commands.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -32,20 +29,6 @@ public class KryeitTPPlugin extends JavaPlugin implements Listener {
         Objects.requireNonNull(this.getCommand("invite")).setExecutor(new InviteCommand(this));
         Objects.requireNonNull(this.getCommand("visit")).setExecutor(new VisitCommand(this));
         Objects.requireNonNull(getCommand("visit")).setTabCompleter(new VisitTab());
-    }
-    @EventHandler()
-    public void onFallTp(EntityDamageEvent event){
-        Player player = (Player) event.getEntity();
-        if(event.getCause()== EntityDamageEvent.DamageCause.FALL){
-            int gap = 800;
-            int playerX = player.getLocation().getBlockX()/gap;
-            if(playerX*gap==player.getLocation().getBlockX()){
-                int playerZ = player.getLocation().getBlockZ()/gap;
-                if(playerZ*gap == player.getLocation().getBlockZ()){
-                    event.setCancelled(true);
-                }
-            }
-        }
-    }
-}
+    }}
+
 

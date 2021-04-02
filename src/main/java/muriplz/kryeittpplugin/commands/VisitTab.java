@@ -9,10 +9,10 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class VisitTab implements TabCompleter {
-    List<String> argument = new ArrayList<>();
     List<String> playersName = new ArrayList<>();
 
     @Nullable
@@ -26,7 +26,7 @@ public class VisitTab implements TabCompleter {
         playersName.add("Seahorse");
         playersName.add("Rock");
         playersName.add("Extremadura");
-        playersName.add("BEE");
+        playersName.add("Bee");
 
         Player[] players = new Player[Bukkit.getServer().getOnlinePlayers().size()];
         Bukkit.getServer().getOnlinePlayers().toArray(players);
@@ -35,15 +35,20 @@ public class VisitTab implements TabCompleter {
             playersName.add(players[i].getName());
             i++;
         }
-        if(args.length==1){
-            for (String a : playersName){
-                if(a.toLowerCase().startsWith(args[0].toLowerCase())){
-                    argument.add(a);
-
+        String input = args[0].toLowerCase();
+        String inputUP = args[0].toUpperCase();
+        List<String> completions = null;
+        for (String s : playersName){
+            if(s.startsWith(input)||s.startsWith(inputUP)){
+                if (completions==null){
+                    completions= new ArrayList<>();
                 }
-
-            }return argument;
+                completions.add(s);
+            }
         }
-        return playersName;
+        if (completions!=null){
+            Collections.sort(completions);
+        }
+        return completions;
         }
 }
