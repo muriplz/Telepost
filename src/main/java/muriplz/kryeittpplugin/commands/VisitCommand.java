@@ -13,8 +13,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
-
 
 public class VisitCommand implements CommandExecutor{
 
@@ -31,42 +29,47 @@ public class VisitCommand implements CommandExecutor{
             return false;
         } else {
             Player player = (Player) sender;
+            World world = player.getWorld();
+            // /visit
             if (args.length == 0) {
                 player.sendMessage("Use /visit <PostName/PlayerName>.");
                 return false;
-            }
-
-            World world = player.getWorld();
-            String arg = args[0];
-            Boolean a = Bukkit.getPlayer(arg).isOnline();
-
-            if (args.length == 1 && !a) {
-                Player player2 = Bukkit.getPlayer(arg);
-                assert player2 != null;
-                if (player2.isOnline()) {
-                    ATPlayer atPlayer = ATPlayer.getPlayer(player);
-                    if (atPlayer.hasHome(arg)) {
-                        Location location = atPlayer.getHome(arg).getLocation();
-                        player.teleport(new Location(world, location.getBlockX() + 0.5, 215, location.getBlockZ() + 0.5));
-                        player.sendMessage(ChatColor.GREEN + "Welcome to " + arg + "'s home post.");
-                        return true;
-                    } else {
-                        player.sendMessage(arg+" has not invited you.");
-                        return true;
-                    }
-                } else {
-                    player.sendMessage(ChatColor.GREEN + arg + " is not online.");
-                    return true;
-                }
-
-            }else{
-                if(args.length==1){
-                    Warp warp = Warp.getWarps().get(arg);
+            } // /visit <something>
+            if (args.length==1){
+                // /visit <Warp/Named Post>
+                if(args[0].equals("Pangea") || args[0].equals("Fossil") || args[0].equals("Agua") || args[0].equals("Magma") || args[0].equals("Trident") || args[0].equals("Seahorse") || args[0].equals("Extremadura") || args[0].equals("Rock") || args[0].equals("BEE")){
+                    Warp warp = Warp.getWarps().get(args[0]);
                     player.teleport(new Location(world, warp.getLocation().getBlockX() + 0.5, 215, warp.getLocation().getBlockZ() + 0.5));
-                    player.sendMessage(ChatColor.GREEN + "Welcome to " + arg + ".");
+                    player.sendMessage(ChatColor.GRAY + "Welcome to " + args[0] + ".");
                     return true;
                 }
-            }
-        }
-    return true;
-    }}
+                // /visit <Yourself>
+                if(player.getName().equals(args[0])){
+                    ATPlayer atPlayer = ATPlayer.getPlayer(player);
+                    Location location = atPlayer.getHome("home").getLocation();
+                    player.teleport(new Location(world, location.getBlockX() + 0.5, 215, location.getBlockZ() + 0.5));
+                    player.sendMessage(ChatColor.GREEN + "Welcome to your home post.");
+                }
+                // /visit <Player post>
+                if(!(Bukkit.getPlayer(args[0])==null)){
+                    ATPlayer atPlayer = ATPlayer.getPlayer(player);
+                    // Check if the sender has the home created named by the invitor
+                    if (atPlayer.hasHome(args[0])) {
+                        Location location = atPlayer.getHome(args[0]).getLocation();
+                        player.teleport(new Location(world, location.getBlockX() + 0.5, 215, location.getBlockZ() + 0.5));
+                        player.sendMessage(ChatColor.GREEN + "Welcome to " + args[0] + "'s home post.");
+                        return true;
+                    }else{
+                        player.sendMessage(ChatColor.RED+args[0]+" has not invited you.");
+                        return false;
+                    }
+                }else{
+                    player.sendMessage(ChatColor.RED+"That is not a valid post, try another.");
+                    return false;
+                }
+
+            }}return true;}}
+
+
+
+
