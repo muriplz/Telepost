@@ -12,27 +12,37 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class VisitTab implements TabCompleter {
+    List<String> argument = new ArrayList<>();
+    List<String> playersName = new ArrayList<>();
+
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-        if(args.length==1){
-            List<String> playersName = new ArrayList<>();
-            Player[] players = new Player[Bukkit.getServer().getOnlinePlayers().size()];
-            Bukkit.getServer().getOnlinePlayers().toArray(players);
-            for (int i = 0; i < players.length; i++) {
-                playersName.add(players[i].getName());
+        playersName.add("Pangea");
+        playersName.add("Fossil");
+        playersName.add("Agua");
+        playersName.add("Magma");
+        playersName.add("Trident");
+        playersName.add("Seahorse");
+        playersName.add("Rock");
+        playersName.add("Extremadura");
+        playersName.add("BEE");
 
-            }
-            playersName.add("Pangea");
-            playersName.add("Fossil");
-            playersName.add("Agua");
-            playersName.add("Magma");
-            playersName.add("Trident");
-            playersName.add("Seahorse");
-            playersName.add("Rock");
-            playersName.add("Extremadura");
-            playersName.add("BEE");
-            return playersName;
+        Player[] players = new Player[Bukkit.getServer().getOnlinePlayers().size()];
+        Bukkit.getServer().getOnlinePlayers().toArray(players);
+        int i = 0;
+        while (i < players.length) {
+            playersName.add(players[i].getName());
+            i++;
         }
-    return null;}
+        if(args.length==1){
+            for (String a : playersName){
+                if(a.toLowerCase().startsWith(args[0].toLowerCase())){
+                    argument.add(a);
+                }
+                return argument;
+            }
+        }
+        return playersName;
+        }
 }
