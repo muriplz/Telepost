@@ -49,6 +49,7 @@ public class VisitCommand implements CommandExecutor{
                     Location location = atPlayer.getHome("home").getLocation();
                     player.teleport(new Location(world, location.getBlockX() + 0.5, 215, location.getBlockZ() + 0.5));
                     player.sendMessage(ChatColor.GREEN + "Welcome to your home post.");
+                    return true;
                 }
                 // /visit <Player post>
                 if(!(Bukkit.getPlayer(args[0])==null)){
