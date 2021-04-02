@@ -27,6 +27,7 @@ public class KryeitTPPlugin extends JavaPlugin {
         Objects.requireNonNull(this.getCommand("homepost")).setExecutor(new HomePostCommand(this));
         Objects.requireNonNull(this.getCommand("invite")).setExecutor(new InviteCommand(this));
         Objects.requireNonNull(this.getCommand("visit")).setExecutor(new VisitCommand(this));
+        Objects.requireNonNull(getCommand("visit")).setTabCompleter(new VisitTab());
     }
 }
 
