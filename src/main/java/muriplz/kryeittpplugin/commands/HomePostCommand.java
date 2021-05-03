@@ -36,7 +36,7 @@ public class HomePostCommand implements CommandExecutor{
                 playerZ = location.getBlockZ() + 0.5;
                 playerY = location.getBlockY();
                 World world = player.getWorld();
-                Location newlocation =new Location(world,playerX,playerY,playerZ);
+                Location newlocation =new Location(world,playerX,playerY,playerZ,player.getLocation().getYaw(),player.getLocation().getPitch());
                 player.teleport(newlocation);
                 player.sendMessage(ChatColor.GREEN+"Welcome to your home post.");
             }else{

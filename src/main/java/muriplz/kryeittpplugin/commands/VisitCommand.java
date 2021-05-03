@@ -38,7 +38,7 @@ public class VisitCommand implements CommandExecutor{
                 // /v <Warp/Named Post>
                 if( args[0].equals("Gaja") || args[0].equals("Pangea") || args[0].equals("Fossil") || args[0].equals("Agua") || args[0].equals("Magma") || args[0].equals("Trident") || args[0].equals("Seahorse") || args[0].equals("Extremadura") || args[0].equals("Rock") || args[0].equals("Bee")){
                     Warp warp = Warp.getWarps().get(args[0]);
-                    player.teleport(new Location(world, warp.getLocation().getBlockX() + 0.5, 260, warp.getLocation().getBlockZ() + 0.5));
+                    player.teleport(new Location(world, warp.getLocation().getBlockX() + 0.5, 260, warp.getLocation().getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch()));
                     player.sendMessage(ChatColor.GRAY + "Welcome to " + args[0] + ".");
                     return true;
                 }
@@ -47,7 +47,7 @@ public class VisitCommand implements CommandExecutor{
                     ATPlayer atPlayer = ATPlayer.getPlayer(player);
                     if(atPlayer.hasHome("home")){
                         Location location = atPlayer.getHome("home").getLocation();
-                        player.teleport(new Location(world, location.getBlockX() + 0.5, 260, location.getBlockZ() + 0.5));
+                        player.teleport(new Location(world, location.getBlockX() + 0.5, 260, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch()));
                         player.sendMessage(ChatColor.GREEN + "Welcome to your home post.");
                         return true;
                     }else{
@@ -61,7 +61,7 @@ public class VisitCommand implements CommandExecutor{
                     // Check if the sender has the home created named by the invitor
                     if (atPlayer.hasHome(args[0])) {
                         Location location = atPlayer.getHome(args[0]).getLocation();
-                        player.teleport(new Location(world, location.getBlockX() + 0.5, 260, location.getBlockZ() + 0.5));
+                        player.teleport(new Location(world, location.getBlockX() + 0.5, 260, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch()));
                         player.sendMessage(ChatColor.GREEN + "Welcome to " + args[0] + "'s home post.");
                         return true;
                     }else{
