@@ -1,5 +1,5 @@
 main: muriplz.kryeittpplugin.KryeitTPPlugin
-version: 2.0.0
+version: 2.0.1
 name: Kryeit-tpPlugin
 author: muriplz
 depend: [AdvancedTeleport]
