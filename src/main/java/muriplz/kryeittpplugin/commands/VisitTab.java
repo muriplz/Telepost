@@ -29,18 +29,7 @@ public class VisitTab implements TabCompleter {
             commands.add("Extremadura");
             commands.add("Bee");
             commands.add("Gaja");
-            // This is the Tab for /v so it shows the online players too
-            Player player = (Player) sender;
-            ATPlayer atPlayer = ATPlayer.getPlayer(player);
-            List<String> players = new ArrayList<String>();
-            for(Player p : Bukkit.getOnlinePlayers()){
-                players.add(p.getName());
-            }
-            for (int j= 0;j<players.size();){
-                if(atPlayer.getHomes().toString().equals(players.get(j))){
-                    commands.add(players.get(j));
-                }
-            }
+            //TODO: add the invitedpost to the tab completion
             //Sort the list and show it to the player
             int i=0;
             while(i< commands.size()){

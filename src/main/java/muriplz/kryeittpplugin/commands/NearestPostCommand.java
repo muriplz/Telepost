@@ -6,6 +6,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -26,13 +27,10 @@ public class NearestPostCommand implements CommandExecutor{
             return false;
         }else {
             Player player = (Player) sender;
-
             //TODO, this has to come from a config.yml file
             int gap = plugin.getConfig().getInt("distance-between-posts");
             int originX = plugin.getConfig().getInt("post-x-location");
             int originZ = plugin.getConfig().getInt("post-z-location");
-
-
             int playerX = player.getLocation().getBlockX()-originX;
             int playerZ = player.getLocation().getBlockZ()-originZ;
             //para el eje X

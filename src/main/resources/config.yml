@@ -1,6 +1,6 @@
-# This number has to be higher than 0.
+# distance-between-posts: This number has to be higher than 0.
+# post-x-location: First post's X coordinate
+# post-z-location: First post's Z coordinate
 distance-between-posts: 800
-
-#First post location. It's located on a X coordinate and on a Z coordinate.
 post-x-location: 0
 post-z-location: 0

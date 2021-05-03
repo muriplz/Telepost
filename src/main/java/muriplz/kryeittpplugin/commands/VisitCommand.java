@@ -21,7 +21,6 @@ public class VisitCommand implements CommandExecutor{
     public VisitCommand(KryeitTPPlugin plugin) {
         this.plugin = plugin;
     }
-
     //  This commands aims to be /v in-game
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!(sender instanceof Player)) {
@@ -31,7 +30,6 @@ public class VisitCommand implements CommandExecutor{
             Player player = (Player) sender;
             World world = player.getWorld();
             // /v
-
             if (args.length == 0) {
                 player.sendMessage("Use /v <PostName/PlayerName> to visit a post.");
                 return false;
@@ -74,7 +72,6 @@ public class VisitCommand implements CommandExecutor{
                     player.sendMessage(ChatColor.RED+"That is not a valid post, try another.");
                     return false;
                 }
-
             }else{
                 player.sendMessage("Use /v <PostName/PlayerName> to visit a post.");
             }

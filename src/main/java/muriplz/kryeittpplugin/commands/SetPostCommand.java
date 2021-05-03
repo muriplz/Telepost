@@ -28,17 +28,13 @@ public class SetPostCommand implements CommandExecutor {
             Bukkit.getConsoleSender().sendMessage(plugin.name + ChatColor.WHITE + "You cant execute this command from console.");
             return false;
         } else {
-
             Player player = (Player) sender;
-
 //TODO, this has to come from a config.yml file
             int gap = plugin.getConfig().getInt("distance-between-posts");
             int originX = plugin.getConfig().getInt("post-x-location");
             int originZ = plugin.getConfig().getInt("post-z-location");
-
             int playerX = player.getLocation().getBlockX()-originX;
             int playerZ = player.getLocation().getBlockZ()-originZ;
-
             //para el eje X
             int postX=0;
             while(true){
@@ -79,7 +75,6 @@ public class SetPostCommand implements CommandExecutor {
             }
             postX+=originX;
             postZ+=originZ;
-
             ATPlayer atPlayer = ATPlayer.getPlayer(player);
             Location location = new Location(player.getWorld(), postX, 215, postZ);
             if (atPlayer.hasMainHome()) {
@@ -89,7 +84,6 @@ public class SetPostCommand implements CommandExecutor {
                 atPlayer.addHome("home", location, null);
                 player.sendMessage(ChatColor.GREEN+"You have successfully set your home post at: ("+postX+","+postZ+"), now this will be your /homepost.");
             }
-
             return true;
         }
     }
