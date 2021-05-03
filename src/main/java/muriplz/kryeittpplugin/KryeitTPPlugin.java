@@ -37,6 +37,7 @@ public class KryeitTPPlugin extends JavaPlugin implements Listener {
         Objects.requireNonNull(this.getCommand("v")).setExecutor(new VisitCommand(this));
         Objects.requireNonNull(getCommand("v")).setTabCompleter(new VisitTab());
     }
+
 }
 
 

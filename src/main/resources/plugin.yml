@@ -1,6 +1,6 @@
 main: muriplz.kryeittpplugin.KryeitTPPlugin
-version: 2.0.1
-name: Kryeit-tpPlugin
+version: 2.1.0
+name: Teleposting
 author: muriplz
 depend: [AdvancedTeleport]
 api-version: 1.16

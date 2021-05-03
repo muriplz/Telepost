@@ -2,14 +2,12 @@ package muriplz.kryeittpplugin.commands;
 
 import io.github.niestrat99.advancedteleport.api.ATPlayer;
 import muriplz.kryeittpplugin.KryeitTPPlugin;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
 
@@ -36,9 +34,14 @@ public class HomePostCommand implements CommandExecutor{
                 playerZ = location.getBlockZ() + 0.5;
                 playerY = location.getBlockY();
                 World world = player.getWorld();
-                Location newlocation =new Location(world,playerX,playerY,playerZ,player.getLocation().getYaw(),player.getLocation().getPitch());
-                player.teleport(newlocation);
-                player.sendMessage(ChatColor.GREEN+"Welcome to your home post.");
+                player.setVelocity(new Vector (0,4,0));
+                Bukkit.getScheduler().runTaskLater(plugin, () -> player.setVelocity(new Vector (0,3,0)), 25L);
+                Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                    Location newlocation =new Location(world,playerX,playerY,playerZ,player.getLocation().getYaw(),player.getLocation().getPitch());
+                    player.teleport(newlocation);
+                    player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
+                    player.sendMessage(ChatColor.GREEN+"Welcome to your home post.");
+                }, 40L);
             }else{
                 player.sendMessage(ChatColor.GREEN+"Please, set a post with /SetPost first.");
             }
