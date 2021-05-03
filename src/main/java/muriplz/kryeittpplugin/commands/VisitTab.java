@@ -28,9 +28,7 @@ public class VisitTab implements TabCompleter {
             commands.add("Extremadura");
             commands.add("Bee");
             commands.add("Gaja");
-            // TODO: add the invited post to the tab completion
             Bukkit.getOnlinePlayers().forEach(p -> commands.add(p.getName()));
-
             //Sort the list and show it to the player
             int i=0;
             while(i< commands.size()){
