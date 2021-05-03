@@ -36,7 +36,7 @@ public class VisitTab implements TabCompleter {
             for(Player p : Bukkit.getOnlinePlayers()){
                 players.add(p.getName());
             }
-            for (int j= 0;j<players.size();){
+            for (int j= 1;j<=players.size();){
                 if(atPlayer.getHomes().toString().equals(players.get(j))){
                     commands.add(players.get(j).toString());
                 }
