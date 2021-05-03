@@ -1,7 +1,9 @@
 # KryeitTPPlugin
 This is a Teleporting plugin for Minecraft Java Edition.
-1)Dependencies: This plugin requires AdvancedTeleport (https://www.spigotmc.org/resources/advancedteleport.64139/) github: (https://github.com/Niestrat99/AT-Rewritten/)
-2)Tested versions: This plugin has been tested on 1.16.5 Mohist server 
+ 
+ 1) Dependencies: This plugin requires AdvancedTeleport (https://www.spigotmc.org/resources/advancedteleport.64139/) github: (https://github.com/Niestrat99/AT-Rewritten/)
+ 
+ 2) Tested versions: This plugin has been tested on 1.16.5 Mohist server 
 
 # What's a post?
 It's a structure you can tp from, but not to. (you can only tp to a named post, your home post or a home post you have been invited to)
