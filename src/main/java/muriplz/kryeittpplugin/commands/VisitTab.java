@@ -1,8 +1,10 @@
 package muriplz.kryeittpplugin.commands;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
@@ -27,6 +29,7 @@ public class VisitTab implements TabCompleter {
             commands.add("Bee");
             commands.add("Gaja");
             // TODO: add the invited post to the tab completion
+            Bukkit.getOnlinePlayers().forEach(p -> commands.add(p.getName()));
 
             //Sort the list and show it to the player
             int i=0;

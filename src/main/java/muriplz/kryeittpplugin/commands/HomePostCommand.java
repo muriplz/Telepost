@@ -35,7 +35,7 @@ public class HomePostCommand implements CommandExecutor{
                 playerY = location.getBlockY();
                 World world = player.getWorld();
                 player.setVelocity(new Vector (0,4,0));
-                Bukkit.getScheduler().runTaskLater(plugin, () -> player.setVelocity(new Vector (0,3,0)), 25L);
+                Bukkit.getScheduler().runTaskLater(plugin, () -> player.setVelocity(new Vector (0,2.5,0)), 25L);
                 Bukkit.getScheduler().runTaskLater(plugin, () -> {
                     Location newlocation =new Location(world,playerX,playerY,playerZ,player.getLocation().getYaw(),player.getLocation().getPitch());
                     player.teleport(newlocation);
