@@ -32,9 +32,9 @@ public class SetPostCommand implements CommandExecutor {
             Player player = (Player) sender;
 
 //TODO, this has to come from a config.yml file
-            int gap = 800;
-            int originX = 0;
-            int originZ = 0;
+            int gap = plugin.getConfig().getInt("distance-between-posts");
+            int originX = plugin.getConfig().getInt("post-x-location");
+            int originZ = plugin.getConfig().getInt("post-z-location");
 
             int playerX = player.getLocation().getBlockX()-originX;
             int playerZ = player.getLocation().getBlockZ()-originZ;
