@@ -27,6 +27,7 @@ public class HomePostCommand implements CommandExecutor{
             Bukkit.getConsoleSender().sendMessage(plugin.name+ ChatColor.WHITE+"You cant execute this command from console.");
             return false;
         }else {
+
             double playerX, playerZ,playerY;
             Player player = (Player) sender;
             ATPlayer atPlayer = ATPlayer.getPlayer(player);

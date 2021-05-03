@@ -14,7 +14,6 @@ import org.jetbrains.annotations.NotNull;
 
 
 public class SetPostCommand implements CommandExecutor {
-    int playerX, playerZ, postnumberLocationX, postnumberLocationZ, getnearpostX, getnearpostZ;
     int gap = 800;
     private final KryeitTPPlugin plugin;
 
@@ -32,30 +31,55 @@ public class SetPostCommand implements CommandExecutor {
 
             Player player = (Player) sender;
 
-            playerX = player.getLocation().getBlockX();
-            playerZ = player.getLocation().getBlockZ();
-            postnumberLocationX =  playerX / gap;
-            postnumberLocationZ = playerZ / gap;
-            getnearpostX = postnumberLocationX * gap;
-            getnearpostZ = postnumberLocationZ * gap;
-
-            if (playerX - getnearpostX >= gap / 2) {
-                getnearpostX = getnearpostX + gap;
-                postnumberLocationX += 1;
+            int playerX = player.getLocation().getBlockX();
+            int playerZ = player.getLocation().getBlockZ();
+            //para el eje X
+            int postX=0;
+            while(true){
+                if(playerX>=gap && playerX>0){
+                    playerX=playerX-gap;
+                    postX+=gap;
+                }
+                else if(playerX<=-gap && playerX<0){
+                    playerX=playerX+gap;
+                    postX-=gap;
+                }
+                else{break;}
+            }
+            if(playerX>gap/2&&playerX>0){
+                postX+=gap;
+            }
+            if(playerX<-gap/2&&playerX<0){
+                postX-=gap;
+            }
+            //para el eje Z
+            int postZ=0;
+            while(true){
+                if(playerZ>=gap && playerZ>0){
+                    playerZ=playerZ-gap;
+                    postZ+=gap;
+                }
+                else if(playerZ<=-gap && playerZ<0){
+                    playerZ=playerZ+gap;
+                    postZ-=gap;
+                }
+                else{break;}
+            }
+            if(playerZ>gap/2&&playerZ>0){
+                postZ+=gap;
+            }
+            if(playerZ<-gap/2&&playerZ<0){
+                postZ-=gap;
             }
 
-            if (playerZ - getnearpostZ >= gap / 2) {
-                getnearpostZ = getnearpostZ + gap;
-                postnumberLocationZ += 1;
-            }
             ATPlayer atPlayer = ATPlayer.getPlayer(player);
-            Location location = new Location(player.getWorld(), getnearpostX, 215, getnearpostZ);
+            Location location = new Location(player.getWorld(), postX, 215, postZ);
             if (atPlayer.hasMainHome()) {
                 atPlayer.moveHome(atPlayer.getMainHome().getName(), location, null);
-                player.sendMessage(ChatColor.GREEN+"You have successfully moved your home post at: ("+getnearpostX+","+getnearpostZ+").");
+                player.sendMessage(ChatColor.GREEN+"You have successfully moved your home post at: ("+postX+","+postZ+").");
             }else{
                 atPlayer.addHome("home", location, null);
-                player.sendMessage(ChatColor.GREEN+"You have successfully set your home post at: ("+getnearpostX+","+getnearpostZ+").");
+                player.sendMessage(ChatColor.GREEN+"You have successfully set your home post at: ("+postX+","+postZ+"), now this will be your /setpost.");
             }
 
             return true;

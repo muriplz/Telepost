@@ -52,7 +52,7 @@ public class InviteCommand implements CommandExecutor {
                             String name = player.getName();
                             String name2 = player2.getName();
                             player.sendMessage(ChatColor.GREEN+"You have invited "+name2+" to your post.");
-                            player2.sendMessage(ChatColor.GREEN+"You have been invited by "+name+" to his post, you have 5 minutes to use /visit <"+name+">.");
+                            player2.sendMessage(ChatColor.GREEN+"You have been invited by "+name+" to his post, you have 5 minutes to use /v "+name+".");
 
                             final Timer timer = new Timer();
                             timer.schedule(new TimerTask() {
@@ -72,7 +72,7 @@ public class InviteCommand implements CommandExecutor {
 
             }
         Player player = (Player) sender;
-        player.sendMessage(ChatColor.GRAY+"Use /invite <Player>.");
+        player.sendMessage(ChatColor.GRAY+"Use /invitepost <Player>.");
         return true;
         }
     }

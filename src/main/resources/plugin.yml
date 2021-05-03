@@ -1,5 +1,5 @@
 main: muriplz.kryeittpplugin.KryeitTPPlugin
-version: 1.0.0
+version: 2.0.0
 name: Kryeit-tpPlugin
 commands:
   nearestpost:
@@ -10,5 +10,5 @@ commands:
     description: invite a player to your home post.
   homepost:
     description: goes to your home post.
-  visit:
+  v:
     description: visit a post.
