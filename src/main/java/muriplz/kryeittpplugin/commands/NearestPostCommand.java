@@ -12,7 +12,6 @@ import org.jetbrains.annotations.NotNull;
 
 public class NearestPostCommand implements CommandExecutor{
     //  This variable is the gap between posts
-    public int gap = 800;
 
     private final KryeitTPPlugin plugin;
 
@@ -28,8 +27,13 @@ public class NearestPostCommand implements CommandExecutor{
         }else {
             Player player = (Player) sender;
 
-            int playerX = player.getLocation().getBlockX();
-            int playerZ = player.getLocation().getBlockZ();
+            //TODO, this has to come from a config.yml file
+            int gap = 800;
+            int originX = 0;
+            int originZ = 0;
+
+            int playerX = player.getLocation().getBlockX()-originX;
+            int playerZ = player.getLocation().getBlockZ()-originZ;
             //para el eje X
             int postX=0;
             while(true){
@@ -68,6 +72,8 @@ public class NearestPostCommand implements CommandExecutor{
             if(playerZ<-gap/2&&playerZ<0){
                 postZ-=gap;
             }
+            postX+=originX;
+            postZ+=originZ;
             player.sendMessage( ChatColor.GRAY + "The nearest post is on:" + ChatColor.GREEN + " (" + postX + " , " + postZ + ")" + ChatColor.GRAY + "." );
             return true;
         }

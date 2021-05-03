@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 
 
 public class SetPostCommand implements CommandExecutor {
-    int gap = 800;
+
     private final KryeitTPPlugin plugin;
 
     public SetPostCommand(KryeitTPPlugin plugin) {
@@ -31,8 +31,14 @@ public class SetPostCommand implements CommandExecutor {
 
             Player player = (Player) sender;
 
-            int playerX = player.getLocation().getBlockX();
-            int playerZ = player.getLocation().getBlockZ();
+//TODO, this has to come from a config.yml file
+            int gap = 800;
+            int originX = 0;
+            int originZ = 0;
+
+            int playerX = player.getLocation().getBlockX()-originX;
+            int playerZ = player.getLocation().getBlockZ()-originZ;
+
             //para el eje X
             int postX=0;
             while(true){
@@ -71,6 +77,8 @@ public class SetPostCommand implements CommandExecutor {
             if(playerZ<-gap/2&&playerZ<0){
                 postZ-=gap;
             }
+            postX+=originX;
+            postZ+=originZ;
 
             ATPlayer atPlayer = ATPlayer.getPlayer(player);
             Location location = new Location(player.getWorld(), postX, 215, postZ);
