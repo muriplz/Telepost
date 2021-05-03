@@ -14,5 +14,5 @@ commands:
   homepost:
     description: goes to your home post.
   v:
-    aliases: [visit]
+    aliases: visit
     description: visit a post.
