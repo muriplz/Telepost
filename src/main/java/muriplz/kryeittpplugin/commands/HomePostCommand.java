@@ -99,10 +99,8 @@ public class HomePostCommand implements CommandExecutor{
                     return false;
                 }
             }
-
             double playerX, playerZ,playerY;
             ATPlayer atPlayer = ATPlayer.getPlayer(player);
-
             if(atPlayer.hasHome("home")) {
                 Location location = atPlayer.getHome("home").getLocation();
                 playerX = location.getBlockX() + 0.5;

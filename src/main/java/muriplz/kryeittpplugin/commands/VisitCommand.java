@@ -155,7 +155,6 @@ public class VisitCommand implements CommandExecutor{
                             player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
                             player.sendMessage(ChatColor.GREEN + "Welcome to " + args[0] + "'s home post.");
                         }, 40L);
-
                         return true;
                     }else{
                         player.sendMessage(ChatColor.RED+args[0]+" has not invited you.");
