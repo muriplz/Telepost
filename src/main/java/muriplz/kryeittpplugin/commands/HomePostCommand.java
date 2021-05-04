@@ -26,6 +26,10 @@ public class HomePostCommand implements CommandExecutor{
             return false;
         }else {
             Player player = (Player) sender;
+            if(!player.getWorld().getName().equals("world")){
+                player.sendMessage(ChatColor.RED+"You have to be in the Overworld to use this command.");
+                return false;
+            }
             int gap = plugin.getConfig().getInt("distance-between-posts");
             int originX = plugin.getConfig().getInt("post-x-location");
             int originZ = plugin.getConfig().getInt("post-z-location");
@@ -95,6 +99,7 @@ public class HomePostCommand implements CommandExecutor{
                     return false;
                 }
             }
+
             double playerX, playerZ,playerY;
             ATPlayer atPlayer = ATPlayer.getPlayer(player);
 

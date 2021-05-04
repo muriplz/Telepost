@@ -8,29 +8,22 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.io.File;
 import java.util.Objects;
 
 public class KryeitTPPlugin extends JavaPlugin implements Listener {
     PluginDescriptionFile pdffile = getDescription();
     FileConfiguration config = this.getConfig();
-
-    private File getFile(String s) {
-        return null;
-    }
-
     public String name = ChatColor.YELLOW+"["+ChatColor.WHITE+pdffile.getName()+ChatColor.YELLOW+"]";
     public String version = pdffile.getVersion();
 
     public void onEnable(){
-        Bukkit.getConsoleSender().sendMessage(name+ChatColor.GRAY+" The plugin has been activated. version: "+ChatColor.GREEN+version+ChatColor.GRAY+".");
         registerCommands();
         config.addDefault("distance-between-posts", 800);
         config.addDefault("post-x-location", 0);
         config.addDefault("post-z-location", 0);
         config.options().copyDefaults(true);
         saveConfig();
+        Bukkit.getConsoleSender().sendMessage(name+ChatColor.GRAY+" The plugin has been activated. version: "+ChatColor.GREEN+version+ChatColor.GRAY+".");
     }
     public void onDisable() {
         Bukkit.getConsoleSender().sendMessage(name+ChatColor.WHITE+" The plugin has been deactivated.");
@@ -43,7 +36,6 @@ public class KryeitTPPlugin extends JavaPlugin implements Listener {
         Objects.requireNonNull(this.getCommand("v")).setExecutor(new VisitCommand(this));
         Objects.requireNonNull(getCommand("v")).setTabCompleter(new VisitTab());
     }
-
 }
 
 
