@@ -9,11 +9,17 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
 import java.util.Objects;
 
 public class KryeitTPPlugin extends JavaPlugin implements Listener {
     PluginDescriptionFile pdffile = getDescription();
     FileConfiguration config = this.getConfig();
+
+    private File getFile(String s) {
+        return null;
+    }
+
     public String name = ChatColor.YELLOW+"["+ChatColor.WHITE+pdffile.getName()+ChatColor.YELLOW+"]";
     public String version = pdffile.getVersion();
 

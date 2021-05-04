@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 
+
 public class NearestPostCommand implements CommandExecutor{
     //  This variable is the gap between posts
 

@@ -26,6 +26,75 @@ public class VisitCommand implements CommandExecutor{
             return false;
         } else {
             Player player = (Player) sender;
+            int gap = plugin.getConfig().getInt("distance-between-posts");
+            int originX = plugin.getConfig().getInt("post-x-location");
+            int originZ = plugin.getConfig().getInt("post-z-location");
+            int playerX = player.getLocation().getBlockX()-originX;
+            int playerZ = player.getLocation().getBlockZ()-originZ;
+            //para el eje X
+            int postX=0;
+            while(true){
+                if(playerX>=gap && playerX>0){
+                    playerX=playerX-gap;
+                    postX+=gap;
+                }
+                else if(playerX<=-gap && playerX<0){
+                    playerX=playerX+gap;
+                    postX-=gap;
+                }
+                else{break;}
+            }
+            if(playerX>gap/2&&playerX>0){
+                postX+=gap;
+            }
+            if(playerX<-gap/2&&playerX<0){
+                postX-=gap;
+            }
+            //para el eje Z
+            int postZ=0;
+            while(true){
+                if(playerZ>=gap && playerZ>0){
+                    playerZ=playerZ-gap;
+                    postZ+=gap;
+                }
+                else if(playerZ<=-gap && playerZ<0){
+                    playerZ=playerZ+gap;
+                    postZ-=gap;
+                }
+                else{break;}
+            }
+            if(playerZ>gap/2&&playerZ>0){
+                postZ+=gap;
+            }
+            if(playerZ<-gap/2&&playerZ<0){
+                postZ-=gap;
+            }
+            postX+=originX;
+            postZ+=originZ;
+            if(postX>=0){
+                if(player.getLocation().getBlockX()<postX-2||player.getLocation().getBlockX()>postX+2){
+                    player.sendMessage(ChatColor.RED+"You have to be inside a post to use this command, try /nearestpost.");
+                    return false;
+                }
+            }
+            if(postX<0){
+                if(player.getLocation().getBlockX()<postX+2||player.getLocation().getBlockX()>postX-2){
+                    player.sendMessage(ChatColor.RED+"You have to be inside a post to use this command, try /nearestpost.");
+                    return false;
+                }
+            }
+            if(postZ>=0){
+                if(player.getLocation().getBlockZ()<postZ-2||player.getLocation().getBlockZ()>postZ+2){
+                    player.sendMessage(ChatColor.RED+"You have to be inside a post to use this command, try /nearestpost.");
+                    return false;
+                }
+            }
+            if(postZ<0){
+                if(player.getLocation().getBlockZ()<postZ+2||player.getLocation().getBlockZ()>postZ-2){
+                    player.sendMessage(ChatColor.RED+"You have to be inside a post to use this command, try /nearestpost.");
+                    return false;
+                }
+            }
             World world = player.getWorld();
             // /v
             if (args.length == 0) {

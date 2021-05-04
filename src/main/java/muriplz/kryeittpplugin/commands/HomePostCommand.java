@@ -25,9 +25,79 @@ public class HomePostCommand implements CommandExecutor{
             Bukkit.getConsoleSender().sendMessage(plugin.name+ ChatColor.WHITE+"You cant execute this command from console.");
             return false;
         }else {
-            double playerX, playerZ,playerY;
             Player player = (Player) sender;
+            int gap = plugin.getConfig().getInt("distance-between-posts");
+            int originX = plugin.getConfig().getInt("post-x-location");
+            int originZ = plugin.getConfig().getInt("post-z-location");
+            int playerX2 = player.getLocation().getBlockX()-originX;
+            int playerZ2 = player.getLocation().getBlockZ()-originZ;
+            //para el eje X
+            int postX=0;
+            while(true){
+                if(playerX2>=gap && playerX2>0){
+                    playerX2=playerX2-gap;
+                    postX+=gap;
+                }
+                else if(playerX2<=-gap && playerX2<0){
+                    playerX2=playerX2+gap;
+                    postX-=gap;
+                }
+                else{break;}
+            }
+            if(playerX2>gap/2&&playerX2>0){
+                postX+=gap;
+            }
+            if(playerX2<-gap/2&&playerX2<0){
+                postX-=gap;
+            }
+            //para el eje Z
+            int postZ=0;
+            while(true){
+                if(playerZ2>=gap && playerZ2>0){
+                    playerZ2=playerZ2-gap;
+                    postZ+=gap;
+                }
+                else if(playerZ2<=-gap && playerZ2<0){
+                    playerZ2=playerZ2+gap;
+                    postZ-=gap;
+                }
+                else{break;}
+            }
+            if(playerZ2>gap/2&&playerZ2>0){
+                postZ+=gap;
+            }
+            if(playerZ2<-gap/2&&playerZ2<0){
+                postZ-=gap;
+            }
+            postX+=originX;
+            postZ+=originZ;
+            if(postX>=0){
+                if(player.getLocation().getBlockX()<postX-2||player.getLocation().getBlockX()>postX+2){
+                    player.sendMessage(ChatColor.RED+"You have to be inside a post to use this command, try /nearestpost.");
+                    return false;
+                }
+            }
+            if(postX<0){
+                if(player.getLocation().getBlockX()<postX+2||player.getLocation().getBlockX()>postX-2){
+                    player.sendMessage(ChatColor.RED+"You have to be inside a post to use this command, try /nearestpost.");
+                    return false;
+                }
+            }
+            if(postZ>=0){
+                if(player.getLocation().getBlockZ()<postZ-2||player.getLocation().getBlockZ()>postZ+2){
+                    player.sendMessage(ChatColor.RED+"You have to be inside a post to use this command, try /nearestpost.");
+                    return false;
+                }
+            }
+            if(postZ<0){
+                if(player.getLocation().getBlockZ()<postZ+2||player.getLocation().getBlockZ()>postZ-2){
+                    player.sendMessage(ChatColor.RED+"You have to be inside a post to use this command, try /nearestpost.");
+                    return false;
+                }
+            }
+            double playerX, playerZ,playerY;
             ATPlayer atPlayer = ATPlayer.getPlayer(player);
+
             if(atPlayer.hasHome("home")) {
                 Location location = atPlayer.getHome("home").getLocation();
                 playerX = location.getBlockX() + 0.5;
