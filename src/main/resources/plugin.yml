@@ -1,5 +1,5 @@
 main: muriplz.kryeittpplugin.KryeitTPPlugin
-version: 2.2.2
+version: 2.2.3
 name: Teleposting
 author: muriplz
 depend: [AdvancedTeleport]
@@ -15,4 +15,4 @@ commands:
     description: goes to your home post.
   v:
     aliases: visit
-    description: visit a post.
+    description: visits a post.

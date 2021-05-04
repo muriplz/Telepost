@@ -1,6 +1,5 @@
 package muriplz.kryeittpplugin;
 
-
 import muriplz.kryeittpplugin.commands.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

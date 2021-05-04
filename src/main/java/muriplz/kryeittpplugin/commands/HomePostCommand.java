@@ -83,7 +83,7 @@ public class HomePostCommand implements CommandExecutor{
                 }
             }
             if(postX<0){
-                if(player.getLocation().getBlockX()<postX+width||player.getLocation().getBlockX()>postX-width){
+                if(player.getLocation().getBlockX()>postX+width||player.getLocation().getBlockX()<postX-width){
                     player.sendMessage(ChatColor.RED+"You have to be inside a post to use this command, try /nearestpost.");
                     return false;
                 }
@@ -95,7 +95,7 @@ public class HomePostCommand implements CommandExecutor{
                 }
             }
             if(postZ<0){
-                if(player.getLocation().getBlockZ()<postZ+width||player.getLocation().getBlockZ()>postZ-width){
+                if(player.getLocation().getBlockZ()>postZ+width||player.getLocation().getBlockZ()<postZ-width){
                     player.sendMessage(ChatColor.RED+"You have to be inside a post to use this command, try /nearestpost.");
                     return false;
                 }
