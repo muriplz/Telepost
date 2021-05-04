@@ -21,6 +21,7 @@ public class KryeitTPPlugin extends JavaPlugin implements Listener {
         config.addDefault("distance-between-posts", 800);
         config.addDefault("post-x-location", 0);
         config.addDefault("post-z-location", 0);
+        config.addDefault("post-width", 5);
         config.options().copyDefaults(true);
         saveConfig();
         Bukkit.getConsoleSender().sendMessage(name+ChatColor.GRAY+" The plugin has been activated. version: "+ChatColor.GREEN+version+ChatColor.GRAY+".");

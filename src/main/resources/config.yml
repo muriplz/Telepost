@@ -1,6 +1,8 @@
-# distance-between-posts: This number has to be higher than 0.
-# post-x-location: First post's X coordinate
-# post-z-location: First post's Z coordinate
+# distance-between-posts: This number has to be higher than 0. (default = 800 blocks)
+# post-x-location: First post's X coordinate (default -> x = 0)
+# post-z-location: First post's Z coordinate (default -> z = 0)
+# post-width: the width if the post, with center on /nearestpost. This will allow to use /visit and /homepost further away form the nearest post. (default = 5 blocks, 2 to each coordinate + the center)
 distance-between-posts: 800
 post-x-location: 0
 post-z-location: 0
+post-width: 5
