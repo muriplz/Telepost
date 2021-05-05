@@ -11,6 +11,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
+
 
 public class VisitCommand implements CommandExecutor{
 
@@ -108,7 +113,10 @@ public class VisitCommand implements CommandExecutor{
             } // /v <something>
             if (args.length==1){
                 // /v <Warp/Named Post>
-                if( args[0].equals("Gaja") || args[0].equals("Pangea") || args[0].equals("Fossil") || args[0].equals("Agua") || args[0].equals("Magma") || args[0].equals("Trident") || args[0].equals("Seahorse") || args[0].equals("Extremadura") || args[0].equals("Rock") || args[0].equals("Bee")){
+                HashMap<String, Warp> warps = Warp.getWarps();
+                Set<String> warpNames = warps.keySet();
+                List<String> allWarpNames = new ArrayList<>(warpNames);
+                if(allWarpNames.contains(args[0])){
                     Warp warp = Warp.getWarps().get(args[0]);
                     Location loc=new Location(world, warp.getLocation().getBlockX() + 0.5, 260, warp.getLocation().getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                     if(plugin.getConfig().getBoolean("launch-feature")){

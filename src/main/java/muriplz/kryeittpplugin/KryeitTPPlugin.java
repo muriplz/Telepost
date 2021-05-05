@@ -36,6 +36,7 @@ public class KryeitTPPlugin extends JavaPlugin{
         Objects.requireNonNull(this.getCommand("v")).setExecutor(new VisitCommand(this));
         Objects.requireNonNull(getCommand("v")).setTabCompleter(new VisitTab());
         Objects.requireNonNull(this.getCommand("namepost")).setExecutor(new NamePostCommand(this));
+        Objects.requireNonNull(getCommand("namepost")).setTabCompleter(new NamePostTab());
     }
 }
 

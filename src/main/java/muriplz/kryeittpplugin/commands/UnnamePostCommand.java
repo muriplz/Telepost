@@ -15,12 +15,11 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Set;
 
-
-public class NamePostCommand implements CommandExecutor {
+public class UnnamePostCommand implements CommandExecutor {
 
     private final KryeitTPPlugin plugin;
 
-    public NamePostCommand(KryeitTPPlugin plugin) {
+    public UnnamePostCommand(KryeitTPPlugin plugin) {
         this.plugin = plugin;
     }
 
@@ -32,7 +31,7 @@ public class NamePostCommand implements CommandExecutor {
         }else {
             Player player = (Player) sender;
             if(args.length==0){
-                player.sendMessage("Use /NamePost <PostName> to name the nearest post.");
+                player.sendMessage("Use /UnnamePost <PostName> to unname the nearest post.");
                 return false;
             }
             if(!player.hasPermission("telepost.namepost")){
@@ -103,21 +102,8 @@ public class NamePostCommand implements CommandExecutor {
                         return false;
                     }
                 }
-                final int finalpostX = postX;
-                final int finalpostZ = postZ;
-                WarpSQLManager.get().addWarp(new Warp(player.getUniqueId(),
-                        args[0],
-                        nearestpostLocation,
-                        System.currentTimeMillis(),
-                        System.currentTimeMillis()), callback ->
-                        player.sendMessage(ChatColor.GRAY+"You have named to "+ChatColor.GOLD+args[0]+" the nearest post "+ChatColor.GREEN+"("+finalpostX+" , "+finalpostZ+" )"+ChatColor.GRAY+". To visit this post use /visit "+args[0]));
-                return true;
+            }
 
-
-
-
+            return false;
         }
-
-        return false;
-    }
-}}
+    }}
