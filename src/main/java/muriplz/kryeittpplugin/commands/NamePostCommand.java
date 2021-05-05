@@ -1,7 +1,6 @@
 package muriplz.kryeittpplugin.commands;
 
 import io.github.niestrat99.advancedteleport.api.Warp;
-import io.github.niestrat99.advancedteleport.config.CustomMessages;
 import io.github.niestrat99.advancedteleport.sql.WarpSQLManager;
 import muriplz.kryeittpplugin.KryeitTPPlugin;
 import org.bukkit.Bukkit;
@@ -104,12 +103,14 @@ public class NamePostCommand implements CommandExecutor {
                         return false;
                     }
                 }
+                final int finalpostX = postX;
+                final int finalpostZ = postZ;
                 WarpSQLManager.get().addWarp(new Warp(player.getUniqueId(),
                         args[0],
                         nearestpostLocation,
                         System.currentTimeMillis(),
                         System.currentTimeMillis()), callback ->
-                        CustomMessages.sendMessage(sender,"Info.setWarp", "{warp}", args[0]));
+                        player.sendMessage(ChatColor.GRAY+"You have named the nearest post "+ChatColor.GREEN+"("+finalpostX+" , "+finalpostZ+" )"+ChatColor.GRAY+" to "+ChatColor.GOLD+ args[0]+ChatColor.GRAY+". To visit this post use /visit "+args[0]));
                 return true;
 
 
