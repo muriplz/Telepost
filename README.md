@@ -8,6 +8,7 @@ This is a Teleporting plugin for Minecraft Java Edition. Download: https://www.s
 # What's a post?
 It's a structure you can tp from, but not to. (you can only tp to a named post, your home post or a home post you have been invited to)
 There is a post every 800 (default) blocks.
+[![image](https://www.linkpicture.com/q/2021-05-05_11.14.06.png)](https://www.linkpicture.com/view.php?img=LPic609262f7daa961407012337)
 
 # Commands:
 - /nearestpost: Tells you where the nearest post is, based on your position.
