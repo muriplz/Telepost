@@ -76,25 +76,26 @@ public class HomePostCommand implements CommandExecutor{
             postX+=originX;
             postZ+=originZ;
             int width = (plugin.getConfig().getInt("post-width")-1)/2;
-            if(postX>=0){
+
+            if(postX>=0&&!player.hasPermission("telepost.homepost")){
                 if(player.getLocation().getBlockX()<postX-width||player.getLocation().getBlockX()>postX+width){
                     player.sendMessage(ChatColor.RED+"You have to be inside a post to use this command, try /nearestpost.");
                     return false;
                 }
             }
-            if(postX<0){
+            if(postX<0&&!player.hasPermission("telepost.homepost")){
                 if(player.getLocation().getBlockX()>postX+width||player.getLocation().getBlockX()<postX-width){
                     player.sendMessage(ChatColor.RED+"You have to be inside a post to use this command, try /nearestpost.");
                     return false;
                 }
             }
-            if(postZ>=0){
+            if(postZ>=0&&!player.hasPermission("telepost.homepost")){
                 if(player.getLocation().getBlockZ()<postZ-width||player.getLocation().getBlockZ()>postZ+width){
                     player.sendMessage(ChatColor.RED+"You have to be inside a post to use this command, try /nearestpost.");
                     return false;
                 }
             }
-            if(postZ<0){
+            if(postZ<0&&!player.hasPermission("telepost.homepost")){
                 if(player.getLocation().getBlockZ()>postZ+width||player.getLocation().getBlockZ()<postZ-width){
                     player.sendMessage(ChatColor.RED+"You have to be inside a post to use this command, try /nearestpost.");
                     return false;
