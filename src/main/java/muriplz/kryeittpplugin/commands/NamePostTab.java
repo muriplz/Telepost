@@ -12,5 +12,5 @@ public class NamePostTab implements TabCompleter {
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-     return null;
+        return null;
     }}

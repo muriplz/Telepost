@@ -1,6 +1,7 @@
 package muriplz.kryeittpplugin.commands;
 
 import io.github.niestrat99.advancedteleport.api.Warp;
+import io.github.niestrat99.advancedteleport.sql.WarpSQLManager;
 import muriplz.kryeittpplugin.KryeitTPPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -35,10 +36,11 @@ public class UnnamePostCommand implements CommandExecutor {
             }
             if(args.length==1){
                 if(Warp.getWarps().containsKey(args[0])){
-                    
-                    return false;
+                    Warp.getWarps().get(args[0]).delete(null);
+                    player.sendMessage(ChatColor.GREEN+"The "+args[0]+" post has been unnamed, to rename it stand close to the desired post and use /namepost "+args[0]+".");
+                    return true;
                 }else{
-                    player.sendMessage(ChatColor.RED+"No posts by that name");
+                    player.sendMessage(ChatColor.RED+"No posts by that name.");
                 }
             }
             return false;

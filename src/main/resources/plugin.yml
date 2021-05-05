@@ -1,5 +1,5 @@
 main: muriplz.kryeittpplugin.KryeitTPPlugin
-version: 3.0 - DEV
+version: 3.0
 name: Teleposting
 author: muriplz
 depend: [AdvancedTeleport]
@@ -18,3 +18,5 @@ commands:
     description: visits a post.
   namepost:
     description: names the nearest post.
+  unnamepost:
+    description: unnames a post.

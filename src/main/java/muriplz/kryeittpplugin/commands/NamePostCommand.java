@@ -45,7 +45,7 @@ public class NamePostCommand implements CommandExecutor {
             }
             if(args.length==1){
                 if(Warp.getWarps().containsKey(args[0])){
-                    player.sendMessage(ChatColor.RED+"The post "+args[0]+" already exists, try a different name or un-name the post using /unnamePost Agua.");
+                    player.sendMessage(ChatColor.RED+"The post "+args[0]+" already exists, try a different name or unname the post using /UnnamePost Agua.");
                     return false;
                 }
 
@@ -94,7 +94,7 @@ public class NamePostCommand implements CommandExecutor {
                 }
                 postX+=originX;
                 postZ+=originZ;
-                Location nearestpostLocation = new Location(player.getWorld(), postX + 0.5, 260, postZ + 0.5);
+                Location nearestpostLocation = new Location(player.getWorld(), postX , 260, postZ );
                 HashMap<String, Warp> warps = Warp.getWarps();
                 Set<String> warpNames = warps.keySet();
                 for(String warpName: warpNames){
@@ -110,14 +110,9 @@ public class NamePostCommand implements CommandExecutor {
                         nearestpostLocation,
                         System.currentTimeMillis(),
                         System.currentTimeMillis()), callback ->
-                        player.sendMessage(ChatColor.GRAY+"You have named to "+ChatColor.GOLD+args[0]+" the nearest post "+ChatColor.GREEN+"("+finalpostX+" , "+finalpostZ+" )"+ChatColor.GRAY+". To visit this post use /visit "+args[0]));
+                        player.sendMessage(ChatColor.GRAY+"You have named to "+ChatColor.GOLD+args[0]+ChatColor.GRAY+" the nearest post "+ChatColor.GREEN+"("+finalpostX+" , "+finalpostZ+" )"+ChatColor.GRAY+". To visit this post use /visit "+args[0]));
                 return true;
-
-
-
-
         }
-
         return false;
     }
 }}
