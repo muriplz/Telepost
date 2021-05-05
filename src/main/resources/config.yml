@@ -1,3 +1,11 @@
+# ----------------------------------------------------------------------------------
+# |   _______   ______    .        ______    _____   ______   ______  _______      |
+# |      \      \          \       \         \    \  \     \  \          \         |
+# |       \      \------    \       \-----    \----   \     \  \-----     \        |
+# |        \      \_______   \______ \______   \       \_____\   ____\     \       |
+# ----------------------------------------------------------------------------------
+# Please, if you find any issues let me know here: https://github.com/muriplz/KryeitTPPlugin/issues
+#
 # distance-between-posts: This number has to be higher than 0. (default = 800 blocks)
 
 # post-x-location: First post's X coordinate (default -> x = 0)
