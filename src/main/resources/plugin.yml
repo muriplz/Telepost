@@ -16,3 +16,5 @@ commands:
   v:
     aliases: visit
     description: visits a post.
+  namepost:
+    description: names the nearest post.
