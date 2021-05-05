@@ -15,8 +15,8 @@
 # post-width: the width of the post, with center on /nearestpost.
 # This will allow to use /visit and /homepost further away form the nearest post. (default = 5 blocks, 2 to each coordinate + the center)
 
-# launch-feature: /homepost and /visit have this feature, this launches you to the sky before teleporting
-# ( default = true )
+# launch-feature: /homepost and /visit have this feature, this launches you to the sky before teleporting.
+# ( default = true )  Set allow-fly to true on server.properties if set to true (working on a fix)
 
 distance-between-posts: 800
 

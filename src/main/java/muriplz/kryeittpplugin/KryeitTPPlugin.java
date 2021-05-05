@@ -4,11 +4,15 @@ import muriplz.kryeittpplugin.commands.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 import java.util.Objects;
 
-public class KryeitTPPlugin extends JavaPlugin{
+public class KryeitTPPlugin extends JavaPlugin implements Listener {
     PluginDescriptionFile pdffile = getDescription();
     FileConfiguration config = this.getConfig();
     public String name = ChatColor.YELLOW+"["+ChatColor.WHITE+pdffile.getName()+ChatColor.YELLOW+"]";
@@ -40,6 +44,22 @@ public class KryeitTPPlugin extends JavaPlugin{
         Objects.requireNonNull(this.getCommand("unnamepost")).setExecutor(new UnnamePostCommand(this));
         Objects.requireNonNull(getCommand("unnamepost")).setTabCompleter(new UnnamePostTab());
     }
+    @EventHandler
+    public void onFirstFall(EntityDamageEvent event){
+        if(event.getEntity() instanceof Player){
+            Player p = (Player) event.getEntity();
+
+            if(event.getCause() == EntityDamageEvent.DamageCause.FALL){
+                event.setCancelled(true);
+            }
+            if(Objects.requireNonNull(p.getLastDamageCause()).getCause() == EntityDamageEvent.DamageCause.FALL){
+                event.setCancelled(true);
+            }
+        }
+    }
 }
+
+
+
 
 
