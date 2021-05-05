@@ -101,22 +101,26 @@ public class HomePostCommand implements CommandExecutor{
                     return false;
                 }
             }
-            double playerX, playerZ,playerY;
             ATPlayer atPlayer = ATPlayer.getPlayer(player);
             if(atPlayer.hasHome("home")) {
                 Location location = atPlayer.getHome("home").getLocation();
-                playerX = location.getBlockX() + 0.5;
-                playerZ = location.getBlockZ() + 0.5;
-                playerY = location.getBlockY();
                 World world = player.getWorld();
-                player.setVelocity(new Vector (0,4,0));
-                Bukkit.getScheduler().runTaskLater(plugin, () -> player.setVelocity(new Vector (0,2.5,0)), 25L);
-                Bukkit.getScheduler().runTaskLater(plugin, () -> {
-                    Location newlocation =new Location(world,playerX,playerY,playerZ,player.getLocation().getYaw(),player.getLocation().getPitch());
+                if(plugin.getConfig().getBoolean("launch-feature")){
+                    player.setVelocity(new Vector(0,4,0));
+                    Bukkit.getScheduler().runTaskLater(plugin, () -> player.setVelocity(new Vector (0,2.5,0)), 25L);
+                    Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                        Location newlocation = new Location(world, location.getBlockX() + 0.5, 260, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
+                        player.teleport(newlocation);
+                        player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
+                        player.sendMessage(ChatColor.GRAY + "Welcome to your post.");
+                    }, 40L);
+                }else{
+                    Location newlocation = new Location(world, location.getBlockX() + 0.5, 260, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                     player.teleport(newlocation);
                     player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
-                    player.sendMessage(ChatColor.GREEN+"Welcome to your home post.");
-                }, 40L);
+                    player.sendMessage(ChatColor.GRAY + "Welcome to your post.");
+                }
+                return true;
             }else{
                 player.sendMessage(ChatColor.GREEN+"Please, set a post with /SetPost first.");
             }

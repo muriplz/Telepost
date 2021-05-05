@@ -111,15 +111,21 @@ public class VisitCommand implements CommandExecutor{
                 if( args[0].equals("Gaja") || args[0].equals("Pangea") || args[0].equals("Fossil") || args[0].equals("Agua") || args[0].equals("Magma") || args[0].equals("Trident") || args[0].equals("Seahorse") || args[0].equals("Extremadura") || args[0].equals("Rock") || args[0].equals("Bee")){
                     Warp warp = Warp.getWarps().get(args[0]);
                     Location loc=new Location(world, warp.getLocation().getBlockX() + 0.5, 260, warp.getLocation().getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
-                    player.setVelocity(new Vector(0,4,0));
-                    Bukkit.getScheduler().runTaskLater(plugin, () -> player.setVelocity(new Vector (0,2.5,0)), 25L);
-                    Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                    if(plugin.getConfig().getBoolean("launch-feature")){
+                        player.setVelocity(new Vector(0,4,0));
+                        Bukkit.getScheduler().runTaskLater(plugin, () -> player.setVelocity(new Vector (0,2.5,0)), 25L);
+                        Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                            Location newlocation = new Location(world, loc.getBlockX() + 0.5, 260, loc.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
+                            player.teleport(newlocation);
+                            player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
+                            player.sendMessage(ChatColor.GRAY + "Welcome to " + args[0] + ".");
+                        }, 40L);
+                    }else{
                         Location newlocation = new Location(world, loc.getBlockX() + 0.5, 260, loc.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                         player.teleport(newlocation);
                         player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
-                        player.sendMessage(ChatColor.GREEN+"Welcome to your home post.");
-                    }, 40L);
-                    player.sendMessage(ChatColor.GRAY + "Welcome to " + args[0] + ".");
+                        player.sendMessage(ChatColor.GRAY + "Welcome to " + args[0] + ".");
+                    }
                     return true;
                 }
                 // /v <Yourself>
@@ -127,15 +133,21 @@ public class VisitCommand implements CommandExecutor{
                     ATPlayer atPlayer = ATPlayer.getPlayer(player);
                     if(atPlayer.hasHome("home")){
                         Location location = atPlayer.getHome("home").getLocation();
-                        player.setVelocity(new Vector(0,4,0));
-                        Bukkit.getScheduler().runTaskLater(plugin, () -> player.setVelocity(new Vector (0,2.5,0)), 25L);
-                        Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                        if(plugin.getConfig().getBoolean("launch-feature")){
+                            player.setVelocity(new Vector(0,4,0));
+                            Bukkit.getScheduler().runTaskLater(plugin, () -> player.setVelocity(new Vector (0,2.5,0)), 25L);
+                            Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                                Location newlocation = new Location(world, location.getBlockX() + 0.5, 260, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
+                                player.teleport(newlocation);
+                                player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
+                                player.sendMessage(ChatColor.GRAY + "Welcome to your post.");
+                            }, 40L);
+                        }else{
                             Location newlocation = new Location(world, location.getBlockX() + 0.5, 260, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                             player.teleport(newlocation);
                             player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
-                            player.sendMessage(ChatColor.GREEN+"Welcome to your home post.");
-                        }, 40L);
-                        player.sendMessage(ChatColor.GREEN + "Welcome to your home post.");
+                            player.sendMessage(ChatColor.GRAY + "Welcome to your post.");
+                        }
                         return true;
                     }else{
                         player.sendMessage(ChatColor.RED+"You do not have a home post yet, use /setpost to set the nearest post as your home post");
@@ -148,14 +160,21 @@ public class VisitCommand implements CommandExecutor{
                     // Check if the sender has the home created named by the invitor
                     if (atPlayer.hasHome(args[0])) {
                         Location location = atPlayer.getHome(args[0]).getLocation();
-                        player.setVelocity(new Vector(0,4,0));
-                        Bukkit.getScheduler().runTaskLater(plugin, () -> player.setVelocity(new Vector (0,2.5,0)), 25L);
-                        Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                        if(plugin.getConfig().getBoolean("launch-feature")){
+                            player.setVelocity(new Vector(0,4,0));
+                            Bukkit.getScheduler().runTaskLater(plugin, () -> player.setVelocity(new Vector (0,2.5,0)), 25L);
+                            Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                                Location newlocation = new Location(world, location.getBlockX() + 0.5, 260, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
+                                player.teleport(newlocation);
+                                player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
+                                player.sendMessage(ChatColor.GRAY + "Welcome to " + args[0] + "'s post.");
+                            }, 40L);
+                        }else{
                             Location newlocation = new Location(world, location.getBlockX() + 0.5, 260, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                             player.teleport(newlocation);
                             player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
-                            player.sendMessage(ChatColor.GREEN + "Welcome to " + args[0] + "'s home post.");
-                        }, 40L);
+                            player.sendMessage(ChatColor.GRAY + "Welcome to " + args[0] + "'s post.");
+                        }
                         return true;
                     }else{
                         player.sendMessage(ChatColor.RED+args[0]+" has not invited you.");
