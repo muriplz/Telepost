@@ -16,8 +16,8 @@ There is a post every 800 (default) blocks.
 - /homepost: Teleports you to your home (That can only be set by /setpost, so disable homes feature on the AdvancedTeleport config.yml)
 - /invite <Player>: Invite a player to your home post, this invitation lasts 5 minutes.
 - /visit <Player/NamedPost>: Teleports you to an invited post or to a Named Post (to name a post use /setwarp Agua (Extremadura, etc))
-- /namepost <Name> : gives a name to the nearest post. Only for admins.
-- /unnamepost <Name> : unnames a post. Only for admins
+- /namepost <PostName> : gives a name to the nearest post. Only for admins.
+- /unnamepost <PostName> : unnames a post. Only for admins
 
 # Permissions:
 - telepost.homepost : lets you use /homepost everywhere in the Overworld.
