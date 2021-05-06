@@ -16,7 +16,7 @@
 # This will allow to use /visit and /homepost further away form the nearest post. (default = 5 blocks, 2 to each coordinate + the center)
 
 # launch-feature: /homepost and /visit have this feature, this launches you to the sky before teleporting.
-# ( default = true )  Set allow-fly to true on server.properties if set to true (working on a fix)
+# ( default = false )  Set allow-flight to true on server.properties if set to true (working on a fix)
 
 distance-between-posts: 800
 
@@ -26,4 +26,4 @@ post-z-location: 0
 
 post-width: 5
 
-launch-feature: true
+launch-feature: false
