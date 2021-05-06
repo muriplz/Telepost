@@ -98,7 +98,7 @@ public class NamePostCommand implements CommandExecutor {
                 HashMap<String, Warp> warps = Warp.getWarps();
                 Set<String> warpNames = warps.keySet();
                 for(String warpName: warpNames){
-                    if(Warp.getWarps().get(warpName).getLocation().getBlockX()==nearestpostLocation.getBlockX()&&Warp.getWarps().get(warpName).getLocation().getBlockZ()==nearestpostLocation.getBlockZ()){
+                    if(Warp.getWarps().get(warpName).getLocation().getBlockX()==nearestpostLocation.getBlockX()&&Warp.getWarps().get(warpName).getLocation().getBlockZ()==nearestpostLocation.getBlockZ()&&plugin.getConfig().getBoolean("multiple-names-per-post")){
                         player.sendMessage(ChatColor.RED+"The nearest post is already named, it's "+warpName+".");
                         return false;
                     }

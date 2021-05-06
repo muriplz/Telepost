@@ -21,7 +21,8 @@ public class KryeitTPPlugin extends JavaPlugin implements Listener {
         config.addDefault("post-x-location", 0);
         config.addDefault("post-z-location", 0);
         config.addDefault("post-width", 5);
-        config.addDefault("launch-feature", true);
+        config.addDefault("launch-feature", false);
+        config.addDefault("multiple-names-per-post",false);
         config.options().copyDefaults(true);
         saveConfig();
         Bukkit.getConsoleSender().sendMessage(name+ChatColor.GRAY+" The plugin has been activated. version: "+ChatColor.GREEN+version);

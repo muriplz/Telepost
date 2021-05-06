@@ -18,6 +18,9 @@
 # launch-feature: /homepost and /visit have this feature, this launches you to the sky before teleporting.
 # ( default = false )  Set allow-flight to true on server.properties if set to true (working on a fix)
 
+# multiple-names-per-post: with this option true, you can give multiple names to the same post with /namepost.
+# ( default = false )
+
 distance-between-posts: 800
 
 post-x-location: 0
@@ -27,3 +30,5 @@ post-z-location: 0
 post-width: 5
 
 launch-feature: false
+
+multiple-names-per-post: false
