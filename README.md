@@ -25,4 +25,4 @@ There is a post every 800 (default) blocks.
 - telepost.namepost : lets you use /namepost.
 - telepost.unnamepost : lets you use /unnamepost.
 
-This plugin is a WIP, so the Named Post system, the generation of the post itself (as you will have to build everyone of them by hand, FAWE or something like that), and the protection of the post, as well as the fall damage. All of this can be achieved with other plugins.
+This plugin is a WIP, so the generation of the post itself (as you will have to build everyone of them by hand, FAWE or something like that), and the protection of the post, as well as the fall damage, all of this can be achieved with other plugins.
