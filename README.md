@@ -1,4 +1,4 @@
-# Teleposting
+# Telepost
 This is a Teleporting plugin for Minecraft Java Edition. Download: https://www.spigotmc.org/resources/telepost.91988/
  
  1) Dependencies: This plugin requires AdvancedTeleport (https://www.spigotmc.org/resources/advancedteleport.64139/) github: (https://github.com/Niestrat99/AT-Rewritten/)
