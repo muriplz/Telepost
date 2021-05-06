@@ -1,5 +1,5 @@
-# KryeitTPPlugin
-This is a Teleporting plugin for Minecraft Java Edition. Download: https://www.spigotmc.org/resources/teleposting.91988/
+# Telepost
+This is a Teleporting plugin for Minecraft Java Edition. Download: https://www.spigotmc.org/resources/telepost.91988/
  
  1) Dependencies: This plugin requires AdvancedTeleport (https://www.spigotmc.org/resources/advancedteleport.64139/) github: (https://github.com/Niestrat99/AT-Rewritten/)
  
@@ -16,5 +16,13 @@ There is a post every 800 (default) blocks.
 - /homepost: Teleports you to your home (That can only be set by /setpost, so disable homes feature on the AdvancedTeleport config.yml)
 - /invite <Player>: Invite a player to your home post, this invitation lasts 5 minutes.
 - /visit <Player/NamedPost>: Teleports you to an invited post or to a Named Post (to name a post use /setwarp Agua (Extremadura, etc))
+- /namepost <Name> : gives a name to the nearest post. Only for admins.
+- /unnamepost <Name> : unnames a post. Only for admins
 
-This plugin is a WIP, so the Named Post system, the generation of the post itself (as you will have to build everyone of them by hand, FAWE or something like that), and the protection of the post, as well as the fall damage. All of this can be achieved with other plugins.
+# Permissions:
+- telepost.homepost : lets you use /homepost everywhere in the Overworld.
+- telepost.v : lets you use /v and /visit everywhere in the Overworld.
+- telepost.namepost : lets you use /namepost.
+- telepost.unnamepost : lets you use /unnamepost.
+
+This plugin is a WIP, so the generation of the post itself (as you will have to build everyone of them by hand, FAWE or something like that), and the protection of the post, as well as the fall damage, all of this can be achieved with other plugins.
