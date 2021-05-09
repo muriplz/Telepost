@@ -118,6 +118,10 @@ public class VisitCommand implements CommandExecutor{
                 List<String> allWarpNames = new ArrayList<>(warpNames);
                 if(allWarpNames.contains(args[0])){
                     Warp warp = Warp.getWarps().get(args[0]);
+                    if(warp.getLocation().getBlockX()==postX&&warp.getLocation().getBlockZ()==postZ){
+                        player.sendMessage(ChatColor.RED+"You are already in "+warp.getName()+".");
+                        return false;
+                    }
                     Location loc=new Location(world, warp.getLocation().getBlockX() + 0.5, 260, warp.getLocation().getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                     if(plugin.getConfig().getBoolean("launch-feature")){
                         player.setVelocity(new Vector(0,4,0));
@@ -141,6 +145,10 @@ public class VisitCommand implements CommandExecutor{
                     ATPlayer atPlayer = ATPlayer.getPlayer(player);
                     if(atPlayer.hasHome("home")){
                         Location location = atPlayer.getHome("home").getLocation();
+                        if(location.getBlockX()==postX&&location.getBlockZ()==postZ){
+                            player.sendMessage(ChatColor.RED+"You are already at your home post.");
+                            return false;
+                        }
                         if(plugin.getConfig().getBoolean("launch-feature")){
                             player.setVelocity(new Vector(0,4,0));
                             Bukkit.getScheduler().runTaskLater(plugin, () -> player.setVelocity(new Vector (0,2.5,0)), 25L);
@@ -168,6 +176,10 @@ public class VisitCommand implements CommandExecutor{
                     // Check if the sender has the home created named by the invitor
                     if (atPlayer.hasHome(args[0])) {
                         Location location = atPlayer.getHome(args[0]).getLocation();
+                        if(location.getBlockX()==postX&&location.getBlockZ()==postZ){
+                            player.sendMessage(ChatColor.RED+"You are already at "+args[0]+"'s home post.");
+                            return false;
+                        }
                         if(plugin.getConfig().getBoolean("launch-feature")){
                             player.setVelocity(new Vector(0,4,0));
                             Bukkit.getScheduler().runTaskLater(plugin, () -> player.setVelocity(new Vector (0,2.5,0)), 25L);

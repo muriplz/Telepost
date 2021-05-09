@@ -104,6 +104,10 @@ public class HomePostCommand implements CommandExecutor{
             ATPlayer atPlayer = ATPlayer.getPlayer(player);
             if(atPlayer.hasHome("home")) {
                 Location location = atPlayer.getHome("home").getLocation();
+                if(location.getBlockX()==postX&&location.getBlockZ()==postZ){
+                    player.sendMessage(ChatColor.RED+"You are already at your home post.");
+                    return false;
+                }
                 World world = player.getWorld();
                 if(plugin.getConfig().getBoolean("launch-feature")){
                     player.setVelocity(new Vector(0,4,0));
