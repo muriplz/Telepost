@@ -36,9 +36,9 @@ public class NearestPostCommand implements CommandExecutor{
             int playerX = player.getLocation().getBlockX()-originX;
             int playerZ = player.getLocation().getBlockZ()-originZ;
             //for the X axis
-            int postX=PostAPI.getNearPostX(gap,playerX,originX);
+            int postX=PostAPI.getNearPost(gap,playerX,originX);
             //for the Z axis
-            int postZ=PostAPI.getNearPostZ(gap,playerZ,originZ);
+            int postZ=PostAPI.getNearPost(gap,playerZ,originZ);
             player.sendMessage( ChatColor.GRAY + "The nearest post is on:" + ChatColor.GREEN + " (" + postX + " , " + postZ + ")" + ChatColor.GRAY + "." );
             return true;
         }

@@ -49,17 +49,15 @@ public class InviteCommand implements CommandExecutor {
                             ATPlayer atPlayer2 = ATPlayer.getPlayer(player2);
                             String postinvited = player.getName();
                             atPlayer2.addHome(postinvited,location,null);
-                            String name = player.getName();
-                            String name2 = player2.getName();
-                            player.sendMessage(ChatColor.GREEN+"You have invited "+name2+" to your post.");
-                            player2.sendMessage(ChatColor.GREEN+"You have been invited by "+name+" to his post, you have 5 minutes to use /v "+name+".");
+                            player.sendMessage(ChatColor.GREEN+"You have invited "+player2.getName()+" to your post.");
+                            player2.sendMessage(ChatColor.GREEN+"You have been invited by "+player.getName()+" to his post, you have 5 minutes to use /v "+player.getName()+".");
 
                             final Timer timer = new Timer();
                             timer.schedule(new TimerTask() {
                                 @Override
                                 public void run() {
                                     atPlayer2.removeHome(postinvited,null);
-                                    player.sendMessage(ChatColor.GRAY+"The player"+ChatColor.GREEN+" "+name2+ChatColor.GRAY+" does not have access to your home post anymore.");
+                                    player.sendMessage(ChatColor.GRAY+"The player "+ChatColor.GREEN+player2.getName()+ChatColor.GRAY+" does not have access to your home post anymore.");
                                     timer.cancel();
                                 }
                             },300000);

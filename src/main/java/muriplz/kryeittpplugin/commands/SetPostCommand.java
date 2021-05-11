@@ -39,9 +39,9 @@ public class SetPostCommand implements CommandExecutor {
             int playerX = player.getLocation().getBlockX()-originX;
             int playerZ = player.getLocation().getBlockZ()-originZ;
             //para el eje X
-            int postX = PostAPI.getNearPostX(gap,playerX,originX);
+            int postX = PostAPI.getNearPost(gap,playerX,originX);
             //para el eje Z
-            int postZ = PostAPI.getNearPostZ(gap,playerZ,originZ);
+            int postZ = PostAPI.getNearPost(gap,playerZ,originZ);
             ATPlayer atPlayer = ATPlayer.getPlayer(player);
             Location location = new Location(player.getWorld(), postX, 215, postZ);
             if (atPlayer.hasMainHome()) {

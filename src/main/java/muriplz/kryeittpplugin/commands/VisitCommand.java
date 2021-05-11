@@ -41,9 +41,9 @@ public class VisitCommand implements CommandExecutor{
             int playerX = player.getLocation().getBlockX()-originX;
             int playerZ = player.getLocation().getBlockZ()-originZ;
             //for the X axis
-            int postX = PostAPI.getNearPostX(gap,playerX,originX);
+            int postX = PostAPI.getNearPost(gap,playerX,originX);
             //for the Z axis
-            int postZ = PostAPI.getNearPostZ(gap,playerZ,originZ);
+            int postZ = PostAPI.getNearPost(gap,playerZ,originZ);
             int width = (plugin.getConfig().getInt("post-width")-1)/2;
             if(postX>=0&&!player.hasPermission("telepost.v")){
                 if(player.getLocation().getBlockX()<postX-width||player.getLocation().getBlockX()>postX+width){

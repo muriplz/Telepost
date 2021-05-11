@@ -55,9 +55,9 @@ public class NamePostCommand implements CommandExecutor {
                 int playerX = player.getLocation().getBlockX()-originX;
                 int playerZ = player.getLocation().getBlockZ()-originZ;
                 //for the X axis
-                int postX = PostAPI.getNearPostX(gap,playerX,originX);
+                int postX = PostAPI.getNearPost(gap,playerX,originX);
                 //for the Z axis
-                int postZ = PostAPI.getNearPostZ(gap,playerZ,originZ);
+                int postZ = PostAPI.getNearPost(gap,playerZ,originZ);
                 Location nearestpostLocation = new Location(player.getWorld(), postX , 260, postZ );
                 HashMap<String, Warp> warps = Warp.getWarps();
                 Set<String> warpNames = warps.keySet();
