@@ -54,46 +54,10 @@ public class NamePostCommand implements CommandExecutor {
                 int originZ = plugin.getConfig().getInt("post-z-location");
                 int playerX = player.getLocation().getBlockX()-originX;
                 int playerZ = player.getLocation().getBlockZ()-originZ;
-                //para el eje X
-                int postX=0;
-                while(true){
-                    if(playerX>=gap && playerX>0){
-                        playerX=playerX-gap;
-                        postX+=gap;
-                    }
-                    else if(playerX<=-gap && playerX<0){
-                        playerX=playerX+gap;
-                        postX-=gap;
-                    }
-                    else{break;}
-                }
-                if(playerX>gap/2&&playerX>0){
-                    postX+=gap;
-                }
-                if(playerX<-gap/2&&playerX<0){
-                    postX-=gap;
-                }
-                //para el eje Z
-                int postZ=0;
-                while(true){
-                    if(playerZ>=gap && playerZ>0){
-                        playerZ=playerZ-gap;
-                        postZ+=gap;
-                    }
-                    else if(playerZ<=-gap && playerZ<0){
-                        playerZ=playerZ+gap;
-                        postZ-=gap;
-                    }
-                    else{break;}
-                }
-                if(playerZ>gap/2&&playerZ>0){
-                    postZ+=gap;
-                }
-                if(playerZ<-gap/2&&playerZ<0){
-                    postZ-=gap;
-                }
-                postX+=originX;
-                postZ+=originZ;
+                //for the X axis
+                int postX = PostAPI.getNearPostX(gap,playerX,originX);
+                //for the Z axis
+                int postZ = PostAPI.getNearPostZ(gap,playerZ,originZ);
                 Location nearestpostLocation = new Location(player.getWorld(), postX , 260, postZ );
                 HashMap<String, Warp> warps = Warp.getWarps();
                 Set<String> warpNames = warps.keySet();

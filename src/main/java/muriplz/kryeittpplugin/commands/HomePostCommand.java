@@ -33,48 +33,12 @@ public class HomePostCommand implements CommandExecutor{
             int gap = plugin.getConfig().getInt("distance-between-posts");
             int originX = plugin.getConfig().getInt("post-x-location");
             int originZ = plugin.getConfig().getInt("post-z-location");
-            int playerX2 = player.getLocation().getBlockX()-originX;
-            int playerZ2 = player.getLocation().getBlockZ()-originZ;
-            //para el eje X
-            int postX=0;
-            while(true){
-                if(playerX2>=gap && playerX2>0){
-                    playerX2=playerX2-gap;
-                    postX+=gap;
-                }
-                else if(playerX2<=-gap && playerX2<0){
-                    playerX2=playerX2+gap;
-                    postX-=gap;
-                }
-                else{break;}
-            }
-            if(playerX2>gap/2&&playerX2>0){
-                postX+=gap;
-            }
-            if(playerX2<-gap/2&&playerX2<0){
-                postX-=gap;
-            }
-            //para el eje Z
-            int postZ=0;
-            while(true){
-                if(playerZ2>=gap && playerZ2>0){
-                    playerZ2=playerZ2-gap;
-                    postZ+=gap;
-                }
-                else if(playerZ2<=-gap && playerZ2<0){
-                    playerZ2=playerZ2+gap;
-                    postZ-=gap;
-                }
-                else{break;}
-            }
-            if(playerZ2>gap/2&&playerZ2>0){
-                postZ+=gap;
-            }
-            if(playerZ2<-gap/2&&playerZ2<0){
-                postZ-=gap;
-            }
-            postX+=originX;
-            postZ+=originZ;
+            int playerX = player.getLocation().getBlockX()-originX;
+            int playerZ = player.getLocation().getBlockZ()-originZ;
+            //for the X axis
+            int postX = PostAPI.getNearPostX(gap,playerX,originX);
+            //for the Z axis
+            int postZ = PostAPI.getNearPostZ(gap,playerZ,originZ);
             int width = (plugin.getConfig().getInt("post-width")-1)/2;
 
             if(postX>=0&&!player.hasPermission("telepost.homepost")){
