@@ -2,7 +2,6 @@ package muriplz.kryeittpplugin.commands;
 
 import muriplz.kryeittpplugin.KryeitTPPlugin;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -22,12 +21,12 @@ public class NearestPostCommand implements CommandExecutor{
     //  This commands aims to be /NearestPost in-game
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if( ! ( sender instanceof Player )) {
-            Bukkit.getConsoleSender().sendMessage(plugin.name+ ChatColor.WHITE+"You cant execute this command from console.");
+            Bukkit.getConsoleSender().sendMessage(plugin.name+"You cant execute this command from console.");
             return false;
         }else {
             Player player = (Player) sender;
             if(!player.getWorld().getName().equals("world")){
-                player.sendMessage(ChatColor.RED+"You have to be in the Overworld to use this command.");
+                PostAPI.sendMessage(player,"&cYou have to be in the Overworld to use this command.");
                 return false;
             }
             int gap = plugin.getConfig().getInt("distance-between-posts");
@@ -39,7 +38,7 @@ public class NearestPostCommand implements CommandExecutor{
             int postX=PostAPI.getNearPost(gap,playerX,originX);
             //for the Z axis
             int postZ=PostAPI.getNearPost(gap,playerZ,originZ);
-            player.sendMessage( ChatColor.GRAY + "The nearest post is on:" + ChatColor.GREEN + " (" + postX + " , " + postZ + ")" + ChatColor.GRAY + "." );
+            PostAPI.sendMessage(player,"&7The nearest post is on: &a(" + postX + " , " + postZ + ")&7.");
             return true;
         }
     }

@@ -1,6 +1,7 @@
 package muriplz.kryeittpplugin.commands;
 
-import org.bukkit.Location;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 
 public class PostAPI {
     public static int getNearPost(int gap, int playerX, int originX) {
@@ -24,5 +25,8 @@ public class PostAPI {
         }
         postX += originX;
         return postX;
+    }
+    public static void sendMessage(Player player,String message){
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
     }
 }

@@ -3,7 +3,6 @@ package muriplz.kryeittpplugin.commands;
 import io.github.niestrat99.advancedteleport.api.ATPlayer;
 import muriplz.kryeittpplugin.KryeitTPPlugin;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -25,7 +24,7 @@ public class InviteCommand implements CommandExecutor {
     //  This commands aims to be /Invite in-game
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!(sender instanceof Player)) {
-            Bukkit.getConsoleSender().sendMessage(plugin.name + ChatColor.WHITE + "You cant execute this command from console.");
+            Bukkit.getConsoleSender().sendMessage(plugin.name + "You cant execute this command from console.");
             return false;
         } else {
             Player player = (Player) sender;
@@ -39,25 +38,25 @@ public class InviteCommand implements CommandExecutor {
                             Player player2 = Bukkit.getPlayer(arg);
                             assert player2 != null;
                             if(player==player2){
-                                player.sendMessage(ChatColor.RED+"You cant invite yourself.");
+                                PostAPI.sendMessage(player,"&cYou cant invite yourself.");
                                 return false;
                             }
                             if(!(player2.isOnline())){
-                                player.sendMessage(ChatColor.RED+"The player is not online or does not exist.");
+                                PostAPI.sendMessage(player,"&cThe player is not online or does not exist.");
                                 return false;
                             }
                             ATPlayer atPlayer2 = ATPlayer.getPlayer(player2);
                             String postinvited = player.getName();
                             atPlayer2.addHome(postinvited,location,null);
-                            player.sendMessage(ChatColor.GREEN+"You have invited "+player2.getName()+" to your post.");
-                            player2.sendMessage(ChatColor.GREEN+"You have been invited by "+player.getName()+" to his post, you have 5 minutes to use /v "+player.getName()+".");
+                            PostAPI.sendMessage(player,"&aYou have invited "+player2.getName()+" to your post.");
+                            PostAPI.sendMessage(player2,"&aYou have been invited by "+player.getName()+" to his post, you have 5 minutes to use /v "+player.getName()+".");
 
                             final Timer timer = new Timer();
                             timer.schedule(new TimerTask() {
                                 @Override
                                 public void run() {
                                     atPlayer2.removeHome(postinvited,null);
-                                    player.sendMessage(ChatColor.GRAY+"The player "+ChatColor.GREEN+player2.getName()+ChatColor.GRAY+" does not have access to your home post anymore.");
+                                    PostAPI.sendMessage(player,"&7The player &s"+player2.getName()+"&7 does not have access to your home post anymore.");
                                     timer.cancel();
                                 }
                             },300000);
@@ -68,7 +67,7 @@ public class InviteCommand implements CommandExecutor {
             }
         }
         Player player = (Player) sender;
-        player.sendMessage(ChatColor.GRAY+"Use /invite <Player>.");
+        PostAPI.sendMessage(player,"&fUse /invite <Player>.");
         return true;
         }
     }

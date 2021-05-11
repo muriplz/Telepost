@@ -4,7 +4,6 @@ package muriplz.kryeittpplugin.commands;
 import io.github.niestrat99.advancedteleport.api.ATPlayer;
 import muriplz.kryeittpplugin.KryeitTPPlugin;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -25,12 +24,12 @@ public class SetPostCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
         if (!(sender instanceof Player)) {
-            Bukkit.getConsoleSender().sendMessage(plugin.name + ChatColor.WHITE + "You cant execute this command from console.");
+            Bukkit.getConsoleSender().sendMessage(plugin.name + "You cant execute this command from console.");
             return false;
         } else {
             Player player = (Player) sender;
             if(!player.getWorld().getName().equals("world")){
-                player.sendMessage(ChatColor.RED+"You have to be in the Overworld to use this command.");
+                PostAPI.sendMessage(player,"&cYou have to be in the Overworld to use this command.");
                 return false;
             }
             int gap = plugin.getConfig().getInt("distance-between-posts");
@@ -46,10 +45,10 @@ public class SetPostCommand implements CommandExecutor {
             Location location = new Location(player.getWorld(), postX, 215, postZ);
             if (atPlayer.hasMainHome()) {
                 atPlayer.moveHome(atPlayer.getMainHome().getName(), location, null);
-                player.sendMessage(ChatColor.GREEN+"You have successfully moved your home post at: ("+postX+","+postZ+").");
+                PostAPI.sendMessage(player,"&aYou have successfully moved your home post at: ("+postX+","+postZ+").");
             }else{
                 atPlayer.addHome("home", location, null);
-                player.sendMessage(ChatColor.GREEN+"You have successfully set your home post at: ("+postX+","+postZ+"), now this will be your /homepost.");
+                PostAPI.sendMessage(player,"&aYou have successfully set your home post at: ("+postX+","+postZ+"), now this will be your /homepost.");
             }
             return true;
         }

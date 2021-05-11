@@ -4,7 +4,6 @@ import io.github.niestrat99.advancedteleport.api.Warp;
 import io.github.niestrat99.advancedteleport.sql.WarpSQLManager;
 import muriplz.kryeittpplugin.KryeitTPPlugin;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -27,25 +26,25 @@ public class NamePostCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if( ! ( sender instanceof Player)) {
-            Bukkit.getConsoleSender().sendMessage(plugin.name+ ChatColor.WHITE+"You cant execute this command from console.");
+            Bukkit.getConsoleSender().sendMessage(plugin.name+"You cant execute this command from console.");
             return false;
         }else {
             Player player = (Player) sender;
             if(args.length==0){
-                player.sendMessage("Use /NamePost <PostName> to name the nearest post.");
+                PostAPI.sendMessage(player,"&fUse /NamePost <PostName> to name the nearest post.");
                 return false;
             }
             if(!player.hasPermission("telepost.namepost")){
-                player.sendMessage(ChatColor.RED+"You don't have permission to use this command.");
+                PostAPI.sendMessage(player,"&cYou don't have permission to use this command.");
                 return false;
             }
             if(!player.getWorld().getName().equals("world")){
-                player.sendMessage(ChatColor.RED+"You have to be in the Overworld to use this command.");
+                PostAPI.sendMessage(player,"&cYou have to be in the Overworld to use this command.");
                 return false;
             }
             if(args.length==1){
                 if(Warp.getWarps().containsKey(args[0])){
-                    player.sendMessage(ChatColor.RED+"The post "+args[0]+" already exists, try a different name or unname the post using /UnnamePost Agua.");
+                    PostAPI.sendMessage(player,"&cThe post "+args[0]+" already exists, try a different name or unname the post using /UnnamePost Agua.");
                     return false;
                 }
 
@@ -63,7 +62,7 @@ public class NamePostCommand implements CommandExecutor {
                 Set<String> warpNames = warps.keySet();
                 for(String warpName: warpNames){
                     if(Warp.getWarps().get(warpName).getLocation().getBlockX()==nearestpostLocation.getBlockX()&&Warp.getWarps().get(warpName).getLocation().getBlockZ()==nearestpostLocation.getBlockZ()&&!plugin.getConfig().getBoolean("multiple-names-per-post")){
-                        player.sendMessage(ChatColor.RED+"The nearest post is already named, it's "+warpName+".");
+                        PostAPI.sendMessage(player,"&cThe nearest post is already named, it's "+warpName+".");
                         return false;
                     }
                 }
@@ -74,7 +73,7 @@ public class NamePostCommand implements CommandExecutor {
                         nearestpostLocation,
                         System.currentTimeMillis(),
                         System.currentTimeMillis()), callback ->
-                        player.sendMessage(ChatColor.GRAY+"You have named to "+ChatColor.GOLD+args[0]+ChatColor.GRAY+" the nearest post "+ChatColor.GREEN+"("+finalpostX+" , "+finalpostZ+" )"+ChatColor.GRAY+". To visit this post use /visit "+args[0]));
+                        PostAPI.sendMessage(player,"&7You have named to &6"+args[0]+"&7 the nearest post &a("+finalpostX+" , "+finalpostZ+" )&7. To visit this post use /visit "+args[0]));
                 return true;
         }
         return false;

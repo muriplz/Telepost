@@ -7,6 +7,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
+
 import java.util.Objects;
 
 public class KryeitTPPlugin extends JavaPlugin implements Listener {
@@ -15,7 +16,9 @@ public class KryeitTPPlugin extends JavaPlugin implements Listener {
     public String name = ChatColor.YELLOW+"["+ChatColor.WHITE+pdffile.getName()+ChatColor.YELLOW+"]";
     public String version = pdffile.getVersion();
 
+
     public void onEnable(){
+
         registerCommands();
         config.addDefault("distance-between-posts", 800);
         config.addDefault("post-x-location", 0);
@@ -42,7 +45,6 @@ public class KryeitTPPlugin extends JavaPlugin implements Listener {
         Objects.requireNonNull(this.getCommand("unnamepost")).setExecutor(new UnnamePostCommand(this));
         Objects.requireNonNull(getCommand("unnamepost")).setTabCompleter(new UnnamePostTab());
     }
-
 }
 
 
