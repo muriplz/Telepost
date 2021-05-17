@@ -3,6 +3,7 @@ package muriplz.kryeittpplugin;
 import muriplz.kryeittpplugin.commands.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -44,6 +45,7 @@ public class KryeitTPPlugin extends JavaPlugin implements Listener {
         Objects.requireNonNull(getCommand("namepost")).setTabCompleter(new NamePostTab());
         Objects.requireNonNull(this.getCommand("unnamepost")).setExecutor(new UnnamePostCommand(this));
         Objects.requireNonNull(getCommand("unnamepost")).setTabCompleter(new UnnamePostTab());
+        Objects.requireNonNull(this.getCommand("buildpost")).setExecutor( new BuildPostCommand(this));
     }
 }
 

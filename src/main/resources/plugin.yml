@@ -10,8 +10,10 @@ commands:
   setpost:
     description: sets the nearest post as a home.
   invite:
+    aliases: invitepost, inviteplayer
     description: invite a player to your home post.
   homepost:
+    aliases: hp
     description: goes to your home post.
   v:
     aliases: visit
@@ -20,3 +22,6 @@ commands:
     description: names the nearest post.
   unnamepost:
     description: unnames a post.
+  buildpost:
+    aliases: bp
+    description: builds a post

@@ -4,6 +4,7 @@ import muriplz.kryeittpplugin.KryeitTPPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -22,7 +23,7 @@ public class BuildPostCommand implements CommandExecutor {
     //  This commands aims to be /BuildPost in-game
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (command.getLabel().equalsIgnoreCase("buildpost")) {
-            if (args.length > 1) {
+            if (args.length > 2) {
                 int X = Integer.parseInt(args[0]);
                 int Z = Integer.parseInt(args[1]);
                 int Y = Integer.parseInt(args[2]);
@@ -35,6 +36,13 @@ public class BuildPostCommand implements CommandExecutor {
                         }
                     }
                 }
+                Block glowstone = Bukkit.getWorld("world").getBlockAt(X, Y + 3, Z);
+                SetBlock(Material.GLOWSTONE, glowstone);
+                SetBlock(Material.OAK_WALL_SIGN, glowstone.getRelative(BlockFace.NORTH));
+                SetBlock(Material.OAK_WALL_SIGN, glowstone.getRelative(BlockFace.EAST));
+                SetBlock(Material.OAK_WALL_SIGN, glowstone.getRelative(BlockFace.SOUTH));
+                SetBlock(Material.OAK_WALL_SIGN, glowstone.getRelative(BlockFace.WEST));
+                SetBlock(Material.OAK_SIGN, glowstone.getRelative(BlockFace.UP));
                 block.getChunk().unload();
             }
         }
