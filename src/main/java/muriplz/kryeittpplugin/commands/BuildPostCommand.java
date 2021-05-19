@@ -193,6 +193,7 @@ public class BuildPostCommand implements CommandExecutor {
                     // Permission node for /buildpost
                     if(!player.hasPermission("telepost.buildpost")){
                         player.sendMessage(ChatColor.RED+"You don't have permission to use this command.");
+                        return false;
                     }
 
                     // Getting x coords
