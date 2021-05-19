@@ -1,5 +1,5 @@
 main: muriplz.kryeittpplugin.KryeitTPPlugin
-version: 3.0.8
+version: 3.1.0
 name: Telepost
 author: muriplz and BlockOG
 depend: [AdvancedTeleport]
@@ -13,7 +13,6 @@ commands:
     aliases: invitepost, inviteplayer
     description: invite a player to your home post.
   homepost:
-    aliases: hp
     description: goes to your home post.
   v:
     aliases: visit
@@ -23,10 +22,11 @@ commands:
   unnamepost:
     description: unnames a post.
   buildpost:
-    aliases: bp
-    description: builds a post
+    description: builds a post.
     usage:
       /<command>
       /<command> <y>
       /<command> <x> <z>
       /<command> <x> <y> <z>
+  posthelp:
+    description: tells info about Telepost commands.

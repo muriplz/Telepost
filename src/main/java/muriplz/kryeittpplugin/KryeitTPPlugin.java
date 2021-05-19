@@ -34,16 +34,27 @@ public class KryeitTPPlugin extends JavaPlugin implements Listener {
         Bukkit.getConsoleSender().sendMessage(name+ChatColor.WHITE+" The plugin has been deactivated.");
     }
     public void registerCommands() {
+        // /nearestpost
         Objects.requireNonNull(this.getCommand("nearestpost")).setExecutor(new NearestPostCommand(this));
+        // /setpost
         Objects.requireNonNull(this.getCommand("setpost")).setExecutor(new SetPostCommand(this));
+        // /homepost
         Objects.requireNonNull(this.getCommand("homepost")).setExecutor(new HomePostCommand(this));
+        // /invite <Player>
         Objects.requireNonNull(this.getCommand("invite")).setExecutor(new InviteCommand(this));
+        // /visit <NamedPost/Player>
         Objects.requireNonNull(this.getCommand("v")).setExecutor(new VisitCommand(this));
         Objects.requireNonNull(getCommand("v")).setTabCompleter(new VisitTab());
+        // /namepost <Name>
         Objects.requireNonNull(this.getCommand("namepost")).setExecutor(new NamePostCommand(this));
         Objects.requireNonNull(getCommand("namepost")).setTabCompleter(new NamePostTab());
+        // /unnamepost <Name>
         Objects.requireNonNull(this.getCommand("unnamepost")).setExecutor(new UnnamePostCommand(this));
         Objects.requireNonNull(getCommand("unnamepost")).setTabCompleter(new UnnamePostTab());
+        // /posthelp (command)  <> means that has to be used, () is optional
+        Objects.requireNonNull(this.getCommand("posthelp")).setExecutor( new HelpCommand(this));
+        Objects.requireNonNull(getCommand("posthelp")).setTabCompleter(new HelpTab());
+        // /buildpost (x) (y) (z)
         Objects.requireNonNull(this.getCommand("buildpost")).setExecutor( new BuildPostCommand(this));
     }
 }
