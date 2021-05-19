@@ -103,11 +103,11 @@ public class BuildPostCommand implements CommandExecutor {
             }
         }
 
-        // Setting the modded blocks
-        Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "fill " + (X-2) + " " + Y + " " + (Z-2) + " " + (X+2) + " " + Y + " " + (Z+2) + " create:chiseled_gabbro");
-        Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "fill " + X + " " + Y + " " + Z + " " + X + " " + (Y+2) + " " + Z + " create:brass_casing");
+        // Setting the base and pillar blocks
+        Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "fill " + (X-2) + " " + Y + " " + (Z-2) + " " + (X+2) + " " + Y + " " + (Z+2) + " minecraft:stone_bricks");
+        Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "fill " + X + " " + Y + " " + Z + " " + X + " " + (Y+2) + " " + Z + " minecraft:glowstone");
 
-        // Getting and setting the block for the glowstone
+        // Getting and setting the block for the top (light source)
         Location blockloc1 = new Location(world, X, Y + 3, Z);
         Block glowstone = blockloc1.getBlock();
         SetBlock(Material.GLOWSTONE, glowstone);
