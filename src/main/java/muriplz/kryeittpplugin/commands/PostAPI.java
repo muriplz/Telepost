@@ -1,6 +1,5 @@
 package muriplz.kryeittpplugin.commands;
 
-import io.github.thatsmusic99.configurationmaster.CMFile;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
