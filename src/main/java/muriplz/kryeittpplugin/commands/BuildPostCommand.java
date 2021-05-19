@@ -22,33 +22,59 @@ public class BuildPostCommand implements CommandExecutor {
         this.plugin = plugin;
     }
 
-    public static void SetBlock(Material material, @NotNull Block block) { block.setType(material); }
+    // SetBlock function
+    // Basically does the same thing as the /setblock command
+    // Only you can't give nbt data
+    public static void SetBlock(@NotNull Material material, @NotNull Block block) { block.setType(material); }
 
-    public static boolean setSignFacing(Block b, BlockFace face) {
-        if(!(b.getState() instanceof org.bukkit.block.Sign)) { return false; }
-        org.bukkit.block.Sign sign = (org.bukkit.block.Sign) b.getState();
+    public static void setSignFacing(@NotNull Block b, @NotNull BlockFace face) {
+        // Checking if the block is a sign in general
+        if(!(b.getState() instanceof Sign)) { return; }
+
+        // Getting the sign
+        Sign sign = (Sign) b.getState();
+
+        // Checking if the block is a wall sign
         if (sign.getBlockData() instanceof org.bukkit.block.data.type.WallSign) {
+            // Getting the wall signs data
             org.bukkit.block.data.type.WallSign signData = (org.bukkit.block.data.type.WallSign) sign.getBlockData();
+
+            // Setting the facing direction
             signData.setFacing(face);
             sign.setBlockData(signData);
+
+            // Setting the blocks data
             b.setBlockData(sign.getBlockData());
+
+            // Updating the wall sign
             sign.update();
         }
+
+        // Checking if the block is a sign
         if (sign.getBlockData() instanceof org.bukkit.block.data.type.Sign) {
+            // Getting the signs data
             org.bukkit.block.data.type.Sign signData = (org.bukkit.block.data.type.Sign) sign.getBlockData();
+
+            // Setting the rotation
             signData.setRotation(face);
             sign.setBlockData(signData);
+
+            // Setting the blocks data
             b.setBlockData(sign.getBlockData());
+
+            // Updating the sign
             sign.update();
         }
-        return true;
     }
 
-    public static int getFirstSolidBlockHeight(int X, int Z){
+    public static int getFirstSolidBlockHeight(@NotNull int X, @NotNull int Z){
+        // Setting the highest height the post can be at
         int height = 251;
+
+        // Looping down and searching for a solid block or water or lava
         while (true){
             Location l = new Location(Bukkit.getWorld("world"), X, height, Z);
-            if(l.getBlock().getType().isSolid() || l.getBlock().getType().equals(Material.WATER)){
+            if(l.getBlock().getType().isSolid() || l.getBlock().getType().equals(Material.WATER) || l.getBlock().getType().equals(Material.LAVA)){
                 break;
             }
             height--;
@@ -56,12 +82,20 @@ public class BuildPostCommand implements CommandExecutor {
         return height;
     }
 
-    public static boolean buildPost(int X, int Y, int Z) {
-        if (Y > 251) { return false; }
+    public static void buildPost(@NotNull int X, @NotNull int Y, @NotNull int Z) {
+        if (Y > 251) { return; }
+
+        // Getting the world
         World world = Bukkit.getServer().getWorld("world");
+        // Getting the block at the specified coords
         Location blockloc = new Location(world, X, Y, Z);
         Block block = blockloc.getBlock();
+
+        // Loading the chunk
+        // This will be replaced by loading all needed chunks for the post
         block.getChunk().load();
+
+        // Clearing the post area
         for (int x=X-2;x<X+3;x++){
             for (int y=Y+1;y<Y+5;y++){
                 for (int z=Z-2;z<Z+3;z++){
@@ -71,14 +105,20 @@ public class BuildPostCommand implements CommandExecutor {
                 }
             }
         }
+
+        // Setting the modded blocks
         Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "fill " + (X-2) + " " + Y + " " + (Z-2) + " " + (X+2) + " " + Y + " " + (Z+2) + " create:chiseled_gabbro");
         Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "fill " + X + " " + Y + " " + Z + " " + X + " " + (Y+2) + " " + Z + " create:brass_casing");
+
+        // Getting and setting the block for the glowstone
         Location blockloc1 = new Location(world, X, Y + 3, Z);
         Block glowstone = blockloc1.getBlock();
         SetBlock(Material.GLOWSTONE, glowstone);
 
+        // Getting the block where the wall signs should stay on
         Block signpoint = glowstone.getRelative(BlockFace.DOWN);
 
+        // Setting the sign on the north side of the post
         SetBlock(Material.OAK_WALL_SIGN, signpoint.getRelative(BlockFace.NORTH));
         setSignFacing(signpoint.getRelative(BlockFace.NORTH), BlockFace.NORTH);
         Sign sign = (Sign) signpoint.getRelative(BlockFace.NORTH).getState();
@@ -88,6 +128,7 @@ public class BuildPostCommand implements CommandExecutor {
         sign.setLine(3, "invited you");
         sign.update();
 
+        // Setting the sign on the east side of the post
         SetBlock(Material.OAK_WALL_SIGN, signpoint.getRelative(BlockFace.EAST));
         setSignFacing(signpoint.getRelative(BlockFace.EAST), BlockFace.EAST);
         Sign sign1 = (Sign) signpoint.getRelative(BlockFace.EAST).getState();
@@ -97,6 +138,7 @@ public class BuildPostCommand implements CommandExecutor {
         sign1.setLine(3, "named posts");
         sign1.update();
 
+        // Setting the sign on the south side of the post
         SetBlock(Material.OAK_WALL_SIGN, signpoint.getRelative(BlockFace.SOUTH));
         setSignFacing(signpoint.getRelative(BlockFace.SOUTH), BlockFace.SOUTH);
         Sign sign2 = (Sign) signpoint.getRelative(BlockFace.SOUTH).getState();
@@ -106,6 +148,7 @@ public class BuildPostCommand implements CommandExecutor {
         sign2.setLine(3, "your /homepost");
         sign2.update();
 
+        // Setting the sign on the west side of the post
         SetBlock(Material.OAK_WALL_SIGN, signpoint.getRelative(BlockFace.WEST));
         setSignFacing(signpoint.getRelative(BlockFace.WEST), BlockFace.WEST);
         Sign sign3 = (Sign) signpoint.getRelative(BlockFace.WEST).getState();
@@ -115,6 +158,7 @@ public class BuildPostCommand implements CommandExecutor {
         sign3.setLine(3, "your post");
         sign3.update();
 
+        // Setting the top sign
         SetBlock(Material.OAK_SIGN, glowstone.getRelative(BlockFace.UP));
         setSignFacing(glowstone.getRelative(BlockFace.UP), BlockFace.NORTH_WEST);
         Sign sign4 = (Sign) glowstone.getRelative(BlockFace.UP).getState();
@@ -123,50 +167,62 @@ public class BuildPostCommand implements CommandExecutor {
         sign4.setLine(3, "Nameless");
         sign4.update();
 
+        // Unloading the chunk
+        // This will be replaced by unloading all needed chunks for the post
         block.getChunk().unload();
-
-        return true;
     }
 
     //  This commands aims to be /BuildPost in-game
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (command.getLabel().equalsIgnoreCase("buildpost")) {
-            Player player = (Player) sender;
-            if (args.length == 0) {
+            // Setting the temporary coords
+            int X = 0;
+            int Y = 0;
+            int Z = 0;
+
+            // Setting condition triggers
+            boolean xzUnknown = false;
+            boolean yUnknown = false;
+
+            if (args.length <= 1) {
+                // Checking if the command is executed from console
                 if( ! ( sender instanceof Player )) {
-                    Bukkit.getConsoleSender().sendMessage(plugin.name+"You cant execute this command from console.");
+                    Bukkit.getConsoleSender().sendMessage(plugin.name + "You cant execute this command from console.");
                     return false;
                 } else {
+                    // Getting the player
+                    Player player = (Player) sender;
+
+                    // Getting x coords
                     int originX = plugin.getConfig().getInt("post-x-location");
-                    int nearestX = PostAPI.getNearPost(plugin.getConfig().getInt("distance-between-posts"), player.getLocation().getBlockX()-originX, originX);
+                    X = PostAPI.getNearPost(plugin.getConfig().getInt("distance-between-posts"), player.getLocation().getBlockX()-originX, originX);
+
+                    // Getting z coords
                     int originZ = plugin.getConfig().getInt("post-z-location");
-                    int nearestZ = PostAPI.getNearPost(plugin.getConfig().getInt("distance-between-posts"), player.getLocation().getBlockZ()-originZ, originZ);
-                    buildPost(nearestX, getFirstSolidBlockHeight(nearestX, nearestZ), nearestZ);
+                    Z = PostAPI.getNearPost(plugin.getConfig().getInt("distance-between-posts"), player.getLocation().getBlockZ()-originZ, originZ);
                 }
+            } else { xzUnknown = true; }
+            if (args.length == 0 || args.length == 2) {
+                // Get y coords
+                Y = getFirstSolidBlockHeight(X, Z);
+            } else { yUnknown = true; }
+
+            // If xyz are unknown
+            if (xzUnknown && yUnknown) {
+                X = Integer.parseInt(args[0]);
+                Y = Integer.parseInt(args[1]);
+                Z = Integer.parseInt(args[2]);
+            } else if (yUnknown) {
+                // If y is unknown
+                Y = Integer.parseInt(args[0]);
+            } else if (xzUnknown) {
+                // If xz are unknown
+                X = Integer.parseInt(args[0]);
+                Z = Integer.parseInt(args[1]);
             }
-            if (args.length == 1) {
-                if( ! ( sender instanceof Player )) {
-                    Bukkit.getConsoleSender().sendMessage(plugin.name+"You cant execute this command from console.");
-                    return false;
-                } else {
-                    int originX = plugin.getConfig().getInt("post-x-location");
-                    int nearestX = PostAPI.getNearPost(plugin.getConfig().getInt("distance-between-posts"), player.getLocation().getBlockX()-originX, originX);
-                    int originZ = plugin.getConfig().getInt("post-z-location");
-                    int nearestZ = PostAPI.getNearPost(plugin.getConfig().getInt("distance-between-posts"), player.getLocation().getBlockZ()-originZ, originZ);
-                    buildPost(nearestX, Integer.parseInt(args[0]), nearestZ);
-                }
-            }
-            if (args.length == 2) {
-                int X = Integer.parseInt(args[0]);
-                int Z = Integer.parseInt(args[1]);
-                buildPost(X, getFirstSolidBlockHeight(X, Z), Z);
-            }
-            if (args.length == 3) {
-                int X = Integer.parseInt(args[0]);
-                int Z = Integer.parseInt(args[1]);
-                int Y = Integer.parseInt(args[2]);
-                buildPost(X, Y, Z);
-            }
+
+            // Building the post
+            buildPost(X, Y, Z);
         }
         return true;
     }
