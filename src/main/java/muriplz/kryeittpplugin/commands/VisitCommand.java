@@ -27,7 +27,7 @@ public class VisitCommand implements CommandExecutor{
     public VisitCommand(KryeitTPPlugin plugin) {
         this.plugin = plugin;
     }
-    //  This commands aims to be /v in-game
+    //  This commands aims to be /visit in-game
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!(sender instanceof Player)) {
             Bukkit.getConsoleSender().sendMessage(plugin.name + "You cant execute this command from console.");
@@ -38,40 +38,26 @@ public class VisitCommand implements CommandExecutor{
                 PostAPI.sendMessage(player,"&cYou have to be in the Overworld to use this command.");
                 return false;
             }
+            // get distance between posts and the width from config.yml
             int gap = plugin.getConfig().getInt("distance-between-posts");
-            int originX = plugin.getConfig().getInt("post-x-location");
-            int originZ = plugin.getConfig().getInt("post-z-location");
-            int playerX = player.getLocation().getBlockX()-originX;
-            int playerZ = player.getLocation().getBlockZ()-originZ;
-            //for the X axis
-            int postX = PostAPI.getNearPost(gap,playerX,originX);
-            //for the Z axis
-            int postZ = PostAPI.getNearPost(gap,playerZ,originZ);
             int width = (plugin.getConfig().getInt("post-width")-1)/2;
-            if(postX>=0&&!player.hasPermission("telepost.v")){
-                if(player.getLocation().getBlockX()<postX-width||player.getLocation().getBlockX()>postX+width){
+
+            // for the X axis
+            int originX = plugin.getConfig().getInt("post-x-location");
+            int postX = PostAPI.getNearPost(gap,player.getLocation().getBlockX(),originX);
+
+            // for the Z axis
+            int originZ = plugin.getConfig().getInt("post-z-location");
+            int postZ = PostAPI.getNearPost(gap,player.getLocation().getBlockZ(),originZ);
+
+            // see if the player is inside a post
+            if(!player.hasPermission("telepost.v")){
+                if(!PostAPI.isPlayerOnPost(player,originX,originZ,width,gap)){
                     PostAPI.sendMessage(player,"&cYou have to be inside a post to use this command, try /nearestpost.");
                     return false;
                 }
             }
-            if(postX<0&&!player.hasPermission("telepost.v")){
-                if(player.getLocation().getBlockX()>postX+width||player.getLocation().getBlockX()<postX-width){
-                    PostAPI.sendMessage(player,"&cYou have to be inside a post to use this command, try /nearestpost.");
-                    return false;
-                }
-            }
-            if(postZ>=0&&!player.hasPermission("telepost.v")){
-                if(player.getLocation().getBlockZ()<postZ-width||player.getLocation().getBlockZ()>postZ+width){
-                    PostAPI.sendMessage(player,"&cYou have to be inside a post to use this command, try /nearestpost.");
-                    return false;
-                }
-            }
-            if(postZ<0&&!player.hasPermission("telepost.v")){
-                if(player.getLocation().getBlockZ()>postZ+width||player.getLocation().getBlockZ()<postZ-width){
-                    PostAPI.sendMessage(player,"&cYou have to be inside a post to use this command, try /nearestpost.");
-                    return false;
-                }
-            }
+
             World world = player.getWorld();
             // /v
             if (args.length == 0) {
@@ -83,9 +69,13 @@ public class VisitCommand implements CommandExecutor{
                 HashMap<String, Warp> warps = Warp.getWarps();
                 Set<String> warpNames = warps.keySet();
                 List<String> allWarpNames = new ArrayList<>(warpNames);
+
+                // if args[0] is the Name of a post
                 if(allWarpNames.contains(args[0])){
                     Warp warp = Warp.getWarps().get(args[0]);
-                    if(warp.getLocation().getBlockX()==postX&&warp.getLocation().getBlockZ()==postZ){
+
+                    // see if the player want to teleport to the post he is in
+                    if(warp.getLocation().getBlockX()==postX&&warp.getLocation().getBlockZ()==postZ&&!player.hasPermission("telepost.v")){
                         PostAPI.sendMessage(player,"&cYou are already in "+warp.getName()+".");
                         return false;
                     }

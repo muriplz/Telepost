@@ -17,6 +17,7 @@ public class UnnamePostCommand implements CommandExecutor {
         this.plugin = plugin;
     }
 
+    // This command aims to be /UnnamePost in-game
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if( ! ( sender instanceof Player)) {
@@ -32,6 +33,8 @@ public class UnnamePostCommand implements CommandExecutor {
                 PostAPI.sendMessage(player,"&cYou don't have permission to use this command.");
                 return false;
             }
+
+            // /unnamepost <something> , that something must be a warp name or it won't do anything.
             if(args.length==1){
                 if(Warp.getWarps().containsKey(args[0])){
                     Warp.getWarps().get(args[0]).delete(null);

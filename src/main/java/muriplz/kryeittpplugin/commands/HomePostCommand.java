@@ -33,45 +33,32 @@ public class HomePostCommand implements CommandExecutor{
                 PostAPI.sendMessage(player,"&cYou have to be in the Overworld to use this command.");
                 return false;
             }
+            //get distance between posts and width from config.yml
             int gap = plugin.getConfig().getInt("distance-between-posts");
-            int originX = plugin.getConfig().getInt("post-x-location");
-            int originZ = plugin.getConfig().getInt("post-z-location");
-            int playerX = player.getLocation().getBlockX()-originX;
-            int playerZ = player.getLocation().getBlockZ()-originZ;
-            //for the X axis
-            int postX = PostAPI.getNearPost(gap,playerX,originX);
-            //for the Z axis
-            int postZ = PostAPI.getNearPost(gap,playerZ,originZ);
             int width = (plugin.getConfig().getInt("post-width")-1)/2;
 
-            if(postX>=0&&!player.hasPermission("telepost.homepost")){
-                if(player.getLocation().getBlockX()<postX-width||player.getLocation().getBlockX()>postX+width){
+            // for the X axis
+            int originX = plugin.getConfig().getInt("post-x-location");
+            int postX = PostAPI.getNearPost(gap,player.getLocation().getBlockX(),originX);
+
+            // for the Z axis
+            int originZ = plugin.getConfig().getInt("post-z-location");
+            int postZ = PostAPI.getNearPost(gap,player.getLocation().getBlockZ(),originZ);
+
+            // If the player is not inside a post and does not have telepost.homepost permission, he won't be teleported
+            if(!player.hasPermission("telepost.homepost")){
+                if(PostAPI.isPlayerOnPost(player,originX,originZ,width,gap)){
                     PostAPI.sendMessage(player,"&cYou have to be inside a post to use this command, try /nearestpost.");
                     return false;
                 }
             }
-            if(postX<0&&!player.hasPermission("telepost.homepost")){
-                if(player.getLocation().getBlockX()>postX+width||player.getLocation().getBlockX()<postX-width){
-                    PostAPI.sendMessage(player,"&cYou have to be inside a post to use this command, try /nearestpost.");
-                    return false;
-                }
-            }
-            if(postZ>=0&&!player.hasPermission("telepost.homepost")){
-                if(player.getLocation().getBlockZ()<postZ-width||player.getLocation().getBlockZ()>postZ+width){
-                    PostAPI.sendMessage(player,"&cYou have to be inside a post to use this command, try /nearestpost.");
-                    return false;
-                }
-            }
-            if(postZ<0&&!player.hasPermission("telepost.homepost")){
-                if(player.getLocation().getBlockZ()>postZ+width||player.getLocation().getBlockZ()<postZ-width){
-                    PostAPI.sendMessage(player,"&cYou have to be inside a post to use this command, try /nearestpost.");
-                    return false;
-                }
-            }
+
             ATPlayer atPlayer = ATPlayer.getPlayer(player);
             if(atPlayer.hasHome("home")) {
                 Location location = atPlayer.getHome("home").getLocation();
-                if(location.getBlockX()==postX&&location.getBlockZ()==postZ){
+
+                // you cant /homepost to the same post you are in, except if you have telepost.homepost permission
+                if(location.getBlockX()==postX&&location.getBlockZ()==postZ&&!player.hasPermission("telepost.homepost")){
                     PostAPI.sendMessage(player,"&cYou are already at your home post.");
                     return false;
                 }
@@ -86,6 +73,7 @@ public class HomePostCommand implements CommandExecutor{
                         PostAPI.sendMessage(player, "&7Welcome to your post.");
                     }, 40L);
                 }else{
+                    // Teleport player to his home without launch feature
                     Location newlocation = new Location(world, location.getBlockX() + 0.5, 260, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                     player.teleport(newlocation);
                     player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
@@ -93,6 +81,7 @@ public class HomePostCommand implements CommandExecutor{
                 }
                 return true;
             }else{
+                // Player does not have a homepost
                 PostAPI.sendMessage(player,"&aPlease, set a post with /SetPost first.");
             }
             return true;
