@@ -45,7 +45,7 @@ public class HomePostCommand implements CommandExecutor{
             int originZ = plugin.getConfig().getInt("post-z-location");
             int postZ = PostAPI.getNearPost(gap,player.getLocation().getBlockZ(),originZ);
 
-
+            // If the player is not inside a post and does not have telepost.homepost permission, he won't be teleported
             if(postX>=0&&!player.hasPermission("telepost.homepost")){
                 if(player.getLocation().getBlockX()<postX-width||player.getLocation().getBlockX()>postX+width){
                     PostAPI.sendMessage(player,"&cYou have to be inside a post to use this command, try /nearestpost.");
@@ -88,6 +88,7 @@ public class HomePostCommand implements CommandExecutor{
                         PostAPI.sendMessage(player, "&7Welcome to your post.");
                     }, 40L);
                 }else{
+                    // Teleport player to his home without launch feature
                     Location newlocation = new Location(world, location.getBlockX() + 0.5, 260, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                     player.teleport(newlocation);
                     player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
@@ -95,6 +96,7 @@ public class HomePostCommand implements CommandExecutor{
                 }
                 return true;
             }else{
+                // Player does not have a homepost
                 PostAPI.sendMessage(player,"&aPlease, set a post with /SetPost first.");
             }
             return true;

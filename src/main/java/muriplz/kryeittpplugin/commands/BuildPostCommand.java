@@ -64,7 +64,7 @@ public class BuildPostCommand implements CommandExecutor {
         }
     }
 
-    public static int getFirstSolidBlockHeight(@NotNull int X, @NotNull int Z){
+    public static int getFirstSolidBlockHeight(int X, int Z){
         // Setting the highest height the post can be at
         int height = 251;
 
@@ -79,7 +79,7 @@ public class BuildPostCommand implements CommandExecutor {
         return height;
     }
 
-    public static void buildPost(@NotNull int X, @NotNull int Y, @NotNull int Z) {
+    public static void buildPost(int X, int Y, int Z) {
         if (Y > 251) { return; }
 
         // Getting the world
