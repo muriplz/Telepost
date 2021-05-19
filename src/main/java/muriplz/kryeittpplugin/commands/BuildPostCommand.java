@@ -1,10 +1,7 @@
 package muriplz.kryeittpplugin.commands;
 
 import muriplz.kryeittpplugin.KryeitTPPlugin;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
@@ -192,6 +189,11 @@ public class BuildPostCommand implements CommandExecutor {
                 } else {
                     // Getting the player
                     Player player = (Player) sender;
+
+                    // Permission node for /buildpost
+                    if(!player.hasPermission("telepost.buildpost")){
+                        player.sendMessage(ChatColor.RED+"You don't have permission to use this command.");
+                    }
 
                     // Getting x coords
                     int originX = plugin.getConfig().getInt("post-x-location");
