@@ -1,5 +1,6 @@
 package muriplz.kryeittpplugin.commands;
 
+import io.github.thatsmusic99.configurationmaster.CMFile;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -29,5 +30,30 @@ public class PostAPI {
     }
     public static void sendMessage(Player player,String message){
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+    }
+    public static boolean isPlayerOnPost(Player player,int originX,int originZ,int width,int gap){
+        int postX = PostAPI.getNearPost(gap,player.getLocation().getBlockX(),originX);
+        int postZ = PostAPI.getNearPost(gap,player.getLocation().getBlockZ(),originZ);
+        if(postX>=0){
+            if(player.getLocation().getBlockX()<postX-width||player.getLocation().getBlockX()>postX+width){
+                return true;
+            }
+        }
+        if(postX<0){
+            if(player.getLocation().getBlockX()>postX+width||player.getLocation().getBlockX()<postX-width){
+                return true;
+            }
+        }
+        if(postZ>=0){
+            if(player.getLocation().getBlockZ()<postZ-width||player.getLocation().getBlockZ()>postZ+width){
+                return true;
+            }
+        }
+        if(postZ<0){
+            if(player.getLocation().getBlockZ()>postZ+width||player.getLocation().getBlockZ()<postZ-width){
+                return true;
+            }
+        }
+        return false;
     }
 }

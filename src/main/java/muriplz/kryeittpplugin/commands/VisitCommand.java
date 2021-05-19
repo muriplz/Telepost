@@ -50,30 +50,14 @@ public class VisitCommand implements CommandExecutor{
             int originZ = plugin.getConfig().getInt("post-z-location");
             int postZ = PostAPI.getNearPost(gap,player.getLocation().getBlockZ(),originZ);
 
-            if(postX>=0&&!player.hasPermission("telepost.v")){
-                if(player.getLocation().getBlockX()<postX-width||player.getLocation().getBlockX()>postX+width){
+            // see if the player is inside a post
+            if(!player.hasPermission("telepost.v")){
+                if(!PostAPI.isPlayerOnPost(player,originX,originZ,width,gap)){
                     PostAPI.sendMessage(player,"&cYou have to be inside a post to use this command, try /nearestpost.");
                     return false;
                 }
             }
-            if(postX<0&&!player.hasPermission("telepost.v")){
-                if(player.getLocation().getBlockX()>postX+width||player.getLocation().getBlockX()<postX-width){
-                    PostAPI.sendMessage(player,"&cYou have to be inside a post to use this command, try /nearestpost.");
-                    return false;
-                }
-            }
-            if(postZ>=0&&!player.hasPermission("telepost.v")){
-                if(player.getLocation().getBlockZ()<postZ-width||player.getLocation().getBlockZ()>postZ+width){
-                    PostAPI.sendMessage(player,"&cYou have to be inside a post to use this command, try /nearestpost.");
-                    return false;
-                }
-            }
-            if(postZ<0&&!player.hasPermission("telepost.v")){
-                if(player.getLocation().getBlockZ()>postZ+width||player.getLocation().getBlockZ()<postZ-width){
-                    PostAPI.sendMessage(player,"&cYou have to be inside a post to use this command, try /nearestpost.");
-                    return false;
-                }
-            }
+
             World world = player.getWorld();
             // /v
             if (args.length == 0) {
@@ -85,9 +69,13 @@ public class VisitCommand implements CommandExecutor{
                 HashMap<String, Warp> warps = Warp.getWarps();
                 Set<String> warpNames = warps.keySet();
                 List<String> allWarpNames = new ArrayList<>(warpNames);
+
+                // if args[0] is the Name of a post
                 if(allWarpNames.contains(args[0])){
                     Warp warp = Warp.getWarps().get(args[0]);
-                    if(warp.getLocation().getBlockX()==postX&&warp.getLocation().getBlockZ()==postZ){
+
+                    // see if the player want to teleport to the post he is in
+                    if(warp.getLocation().getBlockX()==postX&&warp.getLocation().getBlockZ()==postZ&&!player.hasPermission("telepost.v")){
                         PostAPI.sendMessage(player,"&cYou are already in "+warp.getName()+".");
                         return false;
                     }

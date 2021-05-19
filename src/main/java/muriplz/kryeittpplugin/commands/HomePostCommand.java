@@ -46,34 +46,19 @@ public class HomePostCommand implements CommandExecutor{
             int postZ = PostAPI.getNearPost(gap,player.getLocation().getBlockZ(),originZ);
 
             // If the player is not inside a post and does not have telepost.homepost permission, he won't be teleported
-            if(postX>=0&&!player.hasPermission("telepost.homepost")){
-                if(player.getLocation().getBlockX()<postX-width||player.getLocation().getBlockX()>postX+width){
+            if(!player.hasPermission("telepost.homepost")){
+                if(PostAPI.isPlayerOnPost(player,originX,originZ,width,gap)){
                     PostAPI.sendMessage(player,"&cYou have to be inside a post to use this command, try /nearestpost.");
                     return false;
                 }
             }
-            if(postX<0&&!player.hasPermission("telepost.homepost")){
-                if(player.getLocation().getBlockX()>postX+width||player.getLocation().getBlockX()<postX-width){
-                    PostAPI.sendMessage(player,"&cYou have to be inside a post to use this command, try /nearestpost.");
-                    return false;
-                }
-            }
-            if(postZ>=0&&!player.hasPermission("telepost.homepost")){
-                if(player.getLocation().getBlockZ()<postZ-width||player.getLocation().getBlockZ()>postZ+width){
-                    PostAPI.sendMessage(player,"&cYou have to be inside a post to use this command, try /nearestpost.");
-                    return false;
-                }
-            }
-            if(postZ<0&&!player.hasPermission("telepost.homepost")){
-                if(player.getLocation().getBlockZ()>postZ+width||player.getLocation().getBlockZ()<postZ-width){
-                    PostAPI.sendMessage(player,"&cYou have to be inside a post to use this command, try /nearestpost.");
-                    return false;
-                }
-            }
+
             ATPlayer atPlayer = ATPlayer.getPlayer(player);
             if(atPlayer.hasHome("home")) {
                 Location location = atPlayer.getHome("home").getLocation();
-                if(location.getBlockX()==postX&&location.getBlockZ()==postZ){
+
+                // you cant /homepost to the same post you are in, except if you have telepost.homepost permission
+                if(location.getBlockX()==postX&&location.getBlockZ()==postZ&&!player.hasPermission("telepost.homepost")){
                     PostAPI.sendMessage(player,"&cYou are already at your home post.");
                     return false;
                 }
