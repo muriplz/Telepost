@@ -51,8 +51,8 @@ public class NamePostCommand implements CommandExecutor {
                 int gap = plugin.getConfig().getInt("distance-between-posts");
                 int originX = plugin.getConfig().getInt("post-x-location");
                 int originZ = plugin.getConfig().getInt("post-z-location");
-                int playerX = player.getLocation().getBlockX()-originX;
-                int playerZ = player.getLocation().getBlockZ()-originZ;
+                int playerX = player.getLocation().getBlockX();
+                int playerZ = player.getLocation().getBlockZ();
                 //for the X axis
                 int postX = PostAPI.getNearPost(gap,playerX,originX);
                 //for the Z axis

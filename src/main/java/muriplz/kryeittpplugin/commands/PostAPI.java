@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 
 public class PostAPI {
     public static int getNearPost(int gap, int playerX, int originX) {
+        playerX-=originX;
         int postX = 0;
         while (true) {
             if (playerX >= gap && playerX > 0) {

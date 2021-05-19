@@ -197,11 +197,11 @@ public class BuildPostCommand implements CommandExecutor {
 
                     // Getting x coords
                     int originX = plugin.getConfig().getInt("post-x-location");
-                    X = PostAPI.getNearPost(plugin.getConfig().getInt("distance-between-posts"), player.getLocation().getBlockX()-originX, originX);
+                    X = PostAPI.getNearPost(plugin.getConfig().getInt("distance-between-posts"), player.getLocation().getBlockX(), originX);
 
                     // Getting z coords
                     int originZ = plugin.getConfig().getInt("post-z-location");
-                    Z = PostAPI.getNearPost(plugin.getConfig().getInt("distance-between-posts"), player.getLocation().getBlockZ()-originZ, originZ);
+                    Z = PostAPI.getNearPost(plugin.getConfig().getInt("distance-between-posts"), player.getLocation().getBlockZ(), originZ);
                 }
             } else { xzUnknown = true; }
             if (args.length == 0 || args.length == 2) {
