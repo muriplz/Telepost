@@ -23,6 +23,7 @@ public class NamePostCommand implements CommandExecutor {
         this.plugin = plugin;
     }
 
+    // This command aims to be /NamePost in-game
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if( ! ( sender instanceof Player)) {
@@ -47,16 +48,17 @@ public class NamePostCommand implements CommandExecutor {
                     PostAPI.sendMessage(player,"&cThe post "+args[0]+" already exists, try a different name or unname the post using /UnnamePost Agua.");
                     return false;
                 }
-
+                // get distance between posts from config.yml
                 int gap = plugin.getConfig().getInt("distance-between-posts");
+                
+                // for the X axis
                 int originX = plugin.getConfig().getInt("post-x-location");
+                int postX = PostAPI.getNearPost(gap,player.getLocation().getBlockX(),originX);
+
+                // for the Z axis
                 int originZ = plugin.getConfig().getInt("post-z-location");
-                int playerX = player.getLocation().getBlockX();
-                int playerZ = player.getLocation().getBlockZ();
-                //for the X axis
-                int postX = PostAPI.getNearPost(gap,playerX,originX);
-                //for the Z axis
-                int postZ = PostAPI.getNearPost(gap,playerZ,originZ);
+                int postZ = PostAPI.getNearPost(gap,player.getLocation().getBlockZ(),originZ);
+
                 Location nearestpostLocation = new Location(player.getWorld(), postX , 260, postZ );
                 HashMap<String, Warp> warps = Warp.getWarps();
                 Set<String> warpNames = warps.keySet();

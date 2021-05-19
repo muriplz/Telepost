@@ -31,15 +31,18 @@ public class NearestPostCommand implements CommandExecutor{
                 PostAPI.sendMessage(player,"&cYou have to be in the Overworld to use this command.");
                 return false;
             }
+
+            // get Distance between posts from config.yml
             int gap = plugin.getConfig().getInt("distance-between-posts");
-            int originX = plugin.getConfig().getInt("post-x-location");
-            int originZ = plugin.getConfig().getInt("post-z-location");
-            int playerX = player.getLocation().getBlockX();
-            int playerZ = player.getLocation().getBlockZ();
+
             //for the X axis
-            int postX=PostAPI.getNearPost(gap,playerX,originX);
+            int originX = plugin.getConfig().getInt("post-x-location");
+            int postX=PostAPI.getNearPost(gap,player.getLocation().getBlockX(),originX);
+
             //for the Z axis
-            int postZ=PostAPI.getNearPost(gap,playerZ,originZ);
+            int originZ = plugin.getConfig().getInt("post-z-location");
+            int postZ=PostAPI.getNearPost(gap,player.getLocation().getBlockZ(),originZ);
+
             PostAPI.sendMessage(player,"&7The nearest post is on: &a(" + postX + " , " + postZ + ")&7.");
             return true;
         }

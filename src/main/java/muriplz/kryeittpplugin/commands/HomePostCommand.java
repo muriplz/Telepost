@@ -33,16 +33,18 @@ public class HomePostCommand implements CommandExecutor{
                 PostAPI.sendMessage(player,"&cYou have to be in the Overworld to use this command.");
                 return false;
             }
+            //get distance between posts and width from config.yml
             int gap = plugin.getConfig().getInt("distance-between-posts");
-            int originX = plugin.getConfig().getInt("post-x-location");
-            int originZ = plugin.getConfig().getInt("post-z-location");
-            int playerX = player.getLocation().getBlockX();
-            int playerZ = player.getLocation().getBlockZ();
-            //for the X axis
-            int postX = PostAPI.getNearPost(gap,playerX,originX);
-            //for the Z axis
-            int postZ = PostAPI.getNearPost(gap,playerZ,originZ);
             int width = (plugin.getConfig().getInt("post-width")-1)/2;
+
+            // for the X axis
+            int originX = plugin.getConfig().getInt("post-x-location");
+            int postX = PostAPI.getNearPost(gap,player.getLocation().getBlockX(),originX);
+
+            // for the Z axis
+            int originZ = plugin.getConfig().getInt("post-z-location");
+            int postZ = PostAPI.getNearPost(gap,player.getLocation().getBlockZ(),originZ);
+
 
             if(postX>=0&&!player.hasPermission("telepost.homepost")){
                 if(player.getLocation().getBlockX()<postX-width||player.getLocation().getBlockX()>postX+width){

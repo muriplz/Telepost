@@ -32,21 +32,30 @@ public class SetPostCommand implements CommandExecutor {
                 PostAPI.sendMessage(player,"&cYou have to be in the Overworld to use this command.");
                 return false;
             }
+            // get distance between posts from config.yml
             int gap = plugin.getConfig().getInt("distance-between-posts");
+
+            // for the X axis
             int originX = plugin.getConfig().getInt("post-x-location");
+            int postX = PostAPI.getNearPost(gap,player.getLocation().getBlockX(),originX);
+
+            // for the Z axis
             int originZ = plugin.getConfig().getInt("post-z-location");
-            int playerX = player.getLocation().getBlockX();
-            int playerZ = player.getLocation().getBlockZ();
-            //para el eje X
-            int postX = PostAPI.getNearPost(gap,playerX,originX);
-            //para el eje Z
-            int postZ = PostAPI.getNearPost(gap,playerZ,originZ);
+            int postZ = PostAPI.getNearPost(gap,player.getLocation().getBlockZ(),originZ);
+
+            // get atPlayer (from AdvancedTeleport API)
             ATPlayer atPlayer = ATPlayer.getPlayer(player);
+
+            // Location of the nearest post
             Location location = new Location(player.getWorld(), postX, 215, postZ);
+
+            // moving the home if he already has one
             if (atPlayer.hasMainHome()) {
                 atPlayer.moveHome(atPlayer.getMainHome().getName(), location, null);
                 PostAPI.sendMessage(player,"&aYou have successfully moved your home post at: ("+postX+","+postZ+").");
             }else{
+
+                // setting the post for the first time
                 atPlayer.addHome("home", location, null);
                 PostAPI.sendMessage(player,"&aYou have successfully set your home post at: ("+postX+","+postZ+"), now this will be your /homepost.");
             }

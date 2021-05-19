@@ -27,7 +27,7 @@ public class VisitCommand implements CommandExecutor{
     public VisitCommand(KryeitTPPlugin plugin) {
         this.plugin = plugin;
     }
-    //  This commands aims to be /v in-game
+    //  This commands aims to be /visit in-game
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!(sender instanceof Player)) {
             Bukkit.getConsoleSender().sendMessage(plugin.name + "You cant execute this command from console.");
@@ -38,16 +38,18 @@ public class VisitCommand implements CommandExecutor{
                 PostAPI.sendMessage(player,"&cYou have to be in the Overworld to use this command.");
                 return false;
             }
+            // get distance between posts and the width from config.yml
             int gap = plugin.getConfig().getInt("distance-between-posts");
-            int originX = plugin.getConfig().getInt("post-x-location");
-            int originZ = plugin.getConfig().getInt("post-z-location");
-            int playerX = player.getLocation().getBlockX();
-            int playerZ = player.getLocation().getBlockZ();
-            //for the X axis
-            int postX = PostAPI.getNearPost(gap,playerX,originX);
-            //for the Z axis
-            int postZ = PostAPI.getNearPost(gap,playerZ,originZ);
             int width = (plugin.getConfig().getInt("post-width")-1)/2;
+
+            // for the X axis
+            int originX = plugin.getConfig().getInt("post-x-location");
+            int postX = PostAPI.getNearPost(gap,player.getLocation().getBlockX(),originX);
+
+            // for the Z axis
+            int originZ = plugin.getConfig().getInt("post-z-location");
+            int postZ = PostAPI.getNearPost(gap,player.getLocation().getBlockZ(),originZ);
+
             if(postX>=0&&!player.hasPermission("telepost.v")){
                 if(player.getLocation().getBlockX()<postX-width||player.getLocation().getBlockX()>postX+width){
                     PostAPI.sendMessage(player,"&cYou have to be inside a post to use this command, try /nearestpost.");
