@@ -226,6 +226,10 @@ public class BuildPostCommand implements CommandExecutor {
 
             // Building the post
             buildPost(X, Y, Z);
+
+            // Sending a message that the post has succesfully been built.
+            Player player = (Player) sender;
+            PostAPI.sendMessage(player,"&aYou have built the post at ("+X+" , "+Y+").");
         }
         return true;
     }
