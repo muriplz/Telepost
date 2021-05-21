@@ -67,7 +67,39 @@ public class BuildPostCommand implements CommandExecutor {
         }
     }
 
-    public static int getFirstSolidBlockHeight(@NotNull int X, @NotNull int Z){
+    public static void loadChunksIfNotLoaded(Block b, int postWidth) {
+        // Getting the blocks in the corners
+        Block b1 = b.getRelative(BlockFace.NORTH_WEST, (postWidth-1)/2);
+        Block b2 = b.getRelative(BlockFace.NORTH_EAST, (postWidth-1)/2);
+        Block b3 = b.getRelative(BlockFace.SOUTH_WEST, (postWidth-1)/2);
+        Block b4 = b.getRelative(BlockFace.SOUTH_EAST, (postWidth-1)/2);
+
+        // Loading the chunks the blocks in the corners are located and in the center
+        // If they're not loaded
+        if (!(b.getChunk().isLoaded())) { b.getChunk().load(); }
+        if (!(b1.getChunk().isLoaded())) { b1.getChunk().load(); }
+        if (!(b2.getChunk().isLoaded())) { b2.getChunk().load(); }
+        if (!(b3.getChunk().isLoaded())) { b3.getChunk().load(); }
+        if (!(b4.getChunk().isLoaded())) { b4.getChunk().load(); }
+    }
+
+    public static void unloadChunksIfLoaded(Block b, int postWidth) {
+        // Getting the blocks in the corners
+        Block b1 = b.getRelative(BlockFace.NORTH_WEST, (postWidth-1)/2);
+        Block b2 = b.getRelative(BlockFace.NORTH_EAST, (postWidth-1)/2);
+        Block b3 = b.getRelative(BlockFace.SOUTH_WEST, (postWidth-1)/2);
+        Block b4 = b.getRelative(BlockFace.SOUTH_EAST, (postWidth-1)/2);
+
+        // Unloading the chunks the blocks in the corners are located and in the center
+        // If they're loaded
+        if (b.getChunk().isLoaded()) { b.getChunk().unload(); }
+        if (b1.getChunk().isLoaded()) { b1.getChunk().unload(); }
+        if (b2.getChunk().isLoaded()) { b2.getChunk().unload(); }
+        if (b3.getChunk().isLoaded()) { b3.getChunk().unload(); }
+        if (b4.getChunk().isLoaded()) { b4.getChunk().unload(); }
+    }
+
+    public static int getFirstSolidBlockHeight(int X, int Z){
         // Setting the highest height the post can be at
         int height = 251;
 
@@ -82,7 +114,7 @@ public class BuildPostCommand implements CommandExecutor {
         return height;
     }
 
-    public static void buildPost(@NotNull int X, @NotNull int Y, @NotNull int Z) {
+    public static void buildPost(int X, int Y, int Z, int width) {
         if (Y > 251) { return; }
 
         // Getting the world
@@ -91,14 +123,13 @@ public class BuildPostCommand implements CommandExecutor {
         Location blockloc = new Location(world, X, Y, Z);
         Block block = blockloc.getBlock();
 
-        // Loading the chunk
-        // This will be replaced by loading all needed chunks for the post
-        block.getChunk().load();
+        // Loading the necessary chunks
+        loadChunksIfNotLoaded(block, width);
 
         // Clearing the post area
-        for (int x=X-2;x<X+3;x++){
+        for (int x=X-((width-1)/2);x<X+((width-1)/2);x++){
             for (int y=Y+1;y<Y+5;y++){
-                for (int z=Z-2;z<Z+3;z++){
+                for (int z=Z-((width-1)/2);z<Z+((width-1)/2);z++){
                     Location blockloc1 = new Location(world, x, y, z);
                     Block block1 = blockloc1.getBlock();
                     SetBlock(Material.AIR, block1);
@@ -107,7 +138,7 @@ public class BuildPostCommand implements CommandExecutor {
         }
 
         // Setting the modded blocks
-        Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "fill " + (X-2) + " " + Y + " " + (Z-2) + " " + (X+2) + " " + Y + " " + (Z+2) + " create:chiseled_gabbro");
+        Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "fill " + (X-((width-1)/2)) + " " + Y + " " + (Z-((width-1)/2)) + " " + (X+((width-1)/2)) + " " + Y + " " + (Z+((width-1)/2)) + " create:chiseled_gabbro");
         Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "fill " + X + " " + Y + " " + Z + " " + X + " " + (Y+2) + " " + Z + " create:brass_casing");
 
         // Getting and setting the block for the glowstone
@@ -167,9 +198,8 @@ public class BuildPostCommand implements CommandExecutor {
         sign4.setLine(3, "Nameless");
         sign4.update();
 
-        // Unloading the chunk
-        // This will be replaced by unloading all needed chunks for the post
-        block.getChunk().unload();
+        // Unloading the necessary chunks
+        unloadChunksIfLoaded(block, width);
     }
 
     //  This commands aims to be /BuildPost in-game
@@ -222,7 +252,7 @@ public class BuildPostCommand implements CommandExecutor {
             }
 
             // Building the post
-            buildPost(X, Y, Z);
+            buildPost(X, Y, Z, plugin.getConfig().getInt("post-width"));
         }
         return true;
     }
