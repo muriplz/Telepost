@@ -30,12 +30,19 @@ public class HelpCommand implements CommandExecutor {
                 PostAPI.sendMessage(player,"- &6/homepost&f: teleports you to your home post.");
                 PostAPI.sendMessage(player,"- &6/visit <PostName/Player>&f: teleports you to a named post or another player's home post.");
                 PostAPI.sendMessage(player,"- &6/invite <Player>&f: invite a player to your home post for 5 minutes");
-                PostAPI.sendMessage(player,"Admin commands: ");
-                PostAPI.sendMessage(player,"- &6/namepost <Name>&f: names the nearest post, so everyone will be able to visit it.");
-                PostAPI.sendMessage(player,"- &6/unnamepost <Name>&f: unnames a post.");
-                if(player.hasPermission("telepost.buildpost")){
-                    PostAPI.sendMessage(player,"- &6/buildpost (y)&f: use just /buildpost to build the nearest post, see more /posthelp buildpost.");
+                if(player.hasPermission("telepost.namepost")||player.hasPermission("telepost.unnamepost")||player.hasPermission("telepost.buildpost")){
+                    PostAPI.sendMessage(player,"Admin commands: ");
+                    if(player.hasPermission("telepost.namepost")){
+                        PostAPI.sendMessage(player,"- &6/namepost <Name>&f: names the nearest post, so everyone will be able to visit it.");
+                    }
+                    if(player.hasPermission("telepost.unnamepost")){
+                        PostAPI.sendMessage(player,"- &6/unnamepost <Name>&f: unnames a post.");
+                    }
+                    if(player.hasPermission("telepost.buildpost")){
+                        PostAPI.sendMessage(player,"- &6/buildpost (y)&f: use just /buildpost to build the nearest post, see more /posthelp buildpost.");
+                    }
                 }
+
                 return true;
             }
             if(args.length==1) {

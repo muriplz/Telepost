@@ -80,7 +80,7 @@ public class BuildPostCommand implements CommandExecutor {
     }
 
     public static boolean buildPost(int X, int Y, int Z, int width) {
-        // Returning if the Y coord is to big
+        // Returning if the Y coord is too big
         if (Y > 251) { return false; }
 
         // Getting the world
@@ -176,7 +176,18 @@ public class BuildPostCommand implements CommandExecutor {
 
     //  This commands aims to be /BuildPost in-game
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+
         if (command.getLabel().equalsIgnoreCase("buildpost")) {
+
+            // Checking if the command is executed from console
+            if( ! ( sender instanceof Player )) {
+                Bukkit.getConsoleSender().sendMessage(plugin.name + "You can't execute this command from console.");
+                return false;
+            }
+
+            // Getting the Player
+            Player player = (Player) sender;
+
             // Setting the temporary coords
             int X = 0;
             int Y = 0;
@@ -187,28 +198,20 @@ public class BuildPostCommand implements CommandExecutor {
             boolean yUnknown = false;
 
             if (args.length <= 1) {
-                // Checking if the command is executed from console
-                if( ! ( sender instanceof Player )) {
-                    Bukkit.getConsoleSender().sendMessage(plugin.name + "You can't execute this command from console.");
+
+                // Permission node for /buildpost
+                if(!player.hasPermission("telepost.buildpost")){
+                    PostAPI.sendMessage(player,"&cYou don't have permission to use this command.");
                     return false;
-                } else {
-                    // Getting the player
-                    Player player = (Player) sender;
-
-                    // Permission node for /buildpost
-                    if(!player.hasPermission("telepost.buildpost")){
-                        PostAPI.sendMessage(player,"&cYou don't have permission to use this command.");
-                        return false;
-                    }
-
-                    // Getting x coords
-                    int originX = plugin.getConfig().getInt("post-x-location");
-                    X = PostAPI.getNearPost(plugin.getConfig().getInt("distance-between-posts"), player.getLocation().getBlockX(), originX);
-
-                    // Getting z coords
-                    int originZ = plugin.getConfig().getInt("post-z-location");
-                    Z = PostAPI.getNearPost(plugin.getConfig().getInt("distance-between-posts"), player.getLocation().getBlockZ(), originZ);
                 }
+
+                // Getting x coords
+                int originX = plugin.getConfig().getInt("post-x-location");
+                X = PostAPI.getNearPost(plugin.getConfig().getInt("distance-between-posts"), player.getLocation().getBlockX(), originX);
+
+                // Getting z coords
+                int originZ = plugin.getConfig().getInt("post-z-location");
+                Z = PostAPI.getNearPost(plugin.getConfig().getInt("distance-between-posts"), player.getLocation().getBlockZ(), originZ);
             } else { xzUnknown = true; }
             if (args.length == 0 || args.length == 2) {
                 // Get y coords
@@ -230,14 +233,13 @@ public class BuildPostCommand implements CommandExecutor {
             }
 
             // Building the post and getting success boolean
-            Boolean success = buildPost(X, Y, Z, plugin.getConfig().getInt("post-width"));
+            boolean success = buildPost(X, Y, Z, plugin.getConfig().getInt("post-width"));
 
             // Sending a message that the post has successfully been built.
-            Player player = (Player) sender;
             if (success) {
                 PostAPI.sendMessage(player, "&aYou have built the post at (" + X + " , " + Z + ").");
             } else {
-                PostAPI.sendMessage(player, "&cYou have tried to built the post to high! Max height 251");
+                PostAPI.sendMessage(player, "&cYou have tried to built the post too high! Max height is 251");
             }
         }
         return true;
