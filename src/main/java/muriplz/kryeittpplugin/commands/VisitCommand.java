@@ -30,7 +30,7 @@ public class VisitCommand implements CommandExecutor{
     //  This commands aims to be /visit in-game
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!(sender instanceof Player)) {
-            Bukkit.getConsoleSender().sendMessage(plugin.name + "You cant execute this command from console.");
+            Bukkit.getConsoleSender().sendMessage(plugin.name + "You can't execute this command from console.");
             return false;
         } else {
             Player player = (Player) sender;

@@ -16,15 +16,15 @@ public class HelpCommand implements CommandExecutor {
     }
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if( ! ( sender instanceof Player)) {
-            Bukkit.getConsoleSender().sendMessage(plugin.name+"You cant execute this command from console.");
+        if ( !( sender instanceof Player)) {
+            Bukkit.getConsoleSender().sendMessage(plugin.name+"You can't execute this command from console.");
             return false;
-        }else {
+        } else {
             Player player = (Player) sender;
 
-            // /post help
+            // /posthelp
             if(args.length==0){
-                PostAPI.sendMessage(player,"&aHow to use the commands: &f(use /posthelp <command> for deeper info)");
+                PostAPI.sendMessage(player,"&aHow to use the commands: &f(use /posthelp <Command> for more info about a command)");
                 PostAPI.sendMessage(player,"- &6/nearestpost&f: tells you where the nearest post is.");
                 PostAPI.sendMessage(player,"- &6/setpost&f: sets the nearest post as your home post.");
                 PostAPI.sendMessage(player,"- &6/homepost&f: teleports you to your home post.");
@@ -33,17 +33,27 @@ public class HelpCommand implements CommandExecutor {
                 PostAPI.sendMessage(player,"Admin commands: ");
                 PostAPI.sendMessage(player,"- &6/namepost <Name>&f: names the nearest post, so everyone will be able to visit it.");
                 PostAPI.sendMessage(player,"- &6/unnamepost <Name>&f: unnames a post.");
-                PostAPI.sendMessage(player,"- &6/buildpost (y)&f: use just /buildpost to build the nearest post, see more /posthelp buildpost.");
+                if(player.hasPermission("telepost.buildpost")){
+                    PostAPI.sendMessage(player,"- &6/buildpost (y)&f: use just /buildpost to build the nearest post, see more /posthelp buildpost.");
+                }
                 return true;
             }
-            if(args.length==1){
-                if(args[0].equals("buildpost")){
+            if(args.length==1) {
+                if(args[0].equals("buildpost") && player.hasPermission("telepost.buildpost")) {
                     PostAPI.sendMessage(player,"&a/BuildPost guide: ");
                     PostAPI.sendMessage(player,"- &6/buildpost&f: builds the nearest post.");
                     PostAPI.sendMessage(player,"- &6/buildpost (y)&f: builds the nearest post at a certain height.");
                     PostAPI.sendMessage(player,"- &6/buildpost (x) (z)&f: builds a post on that location but on the ground level.");
                     PostAPI.sendMessage(player,"- &6/buildpost (x) (y) (z)&f: builds a post on that location.");
                     PostAPI.sendMessage(player,"NOTE: I do not recommend building posts with (x) and (z) provided by you, because the teleport system won't work.");
+                    return true;
+                } else if(args[0].equals("aliases") || args[0].equals("alias")){
+                    PostAPI.sendMessage(player, "&aAll aliases for your permissions: ");
+                    PostAPI.sendMessage(player, "- &6/phelp&f: alias for /posthelp.");
+                    PostAPI.sendMessage(player, "- &6/ph&f: alias for /posthelp.");
+                    if (player.hasPermission("telepost.buildpost")) {
+                        PostAPI.sendMessage(player, "- &6/bp&f: alias for /buildpost.");
+                    }
                     return true;
                 }
             }

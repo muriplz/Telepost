@@ -18,10 +18,10 @@ public class KryeitTPPlugin extends JavaPlugin implements Listener {
 
 
     public void onEnable(){
-        // regirter all commands and tab completions
+        // Register all commands and tab completions
         registerCommands();
 
-        // set the config.yml file
+        // Set the config.yml file
         config.addDefault("distance-between-posts", 800);
         config.addDefault("post-x-location", 0);
         config.addDefault("post-z-location", 0);
@@ -31,7 +31,7 @@ public class KryeitTPPlugin extends JavaPlugin implements Listener {
         config.options().copyDefaults(true);
         saveConfig();
 
-        // plugin activated at this point
+        // Plugin activated at this point
         Bukkit.getConsoleSender().sendMessage(name+ChatColor.GRAY+" The plugin has been activated. version: "+ChatColor.GREEN+version);
     }
     public void onDisable() {
@@ -40,24 +40,35 @@ public class KryeitTPPlugin extends JavaPlugin implements Listener {
     public void registerCommands() {
         // /nearestpost
         Objects.requireNonNull(this.getCommand("nearestpost")).setExecutor(new NearestPostCommand(this));
+
         // /setpost
         Objects.requireNonNull(this.getCommand("setpost")).setExecutor(new SetPostCommand(this));
+
         // /homepost
         Objects.requireNonNull(this.getCommand("homepost")).setExecutor(new HomePostCommand(this));
+
         // /invite <Player>
         Objects.requireNonNull(this.getCommand("invite")).setExecutor(new InviteCommand(this));
+
         // /visit <NamedPost/Player>
         Objects.requireNonNull(this.getCommand("v")).setExecutor(new VisitCommand(this));
         Objects.requireNonNull(getCommand("v")).setTabCompleter(new VisitTab());
+
         // /namepost <Name>
         Objects.requireNonNull(this.getCommand("namepost")).setExecutor(new NamePostCommand(this));
-        Objects.requireNonNull(getCommand("namepost")).setTabCompleter(new NamePostTab());
+        Objects.requireNonNull(getCommand("namepost")).setTabCompleter(new NamePostTab()); // So the name part doesn't show online players
+
         // /unnamepost <Name>
         Objects.requireNonNull(this.getCommand("unnamepost")).setExecutor(new UnnamePostCommand(this));
         Objects.requireNonNull(getCommand("unnamepost")).setTabCompleter(new UnnamePostTab());
-        // /posthelp (command)  <> means that has to be used, () is optional
+
+        // /posthelp (command)
+        // <> means that has to be used, () is optional
         Objects.requireNonNull(this.getCommand("posthelp")).setExecutor( new HelpCommand(this));
         Objects.requireNonNull(getCommand("posthelp")).setTabCompleter(new HelpTab());
+
+        // /buildpost (y)
+        // /buildpost (x) (z)
         // /buildpost (x) (y) (z)
         Objects.requireNonNull(this.getCommand("buildpost")).setExecutor( new BuildPostCommand(this));
     }

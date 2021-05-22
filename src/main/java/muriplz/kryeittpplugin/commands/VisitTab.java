@@ -21,10 +21,13 @@ public class VisitTab implements TabCompleter {
         if(args.length==1){
             List<String> completions = new ArrayList<>();
             HashMap<String, Warp> warps = Warp.getWarps();
+
             Set<String> warpNames = warps.keySet();
             List<String> commands = new ArrayList<>(warpNames);
+
             Bukkit.getOnlinePlayers().forEach(p -> commands.add(p.getName()));
-            //Sort the list and show it to the player
+
+            // Sort the list and show it to the player
             int i=0;
             while(i< commands.size()){
                 if(commands.get(i).toLowerCase().contains(args[0])||commands.get(i).contains(args[0])){

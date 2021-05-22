@@ -79,8 +79,9 @@ public class BuildPostCommand implements CommandExecutor {
         return height;
     }
 
-    public static void buildPost(int X, int Y, int Z) {
-        if (Y > 251) { return; }
+    public static boolean buildPost(int X, int Y, int Z, int width) {
+        // Returning if the Y coord is to big
+        if (Y > 251) { return false; }
 
         // Getting the world
         World world = Bukkit.getServer().getWorld("world");
@@ -88,14 +89,17 @@ public class BuildPostCommand implements CommandExecutor {
         Location blockloc = new Location(world, X, Y, Z);
         Block block = blockloc.getBlock();
 
-        // Loading the chunk
-        // This will be replaced by loading all needed chunks for the post
-        block.getChunk().load();
+        // Creating a variable to not repeat getting the length
+        // From the center of the post
+        int lengthFromCenter = (width-1)/2;
+
+        // Loading the necessary chunks
+        PostAPI.loadAllChunksToBuildThePost(block, width);
 
         // Clearing the post area
-        for (int x=X-2;x<X+3;x++){
-            for (int y=Y+1;y<Y+5;y++){
-                for (int z=Z-2;z<Z+3;z++){
+        for (int x = X-lengthFromCenter; x < X+lengthFromCenter+1; x++){
+            for (int y = Y+1; y < Y+5; y++){
+                for (int z = Z-lengthFromCenter; z < Z+lengthFromCenter+1; z++){
                     Location blockloc1 = new Location(world, x, y, z);
                     Block block1 = blockloc1.getBlock();
                     SetBlock(Material.AIR, block1);
@@ -104,16 +108,16 @@ public class BuildPostCommand implements CommandExecutor {
         }
 
         // Setting the base and pillar blocks
-        Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "fill " + (X-2) + " " + Y + " " + (Z-2) + " " + (X+2) + " " + Y + " " + (Z+2) + " minecraft:stone_bricks");
+        Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "fill " + (X-lengthFromCenter) + " " + Y + " " + (Z-lengthFromCenter) + " " + (X+lengthFromCenter) + " " + Y + " " + (Z+lengthFromCenter) + " minecraft:stone_bricks");
         Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "fill " + X + " " + Y + " " + Z + " " + X + " " + (Y+2) + " " + Z + " minecraft:glowstone");
 
         // Getting and setting the block for the top (light source)
         Location blockloc1 = new Location(world, X, Y + 3, Z);
-        Block glowstone = blockloc1.getBlock();
-        SetBlock(Material.GLOWSTONE, glowstone);
+        Block light = blockloc1.getBlock();
+        SetBlock(Material.GLOWSTONE, light);
 
         // Getting the block where the wall signs should stay on
-        Block signpoint = glowstone.getRelative(BlockFace.DOWN);
+        Block signpoint = light.getRelative(BlockFace.DOWN);
 
         // Setting the sign on the north side of the post
         SetBlock(Material.OAK_WALL_SIGN, signpoint.getRelative(BlockFace.NORTH));
@@ -156,17 +160,18 @@ public class BuildPostCommand implements CommandExecutor {
         sign3.update();
 
         // Setting the top sign
-        SetBlock(Material.OAK_SIGN, glowstone.getRelative(BlockFace.UP));
-        setSignFacing(glowstone.getRelative(BlockFace.UP), BlockFace.NORTH_WEST);
-        Sign sign4 = (Sign) glowstone.getRelative(BlockFace.UP).getState();
+        SetBlock(Material.OAK_SIGN, light.getRelative(BlockFace.UP));
+        setSignFacing(light.getRelative(BlockFace.UP), BlockFace.NORTH_WEST);
+        Sign sign4 = (Sign) light.getRelative(BlockFace.UP).getState();
         sign4.setLine(0, "Current");
         sign4.setLine(1, "location:");
         sign4.setLine(3, "Nameless");
         sign4.update();
 
-        // Unloading the chunk
-        // This will be replaced by unloading all needed chunks for the post
-        block.getChunk().unload();
+        // Unloading the necessary chunks
+        PostAPI.unloadAllChunksToBuildThePost(block, width);
+
+        return true;
     }
 
     //  This commands aims to be /BuildPost in-game
@@ -184,7 +189,7 @@ public class BuildPostCommand implements CommandExecutor {
             if (args.length <= 1) {
                 // Checking if the command is executed from console
                 if( ! ( sender instanceof Player )) {
-                    Bukkit.getConsoleSender().sendMessage(plugin.name + "You cant execute this command from console.");
+                    Bukkit.getConsoleSender().sendMessage(plugin.name + "You can't execute this command from console.");
                     return false;
                 } else {
                     // Getting the player
@@ -224,12 +229,16 @@ public class BuildPostCommand implements CommandExecutor {
                 Z = Integer.parseInt(args[1]);
             }
 
-            // Building the post
-            buildPost(X, Y, Z);
+            // Building the post and getting success boolean
+            Boolean success = buildPost(X, Y, Z, plugin.getConfig().getInt("post-width"));
 
-            // Sending a message that the post has succesfully been built.
+            // Sending a message that the post has successfully been built.
             Player player = (Player) sender;
-            PostAPI.sendMessage(player,"&aYou have built the post at ("+X+" , "+Y+").");
+            if (success) {
+                PostAPI.sendMessage(player, "&aYou have built the post at (" + X + " , " + Z + ").");
+            } else {
+                PostAPI.sendMessage(player, "&cYou have tried to built the post to high! Max height 251");
+            }
         }
         return true;
     }

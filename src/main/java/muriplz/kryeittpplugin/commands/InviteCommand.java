@@ -21,10 +21,10 @@ public class InviteCommand implements CommandExecutor {
         this.plugin = plugin;
     }
 
-    //  This commands aims to be /Invite in-game
+    // This commands aims to be /Invite in-game
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!(sender instanceof Player)) {
-            Bukkit.getConsoleSender().sendMessage(plugin.name + "You cant execute this command from console.");
+            Bukkit.getConsoleSender().sendMessage(plugin.name + "You can't execute this command from console.");
             return false;
         } else {
             Player player = (Player) sender;
@@ -38,7 +38,7 @@ public class InviteCommand implements CommandExecutor {
                             Player player2 = Bukkit.getPlayer(arg);
                             assert player2 != null;
                             if(player==player2){
-                                PostAPI.sendMessage(player,"&cYou cant invite yourself.");
+                                PostAPI.sendMessage(player,"&cYou can't invite yourself.");
                                 return false;
                             }
                             if(!(player2.isOnline())){

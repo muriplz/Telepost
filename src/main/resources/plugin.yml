@@ -23,6 +23,7 @@ commands:
     description: unnames a post.
   buildpost:
     description: builds a post.
+    aliases: bp
     usage:
       /<command>
       /<command> <y>
@@ -30,3 +31,9 @@ commands:
       /<command> <x> <y> <z>
   posthelp:
     description: tells info about Telepost commands.
+    aliases:
+      phelp
+      ph
+    usage:
+      /<command>
+      /<command> <another command>
