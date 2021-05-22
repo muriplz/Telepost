@@ -71,6 +71,7 @@ public class KryeitTPPlugin extends JavaPlugin implements Listener {
         // /buildpost (x) (z)
         // /buildpost (x) (y) (z)
         Objects.requireNonNull(this.getCommand("buildpost")).setExecutor( new BuildPostCommand(this));
+        Objects.requireNonNull(getCommand("buildpost")).setTabCompleter(new HelpTab());
     }
 }
 
