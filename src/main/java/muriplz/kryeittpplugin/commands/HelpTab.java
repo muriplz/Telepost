@@ -28,7 +28,7 @@ public class HelpTab implements TabCompleter {
         }
         commands.add("aliases");
 
-        // Looping through the autocomplete text and adding the ones needed (I think)
+        // Add to "completions" all words that have letters that are contained on "commands" list
         int i=0;
         while(i < commands.size()){
             if(commands.get(i).toLowerCase().contains(args[0]) || commands.get(i).contains(args[0])) {
