@@ -25,14 +25,16 @@ public class HomePostCommand implements CommandExecutor{
     //  This commands aims to be /HomePost in-game
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if( ! ( sender instanceof Player )) {
-            Bukkit.getConsoleSender().sendMessage(plugin.name+"You cant execute this command from console.");
+            Bukkit.getConsoleSender().sendMessage(plugin.name+"You can't execute this command from console.");
             return false;
         }else {
+            // Getting the player and seeing if he's in the overworld
             Player player = (Player) sender;
             if(!player.getWorld().getName().equals("world")){
                 PostAPI.sendMessage(player,"&cYou have to be in the Overworld to use this command.");
                 return false;
             }
+
             //get distance between posts and width from config.yml
             int gap = plugin.getConfig().getInt("distance-between-posts");
             int width = (plugin.getConfig().getInt("post-width")-1)/2;
@@ -57,13 +59,15 @@ public class HomePostCommand implements CommandExecutor{
             if(atPlayer.hasHome("home")) {
                 Location location = atPlayer.getHome("home").getLocation();
 
-                // you cant /homepost to the same post you are in, except if you have telepost.homepost permission
+                // you can't /homepost to the same post you are in, except if you have telepost.homepost permission
                 if(location.getBlockX()==postX&&location.getBlockZ()==postZ&&!player.hasPermission("telepost.homepost")){
                     PostAPI.sendMessage(player,"&cYou are already at your home post.");
                     return false;
                 }
+
                 World world = player.getWorld();
-                if(plugin.getConfig().getBoolean("launch-feature")){
+
+                if (plugin.getConfig().getBoolean("launch-feature")) {
                     player.setVelocity(new Vector(0,4,0));
                     Bukkit.getScheduler().runTaskLater(plugin, () -> player.setVelocity(new Vector (0,2.5,0)), 25L);
                     Bukkit.getScheduler().runTaskLater(plugin, () -> {
@@ -72,7 +76,7 @@ public class HomePostCommand implements CommandExecutor{
                         player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
                         PostAPI.sendMessage(player, "&7Welcome to your post.");
                     }, 40L);
-                }else{
+                } else {
                     // Teleport player to his home without launch feature
                     Location newlocation = new Location(world, location.getBlockX() + 0.5, 260, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                     player.teleport(newlocation);
@@ -80,7 +84,7 @@ public class HomePostCommand implements CommandExecutor{
                     PostAPI.sendMessage(player,"&7Welcome to your post.");
                 }
                 return true;
-            }else{
+            } else {
                 // Player does not have a homepost
                 PostAPI.sendMessage(player,"&aPlease, set a post with /SetPost first.");
             }
