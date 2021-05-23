@@ -32,7 +32,6 @@ public class PostAPI {
         // Sending the message with & instead of §
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
     }
-
     public static void loadAllChunksToBuildThePost(Block block, int width){
         // Getting block x and z coords
         int x = block.getX();
