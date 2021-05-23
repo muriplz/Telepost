@@ -83,6 +83,7 @@ public class HomePostCommand implements CommandExecutor{
                     player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
                     PostAPI.sendMessage(player,"&7Welcome to your post.");
                 }
+                player.setFallDistance(-300.0F);
                 return true;
             } else {
                 // Player does not have a homepost

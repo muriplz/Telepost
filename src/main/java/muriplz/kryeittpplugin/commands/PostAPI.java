@@ -3,7 +3,6 @@ package muriplz.kryeittpplugin.commands;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.bukkit.util.Vector;
 
 import java.util.Objects;
 
@@ -81,12 +80,12 @@ public class PostAPI {
         return playerX < postX - width || playerX > postX + width && playerZ < postZ - width || playerZ > postZ + width;
     }
     public static void launchOnTP(Player player, String message, Location postLocation){
-        Vector desiredDirection = player.getLocation().getDirection().setY(player.getLocation().getDirection().getBlockY()+1);
+        double initialYDirection = player.getVelocity().getY();
         do {
-            if (player.getLocation().getDirection().getY() < desiredDirection.getY()-0.75) {
-                player.setVelocity(desiredDirection);
+            if (player.getVelocity().getBlockY() < initialYDirection*2) {
+                player.getVelocity().setY(initialYDirection*2);
             }
-        } while (!(player.getLocation().getY() > 255));
+        } while (player.getLocation().getY() < 255);
         player.teleport(postLocation);
         PostAPI.sendMessage(player,message);
         player.playSound(postLocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
