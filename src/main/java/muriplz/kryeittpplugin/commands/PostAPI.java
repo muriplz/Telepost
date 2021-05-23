@@ -1,10 +1,9 @@
 package muriplz.kryeittpplugin.commands;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Chunk;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
 import java.util.Objects;
 
@@ -80,5 +79,16 @@ public class PostAPI {
 
         // Returning true if on post else false
         return playerX < postX - width || playerX > postX + width && playerZ < postZ - width || playerZ > postZ + width;
+    }
+    public static void launchOnTP(Player player, String message, Location postLocation){
+        Vector desiredDirection = player.getLocation().getDirection().setY(player.getLocation().getDirection().getBlockY()+1);
+        do {
+            if (player.getLocation().getDirection().getY() < desiredDirection.getY()-0.75) {
+                player.setVelocity(desiredDirection);
+            }
+        } while (!(player.getLocation().getY() > 255));
+        player.teleport(postLocation);
+        PostAPI.sendMessage(player,message);
+        player.playSound(postLocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
     }
 }

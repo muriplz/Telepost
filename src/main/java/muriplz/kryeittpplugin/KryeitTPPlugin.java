@@ -29,7 +29,7 @@ public class KryeitTPPlugin extends JavaPlugin implements Listener {
         config.addDefault("launch-feature", false);
         config.addDefault("multiple-names-per-post",false);
         config.options().copyDefaults(true);
-        saveConfig();
+        saveDefaultConfig();
 
         // Plugin activated at this point
         Bukkit.getConsoleSender().sendMessage(name+ChatColor.GRAY+" The plugin has been activated. version: "+ChatColor.GREEN+version);
