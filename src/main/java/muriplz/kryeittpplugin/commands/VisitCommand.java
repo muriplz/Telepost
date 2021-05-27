@@ -14,10 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 public class VisitCommand implements CommandExecutor{
@@ -54,9 +51,9 @@ public class VisitCommand implements CommandExecutor{
             int originZ = plugin.getConfig().getInt("post-z-location");
             int postZ = PostAPI.getNearPost(gap,player.getLocation().getBlockZ(),originZ);
 
-            // see if the player is inside a post
+            // See if the player is inside a post
             if(!player.hasPermission("telepost.v")){
-                if(!PostAPI.isPlayerOnPost(player,originX,originZ,width,gap)){
+                if(PostAPI.isPlayerOnPost(player,originX,originZ,width,gap)){
                     PostAPI.sendMessage(player,"&cYou have to be inside a post to use this command, try /nearestpost.");
                     return false;
                 }
@@ -70,6 +67,12 @@ public class VisitCommand implements CommandExecutor{
                 PostAPI.sendMessage(player,"&fUse /v <PostName/PlayerName> to visit a post.");
                 return false;
             }
+
+            // If the player is not on the ground stop the command
+            if(!Objects.requireNonNull(Bukkit.getEntity(player.getUniqueId())).isOnGround()&&!player.hasPermission("telepost.v")){
+                return false;
+            }
+
             // /v <something>
             if (args.length==1){
 
@@ -89,6 +92,7 @@ public class VisitCommand implements CommandExecutor{
                     Warp warp = Warp.getWarps().get(args[0]);
 
                     // See if the player want to teleport to the nearest post, only with telepost.v permission you can do this
+
                     if(warp.getLocation().getBlockX()==postX&&warp.getLocation().getBlockZ()==postZ&&!player.hasPermission("telepost.v")){
                         PostAPI.sendMessage(player,"&cYou are already in "+warp.getName()+".");
                         return false;
@@ -115,6 +119,7 @@ public class VisitCommand implements CommandExecutor{
                         player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
                         PostAPI.sendMessage(player,"&7Welcome to " + args[0] + ".");
                     }
+                    player.setFallDistance(-300.0F);
                     return true;
                 }
                 // /v <Yourself> which is the same as /homepost
@@ -125,10 +130,12 @@ public class VisitCommand implements CommandExecutor{
 
                     // If player already has a home
                     if(atPlayer.hasHome("home")){
+
                         // Get the home location
                         Location location = atPlayer.getHome("home").getLocation();
 
                         // See if the player is already at his home post, if he has permission he can teleport
+
                         if(location.getBlockX()==postX&&location.getBlockZ()==postZ&&!player.hasPermission("telepost.v")){
                             PostAPI.sendMessage(player,"&cYou are already at your home post.");
                             return false;
@@ -152,6 +159,7 @@ public class VisitCommand implements CommandExecutor{
                             player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
                             PostAPI.sendMessage(player,"&7Welcome to your post.");
                         }
+                        player.setFallDistance(-300.0F);
                         return true;
                     }else{
 
@@ -173,6 +181,7 @@ public class VisitCommand implements CommandExecutor{
                         Location location = atPlayer.getHome(args[0]).getLocation();
 
                         // See if he wants to teleport to a post he is already in, if he has permission this has no effect
+
                         if(location.getBlockX()==postX&&location.getBlockZ()==postZ&&!player.hasPermission("telepost.v")){
                             PostAPI.sendMessage(player,"&cYou are already at "+args[0]+"'s home post.");
                             return false;
@@ -196,6 +205,7 @@ public class VisitCommand implements CommandExecutor{
                             player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
                             PostAPI.sendMessage(player,"&7Welcome to " + args[0] + "'s post.");
                         }
+                        player.setFallDistance(-300.0F);
                         return true;
                     }else{
                         // Player does not have invitation from args[0] player

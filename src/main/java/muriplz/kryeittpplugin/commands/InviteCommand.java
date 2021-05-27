@@ -50,7 +50,6 @@ public class InviteCommand implements CommandExecutor {
                             atPlayer2.addHome(postinvited,location,null);
                             PostAPI.sendMessage(player,"&aYou have invited "+player2.getName()+" to your post.");
                             PostAPI.sendMessage(player2,"&aYou have been invited by "+player.getName()+" to his post, you have 5 minutes to use /v "+player.getName()+".");
-
                             final Timer timer = new Timer();
                             timer.schedule(new TimerTask() {
                                 @Override

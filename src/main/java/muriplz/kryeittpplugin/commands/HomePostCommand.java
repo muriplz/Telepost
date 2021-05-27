@@ -13,6 +13,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 
 public class HomePostCommand implements CommandExecutor{
 
@@ -28,6 +30,7 @@ public class HomePostCommand implements CommandExecutor{
             Bukkit.getConsoleSender().sendMessage(plugin.name+"You can't execute this command from console.");
             return false;
         }else {
+
             // Getting the player and seeing if he's in the overworld
             Player player = (Player) sender;
             if(!player.getWorld().getName().equals("world")){
@@ -35,15 +38,20 @@ public class HomePostCommand implements CommandExecutor{
                 return false;
             }
 
-            //get distance between posts and width from config.yml
+            // If the player is not on the ground stop the command
+            if(!Objects.requireNonNull(Bukkit.getEntity(player.getUniqueId())).isOnGround()&&!player.hasPermission("telepost.homepost")){
+                return false;
+            }
+
+            // Get distance between posts and width from config.yml
             int gap = plugin.getConfig().getInt("distance-between-posts");
             int width = (plugin.getConfig().getInt("post-width")-1)/2;
 
-            // for the X axis
+            // For the X axis
             int originX = plugin.getConfig().getInt("post-x-location");
             int postX = PostAPI.getNearPost(gap,player.getLocation().getBlockX(),originX);
 
-            // for the Z axis
+            // For the Z axis
             int originZ = plugin.getConfig().getInt("post-z-location");
             int postZ = PostAPI.getNearPost(gap,player.getLocation().getBlockZ(),originZ);
 
@@ -59,7 +67,8 @@ public class HomePostCommand implements CommandExecutor{
             if(atPlayer.hasHome("home")) {
                 Location location = atPlayer.getHome("home").getLocation();
 
-                // you can't /homepost to the same post you are in, except if you have telepost.homepost permission
+                // You can't /homepost to the same post you are in, except if you have telepost.homepost permission
+
                 if(location.getBlockX()==postX&&location.getBlockZ()==postZ&&!player.hasPermission("telepost.homepost")){
                     PostAPI.sendMessage(player,"&cYou are already at your home post.");
                     return false;
@@ -83,6 +92,7 @@ public class HomePostCommand implements CommandExecutor{
                     player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
                     PostAPI.sendMessage(player,"&7Welcome to your post.");
                 }
+                player.setFallDistance(-300.0F);
                 return true;
             } else {
                 // Player does not have a homepost

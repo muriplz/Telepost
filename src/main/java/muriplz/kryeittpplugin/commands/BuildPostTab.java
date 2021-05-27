@@ -38,7 +38,9 @@ public class BuildPostTab implements TabCompleter {
             int postX = PostAPI.getNearPost(gap,player.getLocation().getBlockX(),originX);
             int postZ = PostAPI.getNearPost(gap,player.getLocation().getBlockZ(),originZ);
 
-            String nearestPost = ""+postX+" "+postZ;
+            // Adding the nearest post (might be good to have it even tho /buildpost does the job)
+            String nearestPost = postX+" "+postZ;
+
             completions.add(nearestPost);
             return completions;
         }

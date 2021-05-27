@@ -67,7 +67,6 @@ public class PostAPI {
             }
         }
     }
-
     public static boolean isPlayerOnPost(Player player, int originX, int originZ, int width, int gap) {
         // Getting the coords of nearest post to the player
         int postX = PostAPI.getNearPost(gap,player.getLocation().getBlockX(),originX);
@@ -81,12 +80,12 @@ public class PostAPI {
         return playerX < postX - width || playerX > postX + width && playerZ < postZ - width || playerZ > postZ + width;
     }
     public static void launchOnTP(Player player, String message, Location postLocation){
-        Vector desiredDirection = player.getLocation().getDirection().setY(player.getLocation().getDirection().getBlockY()+1);
+        double initialYDirection = player.getVelocity().getY();
         do {
-            if (player.getLocation().getDirection().getY() < desiredDirection.getY()-0.75) {
-                player.setVelocity(desiredDirection);
+            if (player.getVelocity().getBlockY() < initialYDirection*2) {
+                player.getVelocity().setY(initialYDirection*2);
             }
-        } while (!(player.getLocation().getY() > 255));
+        } while (player.getLocation().getY() < 255);
         player.teleport(postLocation);
         PostAPI.sendMessage(player,message);
         player.playSound(postLocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
