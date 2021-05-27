@@ -3,6 +3,7 @@ package muriplz.kryeittpplugin.commands;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
 import java.util.Objects;
 
