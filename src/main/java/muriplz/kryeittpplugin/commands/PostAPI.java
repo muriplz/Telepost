@@ -66,7 +66,6 @@ public class PostAPI {
             }
         }
     }
-
     public static boolean isPlayerOnPost(Player player, int originX, int originZ, int width, int gap) {
         // Getting the coords of nearest post to the player
         int postX = PostAPI.getNearPost(gap,player.getLocation().getBlockX(),originX);
