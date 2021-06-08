@@ -76,23 +76,23 @@ public class HomePostCommand implements CommandExecutor{
 
                 World world = player.getWorld();
 
+                Location newlocation = new Location(world, location.getBlockX() + 0.5, 260, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
+
                 if (plugin.getConfig().getBoolean("launch-feature")) {
                     player.setVelocity(new Vector(0,4,0));
                     Bukkit.getScheduler().runTaskLater(plugin, () -> player.setVelocity(new Vector (0,2.5,0)), 25L);
                     Bukkit.getScheduler().runTaskLater(plugin, () -> {
-                        Location newlocation = new Location(world, location.getBlockX() + 0.5, 260, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                         player.teleport(newlocation);
                         player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
                         PostAPI.sendMessage(player, "&7Welcome to your post.");
                     }, 40L);
                 } else {
                     // Teleport player to his home without launch feature
-                    Location newlocation = new Location(world, location.getBlockX() + 0.5, 260, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                     player.teleport(newlocation);
                     player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
                     PostAPI.sendMessage(player,"&7Welcome to your post.");
                 }
-                player.setFallDistance(-300.0F);
+                player.setFallDistance(0.0F);
                 return true;
             } else {
                 // Player does not have a homepost

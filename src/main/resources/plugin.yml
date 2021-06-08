@@ -11,7 +11,6 @@ commands:
     description: sets the nearest post as your home.
   invite:
     aliases:
-      invitepost
       inviteplayer
     description: invite a player to your home post.
   homepost:

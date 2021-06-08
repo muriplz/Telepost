@@ -119,7 +119,7 @@ public class VisitCommand implements CommandExecutor{
                         player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
                         PostAPI.sendMessage(player,"&7Welcome to " + args[0] + ".");
                     }
-                    player.setFallDistance(-300.0F);
+                    player.setFallDistance(0.0F);
                     return true;
                 }
                 // /v <Yourself> which is the same as /homepost
@@ -159,7 +159,7 @@ public class VisitCommand implements CommandExecutor{
                             player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
                             PostAPI.sendMessage(player,"&7Welcome to your post.");
                         }
-                        player.setFallDistance(-300.0F);
+                        player.setFallDistance(0.0F);
                         return true;
                     }else{
 
@@ -205,7 +205,7 @@ public class VisitCommand implements CommandExecutor{
                             player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
                             PostAPI.sendMessage(player,"&7Welcome to " + args[0] + "'s post.");
                         }
-                        player.setFallDistance(-300.0F);
+                        player.setFallDistance(0.0F);
                         return true;
                     }else{
                         // Player does not have invitation from args[0] player

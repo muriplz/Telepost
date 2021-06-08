@@ -55,7 +55,7 @@ public class InviteCommand implements CommandExecutor {
                                 @Override
                                 public void run() {
                                     atPlayer2.removeHome(postinvited,null);
-                                    PostAPI.sendMessage(player,"&7The player &s"+player2.getName()+"&7 does not have access to your home post anymore.");
+                                    PostAPI.sendMessage(player,"&7The player &a"+player2.getName()+"&7 does not have access to your home post anymore.");
                                     timer.cancel();
                                 }
                             },300000);
