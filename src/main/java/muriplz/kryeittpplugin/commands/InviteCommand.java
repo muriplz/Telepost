@@ -46,6 +46,10 @@ public class InviteCommand implements CommandExecutor {
                                 return false;
                             }
                             ATPlayer atPlayer2 = ATPlayer.getPlayer(player2);
+                            if(atPlayer2.hasHome(player.getName())){
+                                PostAPI.sendMessage(player,"&cYou have already invited "+player2.getName()+".");
+                                return false;
+                            }
                             String postinvited = player.getName();
                             atPlayer2.addHome(postinvited,location,null);
                             PostAPI.sendMessage(player,"&aYou have invited "+player2.getName()+" to your post.");
