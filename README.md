@@ -17,12 +17,16 @@ There is a post every 800 (default) blocks.
 - /invite <Player>: Invite a player to your home post, this invitation lasts 5 minutes.
 - /visit <Player/NamedPost>: Teleports you to an invited post or to a Named Post (to name a post use /setwarp Agua (Extremadura, etc))
 - /namepost <PostName> : gives a name to the nearest post. Only for admins.
-- /unnamepost <PostName> : unnames a post. Only for admins
+- /unnamepost <PostName> : unnames a post. Only for admins.
+- /posthelp (Command): sends a message with information about commands.
+- /buildpost (x) ( y) (z): builds a post. I suggest using /buildpost to build the nearest post or /buildpost (y) to build the nearest post at a certain height. Only for admins.
 
 # Permissions:
 - telepost.homepost : lets you use /homepost everywhere in the Overworld.
 - telepost.v : lets you use /v and /visit everywhere in the Overworld.
 - telepost.namepost : lets you use /namepost.
 - telepost.unnamepost : lets you use /unnamepost.
+- telepost.buildpost : lets you use /buildpost.
 
-This plugin is a WIP, so the generation of the post itself (as you will have to build everyone of them by hand, FAWE or something like that), and the protection of the post, as well as the fall damage, all of this can be achieved with other plugins.
+
+This plugin is a WIP so the protection of the post, as well as the fall damage, all of this can be achieved with other plugins. i strongly recommend using an external plugin/mod to build the posts.
