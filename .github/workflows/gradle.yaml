@@ -18,3 +18,8 @@ jobs:
         chmod +x gradlew
         ./gradlew build
     - run: tree
+    - name: Export the builded project as an artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: Kryeit-Snapshot
+        path: build/libs/
