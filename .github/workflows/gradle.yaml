@@ -17,6 +17,4 @@ jobs:
       run: |
         chmod +x gradlew
         ./gradlew build
-    - run: |
-        apt install tree
-        tree
+    - run: tree
