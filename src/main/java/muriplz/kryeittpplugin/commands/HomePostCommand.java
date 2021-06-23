@@ -44,6 +44,7 @@ public class HomePostCommand implements CommandExecutor{
             }
 
             // Get distance between posts and width from config.yml
+            int height;
             int gap = plugin.getConfig().getInt("distance-between-posts");
             int width = (plugin.getConfig().getInt("post-width")-1)/2;
 
@@ -76,18 +77,27 @@ public class HomePostCommand implements CommandExecutor{
 
                 World world = player.getWorld();
 
+                // See if the config has the option set to true, in that case the teleport takes the player to the air
+                if(plugin.getConfig().getBoolean("tp-in-the-air")){
+                    height = 265;
+                }else{
+                    // If the option is false, teleport them to the first block that is air
+                    height = PostAPI.getFirstSolidBlockHeight(location.getBlockX(),location.getBlockZ())+1;
+                }
+
+
                 if (plugin.getConfig().getBoolean("launch-feature")) {
                     player.setVelocity(new Vector(0,4,0));
                     Bukkit.getScheduler().runTaskLater(plugin, () -> player.setVelocity(new Vector (0,2.5,0)), 25L);
                     Bukkit.getScheduler().runTaskLater(plugin, () -> {
-                        Location newlocation = new Location(world, location.getBlockX() + 0.5, 260, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
+                        Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                         player.teleport(newlocation);
                         player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
                         PostAPI.sendMessage(player, "&7Welcome to your post.");
                     }, 40L);
                 } else {
                     // Teleport player to his home without launch feature
-                    Location newlocation = new Location(world, location.getBlockX() + 0.5, 260, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
+                    Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                     player.teleport(newlocation);
                     player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
                     PostAPI.sendMessage(player,"&7Welcome to your post.");

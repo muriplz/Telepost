@@ -51,6 +51,9 @@ public class VisitCommand implements CommandExecutor{
             int originZ = plugin.getConfig().getInt("post-z-location");
             int postZ = PostAPI.getNearPost(gap,player.getLocation().getBlockZ(),originZ);
 
+            // For the height that the player will be teleported to
+            int height;
+
             // See if the player is inside a post
             if(!player.hasPermission("telepost.v")){
                 if(PostAPI.isPlayerOnPost(player,originX,originZ,width,gap)){
@@ -99,14 +102,22 @@ public class VisitCommand implements CommandExecutor{
                     }
 
                     // Get the location of the post that the player wants to teleport to
-                    Location loc=new Location(world, warp.getLocation().getBlockX() + 0.5, 260, warp.getLocation().getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
+                    Location loc = new Location(world, warp.getLocation().getBlockX() + 0.5, 260, warp.getLocation().getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
+
+                    // See if the config has the option set to true, in that case the teleport takes the player to the air
+                    if(plugin.getConfig().getBoolean("tp-in-the-air")){
+                        height = 265;
+                    }else{
+                        // If the option is false, teleport them to the first block that is air
+                        height = PostAPI.getFirstSolidBlockHeight(loc.getBlockX(),loc.getBlockZ())+1;
+                    }
 
                     // Launches a player to the sky (TODO: improve this horrible thing)
                     if(plugin.getConfig().getBoolean("launch-feature")){
                         player.setVelocity(new Vector(0,4,0));
                         Bukkit.getScheduler().runTaskLater(plugin, () -> player.setVelocity(new Vector (0,2.5,0)), 25L);
                         Bukkit.getScheduler().runTaskLater(plugin, () -> {
-                            Location newlocation = new Location(world, loc.getBlockX() + 0.5, 260, loc.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
+                            Location newlocation = new Location(world, loc.getBlockX() + 0.5, height, loc.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                             player.teleport(newlocation);
                             player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
                             PostAPI.sendMessage(player, "&7Welcome to " + args[0] + ".");
@@ -114,7 +125,7 @@ public class VisitCommand implements CommandExecutor{
                     }else{
 
                         // Teleport without the "launch-feature"
-                        Location newlocation = new Location(world, loc.getBlockX() + 0.5, 260, loc.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
+                        Location newlocation = new Location(world, loc.getBlockX() + 0.5, height, loc.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                         player.teleport(newlocation);
                         player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
                         PostAPI.sendMessage(player,"&7Welcome to " + args[0] + ".");
@@ -141,12 +152,20 @@ public class VisitCommand implements CommandExecutor{
                             return false;
                         }
 
+                        // See if the config has the option set to true, in that case the teleport takes the player to the air
+                        if(plugin.getConfig().getBoolean("tp-in-the-air")){
+                            height = 265;
+                        }else{
+                            // If the option is false, teleport them to the first block that is air
+                            height = PostAPI.getFirstSolidBlockHeight(location.getBlockX(),location.getBlockZ())+1;
+                        }
+
                         // Launches a player to the sky (TODO: improve this horrible thing)
                         if(plugin.getConfig().getBoolean("launch-feature")){
                             player.setVelocity(new Vector(0,4,0));
                             Bukkit.getScheduler().runTaskLater(plugin, () -> player.setVelocity(new Vector (0,2.5,0)), 25L);
                             Bukkit.getScheduler().runTaskLater(plugin, () -> {
-                                Location newlocation = new Location(world, location.getBlockX() + 0.5, 260, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
+                                Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                                 player.teleport(newlocation);
                                 player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
                                 PostAPI.sendMessage(player,"&7Welcome to your post.");
@@ -154,7 +173,7 @@ public class VisitCommand implements CommandExecutor{
                         }else{
 
                             // Teleport without the "launch-feature"
-                            Location newlocation = new Location(world, location.getBlockX() + 0.5, 260, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
+                            Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                             player.teleport(newlocation);
                             player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
                             PostAPI.sendMessage(player,"&7Welcome to your post.");
@@ -187,12 +206,20 @@ public class VisitCommand implements CommandExecutor{
                             return false;
                         }
 
+                        // See if the config has the option set to true, in that case the teleport takes the player to the air
+                        if(plugin.getConfig().getBoolean("tp-in-the-air")){
+                            height = 265;
+                        }else{
+                            // If the option is false, teleport them to the first block that is air
+                            height = PostAPI.getFirstSolidBlockHeight(location.getBlockX(),location.getBlockZ())+1;
+                        }
+
                         // Launch the player is its true on config.yml
                         if(plugin.getConfig().getBoolean("launch-feature")){
                             player.setVelocity(new Vector(0,4,0));
                             Bukkit.getScheduler().runTaskLater(plugin, () -> player.setVelocity(new Vector (0,2.5,0)), 25L);
                             Bukkit.getScheduler().runTaskLater(plugin, () -> {
-                                Location newlocation = new Location(world, location.getBlockX() + 0.5, 260, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
+                                Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                                 player.teleport(newlocation);
                                 player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
                                 PostAPI.sendMessage(player,"&7Welcome to " + args[0] + "'s post.");
@@ -200,7 +227,7 @@ public class VisitCommand implements CommandExecutor{
                         }else{
 
                             // "launch-feature" disabled
-                            Location newlocation = new Location(world, location.getBlockX() + 0.5, 260, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
+                            Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                             player.teleport(newlocation);
                             player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
                             PostAPI.sendMessage(player,"&7Welcome to " + args[0] + "'s post.");

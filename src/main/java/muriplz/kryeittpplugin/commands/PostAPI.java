@@ -90,4 +90,18 @@ public class PostAPI {
         PostAPI.sendMessage(player,message);
         player.playSound(postLocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
     }
+    public static int getFirstSolidBlockHeight(int X, int Z){
+        // Setting the highest height the post can be at
+        int height = 251;
+
+        // Looping down and searching for a solid block or water or lava
+        while (true){
+            Location l = new Location(Bukkit.getWorld("world"), X, height, Z);
+            if(l.getBlock().getType().isSolid() || l.getBlock().getType().equals(Material.WATER) || l.getBlock().getType().equals(Material.LAVA)){
+                break;
+            }
+            height--;
+        }
+        return height;
+    }
 }

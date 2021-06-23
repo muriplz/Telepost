@@ -27,6 +27,7 @@ public class VisitTab implements TabCompleter {
             // allTabs is the List that has all possible words that might go onto completions
             HashMap<String, Warp> warps = Warp.getWarps();
             Set<String> warpNames = warps.keySet();
+
             // Add all names of named posts and initialize allTabs
             List<String> allTabs = new ArrayList<>(warpNames);
 

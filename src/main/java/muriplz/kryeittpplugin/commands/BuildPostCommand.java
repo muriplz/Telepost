@@ -67,21 +67,6 @@ public class BuildPostCommand implements CommandExecutor {
         }
     }
 
-    public static int getFirstSolidBlockHeight(int X, int Z){
-        // Setting the highest height the post can be at
-        int height = 251;
-
-        // Looping down and searching for a solid block or water or lava
-        while (true){
-            Location l = new Location(Bukkit.getWorld("world"), X, height, Z);
-            if(l.getBlock().getType().isSolid() || l.getBlock().getType().equals(Material.WATER) || l.getBlock().getType().equals(Material.LAVA)){
-                break;
-            }
-            height--;
-        }
-        return height;
-    }
-
     public static boolean buildPost(int X, int Y, int Z, int width) {
         // Returning if the Y coord is too big
         if (Y > 251) { return false; }
@@ -218,7 +203,7 @@ public class BuildPostCommand implements CommandExecutor {
             } else { xzUnknown = true; }
             if (args.length == 0 || args.length == 2) {
                 // Get y coords
-                Y = getFirstSolidBlockHeight(X, Z);
+                Y = PostAPI.getFirstSolidBlockHeight(X, Z);
             } else { yUnknown = true; }
 
             // If xyz are unknown
