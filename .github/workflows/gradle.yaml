@@ -21,5 +21,5 @@ jobs:
     - name: Export the builded project as an artifact
       uses: actions/upload-artifact@v2
       with:
-        name: Kryeit-Snapshot
+        name: Telepost-Plugin-Dev
         path: build/libs/
