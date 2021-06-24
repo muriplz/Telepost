@@ -46,6 +46,9 @@ public class HelpCommand implements CommandExecutor {
 
                 return true;
             }
+            if(args.length>1){
+                PostAPI.sendMessage(player,"Use /posthelp or /posthelp <Command>.");
+            }
             if(args.length==1) {
                 if(args[0].equals("buildpost") && player.hasPermission("telepost.buildpost")) {
                     PostAPI.sendMessage(player,"&a/BuildPost guide: ");
