@@ -20,5 +20,5 @@ jobs:
     - name: Export the builded project as an artifact
       uses: actions/upload-artifact@v2
       with:
-        name: Telepost-Plugin-Dev
+        name: Telepost-Dev
         path: build/libs/
