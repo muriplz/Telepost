@@ -42,20 +42,20 @@ public class InviteCommand implements CommandExecutor {
                                 return false;
                             }
                             if(!(player2.isOnline())){
-                                PostAPI.sendMessage(player,"&cThe player is not online or does not exist.");
+                                PostAPI.sendMessage(player,"&6"+player2+"&c is not online.");
                                 return false;
                             }
                             ATPlayer atPlayer2 = ATPlayer.getPlayer(player2);
                             String postinvited = player.getName();
                             atPlayer2.addHome(postinvited,location,null);
-                            PostAPI.sendMessage(player,"&aYou have invited "+player2.getName()+" to your post.");
-                            PostAPI.sendMessage(player2,"&aYou have been invited by "+player.getName()+" to his post, you have 5 minutes to use /v "+player.getName()+".");
+                            PostAPI.sendMessage(player,"&aYou have invited &6"+player2.getName()+"&a to your home post.");
+                            PostAPI.sendMessage(player2,"&aYou have been invited by "+player.getName()+" use /v &6"+player.getName()+"&a to teleport.");
                             final Timer timer = new Timer();
                             timer.schedule(new TimerTask() {
                                 @Override
                                 public void run() {
                                     atPlayer2.removeHome(postinvited,null);
-                                    PostAPI.sendMessage(player,"&7The player &s"+player2.getName()+"&7 does not have access to your home post anymore.");
+                                    PostAPI.sendMessage(player,"&7The player &6"+player2.getName()+"&7 does not have access to your home post anymore.");
                                     timer.cancel();
                                 }
                             },300000);
