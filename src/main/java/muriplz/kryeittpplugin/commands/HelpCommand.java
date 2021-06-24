@@ -55,12 +55,9 @@ public class HelpCommand implements CommandExecutor {
                     PostAPI.sendMessage(player,"NOTE: I do not recommend building posts with (x) and (z) provided by you, because the teleport system won't work.");
                     return true;
                 } else if(args[0].equals("aliases") || args[0].equals("alias")){
-                    PostAPI.sendMessage(player, "&aAll aliases for your permissions: ");
-                    PostAPI.sendMessage(player, "- &6/phelp&f: alias for /posthelp.");
-                    PostAPI.sendMessage(player, "- &6/ph&f: alias for /posthelp.");
-                    if (player.hasPermission("telepost.buildpost")) {
-                        PostAPI.sendMessage(player, "- &6/bp&f: alias for /buildpost.");
-                    }
+                    PostAPI.sendMessage(player, "&aAll aliases for your commands: ");
+                    PostAPI.sendMessage(player, "- &6/h&f: alias for /homepost.");
+                    PostAPI.sendMessage(player, "- &6/v&f: alias for /visit.");
                     return true;
                 }
             }

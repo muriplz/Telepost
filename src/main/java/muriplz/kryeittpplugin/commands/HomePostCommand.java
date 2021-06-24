@@ -18,6 +18,14 @@ import java.util.Objects;
 public class HomePostCommand implements CommandExecutor{
 
     private final KryeitTPPlugin plugin;
+    public void sendActionBarOrChat(Player player,String message){
+        // This will send the message on the action bar, so it looks cooler
+        if(plugin.getConfig().getBoolean("send-arrival-messages-on-action-bar")){
+            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
+        }else{
+            PostAPI.sendMessage(player,message);
+        }
+    }
 
     public HomePostCommand(KryeitTPPlugin plugin) {
         this.plugin = plugin;
@@ -92,21 +100,19 @@ public class HomePostCommand implements CommandExecutor{
                         Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                         player.teleport(newlocation);
                         player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
+                        String message = ChatColor.translateAlternateColorCodes('&',"&7Welcome to your post.");
+                        sendActionBarOrChat(player,message);
                     }, 40L);
                 } else {
                     // Teleport player to his home without launch feature
                     Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                     player.teleport(newlocation);
                     player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
+                    String message = ChatColor.translateAlternateColorCodes('&',"&7Welcome to your post.");
+                    sendActionBarOrChat(player,message);
                 }
-                String message = ChatColor.translateAlternateColorCodes('&',"&7Welcome to your post.");
 
-                // This will send the message on the action bar, so it looks cooler
-                if(plugin.getConfig().getBoolean("send-arrival-messages-on-action-bar")){
-                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
-                }else{
-                    PostAPI.sendMessage(player,message);
-                }
+
                 return true;
             } else {
                 // Player does not have a homepost

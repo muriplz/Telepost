@@ -18,6 +18,15 @@ import java.util.*;
 
 public class VisitCommand implements CommandExecutor{
 
+    public void sendActionBarOrChat(Player player,String message){
+        // This will send the message on the action bar, so it looks cooler
+        if(plugin.getConfig().getBoolean("send-arrival-messages-on-action-bar")){
+            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
+        }else{
+            PostAPI.sendMessage(player,message);
+        }
+    }
+
     private final KryeitTPPlugin plugin;
 
     public VisitCommand(KryeitTPPlugin plugin) {
@@ -119,6 +128,8 @@ public class VisitCommand implements CommandExecutor{
                             Location newlocation = new Location(world, loc.getBlockX() + 0.5, height, loc.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                             player.teleport(newlocation);
                             player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
+                            String message = ChatColor.translateAlternateColorCodes('&',"&7Welcome to " + args[0] + ".");
+                            sendActionBarOrChat(player,message);
                         }, 40L);
                     }else{
 
@@ -126,13 +137,8 @@ public class VisitCommand implements CommandExecutor{
                         Location newlocation = new Location(world, loc.getBlockX() + 0.5, height, loc.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                         player.teleport(newlocation);
                         player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
-                    }
-                    String message = ChatColor.translateAlternateColorCodes('&',"&7Welcome to " + args[0] + ".");
-                    // This will send the message on the action bar, so it looks cooler
-                    if(plugin.getConfig().getBoolean("send-arrival-messages-on-action-bar")){
-                        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
-                    }else{
-                        PostAPI.sendMessage(player,message);
+                        String message = ChatColor.translateAlternateColorCodes('&',"&7Welcome to " + args[0] + ".");
+                        sendActionBarOrChat(player,message);
                     }
                     return true;
                 }
@@ -171,6 +177,8 @@ public class VisitCommand implements CommandExecutor{
                                 Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                                 player.teleport(newlocation);
                                 player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
+                                String message = ChatColor.translateAlternateColorCodes('&',"&7Welcome to your post.");
+                                sendActionBarOrChat(player,message);
                             }, 40L);
                         }else{
 
@@ -178,13 +186,8 @@ public class VisitCommand implements CommandExecutor{
                             Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                             player.teleport(newlocation);
                             player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
-                        }
-                        String message = ChatColor.translateAlternateColorCodes('&',"&7Welcome to your post.");
-                        // This will send the message on the action bar, so it looks cooler
-                        if(plugin.getConfig().getBoolean("send-arrival-messages-on-action-bar")){
-                            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
-                        }else{
-                            PostAPI.sendMessage(player,message);
+                            String message = ChatColor.translateAlternateColorCodes('&',"&7Welcome to your post.");
+                            sendActionBarOrChat(player,message);
                         }
                         return true;
                     }else{
@@ -229,6 +232,8 @@ public class VisitCommand implements CommandExecutor{
                                 Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                                 player.teleport(newlocation);
                                 player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
+                                String message = ChatColor.translateAlternateColorCodes('&',"&7Welcome to " + args[0] + "'s post.");
+                                sendActionBarOrChat(player,message);
                             }, 40L);
                         }else{
 
@@ -236,13 +241,8 @@ public class VisitCommand implements CommandExecutor{
                             Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                             player.teleport(newlocation);
                             player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
-                        }
-                        String message = ChatColor.translateAlternateColorCodes('&',"&7Welcome to " + args[0] + "'s post.");
-                        // This will send the message on the action bar, so it looks cooler
-                        if(plugin.getConfig().getBoolean("send-arrival-messages-on-action-bar")){
-                            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
-                        }else{
-                            PostAPI.sendMessage(player,message);
+                            String message = ChatColor.translateAlternateColorCodes('&',"&7Welcome to " + args[0] + "'s post.");
+                            sendActionBarOrChat(player,message);
                         }
                         return true;
                     }else{

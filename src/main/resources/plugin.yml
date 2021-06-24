@@ -10,9 +10,6 @@ commands:
   setpost:
     description: sets the nearest post as your home.
   invite:
-    aliases:
-      invitepost
-      inviteplayer
     description: invite a player to your home post.
   homepost:
     description: teleports to your home post.
@@ -25,17 +22,8 @@ commands:
     description: unnames a post.
   buildpost:
     description: builds a post.
-    aliases: bp
-    usage:
-      /<command>
-      /<command> <y>
-      /<command> <x> <z>
-      /<command> <x> <y> <z>
   posthelp:
     description: tells info about Telepost commands.
-    usage:
-      /<command>
-      /<command> <another command>
   postlist:
     description: shows all the named posts, and lets you teleport by clicking.
     aliases: postslist
