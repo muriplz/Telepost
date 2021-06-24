@@ -17,6 +17,9 @@ import java.util.*;
 
 
 public class VisitCommand implements CommandExecutor{
+    public static void playSoundAfterTp(Player player,Location location){
+        player.playSound(location, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
+    }
 
     public void sendActionBarOrChat(Player player,String message){
         // This will send the message on the action bar, so it looks cooler
@@ -127,7 +130,7 @@ public class VisitCommand implements CommandExecutor{
                         Bukkit.getScheduler().runTaskLater(plugin, () -> {
                             Location newlocation = new Location(world, loc.getBlockX() + 0.5, height, loc.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                             player.teleport(newlocation);
-                            player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
+                            playSoundAfterTp(player,newlocation);
                             String message = ChatColor.translateAlternateColorCodes('&',"&aWelcome to &6" + args[0] + "&a.");
                             sendActionBarOrChat(player,message);
                         }, 40L);
@@ -136,7 +139,7 @@ public class VisitCommand implements CommandExecutor{
                         // Teleport without the "launch-feature"
                         Location newlocation = new Location(world, loc.getBlockX() + 0.5, height, loc.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                         player.teleport(newlocation);
-                        player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
+                        playSoundAfterTp(player,newlocation);
                         String message = ChatColor.translateAlternateColorCodes('&',"&aWelcome to &6" + args[0] + "&a.");
                         sendActionBarOrChat(player,message);
                     }
@@ -176,7 +179,7 @@ public class VisitCommand implements CommandExecutor{
                             Bukkit.getScheduler().runTaskLater(plugin, () -> {
                                 Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                                 player.teleport(newlocation);
-                                player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
+                                playSoundAfterTp(player,newlocation);
                                 String message = ChatColor.translateAlternateColorCodes('&',"&aWelcome to your post.");
                                 sendActionBarOrChat(player,message);
                             }, 40L);
@@ -185,7 +188,7 @@ public class VisitCommand implements CommandExecutor{
                             // Teleport without the "launch-feature"
                             Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                             player.teleport(newlocation);
-                            player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
+                            playSoundAfterTp(player,newlocation);
                             String message = ChatColor.translateAlternateColorCodes('&',"&aWelcome to your post.");
                             sendActionBarOrChat(player,message);
                         }
@@ -231,7 +234,7 @@ public class VisitCommand implements CommandExecutor{
                             Bukkit.getScheduler().runTaskLater(plugin, () -> {
                                 Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                                 player.teleport(newlocation);
-                                player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
+                                playSoundAfterTp(player,newlocation);
                                 String message = ChatColor.translateAlternateColorCodes('&',"&aWelcome to &6" + args[0] + "&a's post.");
                                 sendActionBarOrChat(player,message);
                             }, 40L);
@@ -240,7 +243,7 @@ public class VisitCommand implements CommandExecutor{
                             // "launch-feature" disabled
                             Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                             player.teleport(newlocation);
-                            player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
+                            playSoundAfterTp(player,newlocation);
                             String message = ChatColor.translateAlternateColorCodes('&',"&aWelcome to &6" + args[0] + "&a's post.");
                             sendActionBarOrChat(player,message);
                         }
