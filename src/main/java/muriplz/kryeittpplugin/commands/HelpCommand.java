@@ -45,11 +45,7 @@ public class HelpCommand implements CommandExecutor {
                 }
 
                 return true;
-            }
-            if(args.length>1){
-                PostAPI.sendMessage(player,"Use /posthelp or /posthelp <Command>.");
-            }
-            if(args.length==1) {
+            }else if(args.length==1) {
                 if(args[0].equals("buildpost") && player.hasPermission("telepost.buildpost")) {
                     PostAPI.sendMessage(player,"&a/BuildPost guide: ");
                     PostAPI.sendMessage(player,"- &6/buildpost&f: builds the nearest post.");
@@ -115,6 +111,9 @@ public class HelpCommand implements CommandExecutor {
                     PostAPI.sendMessage(player, "- Comming soon: /unnamepost unnames the nearest post.");
                     PostAPI.sendMessage(player, "- This command is only for Admins.");
                 }
+            }else {
+                PostAPI.sendMessage(player,"Use /posthelp or /posthelp <Command>");
+                return false;
             }
 
             return true;
