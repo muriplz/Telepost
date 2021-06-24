@@ -99,7 +99,7 @@ public class HomePostCommand implements CommandExecutor{
                     Bukkit.getScheduler().runTaskLater(plugin, () -> {
                         Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                         player.teleport(newlocation);
-                        VisitCommand.playSoundAfterTp(player,newlocation);
+                        PostAPI.playSoundAfterTp(player,newlocation);
                         String message = ChatColor.translateAlternateColorCodes('&',"&aWelcome to your post.");
                         sendActionBarOrChat(player,message);
                     }, 40L);
@@ -107,7 +107,7 @@ public class HomePostCommand implements CommandExecutor{
                     // Teleport player to his home without launch feature
                     Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                     player.teleport(newlocation);
-                    VisitCommand.playSoundAfterTp(player,newlocation);
+                    PostAPI.playSoundAfterTp(player,newlocation);
                     String message = ChatColor.translateAlternateColorCodes('&',"&aWelcome to your post.");
                     sendActionBarOrChat(player,message);
                 }

@@ -27,6 +27,10 @@ public class PostAPI {
         return (int) post;
     }
 
+    public static void playSoundAfterTp(Player player,Location location){
+        player.playSound(location, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
+    }
+
     public static void sendMessage(Player player,String message){
         // Sending the message with & instead of §
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));

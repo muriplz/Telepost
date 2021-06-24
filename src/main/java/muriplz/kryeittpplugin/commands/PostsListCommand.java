@@ -2,6 +2,7 @@ package muriplz.kryeittpplugin.commands;
 
 import io.github.niestrat99.advancedteleport.api.Warp;
 import muriplz.kryeittpplugin.KryeitTPPlugin;
+import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -36,16 +37,14 @@ public class PostsListCommand implements CommandExecutor {
             List<String> allWarpNames = new ArrayList<>(warpNames);
 
             // Initialize all the TextComponents
-            TextComponent messagePosts = new TextComponent("Posts :");
+            TextComponent messagePosts = new TextComponent(ChatColor.GOLD+"Posts :");
             TextComponent message;
 
             // Add to messagePosts all components to teleport to every warp
-            for(int i=0; i<allWarpNames.size();i++){
-                String warpName = allWarpNames.get(i);
-
-                message = new TextComponent(" "+warpName);
-                message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/v "+warpName));
-                message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("Teleport to the "+warpName+" post.")));
+            for (String warpName : allWarpNames) {
+                message = new TextComponent(" " + warpName);
+                message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/v " + warpName));
+                message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("Teleport to the " + warpName + " post.")));
                 messagePosts.addExtra(message);
             }
 
