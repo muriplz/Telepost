@@ -2,10 +2,9 @@ package muriplz.kryeittpplugin.commands;
 
 import io.github.niestrat99.advancedteleport.api.ATPlayer;
 import muriplz.kryeittpplugin.KryeitTPPlugin;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Sound;
-import org.bukkit.World;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -93,16 +92,21 @@ public class HomePostCommand implements CommandExecutor{
                         Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                         player.teleport(newlocation);
                         player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
-                        PostAPI.sendMessage(player, "&7Welcome to your post.");
                     }, 40L);
                 } else {
                     // Teleport player to his home without launch feature
                     Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                     player.teleport(newlocation);
                     player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
-                    PostAPI.sendMessage(player,"&7Welcome to your post.");
                 }
-                player.setFallDistance(-300.0F);
+                String message = ChatColor.translateAlternateColorCodes('&',"&7Welcome to your post.");
+
+                // This will send the message on the action bar, so it looks cooler
+                if(plugin.getConfig().getBoolean("send-arrival-messages-on-action-bar")){
+                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
+                }else{
+                    PostAPI.sendMessage(player,message);
+                }
                 return true;
             } else {
                 // Player does not have a homepost

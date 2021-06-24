@@ -21,8 +21,11 @@
 # multiple-names-per-post: with this option true, you can give multiple names to the same post with /namepost.
 # ( default = false )
 ################
-# tp-in-the-air: after using a TP command (either /homepost or /visit < > )
+# tp-in-the-air: after using a TP command ( either /homepost or /visit < > )
 # you get teleported to y = 265 if this is true, if not, it will teleport you to ground level.
+# ( default = true )
+################
+# send-arrival-messages-on-action-bar: shows the message after /homepost and /visit teleportation on the Action Bar.
 # ( default = true )
 ################
 distance-between-posts: 800
@@ -32,3 +35,4 @@ post-width: 5
 launch-feature: false
 multiple-names-per-post: false
 tp-in-the-air: true
+send-arrival-messages-on-action-bar: true

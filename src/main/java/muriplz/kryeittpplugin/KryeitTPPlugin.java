@@ -29,6 +29,7 @@ public class KryeitTPPlugin extends JavaPlugin implements Listener {
         config.addDefault("launch-feature", false);
         config.addDefault("multiple-names-per-post",false);
         config.addDefault("tp-in-the-air",true);
+        config.addDefault("send-arrival-messages-on-action-ba",true);
         config.options().copyDefaults(true);
         saveDefaultConfig();
 
