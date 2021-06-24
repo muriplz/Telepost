@@ -1,5 +1,5 @@
 main: muriplz.kryeittpplugin.KryeitTPPlugin
-version: 3.3.0
+version: 3.5
 name: Telepost
 author: muriplz and BlockOG
 depend: [AdvancedTeleport]
@@ -39,3 +39,5 @@ commands:
     usage:
       /<command>
       /<command> <another command>
+  postlist:
+    description: shows all the named posts, and lets you teleport by clicking.

@@ -82,7 +82,7 @@ public class HomePostCommand implements CommandExecutor{
                     height = 265;
                 }else{
                     // If the option is false, teleport them to the first block that is air
-                    height = PostAPI.getFirstSolidBlockHeight(location.getBlockX(),location.getBlockZ())+1;
+                    height = PostAPI.getFirstSolidBlockHeight(location.getBlockX(),location.getBlockZ())+2;
                 }
 
 

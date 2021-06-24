@@ -109,7 +109,7 @@ public class VisitCommand implements CommandExecutor{
                         height = 265;
                     }else{
                         // If the option is false, teleport them to the first block that is air
-                        height = PostAPI.getFirstSolidBlockHeight(loc.getBlockX(),loc.getBlockZ())+1;
+                        height = PostAPI.getFirstSolidBlockHeight(loc.getBlockX(),loc.getBlockZ())+2;
                     }
 
                     // Launches a player to the sky (TODO: improve this horrible thing)
@@ -157,7 +157,7 @@ public class VisitCommand implements CommandExecutor{
                             height = 265;
                         }else{
                             // If the option is false, teleport them to the first block that is air
-                            height = PostAPI.getFirstSolidBlockHeight(location.getBlockX(),location.getBlockZ())+1;
+                            height = PostAPI.getFirstSolidBlockHeight(location.getBlockX(),location.getBlockZ())+2;
                         }
 
                         // Launches a player to the sky (TODO: improve this horrible thing)
@@ -211,7 +211,7 @@ public class VisitCommand implements CommandExecutor{
                             height = 265;
                         }else{
                             // If the option is false, teleport them to the first block that is air
-                            height = PostAPI.getFirstSolidBlockHeight(location.getBlockX(),location.getBlockZ())+1;
+                            height = PostAPI.getFirstSolidBlockHeight(location.getBlockX(),location.getBlockZ())+2;
                         }
 
                         // Launch the player is its true on config.yml
