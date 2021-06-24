@@ -39,7 +39,16 @@ public class SetPostCommand implements CommandExecutor {
             Bukkit.getConsoleSender().sendMessage(plugin.name + "You can't execute this command from console.");
             return false;
         } else {
+
+            // Get the Player
             Player player = (Player) sender;
+
+            // If the command is not /setpost ONLY then return false
+            if(args.length!=0){
+                PostAPI.sendMessage(player,"Use /setpost.");
+                return false;
+            }
+
             if(!player.getWorld().getName().equals("world")){
                 sendActionBarOrChat(player, ChatColor.translateAlternateColorCodes('&',"&cYou have to be in the Overworld to use this command."));
                 return false;

@@ -44,6 +44,14 @@ public class HomePostCommand implements CommandExecutor{
 
             // Getting the player and seeing if he's in the overworld
             Player player = (Player) sender;
+
+            // If the command is not /setpost ONLY then return false
+            if(args.length!=0){
+                PostAPI.sendMessage(player,"Use /setpost.");
+                return false;
+            }
+
+            // Check if the player is on the right dimension
             if(!player.getWorld().getName().equals("world")){
                 sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cYou have to be in the Overworld to use this command."));
                 return false;
