@@ -1,4 +1,4 @@
-package muriplz.kryeittpplugin.commands;
+package muriplz.kryeittpplugin.tabCompletion;
 
 import io.github.niestrat99.advancedteleport.api.Warp;
 import org.bukkit.command.Command;

@@ -1,6 +1,7 @@
 package muriplz.kryeittpplugin;
 
 import muriplz.kryeittpplugin.commands.*;
+import muriplz.kryeittpplugin.tabCompletion.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -45,12 +46,15 @@ public class KryeitTPPlugin extends JavaPlugin implements Listener {
 
         // /setpost
         Objects.requireNonNull(this.getCommand("setpost")).setExecutor(new SetPostCommand(this));
+        Objects.requireNonNull(getCommand("setpost")).setTabCompleter(new ReturnNullTab());
 
         // /homepost
         Objects.requireNonNull(this.getCommand("homepost")).setExecutor(new HomePostCommand(this));
+        Objects.requireNonNull(getCommand("homepost")).setTabCompleter(new ReturnNullTab());
 
         // /invite <Player>
         Objects.requireNonNull(this.getCommand("invite")).setExecutor(new InviteCommand(this));
+        Objects.requireNonNull(getCommand("invite")).setTabCompleter(new InviteTab());
 
         // /visit <NamedPost/Player>
         Objects.requireNonNull(this.getCommand("v")).setExecutor(new VisitCommand(this));
@@ -58,7 +62,7 @@ public class KryeitTPPlugin extends JavaPlugin implements Listener {
 
         // /namepost <Name>
         Objects.requireNonNull(this.getCommand("namepost")).setExecutor(new NamePostCommand(this));
-        Objects.requireNonNull(getCommand("namepost")).setTabCompleter(new NamePostTab()); // So the name part doesn't show online players
+        Objects.requireNonNull(getCommand("namepost")).setTabCompleter(new ReturnNullTab());
 
         // /unnamepost <Name>
         Objects.requireNonNull(this.getCommand("unnamepost")).setExecutor(new UnnamePostCommand(this));
@@ -77,6 +81,7 @@ public class KryeitTPPlugin extends JavaPlugin implements Listener {
 
         // /postlist
         Objects.requireNonNull(this.getCommand("postlist")).setExecutor( new PostsListCommand(this));
+        Objects.requireNonNull(getCommand("postlist")).setTabCompleter(new ReturnNullTab());
     }
 }
 

@@ -1,4 +1,4 @@
-package muriplz.kryeittpplugin.commands;
+package muriplz.kryeittpplugin.tabCompletion;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

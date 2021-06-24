@@ -1,6 +1,7 @@
-package muriplz.kryeittpplugin.commands;
+package muriplz.kryeittpplugin.tabCompletion;
 
 import muriplz.kryeittpplugin.KryeitTPPlugin;
+import muriplz.kryeittpplugin.commands.PostAPI;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;

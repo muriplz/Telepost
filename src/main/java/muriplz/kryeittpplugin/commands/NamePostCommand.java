@@ -32,7 +32,7 @@ public class NamePostCommand implements CommandExecutor {
         }else {
             Player player = (Player) sender;
             if(args.length==0){
-                PostAPI.sendMessage(player,"&fUse /NamePost <PostName> to name the nearest post.");
+                PostAPI.sendMessage(player,"&fUse /NamePost <PostName> ( &7/posthelp namepost &ffor more info ).");
                 return false;
             }
             if(!player.hasPermission("telepost.namepost")){
@@ -44,10 +44,7 @@ public class NamePostCommand implements CommandExecutor {
                 return false;
             }
             if(args.length==1){
-                if(Warp.getWarps().containsKey(args[0])){
-                    PostAPI.sendMessage(player,"&cThe post "+args[0]+" already exists, try a different name or unname the post using /UnnamePost Agua.");
-                    return false;
-                }
+
                 // get distance between posts from config.yml
                 int gap = plugin.getConfig().getInt("distance-between-posts");
                 
@@ -59,6 +56,10 @@ public class NamePostCommand implements CommandExecutor {
                 int originZ = plugin.getConfig().getInt("post-z-location");
                 int postZ = PostAPI.getNearPost(gap,player.getLocation().getBlockZ(),originZ);
 
+                if(Warp.getWarps().containsKey(args[0])){
+                    PostAPI.sendMessage(player,"&cThe post &6"+args[0]+"&c already exists, try a different name or unname the post using &6/UnnamePost <Name>&c.");
+                    return false;
+                }
                 Location nearestpostLocation = new Location(player.getWorld(), postX , 260, postZ );
                 HashMap<String, Warp> warps = Warp.getWarps();
                 Set<String> warpNames = warps.keySet();
