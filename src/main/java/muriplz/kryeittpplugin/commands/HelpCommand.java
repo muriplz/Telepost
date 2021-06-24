@@ -59,6 +59,36 @@ public class HelpCommand implements CommandExecutor {
                     PostAPI.sendMessage(player, "- &6/h&f: alias for /homepost.");
                     PostAPI.sendMessage(player, "- &6/v&f: alias for /visit.");
                     return true;
+                } else if(args[0].equals("nearestpost")){
+                    PostAPI.sendMessage(player,"&a/NearestPost guide: ");
+                    PostAPI.sendMessage(player,"- There is a post every &6"+plugin.getConfig().getInt("distance-between-posts")+ "&f blocks.");
+                    PostAPI.sendMessage(player,"- You can only use teleports inside posts.");
+                    PostAPI.sendMessage(player,"- Use F3 to see your own coordinates.");
+                } else if(args[0].equals("setpost")){
+                    PostAPI.sendMessage(player,"&a/SetPost guide: ");
+                    PostAPI.sendMessage(player,"- This command will set a home for you on the nearest post.");
+                    PostAPI.sendMessage(player,"- You can visit your home post using &6/homepost&f.");
+                    PostAPI.sendMessage(player,"- You can only have 1 home post at a time.");
+                } else if(args[0].equals("homepost")){
+                    PostAPI.sendMessage(player,"&a/HomePost guide: ");
+                    PostAPI.sendMessage(player,"- This command will teleport to your home post.");
+                    PostAPI.sendMessage(player,"- You can set your home post using &6/setpost&f.");
+                    if(!player.hasPermission("telepost.homepost")){
+                        PostAPI.sendMessage(player,"- You can only use this command if you are inside a post.");
+                    }
+                    PostAPI.sendMessage(player,"- You can only have 1 home post at a time.");
+                } else if(args[0].equals("visit")){
+                    PostAPI.sendMessage(player,"&a/Visit guide: ");
+                    PostAPI.sendMessage(player,"- This command will teleport to your destination.");
+                    PostAPI.sendMessage(player,"- Possible destinations are: Post you have been invited to or &6named posts&f.");
+                    if(!player.hasPermission("telepost.visit")){
+                        PostAPI.sendMessage(player,"- You can only use this command if you are inside a post.");
+                    }
+                } else if(args[0].equals("postlist")){
+                    PostAPI.sendMessage(player,"&a/PostList guide: ");
+                    PostAPI.sendMessage(player,"- This command will show you all named posts.");
+                    PostAPI.sendMessage(player,"- You can click the names to teleport to the destination.");
+                    PostAPI.sendMessage(player,"- You also have to be inside a post to teleport, but you can use &6/postlist&f anywhere.");
                 }
             }
             player.sendMessage("Use /posthelp or /posthelp <Command>.");

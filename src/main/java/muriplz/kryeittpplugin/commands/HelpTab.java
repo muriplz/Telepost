@@ -27,6 +27,11 @@ public class HelpTab implements TabCompleter {
             commands.add("buildpost");
         }
         commands.add("aliases");
+        commands.add("nearestpost");
+        commands.add("setpost");
+        commands.add("homepost");
+        commands.add("visit");
+        commands.add("postlist");
 
         // Add to "completions" all words that have letters that are contained on "commands" list
         int i=0;

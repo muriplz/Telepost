@@ -64,7 +64,7 @@ public class VisitCommand implements CommandExecutor{
             int height;
 
             // See if the player is inside a post
-            if(!player.hasPermission("telepost.v")){
+            if(!player.hasPermission("telepost.visit")){
                 if(PostAPI.isPlayerOnPost(player,originX,originZ,width,gap)){
                     sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cYou have to be inside a post to use this command, try &6/nearestpost&c."));
                     return false;
@@ -76,12 +76,12 @@ public class VisitCommand implements CommandExecutor{
 
             // /v
             if (args.length == 0) {
-                PostAPI.sendMessage(player,"&fUse /v <PostName/PlayerName> to visit a post.");
+                PostAPI.sendMessage(player,"&fUse /visit <PostName/PlayerName> to visit a post.");
                 return false;
             }
 
             // If the player is not on the ground stop the command
-            if(!Objects.requireNonNull(Bukkit.getEntity(player.getUniqueId())).isOnGround()&&!player.hasPermission("telepost.v")){
+            if(!Objects.requireNonNull(Bukkit.getEntity(player.getUniqueId())).isOnGround()&&!player.hasPermission("telepost.visit")){
                 return false;
             }
 
@@ -105,7 +105,7 @@ public class VisitCommand implements CommandExecutor{
 
                     // See if the player want to teleport to the nearest post, only with telepost.v permission you can do this
 
-                    if(warp.getLocation().getBlockX()==postX&&warp.getLocation().getBlockZ()==postZ&&!player.hasPermission("telepost.v")){
+                    if(warp.getLocation().getBlockX()==postX&&warp.getLocation().getBlockZ()==postZ&&!player.hasPermission("telepost.visit")){
                         sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cYou are already in &6"+warp.getName()+"&c."));
                         return false;
                     }
@@ -157,7 +157,7 @@ public class VisitCommand implements CommandExecutor{
 
                         // See if the player is already at his home post, if he has permission he can teleport
 
-                        if(location.getBlockX()==postX&&location.getBlockZ()==postZ&&!player.hasPermission("telepost.v")){
+                        if(location.getBlockX()==postX&&location.getBlockZ()==postZ&&!player.hasPermission("telepost.visit")){
                             sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cYou are already at your home post."));
                             return false;
                         }
@@ -212,7 +212,7 @@ public class VisitCommand implements CommandExecutor{
 
                         // See if he wants to teleport to a post he is already in, if he has permission this has no effect
 
-                        if(location.getBlockX()==postX&&location.getBlockZ()==postZ&&!player.hasPermission("telepost.v")){
+                        if(location.getBlockX()==postX&&location.getBlockZ()==postZ&&!player.hasPermission("telepost.visit")){
                             sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cYou are already at &6"+args[0]+"&c's home post."));
                             return false;
                         }
