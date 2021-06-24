@@ -111,10 +111,10 @@ public class BuildPostCommand implements CommandExecutor {
         SetBlock(Material.OAK_WALL_SIGN, signpoint.getRelative(BlockFace.NORTH));
         setSignFacing(signpoint.getRelative(BlockFace.NORTH), BlockFace.NORTH);
         Sign sign = (Sign) signpoint.getRelative(BlockFace.NORTH).getState();
-        sign.setLine(0, "Do /visit");
-        sign.setLine(1, "<Player> to visit");
-        sign.setLine(2, "a player that");
-        sign.setLine(3, "invited you");
+        sign.setLine(0, "Use /posthelp");
+        sign.setLine(1, "to get more");
+        sign.setLine(2, "info about");
+        sign.setLine(3, "the posts.");
         sign.update();
 
         // Setting the sign on the east side of the post
