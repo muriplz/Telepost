@@ -13,6 +13,7 @@ commands:
     description: invite a player to your home post.
   homepost:
     description: teleports to your home post.
+    aliases: h
   v:
     aliases: visit
     description: visits a post.
