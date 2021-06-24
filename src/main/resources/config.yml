@@ -28,7 +28,7 @@
 # you get teleported to y = 265 if this is true, if not, it will teleport you to ground level.
 # ( default = true )
 ################
-# messages-on-action-bar = shows the message on the Action Bar. ( only works for /homepost and /visit for now )
+# messages-on-action-bar = shows the message on the Action Bar. ( doesn't work for all commands )
 # ( default = true )
 ################
 # world-folder-name: 'world' (STILL WIP)

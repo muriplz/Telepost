@@ -1,10 +1,7 @@
 package muriplz.kryeittpplugin.commands;
 
 import muriplz.kryeittpplugin.KryeitTPPlugin;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
@@ -175,6 +172,12 @@ public class BuildPostCommand implements CommandExecutor {
 
             // Getting the Player
             Player player = (Player) sender;
+
+            // Don't build posts on other worlds, TP system only works for one dimension (TODO= change "world" for a variable from config "world-folder-name")
+            if(!player.getWorld().getName().equals("world")){
+                PostAPI.sendMessage(player,"&cYou have to be in the Overworld to use this command.");
+                return false;
+            }
 
             // Setting the temporary coords
             int X = 0;

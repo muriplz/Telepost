@@ -3,7 +3,10 @@ package muriplz.kryeittpplugin.commands;
 
 import io.github.niestrat99.advancedteleport.api.ATPlayer;
 import muriplz.kryeittpplugin.KryeitTPPlugin;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -20,6 +23,15 @@ public class SetPostCommand implements CommandExecutor {
         this.plugin = plugin;
     }
 
+    public void sendActionBarOrChat(Player player,String message){
+        // This will send the message on the action bar, so it looks cooler
+        if(plugin.getConfig().getBoolean("send-arrival-messages-on-action-bar")){
+            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
+        }else{
+            PostAPI.sendMessage(player,message);
+        }
+    }
+
     //  This commands aims to be /SetPost in-game
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
@@ -29,7 +41,7 @@ public class SetPostCommand implements CommandExecutor {
         } else {
             Player player = (Player) sender;
             if(!player.getWorld().getName().equals("world")){
-                PostAPI.sendMessage(player,"&cYou have to be in the Overworld to use this command.");
+                sendActionBarOrChat(player, ChatColor.translateAlternateColorCodes('&',"&cYou have to be in the Overworld to use this command."));
                 return false;
             }
             // get distance between posts from config.yml
@@ -52,12 +64,12 @@ public class SetPostCommand implements CommandExecutor {
             // moving the home if he already has one
             if (atPlayer.hasMainHome()) {
                 atPlayer.moveHome(atPlayer.getMainHome().getName(), location, null);
-                PostAPI.sendMessage(player,"&aYou have successfully moved your home post at: ("+postX+","+postZ+").");
+                sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&aYou have successfully moved your home post at: &6("+postX+","+postZ+")&a."));
             }else{
 
                 // setting the post for the first time
                 atPlayer.addHome("home", location, null);
-                PostAPI.sendMessage(player,"&aYou have successfully set your home post at: ("+postX+","+postZ+"), now this will be your /homepost.");
+                sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&aYou have successfully set your home post at: &6("+postX+","+postZ+")&a."));
             }
             return true;
         }
