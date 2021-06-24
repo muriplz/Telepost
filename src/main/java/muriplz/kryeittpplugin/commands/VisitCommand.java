@@ -128,7 +128,7 @@ public class VisitCommand implements CommandExecutor{
                             Location newlocation = new Location(world, loc.getBlockX() + 0.5, height, loc.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                             player.teleport(newlocation);
                             player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
-                            String message = ChatColor.translateAlternateColorCodes('&',"&7Welcome to " + args[0] + ".");
+                            String message = ChatColor.translateAlternateColorCodes('&',"&aWelcome to &6" + args[0] + "&a.");
                             sendActionBarOrChat(player,message);
                         }, 40L);
                     }else{
@@ -137,7 +137,7 @@ public class VisitCommand implements CommandExecutor{
                         Location newlocation = new Location(world, loc.getBlockX() + 0.5, height, loc.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                         player.teleport(newlocation);
                         player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
-                        String message = ChatColor.translateAlternateColorCodes('&',"&7Welcome to " + args[0] + ".");
+                        String message = ChatColor.translateAlternateColorCodes('&',"&aWelcome to &6" + args[0] + "&a.");
                         sendActionBarOrChat(player,message);
                     }
                     return true;
@@ -177,7 +177,7 @@ public class VisitCommand implements CommandExecutor{
                                 Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                                 player.teleport(newlocation);
                                 player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
-                                String message = ChatColor.translateAlternateColorCodes('&',"&7Welcome to your post.");
+                                String message = ChatColor.translateAlternateColorCodes('&',"&aWelcome to your post.");
                                 sendActionBarOrChat(player,message);
                             }, 40L);
                         }else{
@@ -186,7 +186,7 @@ public class VisitCommand implements CommandExecutor{
                             Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                             player.teleport(newlocation);
                             player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
-                            String message = ChatColor.translateAlternateColorCodes('&',"&7Welcome to your post.");
+                            String message = ChatColor.translateAlternateColorCodes('&',"&aWelcome to your post.");
                             sendActionBarOrChat(player,message);
                         }
                         return true;
@@ -232,7 +232,7 @@ public class VisitCommand implements CommandExecutor{
                                 Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                                 player.teleport(newlocation);
                                 player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
-                                String message = ChatColor.translateAlternateColorCodes('&',"&7Welcome to " + args[0] + "'s post.");
+                                String message = ChatColor.translateAlternateColorCodes('&',"&aWelcome to &6" + args[0] + "&a's post.");
                                 sendActionBarOrChat(player,message);
                             }, 40L);
                         }else{
@@ -241,7 +241,7 @@ public class VisitCommand implements CommandExecutor{
                             Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                             player.teleport(newlocation);
                             player.playSound(newlocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
-                            String message = ChatColor.translateAlternateColorCodes('&',"&7Welcome to " + args[0] + "'s post.");
+                            String message = ChatColor.translateAlternateColorCodes('&',"&aWelcome to &6" + args[0] + "&a's post.");
                             sendActionBarOrChat(player,message);
                         }
                         return true;
