@@ -25,7 +25,7 @@
 # you get teleported to y = 265 if this is true, if not, it will teleport you to ground level.
 # ( default = true )
 ################
-# messages-on-action-bar: shows the message on the Action Bar. (o nly works for /homepost and /visit for now )
+# messages-on-action-bar: shows the message on the Action Bar. ( only works for /homepost and /visit for now )
 # ( default = true )
 ################
 distance-between-posts: 800
