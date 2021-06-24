@@ -18,6 +18,7 @@ import java.util.Objects;
 public class HomePostCommand implements CommandExecutor{
 
     private final KryeitTPPlugin plugin;
+
     public void sendActionBarOrChat(Player player,String message){
         // This will send the message on the action bar, so it looks cooler
         if(plugin.getConfig().getBoolean("send-arrival-messages-on-action-bar")){

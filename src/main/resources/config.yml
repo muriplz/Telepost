@@ -6,28 +6,32 @@
 # ----------------------------------------------------------------------------------
 # Please, if you find any issues let me know here: https://github.com/muriplz/Telepost/issues
 ################
-# distance-between-posts: This number has to be higher than 0. (default = 800 blocks)
+# world-folder-name = the world you want to use the Post System (CAN ONLY WORK IN ONE WORLD)
+# ( default = "world" )
 ################
-# post-x-location: First post's X coordinate (default -> x = 0)
+# distance-between-posts = This number has to be higher than 0. (default = 800 blocks)
 ################
-# post-z-location: First post's Z coordinate (default -> z = 0)
+# post-x-location = First post's X coordinate (default -> x = 0)
+################
+# post-z-location = First post's Z coordinate (default -> z = 0)
 ################
 # post-width: the width of the post, with center on /nearestpost.
 # This will allow to use /visit and /homepost further away form the nearest post. (default = 5 blocks, 2 to each coordinate + the center)
 ################
-# launch-feature: /homepost and /visit have this feature, this launches you to the sky before teleporting.
+# launch-feature = /homepost and /visit have this feature, this launches you to the sky before teleporting.
 # ( default = false )  Set allow-flight to true on server.properties if set to true (working on a fix)
 ################
-# multiple-names-per-post: with this option true, you can give multiple names to the same post with /namepost.
+# multiple-names-per-post = with this option true, you can give multiple names to the same post with /namepost.
 # ( default = false )
 ################
-# tp-in-the-air: after using a TP command ( either /homepost or /visit < > )
+# tp-in-the-air = after using a TP command ( either /homepost or /visit < > )
 # you get teleported to y = 265 if this is true, if not, it will teleport you to ground level.
 # ( default = true )
 ################
-# messages-on-action-bar: shows the message on the Action Bar. ( only works for /homepost and /visit for now )
+# messages-on-action-bar = shows the message on the Action Bar. ( only works for /homepost and /visit for now )
 # ( default = true )
 ################
+# world-folder-name: 'world' (STILL WIP)
 distance-between-posts: 800
 post-x-location: 0
 post-z-location: 0
