@@ -45,7 +45,7 @@ public class VisitCommand implements CommandExecutor{
 
             // Checking if the player is on the Overworld, if not stop the command
             if(!player.getWorld().getName().equals("world")){
-                PostAPI.sendMessage(player,"&cYou have to be in the Overworld to use this command.");
+                sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cYou have to be in the Overworld to use this command."));
                 return false;
             }
             // Get distance between posts and the width from config.yml
@@ -66,7 +66,7 @@ public class VisitCommand implements CommandExecutor{
             // See if the player is inside a post
             if(!player.hasPermission("telepost.v")){
                 if(PostAPI.isPlayerOnPost(player,originX,originZ,width,gap)){
-                    PostAPI.sendMessage(player,"&cYou have to be inside a post to use this command, try /nearestpost.");
+                    sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cYou have to be inside a post to use this command, try &6/nearestpost&c."));
                     return false;
                 }
             }
@@ -106,7 +106,7 @@ public class VisitCommand implements CommandExecutor{
                     // See if the player want to teleport to the nearest post, only with telepost.v permission you can do this
 
                     if(warp.getLocation().getBlockX()==postX&&warp.getLocation().getBlockZ()==postZ&&!player.hasPermission("telepost.v")){
-                        PostAPI.sendMessage(player,"&cYou are already in "+warp.getName()+".");
+                        sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cYou are already in &6"+warp.getName()+"&c."));
                         return false;
                     }
 
@@ -158,7 +158,7 @@ public class VisitCommand implements CommandExecutor{
                         // See if the player is already at his home post, if he has permission he can teleport
 
                         if(location.getBlockX()==postX&&location.getBlockZ()==postZ&&!player.hasPermission("telepost.v")){
-                            PostAPI.sendMessage(player,"&cYou are already at your home post.");
+                            sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cYou are already at your home post."));
                             return false;
                         }
 
@@ -194,7 +194,7 @@ public class VisitCommand implements CommandExecutor{
                     }else{
 
                         // Player does not have a home post yet
-                        PostAPI.sendMessage(player,"&cYou do not have a home post yet, use /setpost to set the nearest post as your home post");
+                        sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cYou do not have a home post yet, use /setpost to set the nearest post as your home post"));
                         return false;
                     }
                 }
@@ -213,7 +213,7 @@ public class VisitCommand implements CommandExecutor{
                         // See if he wants to teleport to a post he is already in, if he has permission this has no effect
 
                         if(location.getBlockX()==postX&&location.getBlockZ()==postZ&&!player.hasPermission("telepost.v")){
-                            PostAPI.sendMessage(player,"&cYou are already at "+args[0]+"'s home post.");
+                            sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cYou are already at &6"+args[0]+"&c's home post."));
                             return false;
                         }
 
@@ -248,13 +248,13 @@ public class VisitCommand implements CommandExecutor{
                         return true;
                     }else{
                         // Player does not have invitation from args[0] player
-                        PostAPI.sendMessage(player,"&c"+args[0]+" has not invited you.");
+                        sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&c"+args[0]+" has not invited you."));
                         return false;
                     }
                 }else{
 
                     // No post found
-                    PostAPI.sendMessage(player,"&cThat is not a valid post, try another.");
+                    sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cThat is not a valid post, try another."));
                     return false;
                 }
             }else{

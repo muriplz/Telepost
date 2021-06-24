@@ -41,7 +41,7 @@ public class HomePostCommand implements CommandExecutor{
             // Getting the player and seeing if he's in the overworld
             Player player = (Player) sender;
             if(!player.getWorld().getName().equals("world")){
-                PostAPI.sendMessage(player,"&cYou have to be in the Overworld to use this command.");
+                sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cYou have to be in the Overworld to use this command."));
                 return false;
             }
 
@@ -66,7 +66,7 @@ public class HomePostCommand implements CommandExecutor{
             // If the player is not inside a post and does not have telepost.homepost permission, he won't be teleported
             if(!player.hasPermission("telepost.homepost")){
                 if(PostAPI.isPlayerOnPost(player,originX,originZ,width,gap)){
-                    PostAPI.sendMessage(player,"&cYou have to be inside a post to use this command, try /nearestpost.");
+                    sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cYou have to be inside a post to use this command, try &6/nearestpost&c."));
                     return false;
                 }
             }
@@ -78,7 +78,7 @@ public class HomePostCommand implements CommandExecutor{
                 // You can't /homepost to the same post you are in, except if you have telepost.homepost permission
 
                 if(location.getBlockX()==postX&&location.getBlockZ()==postZ&&!player.hasPermission("telepost.homepost")){
-                    PostAPI.sendMessage(player,"&cYou are already at your home post.");
+                    sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cYou are already at your home post."));
                     return false;
                 }
 
@@ -116,7 +116,7 @@ public class HomePostCommand implements CommandExecutor{
                 return true;
             } else {
                 // Player does not have a homepost
-                PostAPI.sendMessage(player,"&aPlease, set a post with /SetPost first.");
+                sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&aPlease, set a post with &6/SetPost&a first."));
             }
             return true;
         }
