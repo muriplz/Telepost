@@ -24,22 +24,23 @@ public class HelpCommand implements CommandExecutor {
 
             // /posthelp
             if(args.length==0){
-                PostAPI.sendMessage(player,"&aHow to use the commands: &f(use /posthelp <Command> for more info about a command)");
+                PostAPI.sendMessage(player,"&aList of commands: &f( + info on /posthelp <Command> )");
                 PostAPI.sendMessage(player,"- &6/nearestpost&f: tells you where the nearest post is.");
                 PostAPI.sendMessage(player,"- &6/setpost&f: sets the nearest post as your home post.");
                 PostAPI.sendMessage(player,"- &6/homepost&f: teleports you to your home post.");
-                PostAPI.sendMessage(player,"- &6/visit <PostName/Player>&f: teleports you to a named post or another player's home post.");
-                PostAPI.sendMessage(player,"- &6/invite <Player>&f: invite a player to your home post for 5 minutes");
+                PostAPI.sendMessage(player,"- &6/visit <PostName/Player>&f: teleports you to another post.");
+                PostAPI.sendMessage(player,"- &6/invite <Player>&f: invite a player to your home post.");
+                PostAPI.sendMessage(player,"- &6/postlist&f: shows you all the named posts.");
                 if(player.hasPermission("telepost.namepost")||player.hasPermission("telepost.unnamepost")||player.hasPermission("telepost.buildpost")){
-                    PostAPI.sendMessage(player,"Admin commands: ");
+                    PostAPI.sendMessage(player,"&aAdmin commands: ");
                     if(player.hasPermission("telepost.namepost")){
-                        PostAPI.sendMessage(player,"- &6/namepost <Name>&f: names the nearest post, so everyone will be able to visit it.");
+                        PostAPI.sendMessage(player,"- &6/namepost <Name>&f: names the nearest post.");
                     }
                     if(player.hasPermission("telepost.unnamepost")){
                         PostAPI.sendMessage(player,"- &6/unnamepost <Name>&f: unnames a post.");
                     }
                     if(player.hasPermission("telepost.buildpost")){
-                        PostAPI.sendMessage(player,"- &6/buildpost (y)&f: use just /buildpost to build the nearest post, see more /posthelp buildpost.");
+                        PostAPI.sendMessage(player,"- &6/buildpost (y)&f: builds the nearest post.");
                     }
                 }
 
@@ -53,12 +54,10 @@ public class HelpCommand implements CommandExecutor {
                     PostAPI.sendMessage(player,"- &6/buildpost (x) (z)&f: builds a post on that location but on the ground level.");
                     PostAPI.sendMessage(player,"- &6/buildpost (x) (y) (z)&f: builds a post on that location.");
                     PostAPI.sendMessage(player,"NOTE: I do not recommend building posts with (x) and (z) provided by you, because the teleport system won't work.");
-                    return true;
                 } else if(args[0].equals("aliases") || args[0].equals("alias")){
                     PostAPI.sendMessage(player, "&aAll aliases for your commands: ");
                     PostAPI.sendMessage(player, "- &6/h&f: alias for /homepost.");
                     PostAPI.sendMessage(player, "- &6/v&f: alias for /visit.");
-                    return true;
                 } else if(args[0].equals("nearestpost")){
                     PostAPI.sendMessage(player,"&a/NearestPost guide: ");
                     PostAPI.sendMessage(player,"- There is a post every &6"+plugin.getConfig().getInt("distance-between-posts")+ "&f blocks.");
@@ -80,7 +79,8 @@ public class HelpCommand implements CommandExecutor {
                 } else if(args[0].equals("visit")){
                     PostAPI.sendMessage(player,"&a/Visit guide: ");
                     PostAPI.sendMessage(player,"- This command will teleport to your destination.");
-                    PostAPI.sendMessage(player,"- Possible destinations are: Post you have been invited to or &6named posts&f.");
+                    PostAPI.sendMessage(player,"- You can be invited to a post with &6/invite&f.");
+                    PostAPI.sendMessage(player,"- You can visit &6Named Posts&f.");
                     if(!player.hasPermission("telepost.visit")){
                         PostAPI.sendMessage(player,"- You can only use this command if you are inside a post.");
                     }
@@ -88,11 +88,33 @@ public class HelpCommand implements CommandExecutor {
                     PostAPI.sendMessage(player,"&a/PostList guide: ");
                     PostAPI.sendMessage(player,"- This command will show you all named posts.");
                     PostAPI.sendMessage(player,"- You can click the names to teleport to the destination.");
-                    PostAPI.sendMessage(player,"- You also have to be inside a post to teleport, but you can use &6/postlist&f anywhere.");
+                    PostAPI.sendMessage(player,"- You also have to be inside a post to teleport.");
+                    PostAPI.sendMessage(player,"- You can use &6/postlist&f anywhere.");
+                } else if(args[0].equals("invite")){
+                    PostAPI.sendMessage(player,"&a/Invite guide: ");
+                    PostAPI.sendMessage(player,"- You can invite a player to your home post.");
+                    PostAPI.sendMessage(player,"- He will have 5 minutes to teleport as much as he wants.");
+                    PostAPI.sendMessage(player,"- This command can be used anywhere.");
+                    PostAPI.sendMessage(player,"- You will get notified if an invite expires.");
+                } else if(args[0].equals("namepost")&&player.hasPermission("telepost.namepost")){
+                    PostAPI.sendMessage(player,"&a/NamePost guide: ");
+                    PostAPI.sendMessage(player,"- You can set a name for the nearest post.");
+                    PostAPI.sendMessage(player,"- The named post will be accesible for everyone.");
+                    if(plugin.getConfig().getBoolean("multiple-names-per-post")){
+                        PostAPI.sendMessage(player,"- You can give the same post different names.");
+                    }else{
+                        PostAPI.sendMessage(player,"- You can only set one name per post.");
+                    }
+                    PostAPI.sendMessage(player,"- This command is only for Admins.");
+                } else if(args[0].equals("unnamepost")&&player.hasPermission("telepost.unnamepost")) {
+                    PostAPI.sendMessage(player, "&a/UnnamePost guide: ");
+                    PostAPI.sendMessage(player, "- You can delete the name of any named post.");
+                    PostAPI.sendMessage(player, "- Comming soon: /unnamepost unnames the nearest post.");
+                    PostAPI.sendMessage(player, "- This command is only for Admins.");
                 }
             }
-            player.sendMessage("Use /posthelp or /posthelp <Command>.");
-            return false;
+
+            return true;
         }
     }
 }
