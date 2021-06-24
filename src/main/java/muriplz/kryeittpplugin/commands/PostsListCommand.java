@@ -37,7 +37,7 @@ public class PostsListCommand implements CommandExecutor {
 
             // Initialize all the TextComponents
             TextComponent messagePosts = new TextComponent("Posts :");
-            TextComponent message = new TextComponent(" ");
+            TextComponent message;
 
             // Add to messagePosts all components to teleport to every warp
             for(int i=1; i<=allWarpNames.size();i++){
