@@ -33,11 +33,9 @@ commands:
       /<command> <x> <y> <z>
   posthelp:
     description: tells info about Telepost commands.
-    aliases:
-      phelp
-      ph
     usage:
       /<command>
       /<command> <another command>
   postlist:
     description: shows all the named posts, and lets you teleport by clicking.
+    aliases: postslist
