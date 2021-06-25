@@ -9,7 +9,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class HelpTab implements TabCompleter {
     @Nullable
@@ -45,7 +44,6 @@ public class HelpTab implements TabCompleter {
 
             // Add to "completions" all words that have letters that are contained on "commands" list
             int i=0;
-            args[0].toLowerCase();
             while(i < commands.size()){
                 if(commands.get(i).toLowerCase().contains(args[0].toLowerCase()) || commands.get(i).contains(args[0].toLowerCase())) {
                     completions.add(commands.get(i));

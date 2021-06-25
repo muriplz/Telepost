@@ -23,6 +23,7 @@ public class KryeitTPPlugin extends JavaPlugin implements Listener {
 
         // Set the config.yml file
         defaultConfig();
+
         // Plugin activated at this point
         Bukkit.getConsoleSender().sendMessage(name+ChatColor.GRAY+" The plugin has been activated. version: "+ChatColor.GREEN+version);
     }

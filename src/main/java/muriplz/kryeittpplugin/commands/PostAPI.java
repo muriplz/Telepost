@@ -1,12 +1,18 @@
 package muriplz.kryeittpplugin.commands;
 
+import muriplz.kryeittpplugin.KryeitTPPlugin;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
 import java.util.Objects;
 
 public class PostAPI {
+    public KryeitTPPlugin plugin;
+    public PostAPI(KryeitTPPlugin plugin) {
+        this.plugin = plugin;
+    }
     public static int getNearPost(int gap, int player, int origin) {
         // Subtracting origin of posts to get correct calculation
         player -= origin;
@@ -51,6 +57,11 @@ public class PostAPI {
                 }
             }
         }
+    }
+    public static void launch(Player player,Location location){
+
+
+
     }
     public static void unloadAllChunksToBuildThePost(Block block,int width){
         // Getting block x and z coords
