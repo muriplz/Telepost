@@ -13,7 +13,6 @@ public class ReturnNullTab implements TabCompleter {
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-        List myList = new ArrayList();
-        return myList;
+        return new ArrayList<>();
     }
 }

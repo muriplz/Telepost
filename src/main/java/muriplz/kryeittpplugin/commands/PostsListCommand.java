@@ -8,6 +8,7 @@ import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -47,7 +48,8 @@ public class PostsListCommand implements CommandExecutor {
             for (String warpName : allWarpNames) {
                 message = new TextComponent(" " + warpName);
                 message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/v " + warpName));
-                message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("Teleport to the " + warpName + " post.")));
+                Location loc = Warp.getWarps().get(warpName).getLocation();
+                message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("Click to teleport to the " + warpName + " post./nThis post is at &6("+loc.getBlockX()+" , "+loc.getBlockZ()+")&f.")));
                 messagePosts.addExtra(message);
             }
 

@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'org.example'
-version '3.6'
+version '3.6-DEV'
 
 repositories {
     mavenCentral()
@@ -23,7 +23,6 @@ dependencies {
     compileOnly "org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT"
     compile 'io.github.niestrat99:AdvancedTeleport-Bukkit:v5.4.6'
     compile 'com.github.Thatsmusic99:ConfigurationMaster:v1.0'
-    compile "org.bstats:bstats-bukkit:2.2.1"
 }
 
 test {

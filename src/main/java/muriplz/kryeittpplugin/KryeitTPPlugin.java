@@ -2,7 +2,6 @@ package muriplz.kryeittpplugin;
 
 import muriplz.kryeittpplugin.commands.*;
 import muriplz.kryeittpplugin.tabCompletion.*;
-import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -18,21 +17,19 @@ public class KryeitTPPlugin extends JavaPlugin implements Listener {
     public String name = ChatColor.YELLOW+"["+ChatColor.WHITE+pdffile.getName()+ChatColor.YELLOW+"]";
     public String version = pdffile.getVersion();
 
-
     public void onEnable(){
         // Register all commands and tab completions
         registerCommands();
 
         // Set the config.yml file
         defaultConfig();
-        getLogger().info("Enabled metrics. You may opt-out by changing plugins/bStats/config.yml");
-        Metrics metrics = new Metrics(this, 11820);
         // Plugin activated at this point
         Bukkit.getConsoleSender().sendMessage(name+ChatColor.GRAY+" The plugin has been activated. version: "+ChatColor.GREEN+version);
     }
     public void onDisable() {
         Bukkit.getConsoleSender().sendMessage(name+ChatColor.WHITE+" The plugin has been deactivated.");
     }
+
     public void defaultConfig(){
         // Set the config.yml file
         config.addDefault("distance-between-posts", 800);
@@ -46,6 +43,7 @@ public class KryeitTPPlugin extends JavaPlugin implements Listener {
         config.options().copyDefaults(true);
         saveDefaultConfig();
     }
+
     public void registerCommands() {
         // /nearestpost
         Objects.requireNonNull(this.getCommand("nearestpost")).setExecutor(new NearestPostCommand(this));
