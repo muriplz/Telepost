@@ -20,6 +20,7 @@ There is a post every 800 (default) blocks.
 - /unnamepost <PostName> : unnames a post. Only for admins.
 - /posthelp (Command): sends a message with information about commands.
 - /buildpost (x) ( y) (z): builds a post. I suggest using /buildpost to build the nearest post or /buildpost (y) to build the nearest post at a certain height. Only for admins.
+- /postlist: shows all Named Posts and lets you click them in order to teleport.
 
 # Permissions:
 - telepost.homepost : lets you use /homepost everywhere in the Overworld.
