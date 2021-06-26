@@ -28,13 +28,12 @@ public class UnnamePostCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if( ! ( sender instanceof Player)) {
             Bukkit.getConsoleSender().sendMessage(plugin.name+"You can't execute this command from console.");
-            return false;
         }else {
             Player player = (Player) sender;
 
             // Permission node
             if(!player.hasPermission("telepost.unnamepost")){
-                PostAPI.sendMessage(player,"&cYou don't have permission to use this command.");
+                PostAPI.sendMessage(player, "&cYou don't have permission to use this command.");
                 return false;
             }
 
@@ -79,6 +78,6 @@ public class UnnamePostCommand implements CommandExecutor {
                     PostAPI.sendMessage(player,"&cNo posts by that name.");
                 }
             }
-            return false;
         }
+        return false;
     }}

@@ -43,8 +43,9 @@ public class PostsListCommand implements CommandExecutor {
 
 
             // Initialize all the TextComponents
-            TextComponent messagePosts = new TextComponent(ChatColor.GOLD+"Posts :");
+            TextComponent messagePosts = new TextComponent(ChatColor.GOLD+"Named posts :");
             TextComponent message;
+
 
             // Add to messagePosts all components to teleport to every warp
             for (String warpName : allWarpNames) {
@@ -55,6 +56,10 @@ public class PostsListCommand implements CommandExecutor {
                 messagePosts.addExtra(message);
             }
 
+            if(warpNames.isEmpty()) {
+                PostAPI.sendMessage(player,"&cThere are no named posts.");
+                return false;
+            }
             // Send the message with the Text components to the player
             player.spigot().sendMessage(messagePosts);
             return true;
