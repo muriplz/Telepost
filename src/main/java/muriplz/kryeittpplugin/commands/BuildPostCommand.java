@@ -25,7 +25,9 @@ public class BuildPostCommand implements CommandExecutor {
     // SetBlock function
     // Basically does the same thing as the /setblock command
     // Only you can't give nbt data
-    public static void SetBlock(@NotNull Material material, @NotNull Block block) { block.setType(material); }
+    public static void SetBlock(@NotNull Material material, @NotNull Block block) {
+        block.setType(material);
+    }
 
     public static void setSignFacing(@NotNull Block b, @NotNull BlockFace face) {
         // Checking if the block is a sign in general

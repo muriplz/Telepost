@@ -1,5 +1,5 @@
 main: muriplz.kryeittpplugin.KryeitTPPlugin
-version: 3.6
+version: 3.6.1
 name: Telepost
 author: muriplz and BlockOG
 depend: [AdvancedTeleport]
@@ -19,10 +19,13 @@ commands:
     description: visits a post.
   namepost:
     description: names the nearest post.
+    permission: telepost.namepost
   unnamepost:
     description: unnames a post.
+    permission: telepost.unnamepost
   buildpost:
     description: builds a post.
+    permission: telepost.buildpost
   posthelp:
     description: tells info about Telepost commands.
   postlist:

@@ -194,7 +194,7 @@ public class VisitCommand implements CommandExecutor{
                     }else{
 
                         // Player does not have a home post yet
-                        sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cYou do not have a home post yet, use /setpost to set the nearest post as your home post"));
+                        sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cYou do not have a home post yet."));
                         return false;
                     }
                 }
@@ -288,7 +288,7 @@ public class VisitCommand implements CommandExecutor{
                             }
                         }
                         // Player does not have invitation from args[0] player
-                        sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&c"+args[0]+" has not invited you."));
+                        sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&6"+args[0]+"&c has not invited you."));
                         return false;
                     }
                 }else{
