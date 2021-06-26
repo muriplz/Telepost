@@ -59,8 +59,6 @@ public class PostAPI {
     }
     public static void launch(Player player,Location location){
 
-
-
     }
     public static void unloadAllChunksToBuildThePost(Block block,int width){
         // Getting block x and z coords
@@ -91,17 +89,6 @@ public class PostAPI {
 
         // Returning true if on post else false
         return playerX < postX - width || playerX > postX + width && playerZ < postZ - width || playerZ > postZ + width;
-    }
-    public static void launchOnTP(Player player, String message, Location postLocation){
-        double initialYDirection = player.getVelocity().getY();
-        do {
-            if (player.getVelocity().getBlockY() < initialYDirection*2) {
-                player.getVelocity().setY(initialYDirection*2);
-            }
-        } while (player.getLocation().getY() < 255);
-        player.teleport(postLocation);
-        PostAPI.sendMessage(player,message);
-        player.playSound(postLocation, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
     }
     public static int getFirstSolidBlockHeight(int X, int Z){
         // Setting the highest height the post can be at

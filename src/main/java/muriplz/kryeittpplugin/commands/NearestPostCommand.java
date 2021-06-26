@@ -44,18 +44,27 @@ public class NearestPostCommand implements CommandExecutor{
                 return false;
             }
 
-            // get Distance between posts from config.yml
-            int gap = plugin.getConfig().getInt("distance-between-posts");
+            if(args.length==0) {
+                // get Distance between posts from config.yml
+                int gap = plugin.getConfig().getInt("distance-between-posts");
 
-            // for the X axis
-            int originX = plugin.getConfig().getInt("post-x-location");
-            int postX = PostAPI.getNearPost(gap,player.getLocation().getBlockX(),originX);
+                // for the X axis
+                int originX = plugin.getConfig().getInt("post-x-location");
+                int postX = PostAPI.getNearPost(gap,player.getLocation().getBlockX(),originX);
 
-            // for the Z axis
-            int originZ = plugin.getConfig().getInt("post-z-location");
-            int postZ = PostAPI.getNearPost(gap,player.getLocation().getBlockZ(),originZ);
+                // for the Z axis
+                int originZ = plugin.getConfig().getInt("post-z-location");
+                int postZ = PostAPI.getNearPost(gap,player.getLocation().getBlockZ(),originZ);
 
-            sendActionBarOrChat(player, ChatColor.translateAlternateColorCodes('&',"&fThe nearest post is on: &6(" + postX + " , " + postZ + ")&f."));
+                sendActionBarOrChat(player, ChatColor.translateAlternateColorCodes('&',"&fThe nearest post is on: &6(" + postX + " , " + postZ + ")&f."));
+            }else if (args.length==1) {
+                if(args[0].equals("on")){
+
+                }else if (args[0].equals("off")){
+
+                }
+            }
+
             return true;
         }
     }

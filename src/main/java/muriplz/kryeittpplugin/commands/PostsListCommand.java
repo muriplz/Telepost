@@ -39,6 +39,10 @@ public class PostsListCommand implements CommandExecutor {
             // Get all names of named posts and made it into a List
             Set<String> warpNames = warps.keySet();
 
+            if(warpNames.isEmpty()) {
+                PostAPI.sendMessage(player,"&cThere are no named posts.");
+                return false;
+            }
             List<String> allWarpNames = new ArrayList<>(warpNames);
 
 
@@ -56,10 +60,7 @@ public class PostsListCommand implements CommandExecutor {
                 messagePosts.addExtra(message);
             }
 
-            if(warpNames.isEmpty()) {
-                PostAPI.sendMessage(player,"&cThere are no named posts.");
-                return false;
-            }
+
             // Send the message with the Text components to the player
             player.spigot().sendMessage(messagePosts);
             return true;

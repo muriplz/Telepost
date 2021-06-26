@@ -13,6 +13,7 @@ repositories {
     maven{
         url 'http://ci.pluginwiki.us/plugin/repository/everything/'
     }
+
     maven { url = 'https://papermc.io/repo/repository/maven-public/' }
     maven { url = 'https://jitpack.io'}
 }

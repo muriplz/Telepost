@@ -246,6 +246,47 @@ public class VisitCommand implements CommandExecutor{
                         }
                         return true;
                     }else{
+
+                        // If you have the right permission node, you can visit a player's post without being invited
+                        if(player.hasPermission("telepost.admin")) {
+                            ATPlayer atPlayer2 = ATPlayer.getPlayer(args[0]);
+                            assert atPlayer2 != null;
+                            if(atPlayer2.hasHome("home")) {
+                                Location location = atPlayer2.getHome("home").getLocation();
+                                // See if the config has the option set to true, in that case the teleport takes the player to the air
+                                if(plugin.getConfig().getBoolean("tp-in-the-air")){
+                                    height = 265;
+                                }else{
+                                    // If the option is false, teleport them to the first block that is air
+                                    height = PostAPI.getFirstSolidBlockHeight(location.getBlockX(),location.getBlockZ())+2;
+                                }
+
+                                String message = ChatColor.translateAlternateColorCodes('&',"&fWelcome to &6" + args[0] + "&f's post.");
+                                // Launch the player is its true on config.yml
+                                if(plugin.getConfig().getBoolean("launch-feature")){
+                                    player.setVelocity(new Vector(0,4,0));
+                                    Bukkit.getScheduler().runTaskLater(plugin, () -> player.setVelocity(new Vector (0,2.5,0)), 25L);
+                                    Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                                        Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
+                                        player.teleport(newlocation);
+                                        PostAPI.playSoundAfterTp(player,newlocation);
+                                        sendActionBarOrChat(player,message);
+                                    }, 40L);
+                                }else{
+
+                                    // "launch-feature" disabled
+                                    Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
+                                    player.teleport(newlocation);
+                                    PostAPI.playSoundAfterTp(player,newlocation);
+                                    sendActionBarOrChat(player,message);
+                                }
+                                return true;
+
+                            }else {
+                                PostAPI.sendMessage(player,"&cThe player &6"+args[0]+"&c doesn't have a home post yet.");
+                                return false;
+                            }
+                        }
                         // Player does not have invitation from args[0] player
                         sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&c"+args[0]+" has not invited you."));
                         return false;
