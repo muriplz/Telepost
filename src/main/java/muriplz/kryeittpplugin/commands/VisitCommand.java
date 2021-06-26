@@ -257,7 +257,7 @@ public class VisitCommand implements CommandExecutor{
                         // If you have the right permission node, you can visit a player's post without being invited
 
                         if(player.hasPermission("telepost.visit.others")) {
-                            ATPlayer atPlayer2 = ATPlayer.getPlayer(player2);
+                            ATPlayer atPlayer2 = ATPlayer.getPlayer(Objects.requireNonNull(Bukkit.getPlayer(Objects.requireNonNull(Bukkit.getPlayer(args[0])).getUniqueId())));
 
                             if(atPlayer2.hasHome("home")) {
                                 Location location = atPlayer2.getHome("home").getLocation();

@@ -11,7 +11,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
 
-public class KryeitTPPlugin extends JavaPlugin implements Listener {
+public class KryeitTPPlugin extends JavaPlugin {
     PluginDescriptionFile pdffile = getDescription();
     FileConfiguration config = this.getConfig();
     public String name = ChatColor.YELLOW+"["+ChatColor.WHITE+pdffile.getName()+ChatColor.YELLOW+"]";
@@ -48,6 +48,7 @@ public class KryeitTPPlugin extends JavaPlugin implements Listener {
     public void registerCommands() {
         // /nearestpost
         Objects.requireNonNull(this.getCommand("nearestpost")).setExecutor(new NearestPostCommand(this));
+        Objects.requireNonNull(getCommand("nearestpost")).setTabCompleter(new ReturnNullTab());
 
         // /setpost
         Objects.requireNonNull(this.getCommand("setpost")).setExecutor(new SetPostCommand(this));
