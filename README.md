@@ -8,7 +8,9 @@ This is a Teleporting plugin for Minecraft Java Edition. Download: https://www.s
 # What's a post?
 It's a structure you can tp from, but not to. (you can only tp to a named post, your home post or a home post you have been invited to)
 There is a post every 800 (default) blocks.
-[![image](https://www.linkpicture.com/q/2021-05-05_11.14.06.png)](https://www.linkpicture.com/view.php?img=LPic609262f7daa961407012337)
+
+<img src="https://www.linkpicture.com/q/2021-05-05_11.14.06.png" width="600" height="750">
+
 
 # Commands:
 - /nearestpost: Tells you where the nearest post is, based on your position.
@@ -28,6 +30,7 @@ There is a post every 800 (default) blocks.
 - telepost.namepost : lets you use /namepost.
 - telepost.unnamepost : lets you use /unnamepost.
 - telepost.buildpost : lets you use /buildpost.
+- telepost.admin: lets you visit players posts without being invited.
 
 
 This plugin is a WIP so the protection of the post, as well as the fall damage, all of this can be achieved with other plugins. i strongly recommend using an external plugin/mod to build the posts.
