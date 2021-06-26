@@ -247,10 +247,18 @@ public class VisitCommand implements CommandExecutor{
                         return true;
                     }else{
 
+                        // Getting the player2 and checking if is online
+                        Player player2 = Bukkit.getPlayer(args[0]);
+                        assert player2 != null;
+                        if(player2.isOnline()) {
+                            PostAPI.sendMessage(player,"&6"+player2.getName()+"&c is not online.");
+                            return false;
+                        }
                         // If you have the right permission node, you can visit a player's post without being invited
+
                         if(player.hasPermission("telepost.visit.others")) {
-                            ATPlayer atPlayer2 = ATPlayer.getPlayer(args[0]);
-                            assert atPlayer2 != null;
+                            ATPlayer atPlayer2 = ATPlayer.getPlayer(player2);
+
                             if(atPlayer2.hasHome("home")) {
                                 Location location = atPlayer2.getHome("home").getLocation();
                                 // See if the config has the option set to true, in that case the teleport takes the player to the air
