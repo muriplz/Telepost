@@ -49,13 +49,13 @@ public class NearestPostCommand implements CommandExecutor{
 
             // for the X axis
             int originX = plugin.getConfig().getInt("post-x-location");
-            int postX=PostAPI.getNearPost(gap,player.getLocation().getBlockX(),originX);
+            int postX = PostAPI.getNearPost(gap,player.getLocation().getBlockX(),originX);
 
             // for the Z axis
             int originZ = plugin.getConfig().getInt("post-z-location");
-            int postZ=PostAPI.getNearPost(gap,player.getLocation().getBlockZ(),originZ);
+            int postZ = PostAPI.getNearPost(gap,player.getLocation().getBlockZ(),originZ);
 
-            sendActionBarOrChat(player, ChatColor.translateAlternateColorCodes('&',"&aThe nearest post is on: &6(" + postX + " , " + postZ + ")&a."));
+            sendActionBarOrChat(player, ChatColor.translateAlternateColorCodes('&',"&fThe nearest post is on: &6(" + postX + " , " + postZ + ")&f."));
             return true;
         }
     }
