@@ -28,6 +28,7 @@ There is a post every 800 (default) blocks.
 - telepost.namepost : lets you use /namepost.
 - telepost.unnamepost : lets you use /unnamepost.
 - telepost.buildpost : lets you use /buildpost.
+- telepost.admin: lets you visit players posts without being invited.
 
 
 This plugin is a WIP so the protection of the post, as well as the fall damage, all of this can be achieved with other plugins. i strongly recommend using an external plugin/mod to build the posts.
