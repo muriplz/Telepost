@@ -32,11 +32,13 @@ public class UnnamePostCommand implements CommandExecutor {
         }else {
             Player player = (Player) sender;
 
+            // Permission node
             if(!player.hasPermission("telepost.unnamepost")){
                 PostAPI.sendMessage(player,"&cYou don't have permission to use this command.");
                 return false;
             }
 
+            // /UnnamePost (this looks for the nearest post)
             if(args.length==0){
                 // get Distance between posts from config.yml
                 int gap = plugin.getConfig().getInt("distance-between-posts");
@@ -58,9 +60,10 @@ public class UnnamePostCommand implements CommandExecutor {
 
                 for (String warpName : allWarpNames) {
                     Location loc = Warp.getWarps().get(warpName).getLocation();
-                    if( loc.getBlockX()==postX && loc.getBlockZ()==postZ) {
+                    if( loc.getBlockX()==postX && loc.getBlockZ()==postZ ) {
                         Warp.getWarps().get(warpName).delete(null);
                         PostAPI.sendMessage(player,"&aThe &6"+warpName+" &apost has been unnamed.");
+                        return true;
                     }
                 }
             }

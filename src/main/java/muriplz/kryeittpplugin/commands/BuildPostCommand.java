@@ -231,7 +231,7 @@ public class BuildPostCommand implements CommandExecutor {
 
             // Sending a message that the post has successfully been built.
             if (success) {
-                PostAPI.sendMessage(player, "&aYou have built the post at (" + X + " , " + Z + ").");
+                PostAPI.sendMessage(player, "&fYou have built the post at &6(" + X + " , " + Z + ")&f.");
             } else {
                 PostAPI.sendMessage(player, "&cYou have tried to built the post too high! Max height is 251");
             }

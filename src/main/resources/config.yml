@@ -31,7 +31,9 @@
 # messages-on-action-bar = shows the message on the Action Bar. ( doesn't work for all commands )
 # ( default = true )
 ################
-# world-folder-name: 'world' (STILL WIP)
+#  world-border =
+#
+################
 distance-between-posts: 800
 post-x-location: 0
 post-z-location: 0
@@ -40,3 +42,4 @@ launch-feature: false
 multiple-names-per-post: false
 tp-in-the-air: true
 messages-on-action-bar: true
+world-border: 7400

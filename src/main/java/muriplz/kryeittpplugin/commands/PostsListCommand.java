@@ -38,7 +38,9 @@ public class PostsListCommand implements CommandExecutor {
 
             // Get all names of named posts and made it into a List
             Set<String> warpNames = warps.keySet();
+
             List<String> allWarpNames = new ArrayList<>(warpNames);
+
 
             // Initialize all the TextComponents
             TextComponent messagePosts = new TextComponent(ChatColor.GOLD+"Posts :");

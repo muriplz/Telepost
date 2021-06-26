@@ -57,7 +57,7 @@ public class NamePostCommand implements CommandExecutor {
                 int postZ = PostAPI.getNearPost(gap,player.getLocation().getBlockZ(),originZ);
 
                 if(Warp.getWarps().containsKey(args[0])){
-                    PostAPI.sendMessage(player,"&cThe post &6"+args[0]+"&c already exists, try a different name or unname the post using &6/UnnamePost <Name>&c.");
+                    PostAPI.sendMessage(player,"&cThe post &6"+args[0]+"&c already exists.");
                     return false;
                 }
                 Location nearestpostLocation = new Location(player.getWorld(), postX , 260, postZ );
@@ -65,18 +65,17 @@ public class NamePostCommand implements CommandExecutor {
                 Set<String> warpNames = warps.keySet();
                 for(String warpName: warpNames){
                     if(Warp.getWarps().get(warpName).getLocation().getBlockX()==nearestpostLocation.getBlockX()&&Warp.getWarps().get(warpName).getLocation().getBlockZ()==nearestpostLocation.getBlockZ()&&!plugin.getConfig().getBoolean("multiple-names-per-post")){
-                        PostAPI.sendMessage(player,"&cThe nearest post is already named, it's "+warpName+".");
+                        PostAPI.sendMessage(player,"&cThe nearest post is already named, it's &6"+warpName+"&c.");
                         return false;
                     }
                 }
-                final int finalpostX = postX;
-                final int finalpostZ = postZ;
+
                 WarpSQLManager.get().addWarp(new Warp(player.getUniqueId(),
                         args[0],
                         nearestpostLocation,
                         System.currentTimeMillis(),
                         System.currentTimeMillis()), callback ->
-                        PostAPI.sendMessage(player,"&7You have named to &6"+args[0]+"&7 the nearest post &a("+finalpostX+" , "+finalpostZ+" )&7. To visit this post use /visit "+args[0]));
+                        PostAPI.sendMessage(player,"&fYou have named &6"+args[0]+"&f the nearest post."));
                 return true;
         }
         return false;

@@ -47,7 +47,7 @@ public class HomePostCommand implements CommandExecutor{
 
             // If the command is not /setpost ONLY then return false
             if(args.length!=0){
-                PostAPI.sendMessage(player,"Use /setpost.");
+                PostAPI.sendMessage(player,"Use /SetPost.");
                 return false;
             }
 
@@ -112,7 +112,7 @@ public class HomePostCommand implements CommandExecutor{
                         Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                         player.teleport(newlocation);
                         PostAPI.playSoundAfterTp(player,newlocation);
-                        String message = ChatColor.translateAlternateColorCodes('&',"&aWelcome to your post.");
+                        String message = ChatColor.translateAlternateColorCodes('&',"&fWelcome to your post.");
                         sendActionBarOrChat(player,message);
                     }, 40L);
                 } else {
@@ -120,7 +120,7 @@ public class HomePostCommand implements CommandExecutor{
                     Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                     player.teleport(newlocation);
                     PostAPI.playSoundAfterTp(player,newlocation);
-                    String message = ChatColor.translateAlternateColorCodes('&',"&aWelcome to your post.");
+                    String message = ChatColor.translateAlternateColorCodes('&',"&fWelcome to your post.");
                     sendActionBarOrChat(player,message);
                 }
 
@@ -128,7 +128,7 @@ public class HomePostCommand implements CommandExecutor{
                 return true;
             } else {
                 // Player does not have a homepost
-                sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&aPlease, set a post with &6/SetPost&a first."));
+                sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&fPlease, set a post with &6/SetPost&f first."));
             }
             return true;
         }

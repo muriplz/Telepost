@@ -73,12 +73,13 @@ public class SetPostCommand implements CommandExecutor {
             // moving the home if he already has one
             if (atPlayer.hasMainHome()) {
                 atPlayer.moveHome(atPlayer.getMainHome().getName(), location, null);
-                sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&aYou have successfully moved your home post at: &6("+postX+","+postZ+")&a."));
+                // Actually this part does not work (TODO)
+                sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&fYou have successfully moved your home post at: &6("+postX+","+postZ+")&f."));
             }else{
 
                 // setting the post for the first time
                 atPlayer.addHome("home", location, null);
-                sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&aYou have successfully set your home post at: &6("+postX+","+postZ+")&a."));
+                sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&fYou have successfully set your home post at: &6("+postX+","+postZ+")&f."));
             }
             return true;
         }

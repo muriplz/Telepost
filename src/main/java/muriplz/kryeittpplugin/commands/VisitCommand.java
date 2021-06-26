@@ -123,7 +123,8 @@ public class VisitCommand implements CommandExecutor{
                         // If the option is false, teleport them to the first block that is air
                         height = PostAPI.getFirstSolidBlockHeight(loc.getBlockX(),loc.getBlockZ())+2;
                     }
-
+                    // Message when player visits a named post
+                    String message = ChatColor.translateAlternateColorCodes('&',"&fWelcome to &6" + args[0] + "&f.");
                     // Launches a player to the sky (TODO: improve this horrible thing)
                     if(plugin.getConfig().getBoolean("launch-feature")){
                         player.setVelocity(new Vector(0,4,0));
@@ -132,16 +133,13 @@ public class VisitCommand implements CommandExecutor{
                             Location newlocation = new Location(world, loc.getBlockX() + 0.5, height, loc.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                             player.teleport(newlocation);
                             PostAPI.playSoundAfterTp(player,newlocation);
-                            String message = ChatColor.translateAlternateColorCodes('&',"&aWelcome to &6" + args[0] + "&a.");
                             sendActionBarOrChat(player,message);
                         }, 40L);
                     }else{
-
                         // Teleport without the "launch-feature"
                         Location newlocation = new Location(world, loc.getBlockX() + 0.5, height, loc.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                         player.teleport(newlocation);
                         PostAPI.playSoundAfterTp(player,newlocation);
-                        String message = ChatColor.translateAlternateColorCodes('&',"&aWelcome to &6" + args[0] + "&a.");
                         sendActionBarOrChat(player,message);
                     }
                     return true;
@@ -173,6 +171,7 @@ public class VisitCommand implements CommandExecutor{
                             height = PostAPI.getFirstSolidBlockHeight(location.getBlockX(),location.getBlockZ())+2;
                         }
 
+                        String message = ChatColor.translateAlternateColorCodes('&',"&fWelcome to your post.");
                         // Launches a player to the sky (TODO: improve this horrible thing)
                         if(plugin.getConfig().getBoolean("launch-feature")){
                             player.setVelocity(new Vector(0,4,0));
@@ -181,7 +180,6 @@ public class VisitCommand implements CommandExecutor{
                                 Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                                 player.teleport(newlocation);
                                 PostAPI.playSoundAfterTp(player,newlocation);
-                                String message = ChatColor.translateAlternateColorCodes('&',"&aWelcome to your post.");
                                 sendActionBarOrChat(player,message);
                             }, 40L);
                         }else{
@@ -190,7 +188,6 @@ public class VisitCommand implements CommandExecutor{
                             Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                             player.teleport(newlocation);
                             PostAPI.playSoundAfterTp(player,newlocation);
-                            String message = ChatColor.translateAlternateColorCodes('&',"&aWelcome to your post.");
                             sendActionBarOrChat(player,message);
                         }
                         return true;
@@ -228,6 +225,7 @@ public class VisitCommand implements CommandExecutor{
                             height = PostAPI.getFirstSolidBlockHeight(location.getBlockX(),location.getBlockZ())+2;
                         }
 
+                        String message = ChatColor.translateAlternateColorCodes('&',"&fWelcome to &6" + args[0] + "&f's post.");
                         // Launch the player is its true on config.yml
                         if(plugin.getConfig().getBoolean("launch-feature")){
                             player.setVelocity(new Vector(0,4,0));
@@ -236,7 +234,6 @@ public class VisitCommand implements CommandExecutor{
                                 Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                                 player.teleport(newlocation);
                                 PostAPI.playSoundAfterTp(player,newlocation);
-                                String message = ChatColor.translateAlternateColorCodes('&',"&aWelcome to &6" + args[0] + "&a's post.");
                                 sendActionBarOrChat(player,message);
                             }, 40L);
                         }else{
@@ -245,7 +242,6 @@ public class VisitCommand implements CommandExecutor{
                             Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                             player.teleport(newlocation);
                             PostAPI.playSoundAfterTp(player,newlocation);
-                            String message = ChatColor.translateAlternateColorCodes('&',"&aWelcome to &6" + args[0] + "&a's post.");
                             sendActionBarOrChat(player,message);
                         }
                         return true;
