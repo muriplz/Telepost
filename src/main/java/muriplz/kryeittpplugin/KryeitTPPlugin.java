@@ -1,5 +1,6 @@
 package muriplz.kryeittpplugin;
 
+
 import muriplz.kryeittpplugin.commands.*;
 import muriplz.kryeittpplugin.tabCompletion.*;
 import org.bukkit.Bukkit;
@@ -24,6 +25,7 @@ public class KryeitTPPlugin extends JavaPlugin {
         // Set the config.yml file
         defaultConfig();
 
+        // messages.conf file
         // Plugin activated at this point
         Bukkit.getConsoleSender().sendMessage(name+ChatColor.GRAY+" The plugin has been activated. version: "+ChatColor.GREEN+version);
     }
@@ -83,8 +85,8 @@ public class KryeitTPPlugin extends JavaPlugin {
         // /buildpost (y)
         // /buildpost (x) (z)
         // /buildpost (x) (y) (z)
-        Objects.requireNonNull(this.getCommand("buildpost")).setExecutor( new BuildPostCommand(this));
-        Objects.requireNonNull(getCommand("buildpost")).setTabCompleter(new BuildPostTab(this));
+ //       Objects.requireNonNull(this.getCommand("buildpost")).setExecutor( new BuildPostCommand(this));
+ //       Objects.requireNonNull(getCommand("buildpost")).setTabCompleter(new BuildPostTab(this));
 
         // /postlist
         Objects.requireNonNull(this.getCommand("postlist")).setExecutor( new PostsListCommand(this));
