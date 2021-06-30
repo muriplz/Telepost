@@ -16,7 +16,8 @@
 # post-z-location = First post's Z coordinate (default -> z = 0)
 ################
 # post-width: the width of the post, with center on /nearestpost.
-# This will allow to use /visit and /homepost further away form the nearest post. (default = 5 blocks, 2 to each coordinate + the center)
+# This will allow to use /visit and /homepost further away form the nearest post.
+# ( default = 5 blocks, 2 to each coordinate + the center )
 ################
 # launch-feature = /homepost and /visit have this feature, this launches you to the sky before teleporting.
 # ( default = false )  Set allow-flight to true on server.properties if set to true (working on a fix)
@@ -24,7 +25,7 @@
 # multiple-names-per-post = with this option true, you can give multiple names to the same post with /namepost.
 # ( default = false )
 ################
-# tp-in-the-air = after using a TP command ( either /homepost or /visit < > )
+# tp-in-the-air = after using a TP command ( either /homepost or /visit < > or click on /postlist )
 # you get teleported to y = 265 if this is true, if not, it will teleport you to ground level.
 # ( default = true )
 ################
@@ -42,4 +43,4 @@ launch-feature: false
 multiple-names-per-post: false
 tp-in-the-air: true
 messages-on-action-bar: true
-world-border: 7400
+world-border: 'test'

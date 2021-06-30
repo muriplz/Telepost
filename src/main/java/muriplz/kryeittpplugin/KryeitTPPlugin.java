@@ -5,7 +5,6 @@ import muriplz.kryeittpplugin.tabCompletion.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -16,6 +15,7 @@ public class KryeitTPPlugin extends JavaPlugin {
     FileConfiguration config = this.getConfig();
     public String name = ChatColor.YELLOW+"["+ChatColor.WHITE+pdffile.getName()+ChatColor.YELLOW+"]";
     public String version = pdffile.getVersion();
+    public KryeitTPPlugin KryeitTPPlugin;
 
     public void onEnable(){
         // Register all commands and tab completions
@@ -30,6 +30,7 @@ public class KryeitTPPlugin extends JavaPlugin {
     public void onDisable() {
         Bukkit.getConsoleSender().sendMessage(name+ChatColor.WHITE+" The plugin has been deactivated.");
     }
+
 
     public void defaultConfig(){
         // Set the config.yml file

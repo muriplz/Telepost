@@ -69,9 +69,11 @@ public class BuildPostCommand implements CommandExecutor {
         }
     }
 
-    public static boolean buildPost(int X, int Y, int Z, int width) {
+    public boolean buildPost(int X, int Y, int Z, int width) {
         // Returning if the Y coord is too big
-        if (Y > 251) { return false; }
+        if (Y > 251) {
+            Bukkit.getConsoleSender().sendMessage(plugin.name+"A post has been tried to be built way too high!");
+            return false; }
 
         // Getting the world
         World world = Bukkit.getServer().getWorld("world");

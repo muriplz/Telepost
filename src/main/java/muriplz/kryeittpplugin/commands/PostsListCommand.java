@@ -45,15 +45,20 @@ public class PostsListCommand implements CommandExecutor {
             }
             List<String> allWarpNames = new ArrayList<>(warpNames);
 
+            // Header
+            PostAPI.sendMessage(player, "&6-----------------------------------------------------");
+            PostAPI.sendMessage(player, "                                 &6Named posts ");
+            PostAPI.sendMessage(player, "&6-----------------------------------------------------");
 
             // Initialize all the TextComponents
-            TextComponent messagePosts = new TextComponent(ChatColor.GOLD+"Named posts :");
+
+            TextComponent messagePosts = new TextComponent();
             TextComponent message;
 
 
             // Add to messagePosts all components to teleport to every warp
             for (String warpName : allWarpNames) {
-                message = new TextComponent(" " + warpName);
+                message = new TextComponent("  " + warpName);
                 message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/v " + warpName));
                 Location loc = Warp.getWarps().get(warpName).getLocation();
                 message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("Click to teleport to " + warpName + " post.\nThis post is at "+ChatColor.GOLD+"("+loc.getBlockX()+" , "+loc.getBlockZ()+")"+ChatColor.WHITE+".")));

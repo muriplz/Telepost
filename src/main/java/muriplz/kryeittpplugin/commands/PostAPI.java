@@ -4,6 +4,8 @@ import muriplz.kryeittpplugin.KryeitTPPlugin;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 import java.util.Objects;
 
@@ -12,6 +14,13 @@ public class PostAPI {
     public PostAPI(KryeitTPPlugin plugin) {
         this.plugin = plugin;
     }
+
+    // Vanilla values: https://minecraft.fandom.com/wiki/Transportation#Vertical_speeds
+    private final static double DECELERATION_RATE = 0.98D;
+    private final static double GRAVITY_CONSTANT = 0.08D;
+    private final static double VANILA_ANTICHEAT_THRESHOLD = 9.5D; // actual 10D
+
+
     public static int getNearPost(int gap, int player, int origin) {
         // Subtracting origin of posts to get correct calculation
         player -= origin;
@@ -57,8 +66,25 @@ public class PostAPI {
             }
         }
     }
-    public static void launch(Player player,Location location){
-
+    public static void launch(Player player,KryeitTPPlugin plugin,Vector speed,Location newlocation){
+        new BukkitRunnable() {
+            double velY = speed.getY();
+            final Location locCached = new Location(null,0,0,0);
+            @Override
+            public void run() {
+                if (velY > VANILA_ANTICHEAT_THRESHOLD) {
+                    player.getLocation(locCached).setY(locCached.getY() + velY);
+                    player.teleport(locCached);
+                    player.setVelocity(new Vector(0,VANILA_ANTICHEAT_THRESHOLD,0));
+                } else {
+                    player.setVelocity(new Vector(0,velY,0));
+                    this.cancel();
+                }
+                velY -= GRAVITY_CONSTANT;
+                velY *= DECELERATION_RATE;
+            }
+        }.runTaskTimer(plugin,0,1);
+        player.teleport(newlocation);
     }
     public static void unloadAllChunksToBuildThePost(Block block,int width){
         // Getting block x and z coords
@@ -87,7 +113,6 @@ public class PostAPI {
         int playerX = player.getLocation().getBlockX();
         int playerZ = player.getLocation().getBlockZ();
 
-        // Returning true if on post else false
         return playerX < postX - width || playerX > postX + width && playerZ < postZ - width || playerZ > postZ + width;
     }
     public static int getFirstSolidBlockHeight(int X, int Z){
@@ -101,6 +126,11 @@ public class PostAPI {
                 break;
             }
             height--;
+
+            // If height gets to be 5, that means that it cant go lower
+            if(height == 5){
+                break;
+            }
         }
         return height;
     }

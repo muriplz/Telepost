@@ -57,6 +57,8 @@ public class HelpCommand implements CommandExecutor {
                     PostAPI.sendMessage(player, "&aAll aliases for your commands: ");
                     PostAPI.sendMessage(player, "- &6/h&f: alias for /homepost.");
                     PostAPI.sendMessage(player, "- &6/v&f: alias for /visit.");
+                    PostAPI.sendMessage(player, "- &6/plist&f: alias for /postlist.");
+
                 } else if(args[0].equals("nearestpost")){
                     PostAPI.sendMessage(player,"&a/NearestPost guide: ");
                     PostAPI.sendMessage(player,"- There is a post every &6"+plugin.getConfig().getInt("distance-between-posts")+ "&f blocks.");
