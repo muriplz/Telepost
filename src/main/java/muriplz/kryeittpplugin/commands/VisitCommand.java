@@ -68,8 +68,8 @@ public class VisitCommand implements CommandExecutor{
 
             // See if the player is inside a post
             if(!player.hasPermission("telepost.visit")){
-                if(PostAPI.isPlayerOnPost(player,originX,originZ,width,gap)){
-                    sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cThere are blocks above you, chose a safe location."));
+                if(!PostAPI.isPlayerOnPost(player,originX,originZ,width,gap)){
+                    sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cYou have to be inside a post."));
                     return false;
                 }
             }

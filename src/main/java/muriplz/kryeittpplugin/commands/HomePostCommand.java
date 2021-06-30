@@ -77,8 +77,8 @@ public class HomePostCommand implements CommandExecutor{
 
             // If the player is not inside a post and does not have telepost.homepost permission, he won't be teleported
             if(!player.hasPermission("telepost.homepost")){
-                if(PostAPI.isPlayerOnPost(player,originX,originZ,width,gap)){
-                    sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cThere are blocks above you, chose a safe location."));
+                if(!PostAPI.isPlayerOnPost(player,originX,originZ,width,gap)){
+                    sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cYou have to be inside a post."));
                     return false;
                 }
             }
