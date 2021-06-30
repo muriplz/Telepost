@@ -32,17 +32,22 @@ public class PostsListCommand implements CommandExecutor {
             Bukkit.getConsoleSender().sendMessage(plugin.name+"You can't execute this command from console.");
             return false;
         }else{
+            // Get player
             Player player = (Player) sender;
+
             // Get all warps (named posts)
             HashMap<String, Warp> warps = Warp.getWarps();
 
             // Get all names of named posts and made it into a List
             Set<String> warpNames = warps.keySet();
 
+            // If there are no named posts (Warps) then just return false
             if(warpNames.isEmpty()) {
                 PostAPI.sendMessage(player,"&cThere are no named posts.");
                 return false;
             }
+
+            // Place all the warpNames into an arraylist
             List<String> allWarpNames = new ArrayList<>(warpNames);
 
             // Header
@@ -51,28 +56,30 @@ public class PostsListCommand implements CommandExecutor {
             PostAPI.sendMessage(player, "&6-----------------------------------------------------");
 
             // Initialize all the TextComponents
-
             TextComponent messagePosts = new TextComponent();
             TextComponent message;
 
             // Sort all warp names
             java.util.Collections.sort(allWarpNames);
 
+            // Initialize the strings
+            String commandString;
+            String hoverText;
+
             // Add to messagePosts all components to teleport to every warp
             for (String warpName : allWarpNames) {
                 message = new TextComponent(" " + warpName);
-                message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/v " + warpName));
+                commandString = "/v " + warpName;
+                message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, commandString ));
                 Location loc = Warp.getWarps().get(warpName).getLocation();
-                message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("Click to teleport to " + warpName + " post.\nThis post is at "+ChatColor.GOLD+"("+loc.getBlockX()+" , "+loc.getBlockZ()+")"+ChatColor.WHITE+".")));
+                hoverText = "Click to teleport to " + warpName + " post.\nThis post is at "+ChatColor.GOLD+"("+loc.getBlockX()+" , "+loc.getBlockZ()+")"+ChatColor.WHITE+".";
+                message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(hoverText)));
                 messagePosts.addExtra(message);
             }
-
 
             // Send the message with the Text components to the player
             player.spigot().sendMessage(messagePosts);
             return true;
-
-
         }
     }
 }
