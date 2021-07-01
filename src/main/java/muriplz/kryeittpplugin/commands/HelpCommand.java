@@ -39,21 +39,21 @@ public class HelpCommand implements CommandExecutor {
                     if(player.hasPermission("telepost.unnamepost")){
                         PostAPI.sendMessage(player,"- &6/unnamepost <Name>&f: unnames a post.");
                     }
-                    if(player.hasPermission("telepost.buildpost")){
-                        PostAPI.sendMessage(player,"- &6/buildpost (y)&f: builds the nearest post.");
-                    }
+   //                 if(player.hasPermission("telepost.buildpost")){
+   //                     PostAPI.sendMessage(player,"- &6/buildpost (y)&f: builds the nearest post.");
+   //                 }
                 }
 
                 return true;
             }else if(args.length==1) {
-                if(args[0].equals("buildpost") && player.hasPermission("telepost.buildpost")) {
-                    PostAPI.sendMessage(player,"&a/BuildPost guide: ");
-                    PostAPI.sendMessage(player,"- &6/buildpost&f: builds the nearest post.");
-                    PostAPI.sendMessage(player,"- &6/buildpost (y)&f: builds the nearest post at a certain height.");
-                    PostAPI.sendMessage(player,"- &6/buildpost (x) (z)&f: builds a post on that location but on the ground level.");
-                    PostAPI.sendMessage(player,"- &6/buildpost (x) (y) (z)&f: builds a post on that location.");
-                    PostAPI.sendMessage(player,"NOTE: I do not recommend building posts with (x) and (z) provided by you, because the teleport system won't work.");
-                } else if(args[0].equals("aliases") || args[0].equals("alias")){
+  //              if(args[0].equals("buildpost") && player.hasPermission("telepost.buildpost")) {
+  //                  PostAPI.sendMessage(player,"&a/BuildPost guide: ");
+  //                  PostAPI.sendMessage(player,"- &6/buildpost&f: builds the nearest post.");
+  //                  PostAPI.sendMessage(player,"- &6/buildpost (y)&f: builds the nearest post at a certain height.");
+  //                  PostAPI.sendMessage(player,"- &6/buildpost (x) (z)&f: builds a post on that location but on the ground level.");
+  //                  PostAPI.sendMessage(player,"- &6/buildpost (x) (y) (z)&f: builds a post on that location.");
+  //                  PostAPI.sendMessage(player,"NOTE: I do not recommend building posts with (x) and (z) provided by you, because the teleport system won't work.");
+                if(args[0].equals("aliases") || args[0].equals("alias")){
                     PostAPI.sendMessage(player, "&aAll aliases for your commands: ");
                     PostAPI.sendMessage(player, "- &6/h&f: alias for /homepost.");
                     PostAPI.sendMessage(player, "- &6/v&f: alias for /visit.");
