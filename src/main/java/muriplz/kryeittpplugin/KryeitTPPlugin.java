@@ -2,6 +2,7 @@ package muriplz.kryeittpplugin;
 
 
 import muriplz.kryeittpplugin.Listeners.onFall;
+import muriplz.kryeittpplugin.Listeners.onGlide;
 import muriplz.kryeittpplugin.commands.*;
 import muriplz.kryeittpplugin.tabCompletion.*;
 import org.bukkit.Bukkit;
@@ -39,6 +40,7 @@ public class KryeitTPPlugin extends JavaPlugin {
         Bukkit.getConsoleSender().sendMessage(name+ChatColor.WHITE+" The plugin has been deactivated.");
     }
     public void registerEvents(){
+        getServer().getPluginManager().registerEvents(new onGlide(this), this);
         getServer().getPluginManager().registerEvents(new onFall(this), this);
     }
 

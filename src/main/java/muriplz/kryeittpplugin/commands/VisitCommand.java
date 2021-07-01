@@ -143,6 +143,9 @@ public class VisitCommand implements CommandExecutor{
                         sendActionBarOrChat(player,message);
                     }
                     this.plugin.blockFall.add(player);
+                    if(player.isGliding()){
+                        player.setGliding(false);
+                    }
                     return true;
                 }
                 // /v <Yourself> which is the same as /homepost
@@ -192,6 +195,9 @@ public class VisitCommand implements CommandExecutor{
                             sendActionBarOrChat(player,message);
                         }
                         this.plugin.blockFall.add(player);
+                        if(player.isGliding()){
+                            player.setGliding(false);
+                        }
                         return true;
                     }else{
 
@@ -247,6 +253,9 @@ public class VisitCommand implements CommandExecutor{
                             sendActionBarOrChat(player,message);
                         }
                         this.plugin.blockFall.add(player);
+                        if(player.isGliding()){
+                            player.setGliding(false);
+                        }
                         return true;
                     }else{
 
@@ -292,6 +301,9 @@ public class VisitCommand implements CommandExecutor{
                                     sendActionBarOrChat(player,message);
                                 }
                                 this.plugin.blockFall.add(player);
+                                if(player.isGliding()){
+                                    player.setGliding(false);
+                                }
                                 return true;
 
                             }else {

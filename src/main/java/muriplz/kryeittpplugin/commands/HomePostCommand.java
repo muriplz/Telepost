@@ -83,6 +83,7 @@ public class HomePostCommand implements CommandExecutor {
                 }
             }
 
+
             ATPlayer atPlayer = ATPlayer.getPlayer(player);
             if(atPlayer.hasHome("home")) {
                 Location location = atPlayer.getHome("home").getLocation();
@@ -125,7 +126,9 @@ public class HomePostCommand implements CommandExecutor {
                 }
 
                 this.plugin.blockFall.add(player);
-
+                if(player.isGliding()){
+                    player.setGliding(false);
+                }
 
                 return true;
             } else {

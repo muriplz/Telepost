@@ -1,5 +1,5 @@
 main: muriplz.kryeittpplugin.KryeitTPPlugin
-version: 3.6.4
+version: 4.0
 name: Telepost
 authors: [muriplz, BlockOG]
 depend: [AdvancedTeleport]
