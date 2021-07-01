@@ -18,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 
-public class HomePostCommand implements CommandExecutor{
+public class HomePostCommand implements CommandExecutor {
 
     private final KryeitTPPlugin plugin;
 
@@ -123,6 +123,8 @@ public class HomePostCommand implements CommandExecutor{
                     String message = ChatColor.translateAlternateColorCodes('&',"&fWelcome to your post.");
                     sendActionBarOrChat(player,message);
                 }
+
+                this.plugin.blockFall.add(player);
 
 
                 return true;

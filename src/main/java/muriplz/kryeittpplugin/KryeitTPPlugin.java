@@ -1,27 +1,33 @@
 package muriplz.kryeittpplugin;
 
 
+import muriplz.kryeittpplugin.Listeners.onFall;
 import muriplz.kryeittpplugin.commands.*;
 import muriplz.kryeittpplugin.tabCompletion.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class KryeitTPPlugin extends JavaPlugin {
+    public ArrayList<Player> blockFall;
     PluginDescriptionFile pdffile = getDescription();
     FileConfiguration config = this.getConfig();
     public String name = ChatColor.YELLOW+"["+ChatColor.WHITE+pdffile.getName()+ChatColor.YELLOW+"]";
     public String version = pdffile.getVersion();
-    public KryeitTPPlugin KryeitTPPlugin;
+
 
     public void onEnable(){
+        blockFall = new ArrayList<Player>();
         // Register all commands and tab completions
         registerCommands();
 
+        registerEvents();
         // Set the config.yml file
         defaultConfig();
 
@@ -31,6 +37,9 @@ public class KryeitTPPlugin extends JavaPlugin {
     }
     public void onDisable() {
         Bukkit.getConsoleSender().sendMessage(name+ChatColor.WHITE+" The plugin has been deactivated.");
+    }
+    public void registerEvents(){
+        getServer().getPluginManager().registerEvents(new onFall(this), this);
     }
 
 

@@ -68,7 +68,7 @@ public class PostsListCommand implements CommandExecutor {
 
             // Add to messagePosts all components to teleport to every warp
             for (String warpName : allWarpNames) {
-                message = new TextComponent(" " + warpName);
+                message = new TextComponent(" " +ChatColor.GRAY+ warpName);
                 commandString = "/v " + warpName;
                 message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, commandString ));
                 Location loc = Warp.getWarps().get(warpName).getLocation();
@@ -76,9 +76,9 @@ public class PostsListCommand implements CommandExecutor {
                 message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(hoverText)));
                 messagePosts.addExtra(message);
             }
-
             // Send the message with the Text components to the player
             player.spigot().sendMessage(messagePosts);
+            PostAPI.sendMessage(player, "&6-----------------------------------------------------");
             return true;
         }
     }

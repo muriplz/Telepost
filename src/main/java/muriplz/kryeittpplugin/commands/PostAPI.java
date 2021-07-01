@@ -113,7 +113,7 @@ public class PostAPI {
         int playerX = player.getLocation().getBlockX();
         int playerZ = player.getLocation().getBlockZ();
 
-        return playerX < postX - width || playerX > postX + width && playerZ < postZ - width || playerZ > postZ + width;
+        return !(playerX < postX - width || playerX > postX + width && playerZ < postZ - width || playerZ > postZ + width);
     }
     public static int getFirstSolidBlockHeight(int X, int Z){
         // Setting the highest height the post can be at
