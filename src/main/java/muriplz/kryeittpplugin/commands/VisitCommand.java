@@ -5,10 +5,7 @@ import io.github.niestrat99.advancedteleport.api.Warp;
 import muriplz.kryeittpplugin.KryeitTPPlugin;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -142,8 +139,9 @@ public class VisitCommand implements CommandExecutor{
                         PostAPI.playSoundAfterTp(player,newlocation);
                         sendActionBarOrChat(player,message);
                     }
-                    this.plugin.blockFall.add(player.getUniqueId());
-                    if(player.isGliding()){
+                    if(player.getGameMode()== GameMode.SURVIVAL){
+                        plugin.blockFall.add(player.getUniqueId());
+                    }                    if(player.isGliding()){
                         player.setGliding(false);
                     }
                     return true;
@@ -194,8 +192,9 @@ public class VisitCommand implements CommandExecutor{
                             PostAPI.playSoundAfterTp(player,newlocation);
                             sendActionBarOrChat(player,message);
                         }
-                        this.plugin.blockFall.add(player.getUniqueId());
-                        if(player.isGliding()){
+                        if(player.getGameMode()== GameMode.SURVIVAL){
+                            plugin.blockFall.add(player.getUniqueId());
+                        }                        if(player.isGliding()){
                             player.setGliding(false);
                         }
                         return true;
@@ -252,8 +251,9 @@ public class VisitCommand implements CommandExecutor{
                             PostAPI.playSoundAfterTp(player,newlocation);
                             sendActionBarOrChat(player,message);
                         }
-                        this.plugin.blockFall.add(player.getUniqueId());
-                        if(player.isGliding()){
+                        if(player.getGameMode()== GameMode.SURVIVAL){
+                            plugin.blockFall.add(player.getUniqueId());
+                        }                        if(player.isGliding()){
                             player.setGliding(false);
                         }
                         return true;
@@ -300,8 +300,9 @@ public class VisitCommand implements CommandExecutor{
                                     PostAPI.playSoundAfterTp(player,newlocation);
                                     sendActionBarOrChat(player,message);
                                 }
-                                this.plugin.blockFall.add(player.getUniqueId());
-                                if(player.isGliding()){
+                                if(player.getGameMode()== GameMode.SURVIVAL){
+                                    plugin.blockFall.add(player.getUniqueId());
+                                }                                if(player.isGliding()){
                                     player.setGliding(false);
                                 }
                                 return true;

@@ -4,10 +4,7 @@ import io.github.niestrat99.advancedteleport.api.ATPlayer;
 import muriplz.kryeittpplugin.KryeitTPPlugin;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -125,7 +122,9 @@ public class HomePostCommand implements CommandExecutor {
                     sendActionBarOrChat(player,message);
                 }
 
-                this.plugin.blockFall.add(player.getUniqueId());
+                if(player.getGameMode()== GameMode.SURVIVAL){
+                    plugin.blockFall.add(player.getUniqueId());
+                }
                 if(player.isGliding()){
                     player.setGliding(false);
                 }

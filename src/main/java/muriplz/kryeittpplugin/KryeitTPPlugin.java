@@ -13,10 +13,14 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.UUID;
 
 public class KryeitTPPlugin extends JavaPlugin {
+
+    public ArrayList<Integer> counterNearest;
+    public ArrayList<UUID> showNearest;
     public ArrayList<UUID> blockFall;
     PluginDescriptionFile pdffile = getDescription();
     FileConfiguration config = this.getConfig();
@@ -26,10 +30,14 @@ public class KryeitTPPlugin extends JavaPlugin {
 
     public void onEnable(){
         blockFall = new ArrayList<>();
+        showNearest = new ArrayList<>();
+        counterNearest = new ArrayList<Integer>();
         // Register all commands and tab completions
         registerCommands();
 
+        // Register events
         registerEvents();
+
         // Set the config.yml file
         defaultConfig();
 
@@ -45,7 +53,6 @@ public class KryeitTPPlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new onFall(this), this);
         getServer().getPluginManager().registerEvents(new onPlayerMove(this), this);
     }
-
 
     public void defaultConfig(){
         // Set the config.yml file
@@ -64,7 +71,7 @@ public class KryeitTPPlugin extends JavaPlugin {
     public void registerCommands() {
         // /nearestpost
         Objects.requireNonNull(this.getCommand("nearestpost")).setExecutor(new NearestPostCommand(this));
-        Objects.requireNonNull(getCommand("nearestpost")).setTabCompleter(new ReturnNullTab());
+        Objects.requireNonNull(getCommand("nearestpost")).setTabCompleter(new NearestPostTab());
 
         // /setpost
         Objects.requireNonNull(this.getCommand("setpost")).setExecutor(new SetPostCommand(this));
