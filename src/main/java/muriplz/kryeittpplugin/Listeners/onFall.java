@@ -15,13 +15,13 @@ public class onFall implements Listener {
         this.plugin = plugin;
     }
     @EventHandler
-    public void entityDamageEvent(EntityDamageEvent event) {
+    public void preventFirstFall(EntityDamageEvent event) {
         if (event.getEntityType() == EntityType.PLAYER) {
             Player player = (Player) event.getEntity();
             if (event.getCause() == EntityDamageEvent.DamageCause.FALL) {
-                if (plugin.blockFall.contains(player)) {
+                if (plugin.blockFall.contains(player.getUniqueId())) {
                     event.setCancelled(true);
-                    plugin.blockFall.remove(player);
+                    plugin.blockFall.remove(player.getUniqueId());
                 }
             }
         }

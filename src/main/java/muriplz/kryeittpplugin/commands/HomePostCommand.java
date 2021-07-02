@@ -125,7 +125,7 @@ public class HomePostCommand implements CommandExecutor {
                     sendActionBarOrChat(player,message);
                 }
 
-                this.plugin.blockFall.add(player);
+                this.plugin.blockFall.add(player.getUniqueId());
                 if(player.isGliding()){
                     player.setGliding(false);
                 }

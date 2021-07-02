@@ -14,10 +14,10 @@ public class onGlide implements Listener {
         this.plugin = plugin;
     }
     @EventHandler
-    public void entityDamageEvent(EntityToggleGlideEvent event) {
+    public void preventGliding(EntityToggleGlideEvent event) {
         if (event.getEntityType() == EntityType.PLAYER) {
             Player player = (Player) event.getEntity();
-            if(!player.isGliding()&&plugin.blockFall.contains(player)){
+            if(!player.isGliding()&&plugin.blockFall.contains(player.getUniqueId())){
                 event.setCancelled(true);
             }
         }

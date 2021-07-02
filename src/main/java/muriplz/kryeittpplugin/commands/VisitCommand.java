@@ -142,7 +142,7 @@ public class VisitCommand implements CommandExecutor{
                         PostAPI.playSoundAfterTp(player,newlocation);
                         sendActionBarOrChat(player,message);
                     }
-                    this.plugin.blockFall.add(player);
+                    this.plugin.blockFall.add(player.getUniqueId());
                     if(player.isGliding()){
                         player.setGliding(false);
                     }
@@ -194,7 +194,7 @@ public class VisitCommand implements CommandExecutor{
                             PostAPI.playSoundAfterTp(player,newlocation);
                             sendActionBarOrChat(player,message);
                         }
-                        this.plugin.blockFall.add(player);
+                        this.plugin.blockFall.add(player.getUniqueId());
                         if(player.isGliding()){
                             player.setGliding(false);
                         }
@@ -252,7 +252,7 @@ public class VisitCommand implements CommandExecutor{
                             PostAPI.playSoundAfterTp(player,newlocation);
                             sendActionBarOrChat(player,message);
                         }
-                        this.plugin.blockFall.add(player);
+                        this.plugin.blockFall.add(player.getUniqueId());
                         if(player.isGliding()){
                             player.setGliding(false);
                         }
@@ -300,7 +300,7 @@ public class VisitCommand implements CommandExecutor{
                                     PostAPI.playSoundAfterTp(player,newlocation);
                                     sendActionBarOrChat(player,message);
                                 }
-                                this.plugin.blockFall.add(player);
+                                this.plugin.blockFall.add(player.getUniqueId());
                                 if(player.isGliding()){
                                     player.setGliding(false);
                                 }
