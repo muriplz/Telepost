@@ -139,7 +139,7 @@ public class VisitCommand implements CommandExecutor{
                         PostAPI.playSoundAfterTp(player,newlocation);
                         sendActionBarOrChat(player,message);
                     }
-                    if(player.getGameMode()== GameMode.SURVIVAL){
+                    if(player.getGameMode()== GameMode.SURVIVAL&&player.getGameMode()==GameMode.ADVENTURE){
                         plugin.blockFall.add(player.getUniqueId());
                     }                    if(player.isGliding()){
                         player.setGliding(false);
@@ -192,7 +192,7 @@ public class VisitCommand implements CommandExecutor{
                             PostAPI.playSoundAfterTp(player,newlocation);
                             sendActionBarOrChat(player,message);
                         }
-                        if(player.getGameMode()== GameMode.SURVIVAL){
+                        if(player.getGameMode()== GameMode.SURVIVAL&&player.getGameMode()==GameMode.ADVENTURE){
                             plugin.blockFall.add(player.getUniqueId());
                         }                        if(player.isGliding()){
                             player.setGliding(false);
@@ -251,7 +251,7 @@ public class VisitCommand implements CommandExecutor{
                             PostAPI.playSoundAfterTp(player,newlocation);
                             sendActionBarOrChat(player,message);
                         }
-                        if(player.getGameMode()== GameMode.SURVIVAL){
+                        if(player.getGameMode()== GameMode.SURVIVAL&&player.getGameMode()==GameMode.ADVENTURE){
                             plugin.blockFall.add(player.getUniqueId());
                         }                        if(player.isGliding()){
                             player.setGliding(false);
@@ -300,7 +300,7 @@ public class VisitCommand implements CommandExecutor{
                                     PostAPI.playSoundAfterTp(player,newlocation);
                                     sendActionBarOrChat(player,message);
                                 }
-                                if(player.getGameMode()== GameMode.SURVIVAL){
+                                if(player.getGameMode()== GameMode.SURVIVAL&&player.getGameMode()==GameMode.ADVENTURE){
                                     plugin.blockFall.add(player.getUniqueId());
                                 }                                if(player.isGliding()){
                                     player.setGliding(false);

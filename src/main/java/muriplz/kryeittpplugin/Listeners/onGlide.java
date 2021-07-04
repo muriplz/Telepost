@@ -1,7 +1,6 @@
 package muriplz.kryeittpplugin.Listeners;
 
 import muriplz.kryeittpplugin.KryeitTPPlugin;
-import org.bukkit.GameMode;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,7 +17,7 @@ public class onGlide implements Listener {
     public void preventGliding(EntityToggleGlideEvent event) {
         if (event.getEntityType() == EntityType.PLAYER) {
             Player player = (Player) event.getEntity();
-            if(!player.isGliding()&&plugin.blockFall.contains(player.getUniqueId())&&player.getGameMode()== GameMode.SURVIVAL){
+            if(!player.isGliding()&&plugin.blockFall.contains(player.getUniqueId())){
                 event.setCancelled(true);
             }
         }

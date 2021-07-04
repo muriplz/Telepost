@@ -122,7 +122,7 @@ public class HomePostCommand implements CommandExecutor {
                     sendActionBarOrChat(player,message);
                 }
 
-                if(player.getGameMode()== GameMode.SURVIVAL){
+                if(player.getGameMode()== GameMode.SURVIVAL&&player.getGameMode()==GameMode.ADVENTURE){
                     plugin.blockFall.add(player.getUniqueId());
                 }
                 if(player.isGliding()){
