@@ -3,6 +3,7 @@ package muriplz.kryeittpplugin;
 
 import muriplz.kryeittpplugin.Listeners.onFall;
 import muriplz.kryeittpplugin.Listeners.onGlide;
+import muriplz.kryeittpplugin.Listeners.onPlayerLeave;
 import muriplz.kryeittpplugin.Listeners.onPlayerMove;
 import muriplz.kryeittpplugin.commands.*;
 import muriplz.kryeittpplugin.tabCompletion.*;
@@ -28,9 +29,8 @@ public class KryeitTPPlugin extends JavaPlugin {
 
 
     public void onEnable(){
-        blockFall = new ArrayList<>();
-        showNearest = new ArrayList<>();
-        counterNearest = new ArrayList<Integer>();
+        // All global lists
+        telepostData();
         // Register all commands and tab completions
         registerCommands();
 
@@ -51,8 +51,14 @@ public class KryeitTPPlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new onGlide(this), this);
         getServer().getPluginManager().registerEvents(new onFall(this), this);
         getServer().getPluginManager().registerEvents(new onPlayerMove(this), this);
+        getServer().getPluginManager().registerEvents(new onPlayerLeave(this), this);
     }
 
+    public void telepostData(){
+        blockFall = new ArrayList<>();
+        showNearest = new ArrayList<>();
+        counterNearest = new ArrayList<Integer>();
+    }
     public void defaultConfig(){
         // Set the config.yml file
         config.addDefault("distance-between-posts", 800);
