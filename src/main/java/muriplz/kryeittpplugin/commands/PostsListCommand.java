@@ -50,14 +50,19 @@ public class PostsListCommand implements CommandExecutor {
             // Place all the warpNames into an arraylist
             List<String> allWarpNames = new ArrayList<>(warpNames);
 
-            // Header
-            PostAPI.sendMessage(player, "&6-----------------------------------------------------");
-            PostAPI.sendMessage(player, "                                 &6Named posts ");
-            PostAPI.sendMessage(player, "&6-----------------------------------------------------");
-
             // Initialize all the TextComponents
             TextComponent messagePosts = new TextComponent();
             TextComponent message;
+
+            // Header
+            if(Warp.getWarps().size()<9){
+                messagePosts.addExtra(ChatColor.GOLD+"Named posts: ");
+            }else{
+                PostAPI.sendMessage(player, "&6-----------------------------------------------------");
+                PostAPI.sendMessage(player, "                                 &6Named posts ");
+                PostAPI.sendMessage(player, "&6-----------------------------------------------------");
+            }
+
 
             // Sort all warp names
             java.util.Collections.sort(allWarpNames);
@@ -78,7 +83,9 @@ public class PostsListCommand implements CommandExecutor {
             }
             // Send the message with the Text components to the player
             player.spigot().sendMessage(messagePosts);
-            PostAPI.sendMessage(player, "&6-----------------------------------------------------");
+            if(Warp.getWarps().size()>=9){
+                PostAPI.sendMessage(player, "&6-----------------------------------------------------");
+            }
             return true;
         }
     }

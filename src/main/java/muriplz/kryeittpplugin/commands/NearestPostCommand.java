@@ -57,6 +57,7 @@ public class NearestPostCommand implements CommandExecutor{
                     }
                 }else if (args[0].equals("off")){
                     if (plugin.showNearest.contains(player.getUniqueId())){
+                        plugin.counterNearest.remove(plugin.showNearest.indexOf(player.getUniqueId()));
                         plugin.showNearest.remove(player.getUniqueId());
                     }else{
                         PostAPI.sendMessage(player,"&cYou don't have the option enabled.");
