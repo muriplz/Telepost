@@ -122,8 +122,10 @@ public class HomePostCommand implements CommandExecutor {
                     sendActionBarOrChat(player,message);
                 }
 
-                if(player.getGameMode()== GameMode.SURVIVAL&&player.getGameMode()==GameMode.ADVENTURE&&!plugin.getConfig().getBoolean("tp-in-the-air")){
-                    plugin.blockFall.add(player.getUniqueId());
+                if(player.getGameMode()== GameMode.SURVIVAL||player.getGameMode()==GameMode.ADVENTURE){
+                    if(!plugin.getConfig().getBoolean("tp-in-the-air")){
+                        plugin.blockFall.add(player.getUniqueId());
+                    }
                 }
                 if(player.isGliding()){
                     player.setGliding(false);

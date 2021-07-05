@@ -18,7 +18,7 @@ public class PostAPI {
     // Vanilla values: https://minecraft.fandom.com/wiki/Transportation#Vertical_speeds
     private final static double DECELERATION_RATE = 0.98D;
     private final static double GRAVITY_CONSTANT = 0.08D;
-    private final static double VANILA_ANTICHEAT_THRESHOLD = 9.5D; // actual 10D
+    private final static double VANILA_ANTICHEAT_THRESHOLD = 10D;
 
 
     public static int getNearPost(int gap, int player, int origin) {

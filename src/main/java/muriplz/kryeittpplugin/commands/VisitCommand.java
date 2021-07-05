@@ -139,9 +139,12 @@ public class VisitCommand implements CommandExecutor{
                         PostAPI.playSoundAfterTp(player,newlocation);
                         sendActionBarOrChat(player,message);
                     }
-                    if(player.getGameMode()== GameMode.SURVIVAL&&player.getGameMode()==GameMode.ADVENTURE&&!plugin.getConfig().getBoolean("tp-in-the-air")){
-                        plugin.blockFall.add(player.getUniqueId());
-                    }                    if(player.isGliding()){
+                    if(player.getGameMode()== GameMode.SURVIVAL||player.getGameMode()==GameMode.ADVENTURE){
+                        if(!plugin.getConfig().getBoolean("tp-in-the-air")){
+                            plugin.blockFall.add(player.getUniqueId());
+                        }
+                    }
+                    if(player.isGliding()){
                         player.setGliding(false);
                     }
                     return true;
@@ -192,9 +195,12 @@ public class VisitCommand implements CommandExecutor{
                             PostAPI.playSoundAfterTp(player,newlocation);
                             sendActionBarOrChat(player,message);
                         }
-                        if(player.getGameMode()== GameMode.SURVIVAL&&player.getGameMode()==GameMode.ADVENTURE&&!plugin.getConfig().getBoolean("tp-in-the-air")){
-                            plugin.blockFall.add(player.getUniqueId());
-                        }                        if(player.isGliding()){
+                        if(player.getGameMode()== GameMode.SURVIVAL||player.getGameMode()==GameMode.ADVENTURE){
+                            if(!plugin.getConfig().getBoolean("tp-in-the-air")){
+                                plugin.blockFall.add(player.getUniqueId());
+                            }
+                        }
+                        if(player.isGliding()){
                             player.setGliding(false);
                         }
                         return true;
@@ -251,9 +257,12 @@ public class VisitCommand implements CommandExecutor{
                             PostAPI.playSoundAfterTp(player,newlocation);
                             sendActionBarOrChat(player,message);
                         }
-                        if(player.getGameMode()== GameMode.SURVIVAL&&player.getGameMode()==GameMode.ADVENTURE&&!plugin.getConfig().getBoolean("tp-in-the-air")){
-                            plugin.blockFall.add(player.getUniqueId());
-                        }                        if(player.isGliding()){
+                        if(player.getGameMode()== GameMode.SURVIVAL||player.getGameMode()==GameMode.ADVENTURE){
+                            if(!plugin.getConfig().getBoolean("tp-in-the-air")){
+                                plugin.blockFall.add(player.getUniqueId());
+                            }
+                        }
+                        if(player.isGliding()){
                             player.setGliding(false);
                         }
                         return true;
@@ -300,9 +309,12 @@ public class VisitCommand implements CommandExecutor{
                                     PostAPI.playSoundAfterTp(player,newlocation);
                                     sendActionBarOrChat(player,message);
                                 }
-                                if(player.getGameMode()== GameMode.SURVIVAL&&player.getGameMode()==GameMode.ADVENTURE&&!plugin.getConfig().getBoolean("tp-in-the-air")){
-                                    plugin.blockFall.add(player.getUniqueId());
-                                }                                if(player.isGliding()){
+                                if(player.getGameMode()== GameMode.SURVIVAL||player.getGameMode()==GameMode.ADVENTURE){
+                                    if(!plugin.getConfig().getBoolean("tp-in-the-air")){
+                                        plugin.blockFall.add(player.getUniqueId());
+                                    }
+                                }
+                                if(player.isGliding()){
                                     player.setGliding(false);
                                 }
                                 return true;
