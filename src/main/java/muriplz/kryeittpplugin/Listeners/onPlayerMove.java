@@ -7,6 +7,7 @@ import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -55,7 +56,8 @@ public class onPlayerMove implements Listener {
                 Set<String> warpNames = warps.keySet();
 
                 for(String warpName: warpNames){
-                    if(Warp.getWarps().get(warpName).getLocation().getBlockX()==postX&&Warp.getWarps().get(warpName).getLocation().getBlockZ()==postZ&&!plugin.getConfig().getBoolean("multiple-names-per-post")){
+                    Location postLocation = Warp.getWarps().get(warpName).getLocation();
+                    if(postLocation.getBlockX()==postX && postLocation.getBlockZ()==postZ){
                         player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("The nearest post is on: "+ChatColor.GOLD+"(" + postX + " , " + postZ + ")"+ChatColor.WHITE+", it's "+ChatColor.GOLD+warpName+ChatColor.WHITE+"."));
                         return;
                     }

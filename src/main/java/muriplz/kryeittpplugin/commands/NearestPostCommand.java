@@ -6,6 +6,7 @@ import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -55,7 +56,8 @@ public class NearestPostCommand implements CommandExecutor{
             if(args.length==0) {
 
                 for(String warpName: warpNames){
-                    if(Warp.getWarps().get(warpName).getLocation().getBlockX()==postX&&Warp.getWarps().get(warpName).getLocation().getBlockZ()==postZ&&!plugin.getConfig().getBoolean("multiple-names-per-post")){
+                    Location postLocation = Warp.getWarps().get(warpName).getLocation();
+                    if( postLocation.getBlockX()==postX && postLocation.getBlockZ()==postZ ){
                         PostAPI.sendMessage(player,"&fThe nearest post is on: &6(" + postX + " , " + postZ + ")&f, it's &6"+warpName+"&f.");
                         return true;
                     }
