@@ -57,7 +57,7 @@ public class onPlayerMove implements Listener {
 
                 for(String warpName: warpNames){
                     Location postLocation = Warp.getWarps().get(warpName).getLocation();
-                    if(postLocation.getBlockX()==postX && postLocation.getBlockZ()==postZ){
+                    if(postLocation.getBlockX()==postX && postLocation.getBlockZ()==postZ && !plugin.getConfig().getBoolean("multiple-names-per-post")){
                         player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("The nearest post is on: "+ChatColor.GOLD+"(" + postX + " , " + postZ + ")"+ChatColor.WHITE+", it's "+ChatColor.GOLD+warpName+ChatColor.WHITE+"."));
                         return;
                     }
@@ -65,7 +65,6 @@ public class onPlayerMove implements Listener {
                 player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("The nearest post is on: "+ ChatColor.GOLD+"(" + postX + " , " + postZ + ")"+ChatColor.WHITE+"."));
                 plugin.counterNearest.add(index,0);
             }
-
         }
     }
 }

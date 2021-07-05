@@ -57,7 +57,7 @@ public class NearestPostCommand implements CommandExecutor{
 
                 for(String warpName: warpNames){
                     Location postLocation = Warp.getWarps().get(warpName).getLocation();
-                    if( postLocation.getBlockX()==postX && postLocation.getBlockZ()==postZ ){
+                    if( postLocation.getBlockX()==postX && postLocation.getBlockZ()==postZ && !plugin.getConfig().getBoolean("multiple-names-per-post")){
                         PostAPI.sendMessage(player,"&fThe nearest post is on: &6(" + postX + " , " + postZ + ")&f, it's &6"+warpName+"&f.");
                         return true;
                     }
