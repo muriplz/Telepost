@@ -31,7 +31,7 @@ public class onPlayerMove implements Listener {
         if(Objects.requireNonNull(Bukkit.getEntity(player.getUniqueId())).isOnGround()){
             plugin.blockFall.remove(player.getUniqueId());
         }
-        if(material== Material.WATER||Material.LEGACY_STATIONARY_WATER==material||material==Material.LAVA||Material.LEGACY_STATIONARY_LAVA==material){
+        if(material== Material.WATER||material==Material.LAVA){
             plugin.blockFall.remove(player.getUniqueId());
         }
         if(plugin.showNearest.contains(player.getUniqueId())){
