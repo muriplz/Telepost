@@ -1,7 +1,14 @@
 package muriplz.kryeittpplugin.commands;
 
+import io.github.niestrat99.advancedteleport.api.Warp;
 import muriplz.kryeittpplugin.KryeitTPPlugin;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -9,6 +16,12 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 public class HelpCommand implements CommandExecutor {
+    public void setTextComponent(String command,TextComponent textComponent){
+        String commandString = "/posthelp "+command;
+        textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, commandString ));
+        String hoverText = "Click to get more information about "+ChatColor.GOLD+"/"+command+ChatColor.WHITE+".";
+        textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(hoverText)));
+    }
     private final KryeitTPPlugin plugin;
 
     public HelpCommand(KryeitTPPlugin plugin) {
@@ -24,6 +37,8 @@ public class HelpCommand implements CommandExecutor {
 
             // /posthelp
             if(args.length==0){
+
+
                 PostAPI.sendMessage(player,"&aList of commands: &f( + info on /posthelp <Command> )");
                 PostAPI.sendMessage(player,"- &6/nearestpost&f: tells you where the nearest post is.");
                 PostAPI.sendMessage(player,"- &6/setpost&f: sets the nearest post as your home post.");
@@ -64,6 +79,7 @@ public class HelpCommand implements CommandExecutor {
                     PostAPI.sendMessage(player,"- There is a post every &6"+plugin.getConfig().getInt("distance-between-posts")+ "&f blocks.");
                     PostAPI.sendMessage(player,"- You can only use teleports inside posts.");
                     PostAPI.sendMessage(player,"- Use F3 to see your own coordinates.");
+                    PostAPI.sendMessage(player,"- You can also use &6/nearestpost on/off&f.");
                 } else if(args[0].equals("setpost")){
                     PostAPI.sendMessage(player,"&a/SetPost guide: ");
                     PostAPI.sendMessage(player,"- This command will set a home for you on the nearest post.");
