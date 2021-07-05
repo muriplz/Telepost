@@ -1,5 +1,6 @@
 package muriplz.kryeittpplugin.commands;
 
+import io.github.niestrat99.advancedteleport.api.Warp;
 import muriplz.kryeittpplugin.KryeitTPPlugin;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
@@ -11,6 +12,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
+import java.util.Set;
 
 
 public class NearestPostCommand implements CommandExecutor{
@@ -45,8 +48,20 @@ public class NearestPostCommand implements CommandExecutor{
             // for the Z axis
             int originZ = plugin.getConfig().getInt("post-z-location");
             int postZ = PostAPI.getNearPost(gap,player.getLocation().getBlockZ(),originZ);
+
+            // Get all the warpNames
+            HashMap<String, Warp> warps = Warp.getWarps();
+            Set<String> warpNames = warps.keySet();
             if(args.length==0) {
+
+                for(String warpName: warpNames){
+                    if(Warp.getWarps().get(warpName).getLocation().getBlockX()==postX&&Warp.getWarps().get(warpName).getLocation().getBlockZ()==postZ&&!plugin.getConfig().getBoolean("multiple-names-per-post")){
+                        PostAPI.sendMessage(player,"&fThe nearest post is on: &6(" + postX + " , " + postZ + ")&f, it's &6"+warpName+"&f.");
+                        return true;
+                    }
+                }
                 PostAPI.sendMessage(player,"&fThe nearest post is on: &6(" + postX + " , " + postZ + ")&f.");
+
             }else if (args.length==1) {
                 if(args[0].equals("on")) {
                     if (!plugin.showNearest.contains(player.getUniqueId())){

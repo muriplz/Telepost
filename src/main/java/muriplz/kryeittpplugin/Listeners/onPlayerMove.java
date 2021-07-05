@@ -1,5 +1,6 @@
 package muriplz.kryeittpplugin.Listeners;
 
+import io.github.niestrat99.advancedteleport.api.Warp;
 import muriplz.kryeittpplugin.KryeitTPPlugin;
 import muriplz.kryeittpplugin.commands.PostAPI;
 import net.md_5.bungee.api.ChatColor;
@@ -12,7 +13,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
+import java.util.HashMap;
 import java.util.Objects;
+import java.util.Set;
 
 public class onPlayerMove implements Listener {
     private final KryeitTPPlugin plugin;
@@ -46,6 +49,17 @@ public class onPlayerMove implements Listener {
                 // for the Z axis
                 int originZ = plugin.getConfig().getInt("post-z-location");
                 int postZ = PostAPI.getNearPost(gap,player.getLocation().getBlockZ(),originZ);
+
+                // Get all the warpNames
+                HashMap<String, Warp> warps = Warp.getWarps();
+                Set<String> warpNames = warps.keySet();
+
+                for(String warpName: warpNames){
+                    if(Warp.getWarps().get(warpName).getLocation().getBlockX()==postX&&Warp.getWarps().get(warpName).getLocation().getBlockZ()==postZ&&!plugin.getConfig().getBoolean("multiple-names-per-post")){
+                        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("The nearest post is on: "+ChatColor.GOLD+"(" + postX + " , " + postZ + ")"+ChatColor.WHITE+", it's "+ChatColor.GOLD+warpName+ChatColor.WHITE+"."));
+                        return;
+                    }
+                }
                 player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("The nearest post is on: "+ ChatColor.GOLD+"(" + postX + " , " + postZ + ")"+ChatColor.WHITE+"."));
                 plugin.counterNearest.add(index,0);
             }

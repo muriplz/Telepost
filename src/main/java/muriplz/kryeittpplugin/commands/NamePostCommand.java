@@ -60,11 +60,11 @@ public class NamePostCommand implements CommandExecutor {
                     PostAPI.sendMessage(player,"&cThe post &6"+args[0]+"&c already exists.");
                     return false;
                 }
-                Location nearestpostLocation = new Location(player.getWorld(), postX , 260, postZ );
+                Location nearestpostLocation = new Location(player.getWorld(), postX , 267, postZ );
                 HashMap<String, Warp> warps = Warp.getWarps();
                 Set<String> warpNames = warps.keySet();
                 for(String warpName: warpNames){
-                    if(Warp.getWarps().get(warpName).getLocation().getBlockX()==nearestpostLocation.getBlockX()&&Warp.getWarps().get(warpName).getLocation().getBlockZ()==nearestpostLocation.getBlockZ()&&!plugin.getConfig().getBoolean("multiple-names-per-post")){
+                    if(Warp.getWarps().get(warpName).getLocation().getBlockX()==postX&&Warp.getWarps().get(warpName).getLocation().getBlockZ()==postZ&&!plugin.getConfig().getBoolean("multiple-names-per-post")){
                         PostAPI.sendMessage(player,"&cThe nearest post is already named, it's &6"+warpName+"&c.");
                         return false;
                     }
