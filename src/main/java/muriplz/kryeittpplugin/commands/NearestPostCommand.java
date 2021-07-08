@@ -80,10 +80,9 @@ public class NearestPostCommand implements CommandExecutor{
                     if (!plugin.showNearest.contains(player.getUniqueId())){
                         String postName = NearestPostName(player,postX,postZ,plugin);
                         if(postName!=null){
-                            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("The nearest post is on: "+ ChatColor.GOLD+"(" + postX + " , " + postZ + ")"+ChatColor.WHITE+", it's "+ChatColor.GOLD+postName+ChatColor.WHITE+"."));
-
+                            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',"The nearest post is on: &6(" + postX + " , " + postZ + ")&f, it's &6"+postName+"&f.")));
                         }else{
-                            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("The nearest post is on: "+ ChatColor.GOLD+"(" + postX + " , " + postZ + ")"+ChatColor.WHITE+"."));
+                            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',"The nearest post is on: &6(" + postX + " , " + postZ + ")&f.")));
                         }
                         plugin.showNearest.add(player.getUniqueId());
                     }else{
@@ -99,7 +98,6 @@ public class NearestPostCommand implements CommandExecutor{
 
                 }
             }
-
             return true;
         }
     }
