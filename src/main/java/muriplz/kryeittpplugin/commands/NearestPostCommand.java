@@ -19,6 +19,19 @@ import java.util.Set;
 
 public class NearestPostCommand implements CommandExecutor{
 
+    public static String NearestPostName(Player player,int postX,int postZ,KryeitTPPlugin plugin){
+        HashMap<String, Warp> warps = Warp.getWarps();
+        Set<String> warpNames = warps.keySet();
+
+        for(String warpName: warpNames){
+            Location postLocation = Warp.getWarps().get(warpName).getLocation();
+            if( postLocation.getBlockX()==postX && postLocation.getBlockZ()==postZ && !plugin.getConfig().getBoolean("multiple-names-per-post")){
+                return warpName;
+            }
+        }
+        return null;
+    }
+
     private final KryeitTPPlugin plugin;
 
     public NearestPostCommand(KryeitTPPlugin plugin) {
@@ -55,19 +68,23 @@ public class NearestPostCommand implements CommandExecutor{
             Set<String> warpNames = warps.keySet();
             if(args.length==0) {
 
-                for(String warpName: warpNames){
-                    Location postLocation = Warp.getWarps().get(warpName).getLocation();
-                    if( postLocation.getBlockX()==postX && postLocation.getBlockZ()==postZ && !plugin.getConfig().getBoolean("multiple-names-per-post")){
-                        PostAPI.sendMessage(player,"&fThe nearest post is on: &6(" + postX + " , " + postZ + ")&f, it's &6"+warpName+"&f.");
-                        return true;
-                    }
+                String postName = NearestPostName(player,postX,postZ,plugin);
+                if(postName!=null){
+                    PostAPI.sendMessage(player,"&fThe nearest post is on: &6(" + postX + " , " + postZ + ")&f, it's &6"+postName+"&f.");
+                }else{
+                    PostAPI.sendMessage(player,"&fThe nearest post is on: &6(" + postX + " , " + postZ + ")&f.");
                 }
-                PostAPI.sendMessage(player,"&fThe nearest post is on: &6(" + postX + " , " + postZ + ")&f.");
 
             }else if (args.length==1) {
                 if(args[0].equals("on")) {
                     if (!plugin.showNearest.contains(player.getUniqueId())){
-                        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("The nearest post is on: "+ ChatColor.GOLD+"(" + postX + " , " + postZ + ")"+ChatColor.WHITE+"."));
+                        String postName = NearestPostName(player,postX,postZ,plugin);
+                        if(postName!=null){
+                            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("The nearest post is on: "+ ChatColor.GOLD+"(" + postX + " , " + postZ + ")"+ChatColor.WHITE+", it's "+ChatColor.GOLD+postName+ChatColor.WHITE+"."));
+
+                        }else{
+                            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("The nearest post is on: "+ ChatColor.GOLD+"(" + postX + " , " + postZ + ")"+ChatColor.WHITE+"."));
+                        }
                         plugin.showNearest.add(player.getUniqueId());
                     }else{
                         PostAPI.sendMessage(player,"&cYou already have the option enabled.");

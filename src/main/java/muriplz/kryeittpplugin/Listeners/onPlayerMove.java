@@ -2,6 +2,7 @@ package muriplz.kryeittpplugin.Listeners;
 
 import io.github.niestrat99.advancedteleport.api.Warp;
 import muriplz.kryeittpplugin.KryeitTPPlugin;
+import muriplz.kryeittpplugin.commands.NearestPostCommand;
 import muriplz.kryeittpplugin.commands.PostAPI;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
@@ -51,18 +52,13 @@ public class onPlayerMove implements Listener {
                 int originZ = plugin.getConfig().getInt("post-z-location");
                 int postZ = PostAPI.getNearPost(gap,player.getLocation().getBlockZ(),originZ);
 
-                // Get all the warpNames
-                HashMap<String, Warp> warps = Warp.getWarps();
-                Set<String> warpNames = warps.keySet();
+                String postName = NearestPostCommand.NearestPostName(player,postX,postZ,plugin);
+                if(postName!=null){
+                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("The nearest post is on: "+ ChatColor.GOLD+"(" + postX + " , " + postZ + ")"+ChatColor.WHITE+", it's "+ChatColor.GOLD+postName+ChatColor.WHITE+"."));
 
-                for(String warpName: warpNames){
-                    Location postLocation = Warp.getWarps().get(warpName).getLocation();
-                    if(postLocation.getBlockX()==postX && postLocation.getBlockZ()==postZ && !plugin.getConfig().getBoolean("multiple-names-per-post")){
-                        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("The nearest post is on: "+ChatColor.GOLD+"(" + postX + " , " + postZ + ")"+ChatColor.WHITE+", it's "+ChatColor.GOLD+warpName+ChatColor.WHITE+"."));
-                        return;
-                    }
+                }else{
+                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("The nearest post is on: "+ ChatColor.GOLD+"(" + postX + " , " + postZ + ")"+ChatColor.WHITE+"."));
                 }
-                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("The nearest post is on: "+ ChatColor.GOLD+"(" + postX + " , " + postZ + ")"+ChatColor.WHITE+"."));
                 plugin.counterNearest.add(index,0);
             }
         }

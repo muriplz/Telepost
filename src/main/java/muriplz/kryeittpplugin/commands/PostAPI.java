@@ -48,24 +48,7 @@ public class PostAPI {
         // Sending the message with & instead of §
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
     }
-    public static void loadAllChunksToBuildThePost(Block block, int width){
-        // Getting block x and z coords
-        int x = block.getX();
-        int z = block.getZ();
 
-        // Loading the chunks that are in the area of the base
-        for (int i=x-width;i<=x+width;i++) {
-            for (int j=z-width;j<=z+width;j++) {
-                // Getting the chunk the block is in
-                Chunk chunk = Objects.requireNonNull(Bukkit.getWorld("world")).getChunkAt(i,j);
-
-                // Checking if the chunk is unloaded and if it isn't load it
-                if (!chunk.isLoaded()) {
-                    chunk.load();
-                }
-            }
-        }
-    }
     public static void launch(Player player,KryeitTPPlugin plugin,Vector speed,Location newlocation){
         new BukkitRunnable() {
             double velY = speed.getY();
@@ -86,24 +69,7 @@ public class PostAPI {
         }.runTaskTimer(plugin,0,1);
         player.teleport(newlocation);
     }
-    public static void unloadAllChunksToBuildThePost(Block block,int width){
-        // Getting block x and z coords
-        int x = block.getX();
-        int z = block.getZ();
 
-        // Unloading the chunks that are in the area of the base
-        for (int i=x-width;i<=x+width;i++) {
-            for (int j = z - width; j <= z + width; j++) {
-                // Getting the chunk the block is in
-                Chunk chunk = Objects.requireNonNull(Bukkit.getWorld("world")).getChunkAt(i, j);
-
-                // Checking if the chunk is loaded and if it is unload it
-                if (chunk.isLoaded()) {
-                    chunk.unload();
-                }
-            }
-        }
-    }
     public static boolean isPlayerOnPost(Player player, int originX, int originZ, int width, int gap) {
         // Getting the coords of nearest post to the player
         int postX = PostAPI.getNearPost(gap,player.getLocation().getBlockX(),originX);
@@ -115,6 +81,7 @@ public class PostAPI {
 
         return !(playerX < postX - width || playerX > postX + width && playerZ < postZ - width || playerZ > postZ + width);
     }
+
     public static int getFirstSolidBlockHeight(int X, int Z){
         // Setting the highest height the post can be at
         int height = 251;
@@ -134,4 +101,41 @@ public class PostAPI {
         }
         return height;
     }
+
+//    public static void unloadAllChunksToBuildThePost(Block block,int width){
+//        // Getting block x and z coords
+//        int x = block.getX();
+//        int z = block.getZ();
+//
+//        // Unloading the chunks that are in the area of the base
+//        for (int i=x-width;i<=x+width;i++) {
+//            for (int j = z - width; j <= z + width; j++) {
+//                // Getting the chunk the block is in
+//                Chunk chunk = Objects.requireNonNull(Bukkit.getWorld("world")).getChunkAt(i, j);
+//
+//                // Checking if the chunk is loaded and if it is unload it
+//                if (chunk.isLoaded()) {
+//                    chunk.unload();
+//                }
+//            }
+//        }
+//    }
+//    public static void loadAllChunksToBuildThePost(Block block, int width){
+//        // Getting block x and z coords
+//        int x = block.getX();
+//        int z = block.getZ();
+//
+//        // Loading the chunks that are in the area of the base
+//        for (int i=x-width;i<=x+width;i++) {
+//            for (int j=z-width;j<=z+width;j++) {
+//                // Getting the chunk the block is in
+//                Chunk chunk = Objects.requireNonNull(Bukkit.getWorld("world")).getChunkAt(i,j);
+//
+//                // Checking if the chunk is unloaded and if it isn't load it
+//                if (!chunk.isLoaded()) {
+//                    chunk.load();
+//                }
+//            }
+//        }
+//    }
 }

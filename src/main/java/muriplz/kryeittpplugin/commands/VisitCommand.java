@@ -43,8 +43,17 @@ public class VisitCommand implements CommandExecutor{
             // Getting the player
             Player player = (Player) sender;
 
+            // /v
+            if (args.length == 0) {
+                PostAPI.sendMessage(player,"&fUse /visit <PostName/PlayerName> to visit a post.");
+                return false;
+            }
+
+            // Getting the World overworld
+            World world = player.getWorld();
+
             // Checking if the player is on the Overworld, if not stop the command
-            if(!player.getWorld().getName().equals("world")){
+            if(!world.getName().equals("world")){
                 sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cYou have to be in the Overworld to use this command."));
                 return false;
             }
@@ -52,13 +61,11 @@ public class VisitCommand implements CommandExecutor{
             int gap = plugin.getConfig().getInt("distance-between-posts");
             int width = (plugin.getConfig().getInt("post-width")-1)/2;
 
-            // For the X axis
+            // For the X origin
             int originX = plugin.getConfig().getInt("post-x-location");
-            int postX = PostAPI.getNearPost(gap,player.getLocation().getBlockX(),originX);
 
-            // For the Z axis
+            // For the Z origin
             int originZ = plugin.getConfig().getInt("post-z-location");
-            int postZ = PostAPI.getNearPost(gap,player.getLocation().getBlockZ(),originZ);
 
             // For the height that the player will be teleported to
             int height;
@@ -71,14 +78,9 @@ public class VisitCommand implements CommandExecutor{
                 }
             }
 
-            // Getting the World overworld
-            World world = player.getWorld();
-
-            // /v
-            if (args.length == 0) {
-                PostAPI.sendMessage(player,"&fUse /visit <PostName/PlayerName> to visit a post.");
-                return false;
-            }
+            // Getting the Nearest post
+            int postX = PostAPI.getNearPost(gap,player.getLocation().getBlockX(),originX);
+            int postZ = PostAPI.getNearPost(gap,player.getLocation().getBlockZ(),originZ);
 
             // If the player is not on the ground stop the command
             if(!Objects.requireNonNull(Bukkit.getEntity(player.getUniqueId())).isOnGround()&&!player.hasPermission("telepost.visit")){
