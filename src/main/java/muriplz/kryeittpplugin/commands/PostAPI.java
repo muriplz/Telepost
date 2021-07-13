@@ -6,6 +6,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import java.util.Objects;
+
 public class PostAPI {
     public KryeitTPPlugin plugin;
     public PostAPI(KryeitTPPlugin plugin) {
@@ -97,6 +99,19 @@ public class PostAPI {
             }
         }
         return height;
+    }
+    public static int getPostAmount(KryeitTPPlugin plugin){
+        int originX = plugin.getConfig().getInt("post-x-location");
+        int originZ = plugin.getConfig().getInt("post-z-location");
+        int gap = plugin.getConfig().getInt("distance-betweenn-posts");
+
+        double size = Math.sqrt(Objects.requireNonNull(Bukkit.getServer().getWorld("world")).getWorldBorder().getSize())/2;
+
+        int postAmountX=7400;
+        int postAmountZ=0;
+
+        double postAmount = postAmountZ*postAmountX;
+        return (int) postAmount;
     }
 
 //    public static void unloadAllChunksToBuildThePost(Block block,int width){

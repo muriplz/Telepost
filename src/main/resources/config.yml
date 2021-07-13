@@ -32,8 +32,8 @@
 # messages-on-action-bar = shows the message on the Action Bar. ( doesn't work for all commands )
 # ( default = true )
 ################
-#  world-border =
-#
+#  random-post = teleports to a random post. Homepost and Named Posts are not in the poll.
+# ( default = true )
 ################
 distance-between-posts: 800
 post-x-location: 0
@@ -43,3 +43,4 @@ launch-feature: false
 multiple-names-per-post: false
 tp-in-the-air: true
 messages-on-action-bar: true
+random-post: true

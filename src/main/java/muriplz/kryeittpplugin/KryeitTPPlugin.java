@@ -31,6 +31,7 @@ public class KryeitTPPlugin extends JavaPlugin {
     public void onEnable(){
         // All global lists
         telepostData();
+
         // Register all commands and tab completions
         registerCommands();
 
@@ -40,13 +41,14 @@ public class KryeitTPPlugin extends JavaPlugin {
         // Set the config.yml file
         defaultConfig();
 
-        // messages.conf file
         // Plugin activated at this point
-        Bukkit.getConsoleSender().sendMessage(name+ChatColor.GRAY+" The plugin has been activated. version: "+ChatColor.GREEN+version);
+        Bukkit.getConsoleSender().sendMessage(name+ChatColor.GRAY+" The plugin has been activated. Version: "+ChatColor.GREEN+version);
     }
+
     public void onDisable() {
         Bukkit.getConsoleSender().sendMessage(name+ChatColor.WHITE+" The plugin has been deactivated.");
     }
+
     public void registerEvents(){
         getServer().getPluginManager().registerEvents(new onGlide(this), this);
         getServer().getPluginManager().registerEvents(new onFall(this), this);
@@ -59,6 +61,7 @@ public class KryeitTPPlugin extends JavaPlugin {
         showNearest = new ArrayList<>();
         counterNearest = new ArrayList<Integer>();
     }
+
     public void defaultConfig(){
         // Set the config.yml file
         config.addDefault("distance-between-posts", 800);
@@ -69,6 +72,8 @@ public class KryeitTPPlugin extends JavaPlugin {
         config.addDefault("multiple-names-per-post",false);
         config.addDefault("tp-in-the-air",true);
         config.addDefault("messages-on-action-bar",true);
+        config.addDefault("random-post", true);
+
         config.options().copyDefaults(true);
         saveDefaultConfig();
     }
@@ -105,7 +110,7 @@ public class KryeitTPPlugin extends JavaPlugin {
         // /posthelp (command)
         // <> means that has to be used, () is optional
         Objects.requireNonNull(this.getCommand("posthelp")).setExecutor( new HelpCommand(this));
-        Objects.requireNonNull(getCommand("posthelp")).setTabCompleter(new HelpTab());
+        Objects.requireNonNull(getCommand("posthelp")).setTabCompleter(new HelpTab(this));
 
         // /buildpost (y)
         // /buildpost (x) (z)
@@ -116,6 +121,11 @@ public class KryeitTPPlugin extends JavaPlugin {
         // /postlist
         Objects.requireNonNull(this.getCommand("postlist")).setExecutor( new PostsListCommand(this));
         Objects.requireNonNull(getCommand("postlist")).setTabCompleter(new ReturnNullTab());
+
+        // /randompost
+        Objects.requireNonNull(this.getCommand("randompost")).setExecutor( new RandomPostCommand(this));
+        Objects.requireNonNull(getCommand("randompost")).setTabCompleter(new ReturnNullTab());
+
     }
 }
 

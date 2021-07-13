@@ -28,3 +28,5 @@ commands:
   postlist:
     description: shows all the named posts, and lets you teleport by clicking.
     aliases: plist
+  randompost:
+    description: teleports to a random post.

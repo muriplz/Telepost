@@ -142,7 +142,7 @@ public class VisitCommand implements CommandExecutor{
                         sendActionBarOrChat(player,message);
                     }
                     if(player.getGameMode()== GameMode.SURVIVAL||player.getGameMode()==GameMode.ADVENTURE){
-                        if(!plugin.getConfig().getBoolean("tp-in-the-air")){
+                        if(plugin.getConfig().getBoolean("tp-in-the-air")){
                             plugin.blockFall.add(player.getUniqueId());
                         }
                     }
@@ -198,7 +198,7 @@ public class VisitCommand implements CommandExecutor{
                             sendActionBarOrChat(player,message);
                         }
                         if(player.getGameMode()== GameMode.SURVIVAL||player.getGameMode()==GameMode.ADVENTURE){
-                            if(!plugin.getConfig().getBoolean("tp-in-the-air")){
+                            if(plugin.getConfig().getBoolean("tp-in-the-air")){
                                 plugin.blockFall.add(player.getUniqueId());
                             }
                         }
@@ -260,7 +260,7 @@ public class VisitCommand implements CommandExecutor{
                             sendActionBarOrChat(player,message);
                         }
                         if(player.getGameMode()== GameMode.SURVIVAL||player.getGameMode()==GameMode.ADVENTURE){
-                            if(!plugin.getConfig().getBoolean("tp-in-the-air")){
+                            if(plugin.getConfig().getBoolean("tp-in-the-air")){
                                 plugin.blockFall.add(player.getUniqueId());
                             }
                         }
@@ -312,7 +312,7 @@ public class VisitCommand implements CommandExecutor{
                                     sendActionBarOrChat(player,message);
                                 }
                                 if(player.getGameMode()== GameMode.SURVIVAL||player.getGameMode()==GameMode.ADVENTURE){
-                                    if(!plugin.getConfig().getBoolean("tp-in-the-air")){
+                                    if(plugin.getConfig().getBoolean("tp-in-the-air")){
                                         plugin.blockFall.add(player.getUniqueId());
                                     }
                                 }

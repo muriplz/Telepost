@@ -1,5 +1,6 @@
 package muriplz.kryeittpplugin.tabCompletion;
 
+import muriplz.kryeittpplugin.KryeitTPPlugin;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -11,6 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HelpTab implements TabCompleter {
+    private final KryeitTPPlugin plugin;
+
+    public HelpTab(KryeitTPPlugin plugin) {
+        this.plugin = plugin;
+    }
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
@@ -30,6 +36,9 @@ public class HelpTab implements TabCompleter {
             }
             if(player.hasPermission("telepost.unnamepost")){
                 commands.add("unnamepost");
+            }
+            if(plugin.getConfig().getBoolean("random-post")){
+                commands.add("randompost");
             }
             commands.add("aliases");
             commands.add("nearestpost");

@@ -60,7 +60,7 @@ public class NamePostCommand implements CommandExecutor {
                     PostAPI.sendMessage(player,"&cThe post &6"+args[0]+"&c already exists.");
                     return false;
                 }
-                Location nearestpostLocation = new Location(player.getWorld(), postX , 267, postZ );
+                Location nearestpostLocation = new Location(player.getWorld(), postX , 265, postZ );
                 HashMap<String, Warp> warps = Warp.getWarps();
                 Set<String> warpNames = warps.keySet();
                 for(String warpName: warpNames){

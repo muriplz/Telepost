@@ -123,7 +123,7 @@ public class HomePostCommand implements CommandExecutor {
                 }
 
                 if(player.getGameMode()== GameMode.SURVIVAL||player.getGameMode()==GameMode.ADVENTURE){
-                    if(!plugin.getConfig().getBoolean("tp-in-the-air")){
+                    if(plugin.getConfig().getBoolean("tp-in-the-air")){
                         plugin.blockFall.add(player.getUniqueId());
                     }
                 }
