@@ -28,7 +28,6 @@ public class NamePostCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if( ! ( sender instanceof Player)) {
             Bukkit.getConsoleSender().sendMessage(plugin.name+"You can't execute this command from console.");
-            return false;
         }else {
             Player player = (Player) sender;
             if(args.length==0){
@@ -60,7 +59,7 @@ public class NamePostCommand implements CommandExecutor {
                     PostAPI.sendMessage(player,"&cThe post &6"+args[0]+"&c already exists.");
                     return false;
                 }
-                Location nearestpostLocation = new Location(player.getWorld(), postX , 265, postZ );
+                Location nearestpostLocation = new Location(player.getWorld(), postX , 265, postZ ,0,0);
                 HashMap<String, Warp> warps = Warp.getWarps();
                 Set<String> warpNames = warps.keySet();
                 for(String warpName: warpNames){
@@ -78,6 +77,6 @@ public class NamePostCommand implements CommandExecutor {
                         PostAPI.sendMessage(player,"&fYou have named &6"+args[0]+"&f the nearest post."));
                 return true;
         }
+        }
         return false;
-    }
-}}
+    }}

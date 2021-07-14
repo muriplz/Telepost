@@ -1,7 +1,6 @@
 package muriplz.kryeittpplugin.commands;
 
 import io.github.niestrat99.advancedteleport.api.ATPlayer;
-import io.github.niestrat99.advancedteleport.api.Home;
 import io.github.niestrat99.advancedteleport.api.Warp;
 import muriplz.kryeittpplugin.KryeitTPPlugin;
 import org.bukkit.Bukkit;
@@ -14,17 +13,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class RandomPostCommand implements CommandExecutor {
 
     // Function to remove duplicates from an ArrayList
     public static List<Location> removeDuplicates(List<Location> list) {
         // Create a new ArrayList
-        List<Location> newList = new ArrayList<Location>();
+        List<Location> newList = new ArrayList<>();
 
         // Traverse through the first list
         for (Location element : list) {
@@ -60,11 +56,27 @@ public class RandomPostCommand implements CommandExecutor {
                 return false;
             }
 
+            if(!player.hasPermission("telepost.randompost")){
+                PostAPI.sendMessage(player,"&cYou don't have permission to use this command.");
+                return false;
+            }
+
             // Player has to be in the Overworld
             if (!player.getWorld().getName().equals("world")) {
                 PostAPI.sendMessage(player, "&cYou have to be in the Overworld to use this command.");
                 return false;
             }
+
+            if(!PostAPI.isPlayerOnPost(player,plugin)){
+                PostAPI.sendMessage(player, "&cYou have to be inside a post.");
+                return false;
+            }
+
+            List<Location> allNamedAndHomed = new ArrayList<>();
+            List<Location> allPosts;
+            List<Location> availablePosts = new ArrayList<>();
+
+
 
             WorldBorder worldBorder = Objects.requireNonNull(Bukkit.getServer().getWorld("world")).getWorldBorder();
             int size = (int) worldBorder.getSize();
@@ -74,38 +86,52 @@ public class RandomPostCommand implements CommandExecutor {
                 return false;
             }
 
-            List<Location> allNamedAndHomed = new ArrayList<Location>();
+
 
             for(OfflinePlayer p : Bukkit.getServer().getOfflinePlayers()){
                 ATPlayer atPlayer = ATPlayer.getPlayer(p);
                 if(atPlayer.hasHome("home")){
                     Location home = atPlayer.getHome("home").getLocation();
-                    allNamedAndHomed.add(home);
+                    Location loc = new Location(player.getWorld(),home.getBlockX(),265.0,home.getBlockZ(),0,0);
+                    allNamedAndHomed.add(loc);
                 }
             }
             for(Player p : Bukkit.getServer().getOnlinePlayers()){
                 ATPlayer atPlayer = ATPlayer.getPlayer(p);
                 if(atPlayer.hasHome("home")){
                     Location home = atPlayer.getHome("home").getLocation();
-                    allNamedAndHomed.add(home);
+                    Location loc = new Location(player.getWorld(),home.getBlockX(),265.0,home.getBlockZ(),0,0);
+                    allNamedAndHomed.add(loc);
                 }
             }
             for(Warp namedPost: Warp.getWarps().values()){
                 Location namedLoc = namedPost.getLocation();
-                allNamedAndHomed.add(namedLoc);
+                Location loc = new Location(player.getWorld(),namedLoc.getBlockX(),265.0,namedLoc.getBlockZ(),0,0);
+                allNamedAndHomed.add(loc);
             }
             allNamedAndHomed = removeDuplicates(allNamedAndHomed);
+            allPosts = PostAPI.getAllPostLocations(plugin);
 
-            int postAmount = PostAPI.getPostAmount(plugin);
-            player.sendMessage(""+postAmount);
+            for(Location l : allPosts) {
+                if(!allNamedAndHomed.contains(l)){
+                    availablePosts.add(l);
+                }
+            }
+            if(availablePosts.size()==0){
+                PostAPI.sendMessage(player,"&cThere are no available posts.");
+                return false;
+            }
 
+            Collections.shuffle(availablePosts);
 
+            Random r = new Random();
+            int low = 0;
+            int high = availablePosts.size()+1;
+            int index = r.nextInt(high-low) + low;
 
-
-
-
-
-
+            Location l = availablePosts.get(index);
+            player.teleport(l);
+            plugin.blockFall.add(player.getUniqueId());
 
             return true;
         }

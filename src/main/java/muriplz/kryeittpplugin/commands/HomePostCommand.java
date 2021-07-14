@@ -62,7 +62,6 @@ public class HomePostCommand implements CommandExecutor {
             // Get distance between posts and width from config.yml
             int height;
             int gap = plugin.getConfig().getInt("distance-between-posts");
-            int width = (plugin.getConfig().getInt("post-width")-1)/2;
 
             // For the X axis
             int originX = plugin.getConfig().getInt("post-x-location");
@@ -74,7 +73,7 @@ public class HomePostCommand implements CommandExecutor {
 
             // If the player is not inside a post and does not have telepost.homepost permission, he won't be teleported
             if(!player.hasPermission("telepost.homepost")){
-                if(!PostAPI.isPlayerOnPost(player,originX,originZ,width,gap)){
+                if(!PostAPI.isPlayerOnPost(player,plugin)){
                     sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cYou have to be inside a post."));
                     return false;
                 }

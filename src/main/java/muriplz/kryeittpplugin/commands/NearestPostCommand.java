@@ -19,7 +19,7 @@ import java.util.Set;
 
 public class NearestPostCommand implements CommandExecutor{
 
-    public static String NearestPostName(Player player,int postX,int postZ,KryeitTPPlugin plugin){
+    public static String NearestPostName(int postX,int postZ,KryeitTPPlugin plugin){
         HashMap<String, Warp> warps = Warp.getWarps();
         Set<String> warpNames = warps.keySet();
 
@@ -68,7 +68,7 @@ public class NearestPostCommand implements CommandExecutor{
             Set<String> warpNames = warps.keySet();
             if(args.length==0) {
 
-                String postName = NearestPostName(player,postX,postZ,plugin);
+                String postName = NearestPostName(postX,postZ,plugin);
                 if(postName!=null){
                     PostAPI.sendMessage(player,"&fThe nearest post is on: &6(" + postX + " , " + postZ + ")&f, it's &6"+postName+"&f.");
                 }else{
@@ -78,7 +78,7 @@ public class NearestPostCommand implements CommandExecutor{
             }else if (args.length==1) {
                 if(args[0].equals("on")) {
                     if (!plugin.showNearest.contains(player.getUniqueId())){
-                        String postName = NearestPostName(player,postX,postZ,plugin);
+                        String postName = NearestPostName(postX,postZ,plugin);
                         if(postName!=null){
                             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',"The nearest post is on: &6(" + postX + " , " + postZ + ")&f, it's &6"+postName+"&f.")));
                         }else{

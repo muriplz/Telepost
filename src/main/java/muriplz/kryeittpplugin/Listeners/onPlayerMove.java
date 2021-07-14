@@ -48,7 +48,7 @@ public class onPlayerMove implements Listener {
                 int originZ = plugin.getConfig().getInt("post-z-location");
                 int postZ = PostAPI.getNearPost(gap,player.getLocation().getBlockZ(),originZ);
 
-                String postName = NearestPostCommand.NearestPostName(player,postX,postZ,plugin);
+                String postName = NearestPostCommand.NearestPostName(postX,postZ,plugin);
                 if(postName!=null){
                     player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',"The nearest post is on: &6(" + postX + " , " + postZ + ")&f, it's &6"+postName+"&f.")));
                 }else{

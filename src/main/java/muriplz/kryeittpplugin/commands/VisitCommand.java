@@ -59,7 +59,6 @@ public class VisitCommand implements CommandExecutor{
             }
             // Get distance between posts and the width from config.yml
             int gap = plugin.getConfig().getInt("distance-between-posts");
-            int width = (plugin.getConfig().getInt("post-width")-1)/2;
 
             // For the X origin
             int originX = plugin.getConfig().getInt("post-x-location");
@@ -72,7 +71,7 @@ public class VisitCommand implements CommandExecutor{
 
             // See if the player is inside a post
             if(!player.hasPermission("telepost.visit")){
-                if(!PostAPI.isPlayerOnPost(player,originX,originZ,width,gap)){
+                if(!PostAPI.isPlayerOnPost(player,plugin)){
                     sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cYou have to be inside a post."));
                     return false;
                 }

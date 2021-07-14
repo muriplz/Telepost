@@ -22,6 +22,7 @@ public class KryeitTPPlugin extends JavaPlugin {
     public ArrayList<Integer> counterNearest;
     public ArrayList<UUID> showNearest;
     public ArrayList<UUID> blockFall;
+
     PluginDescriptionFile pdffile = getDescription();
     FileConfiguration config = this.getConfig();
     public String name = ChatColor.YELLOW+"["+ChatColor.WHITE+pdffile.getName()+ChatColor.YELLOW+"]";
@@ -59,7 +60,7 @@ public class KryeitTPPlugin extends JavaPlugin {
     public void telepostData(){
         blockFall = new ArrayList<>();
         showNearest = new ArrayList<>();
-        counterNearest = new ArrayList<Integer>();
+        counterNearest = new ArrayList<>();
     }
 
     public void defaultConfig(){

@@ -6,6 +6,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class PostAPI {
@@ -70,7 +72,11 @@ public class PostAPI {
     }
 
 
-    public static boolean isPlayerOnPost(Player player, int originX, int originZ, int width, int gap) {
+    public static boolean isPlayerOnPost(Player player,KryeitTPPlugin plugin) {
+        int gap = plugin.getConfig().getInt("distance-between-posts");
+        int width = (plugin.getConfig().getInt("post-width")-1)/2;
+        int originX = plugin.getConfig().getInt("post-x-location");
+        int originZ = plugin.getConfig().getInt("post-z-location");
         // Getting the cords of nearest post to the player
         int postX = PostAPI.getNearPost(gap,player.getLocation().getBlockX(),originX);
         int postZ = PostAPI.getNearPost(gap,player.getLocation().getBlockZ(),originZ);
@@ -111,12 +117,33 @@ public class PostAPI {
 
         int postAmountX= (size - originX)/gap + 1 + (size + originX)/gap;
         int postAmountZ= (size - originZ)/gap + 1 + (size + originZ)/gap;
-        Bukkit.getConsoleSender().sendMessage(""+postAmountX);
-        Bukkit.getConsoleSender().sendMessage(""+postAmountZ);
-
 
         double postAmount = postAmountZ*postAmountX;
         return (int) postAmount;
+    }
+    public static List<Location> getAllPostLocations(KryeitTPPlugin plugin){
+        int originX = plugin.getConfig().getInt("post-x-location");
+        int originZ = plugin.getConfig().getInt("post-z-location");
+        int gap = plugin.getConfig().getInt("distance-between-posts");
+
+        List<Location> allPosts = new ArrayList<>();
+
+        WorldBorder worldBorder = Objects.requireNonNull(Bukkit.getServer().getWorld("world")).getWorldBorder();
+        int size = (int) worldBorder.getSize();
+
+        int startX =(-size)/gap;
+        startX=startX*gap-originX;
+
+        int startZ =(-size)/gap;
+        startZ=startZ*gap-originZ;
+
+        for(int i = startX ; i < Math.abs(startX+2*originX) ; i += gap ){
+            for ( int j = startZ ; j < Math.abs(startZ+2*originZ) ; j += gap ){
+                Location loc = new Location(Bukkit.getWorld("world"),i,265,j,0,0);
+                allPosts.add(loc);
+            }
+        }
+        return allPosts;
     }
 
 //    public static void unloadAllChunksToBuildThePost(Block block,int width){

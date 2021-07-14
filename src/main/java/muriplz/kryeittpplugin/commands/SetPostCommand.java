@@ -68,7 +68,7 @@ public class SetPostCommand implements CommandExecutor {
             ATPlayer atPlayer = ATPlayer.getPlayer(player);
 
             // Location of the nearest post
-            Location location = new Location(player.getWorld(), postX, 265, postZ);
+            Location location = new Location(player.getWorld(), postX, 265, postZ,0,0);
 
             // moving the home if he already has one
             if (atPlayer.hasMainHome()) {
