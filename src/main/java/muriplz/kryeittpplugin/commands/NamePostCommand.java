@@ -43,17 +43,14 @@ public class NamePostCommand implements CommandExecutor {
                 return false;
             }
             if(args.length==1){
-
-                // get distance between posts from config.yml
-                int gap = plugin.getConfig().getInt("distance-between-posts");
                 
                 // for the X axis
                 int originX = plugin.getConfig().getInt("post-x-location");
-                int postX = PostAPI.getNearPost(gap,player.getLocation().getBlockX(),originX);
+                int postX = PostAPI.getNearPost(player.getLocation().getBlockX(),plugin,originX);
 
                 // for the Z axis
                 int originZ = plugin.getConfig().getInt("post-z-location");
-                int postZ = PostAPI.getNearPost(gap,player.getLocation().getBlockZ(),originZ);
+                int postZ = PostAPI.getNearPost(player.getLocation().getBlockZ(),plugin,originZ);
 
                 if(Warp.getWarps().containsKey(args[0])){
                     PostAPI.sendMessage(player,"&cThe post &6"+args[0]+"&c already exists.");

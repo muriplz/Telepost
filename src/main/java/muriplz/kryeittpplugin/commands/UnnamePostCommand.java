@@ -39,16 +39,14 @@ public class UnnamePostCommand implements CommandExecutor {
 
             // /UnnamePost (this looks for the nearest post)
             if(args.length==0){
-                // get Distance between posts from config.yml
-                int gap = plugin.getConfig().getInt("distance-between-posts");
 
                 // for the X axis
                 int originX = plugin.getConfig().getInt("post-x-location");
-                int postX = PostAPI.getNearPost(gap,player.getLocation().getBlockX(),originX);
+                int postX = PostAPI.getNearPost(player.getLocation().getBlockX(),plugin,originX);
 
                 // for the Z axis
                 int originZ = plugin.getConfig().getInt("post-z-location");
-                int postZ = PostAPI.getNearPost(gap,player.getLocation().getBlockZ(),originZ);
+                int postZ = PostAPI.getNearPost(player.getLocation().getBlockZ(),plugin,originZ);
 
                 // Get all warps (named posts)
                 HashMap<String, Warp> warps = Warp.getWarps();

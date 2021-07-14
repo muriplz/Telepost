@@ -22,12 +22,14 @@ public class PostAPI {
     private final static double VANILA_ANTICHEAT_THRESHOLD = 10D;
 
 
-    public static int getNearPost(int gap, int player, int origin) {
+    public static int getNearPost( int playerXorZ, KryeitTPPlugin plugin,int origin) {
+        int gap = plugin.getConfig().getInt("distance-between-posts");
+
         // Subtracting origin of posts to get correct calculation
-        player -= origin;
+        playerXorZ -= origin;
 
         // Setting the post variable
-        float post = player;
+        float post = playerXorZ;
 
         // Getting the closest multiple of gap to post
         post = post / gap;
@@ -73,13 +75,12 @@ public class PostAPI {
 
 
     public static boolean isPlayerOnPost(Player player,KryeitTPPlugin plugin) {
-        int gap = plugin.getConfig().getInt("distance-between-posts");
         int width = (plugin.getConfig().getInt("post-width")-1)/2;
         int originX = plugin.getConfig().getInt("post-x-location");
         int originZ = plugin.getConfig().getInt("post-z-location");
         // Getting the cords of nearest post to the player
-        int postX = PostAPI.getNearPost(gap,player.getLocation().getBlockX(),originX);
-        int postZ = PostAPI.getNearPost(gap,player.getLocation().getBlockZ(),originZ);
+        int postX = PostAPI.getNearPost(player.getLocation().getBlockX(),plugin,originX);
+        int postZ = PostAPI.getNearPost(player.getLocation().getBlockZ(),plugin,originZ);
 
         // Getting player x and z cords
         int playerX = player.getLocation().getBlockX();

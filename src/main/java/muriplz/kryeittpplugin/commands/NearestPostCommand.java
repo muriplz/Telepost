@@ -19,7 +19,10 @@ import java.util.Set;
 
 public class NearestPostCommand implements CommandExecutor{
 
-    public static String NearestPostName(int postX,int postZ,KryeitTPPlugin plugin){
+    public static String NearestPostName(Player player,KryeitTPPlugin plugin){
+        int postX = PostAPI.getNearPost(player.getLocation().getBlockX(),plugin,plugin.getConfig().getInt("post-x-location"));
+        int postZ = PostAPI.getNearPost(player.getLocation().getBlockZ(),plugin,plugin.getConfig().getInt("post-z-location"));
+
         HashMap<String, Warp> warps = Warp.getWarps();
         Set<String> warpNames = warps.keySet();
 
@@ -52,23 +55,17 @@ public class NearestPostCommand implements CommandExecutor{
                 return false;
             }
 
-            // get Distance between posts from config.yml
-            int gap = plugin.getConfig().getInt("distance-between-posts");
-
             // for the X axis
             int originX = plugin.getConfig().getInt("post-x-location");
-            int postX = PostAPI.getNearPost(gap,player.getLocation().getBlockX(),originX);
+            int postX = PostAPI.getNearPost(player.getLocation().getBlockX(),plugin,originX);
 
             // for the Z axis
             int originZ = plugin.getConfig().getInt("post-z-location");
-            int postZ = PostAPI.getNearPost(gap,player.getLocation().getBlockZ(),originZ);
+            int postZ = PostAPI.getNearPost(player.getLocation().getBlockZ(),plugin,originZ);
 
-            // Get all the warpNames
-            HashMap<String, Warp> warps = Warp.getWarps();
-            Set<String> warpNames = warps.keySet();
             if(args.length==0) {
 
-                String postName = NearestPostName(postX,postZ,plugin);
+                String postName = NearestPostName(player,plugin);
                 if(postName!=null){
                     PostAPI.sendMessage(player,"&fThe nearest post is on: &6(" + postX + " , " + postZ + ")&f, it's &6"+postName+"&f.");
                 }else{
@@ -78,7 +75,7 @@ public class NearestPostCommand implements CommandExecutor{
             }else if (args.length==1) {
                 if(args[0].equals("on")) {
                     if (!plugin.showNearest.contains(player.getUniqueId())){
-                        String postName = NearestPostName(postX,postZ,plugin);
+                        String postName = NearestPostName(player,plugin);
                         if(postName!=null){
                             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',"The nearest post is on: &6(" + postX + " , " + postZ + ")&f, it's &6"+postName+"&f.")));
                         }else{

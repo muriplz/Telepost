@@ -58,18 +58,15 @@ public class HomePostCommand implements CommandExecutor {
             if(!Objects.requireNonNull(Bukkit.getEntity(player.getUniqueId())).isOnGround()&&!player.hasPermission("telepost.homepost")){
                 return false;
             }
-
-            // Get distance between posts and width from config.yml
             int height;
-            int gap = plugin.getConfig().getInt("distance-between-posts");
 
             // For the X axis
             int originX = plugin.getConfig().getInt("post-x-location");
-            int postX = PostAPI.getNearPost(gap,player.getLocation().getBlockX(),originX);
+            int postX = PostAPI.getNearPost(player.getLocation().getBlockX(),plugin,originX);
 
             // For the Z axis
             int originZ = plugin.getConfig().getInt("post-z-location");
-            int postZ = PostAPI.getNearPost(gap,player.getLocation().getBlockZ(),originZ);
+            int postZ = PostAPI.getNearPost(player.getLocation().getBlockZ(),plugin,originZ);
 
             // If the player is not inside a post and does not have telepost.homepost permission, he won't be teleported
             if(!player.hasPermission("telepost.homepost")){

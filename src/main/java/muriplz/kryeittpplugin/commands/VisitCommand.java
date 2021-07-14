@@ -57,8 +57,6 @@ public class VisitCommand implements CommandExecutor{
                 sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cYou have to be in the Overworld to use this command."));
                 return false;
             }
-            // Get distance between posts and the width from config.yml
-            int gap = plugin.getConfig().getInt("distance-between-posts");
 
             // For the X origin
             int originX = plugin.getConfig().getInt("post-x-location");
@@ -78,8 +76,8 @@ public class VisitCommand implements CommandExecutor{
             }
 
             // Getting the Nearest post
-            int postX = PostAPI.getNearPost(gap,player.getLocation().getBlockX(),originX);
-            int postZ = PostAPI.getNearPost(gap,player.getLocation().getBlockZ(),originZ);
+            int postX = PostAPI.getNearPost(player.getLocation().getBlockX(),plugin,originX);
+            int postZ = PostAPI.getNearPost(player.getLocation().getBlockZ(),plugin,originZ);
 
             // If the player is not on the ground stop the command
             if(!Objects.requireNonNull(Bukkit.getEntity(player.getUniqueId())).isOnGround()&&!player.hasPermission("telepost.visit")){

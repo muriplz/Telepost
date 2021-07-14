@@ -53,16 +53,14 @@ public class SetPostCommand implements CommandExecutor {
                 sendActionBarOrChat(player, ChatColor.translateAlternateColorCodes('&',"&cYou have to be in the Overworld to use this command."));
                 return false;
             }
-            // get distance between posts from config.yml
-            int gap = plugin.getConfig().getInt("distance-between-posts");
 
             // for the X axis
             int originX = plugin.getConfig().getInt("post-x-location");
-            int postX = PostAPI.getNearPost(gap,player.getLocation().getBlockX(),originX);
+            int postX = PostAPI.getNearPost(player.getLocation().getBlockX(),plugin,originX);
 
             // for the Z axis
             int originZ = plugin.getConfig().getInt("post-z-location");
-            int postZ = PostAPI.getNearPost(gap,player.getLocation().getBlockZ(),originZ);
+            int postZ = PostAPI.getNearPost(player.getLocation().getBlockZ(),plugin,originZ);
 
             // get atPlayer (from AdvancedTeleport API)
             ATPlayer atPlayer = ATPlayer.getPlayer(player);
