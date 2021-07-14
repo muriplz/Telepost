@@ -96,10 +96,12 @@ public class RandomPostCommand implements CommandExecutor {
             }
             allNamedAndHomed = removeDuplicates(allNamedAndHomed);
 
+            int postAmount = PostAPI.getPostAmount(plugin);
+            player.sendMessage(""+postAmount);
 
 
 
-            
+
 
 
 

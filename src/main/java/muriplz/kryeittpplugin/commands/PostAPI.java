@@ -69,12 +69,13 @@ public class PostAPI {
         player.teleport(newlocation);
     }
 
+
     public static boolean isPlayerOnPost(Player player, int originX, int originZ, int width, int gap) {
-        // Getting the coords of nearest post to the player
+        // Getting the cords of nearest post to the player
         int postX = PostAPI.getNearPost(gap,player.getLocation().getBlockX(),originX);
         int postZ = PostAPI.getNearPost(gap,player.getLocation().getBlockZ(),originZ);
 
-        // Getting player x and z coords
+        // Getting player x and z cords
         int playerX = player.getLocation().getBlockX();
         int playerZ = player.getLocation().getBlockZ();
 
@@ -103,12 +104,16 @@ public class PostAPI {
     public static int getPostAmount(KryeitTPPlugin plugin){
         int originX = plugin.getConfig().getInt("post-x-location");
         int originZ = plugin.getConfig().getInt("post-z-location");
-        int gap = plugin.getConfig().getInt("distance-betweenn-posts");
+        int gap = plugin.getConfig().getInt("distance-between-posts");
 
-        double size = Math.sqrt(Objects.requireNonNull(Bukkit.getServer().getWorld("world")).getWorldBorder().getSize())/2;
+        WorldBorder worldBorder = Objects.requireNonNull(Bukkit.getServer().getWorld("world")).getWorldBorder();
+        int size = (int) worldBorder.getSize();
 
-        int postAmountX=7400;
-        int postAmountZ=0;
+        int postAmountX= (size - originX)/gap + 1 + (size + originX)/gap;
+        int postAmountZ= (size - originZ)/gap + 1 + (size + originZ)/gap;
+        Bukkit.getConsoleSender().sendMessage(""+postAmountX);
+        Bukkit.getConsoleSender().sendMessage(""+postAmountZ);
+
 
         double postAmount = postAmountZ*postAmountX;
         return (int) postAmount;
