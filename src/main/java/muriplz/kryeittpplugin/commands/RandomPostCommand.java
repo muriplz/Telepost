@@ -18,7 +18,7 @@ import java.util.*;
 public class RandomPostCommand implements CommandExecutor {
 
     // Function to remove duplicates from an ArrayList
-    public static List<Location> removeDuplicates(List<Location> list) {
+    public static List<Location> removeLocDuplicates(List<Location> list) {
         // Create a new ArrayList
         List<Location> newList = new ArrayList<>();
 
@@ -76,8 +76,6 @@ public class RandomPostCommand implements CommandExecutor {
             List<Location> allPosts;
             List<Location> availablePosts = new ArrayList<>();
 
-
-
             WorldBorder worldBorder = Objects.requireNonNull(Bukkit.getServer().getWorld("world")).getWorldBorder();
             int size = (int) worldBorder.getSize();
 
@@ -85,8 +83,6 @@ public class RandomPostCommand implements CommandExecutor {
                 PostAPI.sendMessage(player,"The world border is too big or you have not set it right, use /worldborder set <Amount>.");
                 return false;
             }
-
-
 
             for(OfflinePlayer p : Bukkit.getServer().getOfflinePlayers()){
                 ATPlayer atPlayer = ATPlayer.getPlayer(p);
@@ -109,7 +105,7 @@ public class RandomPostCommand implements CommandExecutor {
                 Location loc = new Location(player.getWorld(),namedLoc.getBlockX(),265.0,namedLoc.getBlockZ(),0,0);
                 allNamedAndHomed.add(loc);
             }
-            allNamedAndHomed = removeDuplicates(allNamedAndHomed);
+            allNamedAndHomed = removeLocDuplicates(allNamedAndHomed);
             allPosts = PostAPI.getAllPostLocations(plugin);
 
             for(Location l : allPosts) {

@@ -15,7 +15,6 @@ public class onPlayerLeave implements Listener {
     public void onPlayerQuit(PlayerQuitEvent e){
         if(e instanceof Player){
             UUID uuid = e.getPlayer().getUniqueId();
-            plugin.blockFall.remove(uuid);
             plugin.counterNearest.remove(plugin.showNearest.indexOf(uuid));
             plugin.showNearest.remove(uuid);
         }
