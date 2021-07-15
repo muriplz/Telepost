@@ -51,7 +51,7 @@ public class RandomPostCommand implements CommandExecutor {
             }
 
             WorldBorder worldBorder = Objects.requireNonNull(Bukkit.getServer().getWorld("world")).getWorldBorder();
-            int size = (int) worldBorder.getSize();
+            int size = (int) worldBorder.getSize()/2;
 
             if ( size > 1000000) {
                 PostAPI.sendMessage(player,"The world border is too big or you have not set it right, use /worldborder set <Amount>.");

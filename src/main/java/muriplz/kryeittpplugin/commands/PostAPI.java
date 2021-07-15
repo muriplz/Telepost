@@ -116,7 +116,7 @@ public class PostAPI {
         int gap = plugin.getConfig().getInt("distance-between-posts");
 
         WorldBorder worldBorder = Objects.requireNonNull(Bukkit.getServer().getWorld("world")).getWorldBorder();
-        int size = (int) worldBorder.getSize();
+        int size = (int) worldBorder.getSize()/2;
 
         int postAmountX= (size - originX)/gap + (size + originX)/gap;
         int postAmountZ= (size - originZ)/gap + (size + originZ)/gap;
@@ -132,7 +132,7 @@ public class PostAPI {
         List<Location> allPosts = new ArrayList<>();
 
         WorldBorder worldBorder = Objects.requireNonNull(Bukkit.getServer().getWorld("world")).getWorldBorder();
-        int size = (int) worldBorder.getSize();
+        int size = (int) worldBorder.getSize()/2;
 
         int startX =(-size)/gap;
         startX=startX*gap-originX;
