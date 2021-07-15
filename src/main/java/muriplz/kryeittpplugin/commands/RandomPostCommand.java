@@ -1,11 +1,8 @@
 package muriplz.kryeittpplugin.commands;
 
-import io.github.niestrat99.advancedteleport.api.ATPlayer;
-import io.github.niestrat99.advancedteleport.api.Warp;
 import muriplz.kryeittpplugin.KryeitTPPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.WorldBorder;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -16,25 +13,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 public class RandomPostCommand implements CommandExecutor {
-
-    // Function to remove duplicates from an ArrayList
-    public static List<Location> removeLocDuplicates(List<Location> list) {
-        // Create a new ArrayList
-        List<Location> newList = new ArrayList<>();
-
-        // Traverse through the first list
-        for (Location element : list) {
-
-            // If this element is not present in newList
-            // then add it
-            if (!newList.contains(element)) {
-                newList.add(element);
-            }
-        }
-
-        // return the new list
-        return newList;
-    }
 
     private final KryeitTPPlugin plugin;
 
@@ -72,10 +50,6 @@ public class RandomPostCommand implements CommandExecutor {
                 return false;
             }
 
-            List<Location> allNamedAndHomed = new ArrayList<>();
-            List<Location> allPosts;
-            List<Location> availablePosts = new ArrayList<>();
-
             WorldBorder worldBorder = Objects.requireNonNull(Bukkit.getServer().getWorld("world")).getWorldBorder();
             int size = (int) worldBorder.getSize();
 
@@ -84,28 +58,11 @@ public class RandomPostCommand implements CommandExecutor {
                 return false;
             }
 
-            for(OfflinePlayer p : Bukkit.getServer().getOfflinePlayers()){
-                ATPlayer atPlayer = ATPlayer.getPlayer(p);
-                if(atPlayer.hasHome("home")){
-                    Location home = atPlayer.getHome("home").getLocation();
-                    Location loc = new Location(player.getWorld(),home.getBlockX(),265.0,home.getBlockZ(),0,0);
-                    allNamedAndHomed.add(loc);
-                }
-            }
-            for(Player p : Bukkit.getServer().getOnlinePlayers()){
-                ATPlayer atPlayer = ATPlayer.getPlayer(p);
-                if(atPlayer.hasHome("home")){
-                    Location home = atPlayer.getHome("home").getLocation();
-                    Location loc = new Location(player.getWorld(),home.getBlockX(),265.0,home.getBlockZ(),0,0);
-                    allNamedAndHomed.add(loc);
-                }
-            }
-            for(Warp namedPost: Warp.getWarps().values()){
-                Location namedLoc = namedPost.getLocation();
-                Location loc = new Location(player.getWorld(),namedLoc.getBlockX(),265.0,namedLoc.getBlockZ(),0,0);
-                allNamedAndHomed.add(loc);
-            }
-            allNamedAndHomed = removeLocDuplicates(allNamedAndHomed);
+            List<Location> allNamedAndHomed = PostAPI.getAllNamedAndHomed();
+            List<Location> allPosts;
+            List<Location> availablePosts = new ArrayList<>();
+
+            allNamedAndHomed = PostAPI.removeLocDuplicates(allNamedAndHomed);
             allPosts = PostAPI.getAllPostLocations(plugin);
 
             for(Location l : allPosts) {

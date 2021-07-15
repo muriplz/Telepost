@@ -1,5 +1,7 @@
 package muriplz.kryeittpplugin.commands;
 
+import io.github.niestrat99.advancedteleport.api.ATPlayer;
+import io.github.niestrat99.advancedteleport.api.Warp;
 import muriplz.kryeittpplugin.KryeitTPPlugin;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -116,8 +118,8 @@ public class PostAPI {
         WorldBorder worldBorder = Objects.requireNonNull(Bukkit.getServer().getWorld("world")).getWorldBorder();
         int size = (int) worldBorder.getSize();
 
-        int postAmountX= (size - originX)/gap + 1 + (size + originX)/gap;
-        int postAmountZ= (size - originZ)/gap + 1 + (size + originZ)/gap;
+        int postAmountX= (size - originX)/gap + (size + originX)/gap;
+        int postAmountZ= (size - originZ)/gap + (size + originZ)/gap;
 
         double postAmount = postAmountZ*postAmountX;
         return (int) postAmount;
@@ -145,6 +147,50 @@ public class PostAPI {
             }
         }
         return allPosts;
+    }
+    public static List<Location> getAllNamedAndHomed() {
+        List<Location> allNamedAndHomed = new ArrayList<>();
+        for(OfflinePlayer p : Bukkit.getServer().getOfflinePlayers()){
+            ATPlayer atPlayer = ATPlayer.getPlayer(p);
+            if(atPlayer.hasHome("home")){
+                Location home = atPlayer.getHome("home").getLocation();
+                Location loc = new Location(Bukkit.getWorld("world"),home.getBlockX(),265.0,home.getBlockZ(),0,0);
+                allNamedAndHomed.add(loc);
+            }
+        }
+        for(Player p : Bukkit.getServer().getOnlinePlayers()){
+            ATPlayer atPlayer = ATPlayer.getPlayer(p);
+            if(atPlayer.hasHome("home")){
+                Location home = atPlayer.getHome("home").getLocation();
+                Location loc = new Location(Bukkit.getWorld("world"),home.getBlockX(),265.0,home.getBlockZ(),0,0);
+                allNamedAndHomed.add(loc);
+            }
+        }
+        for(Warp namedPost: Warp.getWarps().values()){
+            Location namedLoc = namedPost.getLocation();
+            Location loc = new Location(Bukkit.getWorld("world"),namedLoc.getBlockX(),265.0,namedLoc.getBlockZ(),0,0);
+            allNamedAndHomed.add(loc);
+        }
+        return allNamedAndHomed;
+    }
+
+    // Function to remove duplicates from an ArrayList
+    public static List<Location> removeLocDuplicates(List<Location> list) {
+        // Create a new ArrayList
+        List<Location> newList = new ArrayList<>();
+
+        // Traverse through the first list
+        for (Location element : list) {
+
+            // If this element is not present in newList
+            // then add it
+            if (!newList.contains(element)) {
+                newList.add(element);
+            }
+        }
+
+        // return the new list
+        return newList;
     }
 
 //    public static void unloadAllChunksToBuildThePost(Block block,int width){
