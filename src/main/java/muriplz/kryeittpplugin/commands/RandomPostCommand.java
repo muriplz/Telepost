@@ -73,16 +73,19 @@ public class RandomPostCommand implements CommandExecutor {
             if(availablePosts.size()==0){
                 PostAPI.sendMessage(player,"&cThere are no available posts.");
                 return false;
+            }else if(availablePosts.size()<5){
+                PostAPI.sendMessage(player,"&cThere is not enough posts to choose from.");
             }
 
             Collections.shuffle(availablePosts);
 
             Random r = new Random();
-            int low = 0;
-            int high = availablePosts.size()+1;
-            int index = r.nextInt(high-low) + low;
+            int index = r.nextInt(availablePosts.size()+1);
+
 
             Location l = availablePosts.get(index);
+            l.setX(l.getBlockX()+0.5);
+            l.setZ(l.getBlockZ()+0.5);
             player.teleport(l);
             plugin.blockFall.add(player.getUniqueId());
 

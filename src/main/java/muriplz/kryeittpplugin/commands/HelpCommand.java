@@ -2,6 +2,7 @@ package muriplz.kryeittpplugin.commands;
 
 import muriplz.kryeittpplugin.KryeitTPPlugin;
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -17,6 +18,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 public class HelpCommand implements CommandExecutor {
+    public String changeColour(String message){
+        return ChatColor.translateAlternateColorCodes('&',message);
+    }
     public void setTextComponent(String command, TextComponent textComponent) {
         String commandString = "/posthelp " + command;
         textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, commandString));
@@ -44,8 +48,6 @@ public class HelpCommand implements CommandExecutor {
 
             // /posthelp
             if (args.length == 0) {
-
-
                 sendMessage(player, "&aList of commands: &f( + info on /posthelp <Command> )");
                 sendMessage(player, "- &6/nearestpost&f: tells you where the nearest post is.");
                 sendMessage(player, "- &6/setpost&f: sets the nearest post as your home post.");
