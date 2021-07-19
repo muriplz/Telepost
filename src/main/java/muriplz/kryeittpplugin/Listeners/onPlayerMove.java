@@ -1,7 +1,6 @@
 package muriplz.kryeittpplugin.Listeners;
 
 import muriplz.kryeittpplugin.KryeitTPPlugin;
-import muriplz.kryeittpplugin.commands.NearestPostCommand;
 import muriplz.kryeittpplugin.commands.PostAPI;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
@@ -48,7 +47,7 @@ public class onPlayerMove implements Listener {
                 int originZ = plugin.getConfig().getInt("post-z-location");
                 int postZ = PostAPI.getNearPost(player.getLocation().getBlockZ(),plugin,originZ);
 
-                String postName = NearestPostCommand.NearestPostName(player,plugin);
+                String postName = PostAPI.NearestPostName(player,plugin);
                 if(postName!=null){
                     player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',"The nearest post is on: &6(" + postX + " , " + postZ + ")&f, it's &6"+postName+"&f.")));
                 }else{

@@ -2,14 +2,11 @@ package muriplz.kryeittpplugin.commands;
 
 import io.github.niestrat99.advancedteleport.api.ATPlayer;
 import muriplz.kryeittpplugin.KryeitTPPlugin;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -18,15 +15,6 @@ import java.util.Objects;
 public class HomePostCommand implements CommandExecutor {
 
     private final KryeitTPPlugin plugin;
-
-    public void sendActionBarOrChat(Player player,String message){
-        // This will send the message on the action bar, so it looks cooler
-        if(plugin.getConfig().getBoolean("send-arrival-messages-on-action-bar")){
-            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
-        }else{
-            PostAPI.sendMessage(player,message);
-        }
-    }
 
     public HomePostCommand(KryeitTPPlugin plugin) {
         this.plugin = plugin;
@@ -50,7 +38,7 @@ public class HomePostCommand implements CommandExecutor {
 
             // Check if the player is on the right dimension
             if(!player.getWorld().getName().equals("world")){
-                sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cYou have to be in the Overworld to use this command."));
+                PostAPI.sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cYou have to be in the Overworld to use this command."),plugin);
                 return false;
             }
 
@@ -71,7 +59,7 @@ public class HomePostCommand implements CommandExecutor {
             // If the player is not inside a post and does not have telepost.homepost permission, he won't be teleported
             if(!player.hasPermission("telepost.homepost")){
                 if(!PostAPI.isPlayerOnPost(player,plugin)){
-                    sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cYou have to be inside a post."));
+                    PostAPI.sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cYou have to be inside a post."),plugin);
                     return false;
                 }
             }
@@ -84,7 +72,7 @@ public class HomePostCommand implements CommandExecutor {
                 // You can't /homepost to the same post you are in, except if you have telepost.homepost permission
 
                 if(location.getBlockX()==postX&&location.getBlockZ()==postZ&&!player.hasPermission("telepost.homepost")){
-                    sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cYou are already at your home post."));
+                    PostAPI.sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cYou are already at your home post."),plugin);
                     return false;
                 }
 
@@ -97,25 +85,15 @@ public class HomePostCommand implements CommandExecutor {
                     // If the option is false, teleport them to the first block that is air
                     height = PostAPI.getFirstSolidBlockHeight(location.getBlockX(),location.getBlockZ())+2;
                 }
-
-
+                String message = "&fWelcome to your post.";
+                Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                 if (plugin.getConfig().getBoolean("launch-feature")) {
-                    player.setVelocity(new Vector(0,4,0));
-                    Bukkit.getScheduler().runTaskLater(plugin, () -> player.setVelocity(new Vector (0,2.5,0)), 25L);
-                    Bukkit.getScheduler().runTaskLater(plugin, () -> {
-                        Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
-                        player.teleport(newlocation);
-                        PostAPI.playSoundAfterTp(player,newlocation);
-                        String message = ChatColor.translateAlternateColorCodes('&',"&fWelcome to your post.");
-                        sendActionBarOrChat(player,message);
-                    }, 40L);
+                    PostAPI.launchAndTp(message,player,plugin,newlocation,height);
                 } else {
                     // Teleport player to his home without launch feature
-                    Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                     player.teleport(newlocation);
                     PostAPI.playSoundAfterTp(player,newlocation);
-                    String message = ChatColor.translateAlternateColorCodes('&',"&fWelcome to your post.");
-                    sendActionBarOrChat(player,message);
+                    PostAPI.sendActionBarOrChat(player,message,plugin);
                 }
 
                 if(player.getGameMode()== GameMode.SURVIVAL||player.getGameMode()==GameMode.ADVENTURE){
@@ -130,7 +108,7 @@ public class HomePostCommand implements CommandExecutor {
                 return true;
             } else {
                 // Player does not have a homepost
-                sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&fPlease, set a post with &6/SetPost&f first."));
+                PostAPI.sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&fPlease, set a post with &6/SetPost&f first."),plugin);
             }
             return true;
         }

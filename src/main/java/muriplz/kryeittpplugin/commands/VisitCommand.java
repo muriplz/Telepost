@@ -3,8 +3,6 @@ package muriplz.kryeittpplugin.commands;
 import io.github.niestrat99.advancedteleport.api.ATPlayer;
 import io.github.niestrat99.advancedteleport.api.Warp;
 import muriplz.kryeittpplugin.KryeitTPPlugin;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -17,16 +15,6 @@ import java.util.*;
 
 
 public class VisitCommand implements CommandExecutor{
-
-
-    public void sendActionBarOrChat(Player player,String message){
-        // This will send the message on the action bar, so it looks cooler
-        if(plugin.getConfig().getBoolean("send-arrival-messages-on-action-bar")){
-            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
-        }else{
-            PostAPI.sendMessage(player,message);
-        }
-    }
 
     private final KryeitTPPlugin plugin;
 
@@ -54,7 +42,7 @@ public class VisitCommand implements CommandExecutor{
 
             // Checking if the player is on the Overworld, if not stop the command
             if(!world.getName().equals("world")){
-                sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cYou have to be in the Overworld to use this command."));
+                PostAPI.sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cYou have to be in the Overworld to use this command."),plugin);
                 return false;
             }
 
@@ -70,7 +58,7 @@ public class VisitCommand implements CommandExecutor{
             // See if the player is inside a post
             if(!player.hasPermission("telepost.visit")){
                 if(!PostAPI.isPlayerOnPost(player,plugin)){
-                    sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cYou have to be inside a post."));
+                    PostAPI.sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cYou have to be inside a post."),plugin);
                     return false;
                 }
             }
@@ -105,7 +93,7 @@ public class VisitCommand implements CommandExecutor{
                     // See if the player want to teleport to the nearest post, only with telepost.v permission you can do this
 
                     if(warp.getLocation().getBlockX()==postX&&warp.getLocation().getBlockZ()==postZ&&!player.hasPermission("telepost.visit")){
-                        sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cYou are already in &6"+warp.getName()+"&c."));
+                        PostAPI.sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cYou are already in &6"+warp.getName()+"&c."),plugin);
                         return false;
                     }
 
@@ -129,14 +117,14 @@ public class VisitCommand implements CommandExecutor{
                             Location newlocation = new Location(world, loc.getBlockX() + 0.5, height, loc.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                             player.teleport(newlocation);
                             PostAPI.playSoundAfterTp(player,newlocation);
-                            sendActionBarOrChat(player,message);
+                            PostAPI.sendActionBarOrChat(player,message,plugin);
                         }, 40L);
                     }else{
                         // Teleport without the "launch-feature"
                         Location newlocation = new Location(world, loc.getBlockX() + 0.5, height, loc.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                         player.teleport(newlocation);
                         PostAPI.playSoundAfterTp(player,newlocation);
-                        sendActionBarOrChat(player,message);
+                        PostAPI.sendActionBarOrChat(player,message,plugin);
                     }
                     if(player.getGameMode()== GameMode.SURVIVAL||player.getGameMode()==GameMode.ADVENTURE){
                         if(plugin.getConfig().getBoolean("tp-in-the-air")){
@@ -163,7 +151,7 @@ public class VisitCommand implements CommandExecutor{
                         // See if the player is already at his home post, if he has permission he can teleport
 
                         if(location.getBlockX()==postX&&location.getBlockZ()==postZ&&!player.hasPermission("telepost.visit")){
-                            sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cYou are already at your home post."));
+                            PostAPI.sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cYou are already at your home post."),plugin);
                             return false;
                         }
 
@@ -184,7 +172,7 @@ public class VisitCommand implements CommandExecutor{
                                 Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                                 player.teleport(newlocation);
                                 PostAPI.playSoundAfterTp(player,newlocation);
-                                sendActionBarOrChat(player,message);
+                                PostAPI.sendActionBarOrChat(player,message,plugin);
                             }, 40L);
                         }else{
 
@@ -192,7 +180,7 @@ public class VisitCommand implements CommandExecutor{
                             Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                             player.teleport(newlocation);
                             PostAPI.playSoundAfterTp(player,newlocation);
-                            sendActionBarOrChat(player,message);
+                            PostAPI.sendActionBarOrChat(player,message,plugin);
                         }
                         if(player.getGameMode()== GameMode.SURVIVAL||player.getGameMode()==GameMode.ADVENTURE){
                             if(plugin.getConfig().getBoolean("tp-in-the-air")){
@@ -206,7 +194,7 @@ public class VisitCommand implements CommandExecutor{
                     }else{
 
                         // Player does not have a home post yet
-                        sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cYou do not have a home post yet."));
+                        PostAPI.sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cYou do not have a home post yet."),plugin);
                         return false;
                     }
                 }
@@ -225,7 +213,7 @@ public class VisitCommand implements CommandExecutor{
                         // See if he wants to teleport to a post he is already in, if he has permission this has no effect
 
                         if(location.getBlockX()==postX&&location.getBlockZ()==postZ&&!player.hasPermission("telepost.visit")){
-                            sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cYou are already at &6"+args[0]+"&c's home post."));
+                            PostAPI.sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cYou are already at &6"+args[0]+"&c's home post."),plugin);
                             return false;
                         }
 
@@ -246,7 +234,7 @@ public class VisitCommand implements CommandExecutor{
                                 Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                                 player.teleport(newlocation);
                                 PostAPI.playSoundAfterTp(player,newlocation);
-                                sendActionBarOrChat(player,message);
+                                PostAPI.sendActionBarOrChat(player,message,plugin);
                             }, 40L);
                         }else{
 
@@ -254,7 +242,7 @@ public class VisitCommand implements CommandExecutor{
                             Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                             player.teleport(newlocation);
                             PostAPI.playSoundAfterTp(player,newlocation);
-                            sendActionBarOrChat(player,message);
+                            PostAPI.sendActionBarOrChat(player,message,plugin);
                         }
                         if(player.getGameMode()== GameMode.SURVIVAL||player.getGameMode()==GameMode.ADVENTURE){
                             if(plugin.getConfig().getBoolean("tp-in-the-air")){
@@ -298,7 +286,7 @@ public class VisitCommand implements CommandExecutor{
                                         Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                                         player.teleport(newlocation);
                                         PostAPI.playSoundAfterTp(player,newlocation);
-                                        sendActionBarOrChat(player,message);
+                                        PostAPI.sendActionBarOrChat(player,message,plugin);
                                     }, 40L);
                                 }else{
 
@@ -306,7 +294,7 @@ public class VisitCommand implements CommandExecutor{
                                     Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                                     player.teleport(newlocation);
                                     PostAPI.playSoundAfterTp(player,newlocation);
-                                    sendActionBarOrChat(player,message);
+                                    PostAPI.sendActionBarOrChat(player,message,plugin);
                                 }
                                 if(player.getGameMode()== GameMode.SURVIVAL||player.getGameMode()==GameMode.ADVENTURE){
                                     if(plugin.getConfig().getBoolean("tp-in-the-air")){
@@ -324,13 +312,13 @@ public class VisitCommand implements CommandExecutor{
                             }
                         }
                         // Player does not have invitation from args[0] player
-                        sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&6"+args[0]+"&c has not invited you."));
+                        PostAPI.sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&6"+args[0]+"&c has not invited you."),plugin);
                         return false;
                     }
                 }else{
 
                     // No post found
-                    sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cThat is not a valid post, try another."));
+                    PostAPI.sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cThat is not a valid post, try another."),plugin);
                     return false;
                 }
             }else{

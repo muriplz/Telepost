@@ -1,39 +1,18 @@
 package muriplz.kryeittpplugin.commands;
 
-import io.github.niestrat99.advancedteleport.api.Warp;
 import muriplz.kryeittpplugin.KryeitTPPlugin;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-import java.util.Set;
-
 
 public class NearestPostCommand implements CommandExecutor{
-
-    public static String NearestPostName(Player player,KryeitTPPlugin plugin){
-        int postX = PostAPI.getNearPost(player.getLocation().getBlockX(),plugin,plugin.getConfig().getInt("post-x-location"));
-        int postZ = PostAPI.getNearPost(player.getLocation().getBlockZ(),plugin,plugin.getConfig().getInt("post-z-location"));
-
-        HashMap<String, Warp> warps = Warp.getWarps();
-        Set<String> warpNames = warps.keySet();
-
-        for(String warpName: warpNames){
-            Location postLocation = Warp.getWarps().get(warpName).getLocation();
-            if( postLocation.getBlockX()==postX && postLocation.getBlockZ()==postZ && !plugin.getConfig().getBoolean("multiple-names-per-post")){
-                return warpName;
-            }
-        }
-        return null;
-    }
 
     private final KryeitTPPlugin plugin;
 
@@ -65,7 +44,7 @@ public class NearestPostCommand implements CommandExecutor{
 
             if(args.length==0) {
 
-                String postName = NearestPostName(player,plugin);
+                String postName = PostAPI.NearestPostName(player,plugin);
                 if(postName!=null){
                     PostAPI.sendMessage(player,"&fThe nearest post is on: &6(" + postX + " , " + postZ + ")&f, it's &6"+postName+"&f.");
                 }else{
@@ -75,7 +54,7 @@ public class NearestPostCommand implements CommandExecutor{
             }else if (args.length==1) {
                 if(args[0].equals("on")) {
                     if (!plugin.showNearest.contains(player.getUniqueId())){
-                        String postName = NearestPostName(player,plugin);
+                        String postName = PostAPI.NearestPostName(player,plugin);
                         if(postName!=null){
                             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',"The nearest post is on: &6(" + postX + " , " + postZ + ")&f, it's &6"+postName+"&f.")));
                         }else{

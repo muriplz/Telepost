@@ -3,26 +3,19 @@ package muriplz.kryeittpplugin.commands;
 import io.github.niestrat99.advancedteleport.api.ATPlayer;
 import io.github.niestrat99.advancedteleport.api.Warp;
 import muriplz.kryeittpplugin.KryeitTPPlugin;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class PostAPI {
     public KryeitTPPlugin plugin;
     public PostAPI(KryeitTPPlugin plugin) {
         this.plugin = plugin;
     }
-
-    // Vanilla values: https://minecraft.fandom.com/wiki/Transportation#Vertical_speeds
-    private final static double DECELERATION_RATE = 0.98D;
-    private final static double GRAVITY_CONSTANT = 0.08D;
-    private final static double VANILA_ANTICHEAT_THRESHOLD = 10D;
-
 
     public static int getNearPost( int playerXorZ, KryeitTPPlugin plugin,int origin) {
         int gap = plugin.getConfig().getInt("distance-between-posts");
@@ -54,27 +47,41 @@ public class PostAPI {
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
     }
 
-    public static void launch(Player player,KryeitTPPlugin plugin,Vector speed,Location newlocation){
-        new BukkitRunnable() {
-            double velY = speed.getY();
-            final Location locCached = new Location(null,0,0,0);
-            @Override
-            public void run() {
-                if (velY > VANILA_ANTICHEAT_THRESHOLD) {
-                    player.getLocation(locCached).setY(locCached.getY() + velY);
-                    player.teleport(locCached);
-                    player.setVelocity(new Vector(0,VANILA_ANTICHEAT_THRESHOLD,0));
-                } else {
-                    player.setVelocity(new Vector(0,velY,0));
-                    this.cancel();
-                }
-                velY -= GRAVITY_CONSTANT;
-                velY *= DECELERATION_RATE;
-            }
-        }.runTaskTimer(plugin,0,1);
-        player.teleport(newlocation);
+    public static void sendActionBarOrChat(Player player,String message,KryeitTPPlugin plugin){
+        message = ChatColor.translateAlternateColorCodes('&',message);
+        // This will send the message on the action bar, so it looks cooler
+        if(plugin.getConfig().getBoolean("send-arrival-messages-on-action-bar")){
+            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
+        }else{
+            PostAPI.sendMessage(player,message);
+        }
     }
 
+    public static void launchAndTp(String message,Player player,KryeitTPPlugin plugin,Location newlocation,int height){
+        player.setVelocity(new Vector(0,10,0));
+        Bukkit.getScheduler().runTaskLater(plugin, () -> {
+            Location location = new Location(player.getWorld(), newlocation.getBlockX() + 0.5, height, newlocation.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
+            player.teleport(location);
+            PostAPI.playSoundAfterTp(player,location);
+            sendActionBarOrChat(player,message,plugin);
+        }, 30L);
+    }
+
+    public static String NearestPostName(Player player,KryeitTPPlugin plugin){
+        int postX = PostAPI.getNearPost(player.getLocation().getBlockX(),plugin,plugin.getConfig().getInt("post-x-location"));
+        int postZ = PostAPI.getNearPost(player.getLocation().getBlockZ(),plugin,plugin.getConfig().getInt("post-z-location"));
+
+        HashMap<String, Warp> warps = Warp.getWarps();
+        Set<String> warpNames = warps.keySet();
+
+        for(String warpName: warpNames){
+            Location postLocation = Warp.getWarps().get(warpName).getLocation();
+            if( postLocation.getBlockX()==postX && postLocation.getBlockZ()==postZ && !plugin.getConfig().getBoolean("multiple-names-per-post")){
+                return warpName;
+            }
+        }
+        return null;
+    }
 
     public static boolean isPlayerOnPost(Player player,KryeitTPPlugin plugin) {
         int width = (plugin.getConfig().getInt("post-width")-1)/2;

@@ -82,7 +82,6 @@ public class RandomPostCommand implements CommandExecutor {
             Random r = new Random();
             int index = r.nextInt(availablePosts.size()+1);
 
-
             Location l = availablePosts.get(index);
             l.setX(l.getBlockX()+0.5);
             l.setZ(l.getBlockZ()+0.5);
