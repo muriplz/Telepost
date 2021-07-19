@@ -38,18 +38,16 @@ public class PostAPI {
         return (int) post;
     }
 
-    public static void playSoundAfterTp(Player player,Location location){
-        player.playSound(location, Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,1f,1f);
+    public static void playSoundAfterTp( Player player , Location location ){
+        player.playSound( location , Sound.ENTITY_DRAGON_FIREBALL_EXPLODE , 1f , 1f );
     }
 
-    public static void sendMessage(Player player,String message){
-        // Sending the message with & instead of §
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+    public static void sendMessage( Player player , String message ){
+        player.sendMessage( ChatColor.translateAlternateColorCodes( '&' , message ) );
     }
-
-    public static void sendActionBarOrChat(Player player,String message,KryeitTPPlugin plugin){
+    public static void sendActionBarOrChat( Player player , String message , KryeitTPPlugin plugin ){
         message = ChatColor.translateAlternateColorCodes('&',message);
-        // This will send the message on the action bar, so it looks cooler
+        // This will send the message on the action bar, if the option is enabled on config.yml
         if(plugin.getConfig().getBoolean("send-arrival-messages-on-action-bar")){
             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
         }else{
@@ -57,17 +55,29 @@ public class PostAPI {
         }
     }
 
-    public static void launchAndTp(String message,Player player,KryeitTPPlugin plugin,Location newlocation,int height){
-        player.setVelocity(new Vector(0,10,0));
-        Bukkit.getScheduler().runTaskLater(plugin, () -> {
-            Location location = new Location(player.getWorld(), newlocation.getBlockX() + 0.5, height, newlocation.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
-            player.teleport(location);
-            PostAPI.playSoundAfterTp(player,location);
-            sendActionBarOrChat(player,message,plugin);
-        }, 30L);
+    public static void launchAndTp( Player player , Location newlocation , String message , KryeitTPPlugin plugin ){
+        if(plugin.getConfig().getBoolean("launch-feature")){
+            player.setVelocity(new Vector(0,10,0));
+            Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                Location location = new Location( player.getWorld() , newlocation.getBlockX() + 0.5 , newlocation.getBlockY() , newlocation.getBlockZ() + 0.5 , player.getLocation().getYaw() , player.getLocation().getPitch() );
+                player.teleport(location);
+                playSoundAfterTp(player,location);
+                sendActionBarOrChat(player,message,plugin);
+            }, 30L);
+        }else{
+            player.teleport(newlocation);
+            PostAPI.playSoundAfterTp(player,newlocation);
+            PostAPI.sendActionBarOrChat(player,message,plugin);
+        }
     }
 
-    public static String NearestPostName(Player player,KryeitTPPlugin plugin){
+
+
+    public static String NearestPostName ( Player player , KryeitTPPlugin plugin ){
+        if(plugin.getConfig().getBoolean("multiple-names-per-post")){
+            return null;
+        }
+
         int postX = PostAPI.getNearPost(player.getLocation().getBlockX(),plugin,plugin.getConfig().getInt("post-x-location"));
         int postZ = PostAPI.getNearPost(player.getLocation().getBlockZ(),plugin,plugin.getConfig().getInt("post-z-location"));
 
@@ -83,7 +93,7 @@ public class PostAPI {
         return null;
     }
 
-    public static boolean isPlayerOnPost(Player player,KryeitTPPlugin plugin) {
+    public static boolean isPlayerOnPost ( Player player , KryeitTPPlugin plugin ) {
         int width = (plugin.getConfig().getInt("post-width")-1)/2;
         int originX = plugin.getConfig().getInt("post-x-location");
         int originZ = plugin.getConfig().getInt("post-z-location");
@@ -98,7 +108,7 @@ public class PostAPI {
         return !(playerX < postX - width || playerX > postX + width && playerZ < postZ - width || playerZ > postZ + width);
     }
 
-    public static int getFirstSolidBlockHeight(int X, int Z){
+    public static int getFirstSolidBlockHeight ( int X , int Z ){
         // Setting the highest height the post can be at
         int height = 251;
 
@@ -117,7 +127,7 @@ public class PostAPI {
         }
         return height;
     }
-    public static int getPostAmount(KryeitTPPlugin plugin){
+    public static int getPostAmount ( KryeitTPPlugin plugin ){
         int originX = plugin.getConfig().getInt("post-x-location");
         int originZ = plugin.getConfig().getInt("post-z-location");
         int gap = plugin.getConfig().getInt("distance-between-posts");
@@ -131,7 +141,7 @@ public class PostAPI {
         double postAmount = postAmountZ*postAmountX;
         return (int) postAmount;
     }
-    public static List<Location> getAllPostLocations(KryeitTPPlugin plugin){
+    public static List<Location> getAllPostLocations ( KryeitTPPlugin plugin ){
         int originX = plugin.getConfig().getInt("post-x-location");
         int originZ = plugin.getConfig().getInt("post-z-location");
         int gap = plugin.getConfig().getInt("distance-between-posts");
@@ -155,7 +165,7 @@ public class PostAPI {
         }
         return allPosts;
     }
-    public static List<Location> getAllNamedAndHomed() {
+    public static List<Location> getAllNamedAndHomed () {
         List<Location> allNamedAndHomed = new ArrayList<>();
         for(OfflinePlayer p : Bukkit.getServer().getOfflinePlayers()){
             ATPlayer atPlayer = ATPlayer.getPlayer(p);
@@ -181,8 +191,8 @@ public class PostAPI {
         return allNamedAndHomed;
     }
 
-    // Function to remove duplicates from an ArrayList
-    public static List<Location> removeLocDuplicates(List<Location> list) {
+    // Function to remove duplicates from an ArrayList with Location Objects
+    public static List<Location> removeLocDuplicates ( List<Location> list ) {
         // Create a new ArrayList
         List<Location> newList = new ArrayList<>();
 

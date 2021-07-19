@@ -85,16 +85,9 @@ public class HomePostCommand implements CommandExecutor {
                     // If the option is false, teleport them to the first block that is air
                     height = PostAPI.getFirstSolidBlockHeight(location.getBlockX(),location.getBlockZ())+2;
                 }
-                String message = "&fWelcome to your post.";
+                String message = "&fWelcome to your home post.";
                 Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
-                if (plugin.getConfig().getBoolean("launch-feature")) {
-                    PostAPI.launchAndTp(message,player,plugin,newlocation,height);
-                } else {
-                    // Teleport player to his home without launch feature
-                    player.teleport(newlocation);
-                    PostAPI.playSoundAfterTp(player,newlocation);
-                    PostAPI.sendActionBarOrChat(player,message,plugin);
-                }
+                PostAPI.launchAndTp(player,newlocation,message,plugin);
 
                 if(player.getGameMode()== GameMode.SURVIVAL||player.getGameMode()==GameMode.ADVENTURE){
                     if(plugin.getConfig().getBoolean("tp-in-the-air")){

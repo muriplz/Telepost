@@ -8,7 +8,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -107,21 +106,14 @@ public class VisitCommand implements CommandExecutor{
                         // If the option is false, teleport them to the first block that is air
                         height = PostAPI.getFirstSolidBlockHeight(loc.getBlockX(),loc.getBlockZ())+2;
                     }
-                    // Message when player visits a named post
+
+                    Location newlocation = new Location(world, loc.getBlockX() + 0.5, height, loc.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                     String message = ChatColor.translateAlternateColorCodes('&',"&fWelcome to &6" + args[0] + "&f.");
                     // Launches a player to the sky (TODO: improve this horrible thing)
                     if(plugin.getConfig().getBoolean("launch-feature")){
-                        player.setVelocity(new Vector(0,4,0));
-                        Bukkit.getScheduler().runTaskLater(plugin, () -> player.setVelocity(new Vector (0,2.5,0)), 25L);
-                        Bukkit.getScheduler().runTaskLater(plugin, () -> {
-                            Location newlocation = new Location(world, loc.getBlockX() + 0.5, height, loc.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
-                            player.teleport(newlocation);
-                            PostAPI.playSoundAfterTp(player,newlocation);
-                            PostAPI.sendActionBarOrChat(player,message,plugin);
-                        }, 40L);
+                        PostAPI.launchAndTp(player,newlocation,message,plugin);
                     }else{
                         // Teleport without the "launch-feature"
-                        Location newlocation = new Location(world, loc.getBlockX() + 0.5, height, loc.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                         player.teleport(newlocation);
                         PostAPI.playSoundAfterTp(player,newlocation);
                         PostAPI.sendActionBarOrChat(player,message,plugin);
@@ -163,21 +155,13 @@ public class VisitCommand implements CommandExecutor{
                             height = PostAPI.getFirstSolidBlockHeight(location.getBlockX(),location.getBlockZ())+2;
                         }
 
+                        Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                         String message = ChatColor.translateAlternateColorCodes('&',"&fWelcome to your post.");
-                        // Launches a player to the sky (TODO: improve this horrible thing)
+                        // Launches a player to the sky
                         if(plugin.getConfig().getBoolean("launch-feature")){
-                            player.setVelocity(new Vector(0,4,0));
-                            Bukkit.getScheduler().runTaskLater(plugin, () -> player.setVelocity(new Vector (0,2.5,0)), 25L);
-                            Bukkit.getScheduler().runTaskLater(plugin, () -> {
-                                Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
-                                player.teleport(newlocation);
-                                PostAPI.playSoundAfterTp(player,newlocation);
-                                PostAPI.sendActionBarOrChat(player,message,plugin);
-                            }, 40L);
+                            PostAPI.launchAndTp(player,newlocation,message,plugin);
                         }else{
-
                             // Teleport without the "launch-feature"
-                            Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                             player.teleport(newlocation);
                             PostAPI.playSoundAfterTp(player,newlocation);
                             PostAPI.sendActionBarOrChat(player,message,plugin);
@@ -225,21 +209,14 @@ public class VisitCommand implements CommandExecutor{
                             height = PostAPI.getFirstSolidBlockHeight(location.getBlockX(),location.getBlockZ())+2;
                         }
 
-                        String message = ChatColor.translateAlternateColorCodes('&',"&fWelcome to &6" + args[0] + "&f's post.");
+                        Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
+                        String message = "&fWelcome to &6" + args[0] + "&f's post.";
                         // Launch the player is its true on config.yml
                         if(plugin.getConfig().getBoolean("launch-feature")){
-                            player.setVelocity(new Vector(0,4,0));
-                            Bukkit.getScheduler().runTaskLater(plugin, () -> player.setVelocity(new Vector (0,2.5,0)), 25L);
-                            Bukkit.getScheduler().runTaskLater(plugin, () -> {
-                                Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
-                                player.teleport(newlocation);
-                                PostAPI.playSoundAfterTp(player,newlocation);
-                                PostAPI.sendActionBarOrChat(player,message,plugin);
-                            }, 40L);
+                            PostAPI.launchAndTp(player,newlocation,message,plugin);
                         }else{
 
                             // "launch-feature" disabled
-                            Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                             player.teleport(newlocation);
                             PostAPI.playSoundAfterTp(player,newlocation);
                             PostAPI.sendActionBarOrChat(player,message,plugin);
@@ -277,21 +254,13 @@ public class VisitCommand implements CommandExecutor{
                                     height = PostAPI.getFirstSolidBlockHeight(location.getBlockX(),location.getBlockZ())+2;
                                 }
 
-                                String message = ChatColor.translateAlternateColorCodes('&',"&fWelcome to &6" + args[0] + "&f's post.");
+                                Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
+                                String message = "&fWelcome to &6" + args[0] + "&f's post.";
                                 // Launch the player is its true on config.yml
                                 if(plugin.getConfig().getBoolean("launch-feature")){
-                                    player.setVelocity(new Vector(0,4,0));
-                                    Bukkit.getScheduler().runTaskLater(plugin, () -> player.setVelocity(new Vector (0,2.5,0)), 25L);
-                                    Bukkit.getScheduler().runTaskLater(plugin, () -> {
-                                        Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
-                                        player.teleport(newlocation);
-                                        PostAPI.playSoundAfterTp(player,newlocation);
-                                        PostAPI.sendActionBarOrChat(player,message,plugin);
-                                    }, 40L);
+                                    PostAPI.launchAndTp(player,newlocation,message,plugin);
                                 }else{
-
                                     // "launch-feature" disabled
-                                    Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                                     player.teleport(newlocation);
                                     PostAPI.playSoundAfterTp(player,newlocation);
                                     PostAPI.sendActionBarOrChat(player,message,plugin);
@@ -327,7 +296,8 @@ public class VisitCommand implements CommandExecutor{
                 PostAPI.sendMessage(player,"&fUse /v <PostName/PlayerName> to visit a post.");
             }
         }return false;
-    }}
+    }
+}
 
 
 

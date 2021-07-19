@@ -24,7 +24,9 @@ public class onPlayerMove implements Listener {
     public void OnMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();
         Material material = player.getLocation().getBlock().getType();
-        if(Objects.requireNonNull(Bukkit.getEntity(player.getUniqueId())).isOnGround()){
+
+        // Contains check is necessary for Mohist to not throw errors
+        if(Objects.requireNonNull(Bukkit.getEntity(player.getUniqueId())).isOnGround()&&plugin.blockFall.contains(player.getUniqueId())){
             plugin.blockFall.remove(player.getUniqueId());
         }
         if(material== Material.WATER||material==Material.LAVA){
