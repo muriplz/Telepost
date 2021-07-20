@@ -61,6 +61,7 @@ public class RandomPostCommand implements CommandExecutor {
             List<Location> allNamedAndHomed = PostAPI.getAllNamedAndHomed();
             List<Location> allPosts;
             List<Location> availablePosts = new ArrayList<>();
+            int height;
 
             allNamedAndHomed = PostAPI.removeLocDuplicates(allNamedAndHomed);
             allPosts = PostAPI.getAllPostLocations(plugin);
@@ -82,10 +83,19 @@ public class RandomPostCommand implements CommandExecutor {
             Random r = new Random();
             int index = r.nextInt(availablePosts.size()+1);
 
+
             Location l = availablePosts.get(index);
+            // See if the config has the option set to true, in that case the teleport takes the player to the air
+            if(plugin.getConfig().getBoolean("tp-in-the-air")){
+                height = 265;
+            }else{
+                // If the option is false, teleport them to the first block that is air
+                height = PostAPI.getFirstSolidBlockHeight(l.getBlockX(),l.getBlockZ())+2;
+            }
             l.setX(l.getBlockX()+0.5);
             l.setZ(l.getBlockZ()+0.5);
-            player.teleport(l);
+            l.setY(height);
+            PostAPI.launchAndTp(player,l,"&fYou have been teleported to a random post.",plugin);
             plugin.blockFall.add(player.getUniqueId());
 
             return true;
