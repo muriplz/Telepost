@@ -17,6 +17,16 @@ public class PostAPI {
         this.plugin = plugin;
     }
 
+    public static Location getNearPostLocation ( Player player , KryeitTPPlugin plugin ) {
+        // for the X axis
+        int originX = plugin.getConfig().getInt("post-x-location");
+        int postX = PostAPI.getNearPost(player.getLocation().getBlockX(),plugin,originX);
+
+        // for the Z axis
+        int originZ = plugin.getConfig().getInt("post-z-location");
+        int postZ = PostAPI.getNearPost(player.getLocation().getBlockZ(),plugin,originZ);
+        return new Location(player.getWorld(),postX,265,postZ);
+    }
     public static int getNearPost( int playerXorZ, KryeitTPPlugin plugin,int origin) {
         int gap = plugin.getConfig().getInt("distance-between-posts");
 

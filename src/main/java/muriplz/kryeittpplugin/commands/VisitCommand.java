@@ -45,12 +45,6 @@ public class VisitCommand implements CommandExecutor{
                 return false;
             }
 
-            // For the X origin
-            int originX = plugin.getConfig().getInt("post-x-location");
-
-            // For the Z origin
-            int originZ = plugin.getConfig().getInt("post-z-location");
-
             // For the height that the player will be teleported to
             int height;
 
@@ -62,9 +56,12 @@ public class VisitCommand implements CommandExecutor{
                 }
             }
 
-            // Getting the Nearest post
-            int postX = PostAPI.getNearPost(player.getLocation().getBlockX(),plugin,originX);
-            int postZ = PostAPI.getNearPost(player.getLocation().getBlockZ(),plugin,originZ);
+            Location nearestPost = PostAPI.getNearPostLocation(player,plugin);
+            // For the X axis
+            int postX = nearestPost.getBlockX();
+
+            // For the Z axis
+            int postZ = nearestPost.getBlockZ();
 
             // If the player is not on the ground stop the command
             if(!Objects.requireNonNull(Bukkit.getEntity(player.getUniqueId())).isOnGround()&&!player.hasPermission("telepost.visit")){

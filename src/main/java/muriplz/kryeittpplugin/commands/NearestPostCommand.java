@@ -5,6 +5,7 @@ import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -34,13 +35,12 @@ public class NearestPostCommand implements CommandExecutor{
                 return false;
             }
 
-            // for the X axis
-            int originX = plugin.getConfig().getInt("post-x-location");
-            int postX = PostAPI.getNearPost(player.getLocation().getBlockX(),plugin,originX);
+            Location nearestPost = PostAPI.getNearPostLocation(player,plugin);
+            // For the X axis
+            int postX = nearestPost.getBlockX();
 
-            // for the Z axis
-            int originZ = plugin.getConfig().getInt("post-z-location");
-            int postZ = PostAPI.getNearPost(player.getLocation().getBlockZ(),plugin,originZ);
+            // For the Z axis
+            int postZ = nearestPost.getBlockZ();
 
             if(args.length==0) {
 

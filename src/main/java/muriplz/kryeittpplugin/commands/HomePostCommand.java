@@ -48,13 +48,12 @@ public class HomePostCommand implements CommandExecutor {
             }
             int height;
 
+            Location nearestPost = PostAPI.getNearPostLocation(player,plugin);
             // For the X axis
-            int originX = plugin.getConfig().getInt("post-x-location");
-            int postX = PostAPI.getNearPost(player.getLocation().getBlockX(),plugin,originX);
+            int postX = nearestPost.getBlockX();
 
             // For the Z axis
-            int originZ = plugin.getConfig().getInt("post-z-location");
-            int postZ = PostAPI.getNearPost(player.getLocation().getBlockZ(),plugin,originZ);
+            int postZ = nearestPost.getBlockZ();
 
             // If the player is not inside a post and does not have telepost.homepost permission, he won't be teleported
             if(!player.hasPermission("telepost.homepost")){
@@ -63,7 +62,6 @@ public class HomePostCommand implements CommandExecutor {
                     return false;
                 }
             }
-
 
             ATPlayer atPlayer = ATPlayer.getPlayer(player);
             if(atPlayer.hasHome("home")) {
