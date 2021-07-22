@@ -81,36 +81,36 @@ public class KryeitTPPlugin extends JavaPlugin {
 
     public void registerCommands() {
         // /nearestpost
-        Objects.requireNonNull(this.getCommand("nearestpost")).setExecutor(new NearestPostCommand(this));
+        Objects.requireNonNull(getCommand("nearestpost")).setExecutor(new NearestPostCommand(this));
         Objects.requireNonNull(getCommand("nearestpost")).setTabCompleter(new NearestPostTab());
 
         // /setpost
-        Objects.requireNonNull(this.getCommand("setpost")).setExecutor(new SetPostCommand(this));
+        Objects.requireNonNull(getCommand("setpost")).setExecutor(new SetPostCommand(this));
         Objects.requireNonNull(getCommand("setpost")).setTabCompleter(new ReturnNullTab());
 
         // /homepost
-        Objects.requireNonNull(this.getCommand("homepost")).setExecutor(new HomePostCommand(this));
+        Objects.requireNonNull(getCommand("homepost")).setExecutor(new HomePostCommand(this));
         Objects.requireNonNull(getCommand("homepost")).setTabCompleter(new ReturnNullTab());
 
         // /invite <Player>
-        Objects.requireNonNull(this.getCommand("invite")).setExecutor(new InviteCommand(this));
+        Objects.requireNonNull(getCommand("invite")).setExecutor(new InviteCommand(this));
         Objects.requireNonNull(getCommand("invite")).setTabCompleter(new InviteTab());
 
         // /visit <NamedPost/Player>
-        Objects.requireNonNull(this.getCommand("v")).setExecutor(new VisitCommand(this));
+        Objects.requireNonNull(getCommand("v")).setExecutor(new VisitCommand(this));
         Objects.requireNonNull(getCommand("v")).setTabCompleter(new VisitTab());
 
         // /namepost <Name>
-        Objects.requireNonNull(this.getCommand("namepost")).setExecutor(new NamePostCommand(this));
+        Objects.requireNonNull(getCommand("namepost")).setExecutor(new NamePostCommand(this));
         Objects.requireNonNull(getCommand("namepost")).setTabCompleter(new ReturnNullTab());
 
         // /unnamepost <Name>
-        Objects.requireNonNull(this.getCommand("unnamepost")).setExecutor(new UnnamePostCommand(this));
+        Objects.requireNonNull(getCommand("unnamepost")).setExecutor(new UnnamePostCommand(this));
         Objects.requireNonNull(getCommand("unnamepost")).setTabCompleter(new UnnamePostTab());
 
         // /posthelp (command)
         // <> means that has to be used, () is optional
-        Objects.requireNonNull(this.getCommand("posthelp")).setExecutor( new HelpCommand(this));
+        Objects.requireNonNull(getCommand("posthelp")).setExecutor( new HelpCommand(this));
         Objects.requireNonNull(getCommand("posthelp")).setTabCompleter(new HelpTab(this));
 
         // /buildpost (y)
@@ -120,11 +120,11 @@ public class KryeitTPPlugin extends JavaPlugin {
  //       Objects.requireNonNull(getCommand("buildpost")).setTabCompleter(new BuildPostTab(this));
 
         // /postlist
-        Objects.requireNonNull(this.getCommand("postlist")).setExecutor( new PostsListCommand(this));
+        Objects.requireNonNull(getCommand("postlist")).setExecutor( new PostsListCommand(this));
         Objects.requireNonNull(getCommand("postlist")).setTabCompleter(new ReturnNullTab());
 
         // /randompost
-        Objects.requireNonNull(this.getCommand("randompost")).setExecutor( new RandomPostCommand(this));
+        Objects.requireNonNull(getCommand("randompost")).setExecutor( new RandomPostCommand(this));
         Objects.requireNonNull(getCommand("randompost")).setTabCompleter(new ReturnNullTab());
 
     }
