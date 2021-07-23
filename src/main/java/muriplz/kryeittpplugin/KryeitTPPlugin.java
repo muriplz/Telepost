@@ -51,7 +51,7 @@ public class KryeitTPPlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new onFall(this), this);
         getServer().getPluginManager().registerEvents(new onPlayerMove(this), this);
         getServer().getPluginManager().registerEvents(new onPlayerLeave(this), this);
-        getServer().getPluginManager().registerEvents(new onKickEvent(), this);
+        getServer().getPluginManager().registerEvents(new onKickEvent(this), this);
     }
 
     public void telepostData(){
