@@ -1,10 +1,7 @@
 package muriplz.kryeittpplugin;
 
 
-import muriplz.kryeittpplugin.Listeners.onFall;
-import muriplz.kryeittpplugin.Listeners.onGlide;
-import muriplz.kryeittpplugin.Listeners.onPlayerLeave;
-import muriplz.kryeittpplugin.Listeners.onPlayerMove;
+import muriplz.kryeittpplugin.Listeners.*;
 import muriplz.kryeittpplugin.commands.*;
 import muriplz.kryeittpplugin.tabCompletion.*;
 import org.bukkit.Bukkit;
@@ -27,7 +24,6 @@ public class KryeitTPPlugin extends JavaPlugin {
     FileConfiguration config = this.getConfig();
     public String name = ChatColor.YELLOW+"["+ChatColor.WHITE+pdffile.getName()+ChatColor.YELLOW+"]";
     public String version = pdffile.getVersion();
-
 
     public void onEnable(){
         // All global lists
@@ -55,6 +51,7 @@ public class KryeitTPPlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new onFall(this), this);
         getServer().getPluginManager().registerEvents(new onPlayerMove(this), this);
         getServer().getPluginManager().registerEvents(new onPlayerLeave(this), this);
+        getServer().getPluginManager().registerEvents(new onKickEvent(), this);
     }
 
     public void telepostData(){
@@ -126,7 +123,6 @@ public class KryeitTPPlugin extends JavaPlugin {
         // /randompost
         Objects.requireNonNull(getCommand("randompost")).setExecutor( new RandomPostCommand(this));
         Objects.requireNonNull(getCommand("randompost")).setTabCompleter(new ReturnNullTab());
-
     }
 }
 

@@ -27,6 +27,7 @@ public class PostAPI {
         int postZ = PostAPI.getNearPost(player.getLocation().getBlockZ(),plugin,originZ);
         return new Location(player.getWorld(),postX,265,postZ);
     }
+
     public static int getNearPost( int playerXorZ, KryeitTPPlugin plugin,int origin) {
         int gap = plugin.getConfig().getInt("distance-between-posts");
 
