@@ -107,14 +107,7 @@ public class VisitCommand implements CommandExecutor{
                     Location newlocation = new Location(world, loc.getBlockX() + 0.5, height, loc.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                     String message = ChatColor.translateAlternateColorCodes('&',"&fWelcome to &6" + args[0] + "&f.");
                     // Launches a player to the sky (TODO: improve this horrible thing)
-                    if(plugin.getConfig().getBoolean("launch-feature")){
-                        PostAPI.launchAndTp(player,newlocation,message,plugin);
-                    }else{
-                        // Teleport without the "launch-feature"
-                        player.teleport(newlocation);
-                        PostAPI.playSoundAfterTp(player,newlocation);
-                        PostAPI.sendActionBarOrChat(player,message,plugin);
-                    }
+                    PostAPI.launchAndTp(player,newlocation,message,plugin);
                     if(player.getGameMode()== GameMode.SURVIVAL||player.getGameMode()==GameMode.ADVENTURE){
                         if(plugin.getConfig().getBoolean("tp-in-the-air")){
                             plugin.blockFall.add(player.getUniqueId());
@@ -155,14 +148,8 @@ public class VisitCommand implements CommandExecutor{
                         Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                         String message = ChatColor.translateAlternateColorCodes('&',"&fWelcome to your post.");
                         // Launches a player to the sky
-                        if(plugin.getConfig().getBoolean("launch-feature")){
-                            PostAPI.launchAndTp(player,newlocation,message,plugin);
-                        }else{
-                            // Teleport without the "launch-feature"
-                            player.teleport(newlocation);
-                            PostAPI.playSoundAfterTp(player,newlocation);
-                            PostAPI.sendActionBarOrChat(player,message,plugin);
-                        }
+                        PostAPI.launchAndTp(player,newlocation,message,plugin);
+
                         if(player.getGameMode()== GameMode.SURVIVAL||player.getGameMode()==GameMode.ADVENTURE){
                             if(plugin.getConfig().getBoolean("tp-in-the-air")){
                                 plugin.blockFall.add(player.getUniqueId());
@@ -209,15 +196,8 @@ public class VisitCommand implements CommandExecutor{
                         Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                         String message = "&fWelcome to &6" + args[0] + "&f's post.";
                         // Launch the player is its true on config.yml
-                        if(plugin.getConfig().getBoolean("launch-feature")){
-                            PostAPI.launchAndTp(player,newlocation,message,plugin);
-                        }else{
+                        PostAPI.launchAndTp(player,newlocation,message,plugin);
 
-                            // "launch-feature" disabled
-                            player.teleport(newlocation);
-                            PostAPI.playSoundAfterTp(player,newlocation);
-                            PostAPI.sendActionBarOrChat(player,message,plugin);
-                        }
                         if(player.getGameMode()== GameMode.SURVIVAL||player.getGameMode()==GameMode.ADVENTURE){
                             if(plugin.getConfig().getBoolean("tp-in-the-air")){
                                 plugin.blockFall.add(player.getUniqueId());
@@ -254,14 +234,8 @@ public class VisitCommand implements CommandExecutor{
                                 Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                                 String message = "&fWelcome to &6" + args[0] + "&f's post.";
                                 // Launch the player is its true on config.yml
-                                if(plugin.getConfig().getBoolean("launch-feature")){
-                                    PostAPI.launchAndTp(player,newlocation,message,plugin);
-                                }else{
-                                    // "launch-feature" disabled
-                                    player.teleport(newlocation);
-                                    PostAPI.playSoundAfterTp(player,newlocation);
-                                    PostAPI.sendActionBarOrChat(player,message,plugin);
-                                }
+                                PostAPI.launchAndTp(player,newlocation,message,plugin);
+
                                 if(player.getGameMode()== GameMode.SURVIVAL||player.getGameMode()==GameMode.ADVENTURE){
                                     if(plugin.getConfig().getBoolean("tp-in-the-air")){
                                         plugin.blockFall.add(player.getUniqueId());

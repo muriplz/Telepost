@@ -67,14 +67,20 @@ public class PostAPI {
     }
 
     public static void launchAndTp( Player player , Location newlocation , String message , KryeitTPPlugin plugin ){
+        if(player.getGameMode()==GameMode.CREATIVE||player.getGameMode()==GameMode.SPECTATOR){
+            player.teleport(newlocation);
+            PostAPI.playSoundAfterTp(player,newlocation);
+            PostAPI.sendActionBarOrChat(player,message,plugin);
+            return;
+        }
         if(plugin.getConfig().getBoolean("launch-feature")){
-            player.setVelocity(new Vector(0,10,0));
-            Bukkit.getScheduler().runTaskLater(plugin, () -> {
-                Location location = new Location( player.getWorld() , newlocation.getBlockX() + 0.5 , newlocation.getBlockY() , newlocation.getBlockZ() + 0.5 , player.getLocation().getYaw() , player.getLocation().getPitch() );
-                player.teleport(location);
-                playSoundAfterTp(player,location);
-                sendActionBarOrChat(player,message,plugin);
-            }, 30L);
+                player.setVelocity(new Vector(0,10,0));
+                Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                    Location location = new Location( player.getWorld() , newlocation.getBlockX() + 0.5 , newlocation.getBlockY() , newlocation.getBlockZ() + 0.5 , player.getLocation().getYaw() , player.getLocation().getPitch() );
+                    player.teleport(location);
+                    playSoundAfterTp(player,location);
+                    sendActionBarOrChat(player,message,plugin);
+                }, 30L);
         }else{
             player.teleport(newlocation);
             PostAPI.playSoundAfterTp(player,newlocation);
