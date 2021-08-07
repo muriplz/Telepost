@@ -31,7 +31,7 @@ public class UnnamePostTab implements TabCompleter {
             // Add to "completions" all words that have letters that are contained on "commands" list
             int i=0;
             while(i < allTabs.size()){
-                if(allTabs.get(i).toLowerCase().contains(args[0].toLowerCase())||allTabs.get(i).contains(args[0].toLowerCase())){
+                if(allTabs.get(i).toLowerCase().startsWith(args[0].toLowerCase())||allTabs.get(i).startsWith(args[0].toLowerCase())){
                     completions.add(allTabs.get(i));
                 }
                 i++;
