@@ -51,12 +51,13 @@ public class HelpTab implements TabCompleter {
             // Add to "completions" all words that have letters that are contained on "commands" list
             int i=0;
             while(i < commands.size()){
-                if(commands.get(i).toLowerCase().startsWith(args[0].toLowerCase()) || commands.get(i).startsWith(args[0].toLowerCase())) {
+                if(commands.get(i).toLowerCase().startsWith(args[0].toLowerCase())) {
                     completions.add(commands.get(i));
                 }
                 i++;
             }
+            return completions;
         }
-        return completions;
+        return new ArrayList<>();
     }
 }
