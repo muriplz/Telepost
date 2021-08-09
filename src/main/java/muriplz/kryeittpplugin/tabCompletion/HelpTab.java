@@ -49,12 +49,10 @@ public class HelpTab implements TabCompleter {
             commands.add("invite");
 
             // Add to "completions" all words that have letters that are contained on "commands" list
-            int i=0;
-            while(i < commands.size()){
-                if(commands.get(i).toLowerCase().startsWith(args[0].toLowerCase())) {
-                    completions.add(commands.get(i));
+            for (String allTab : commands) {
+                if (allTab.toLowerCase().startsWith(args[0].toLowerCase())) {
+                    completions.add(allTab);
                 }
-                i++;
             }
             return completions;
         }

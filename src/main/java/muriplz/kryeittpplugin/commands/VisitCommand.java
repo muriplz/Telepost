@@ -216,8 +216,8 @@ public class VisitCommand implements CommandExecutor{
                             PostAPI.sendMessage(player,"&6"+player2.getName()+"&c is not online.");
                             return false;
                         }
-                        // If you have the right permission node, you can visit a player's post without being invited
 
+                        // If you have the right permission node, you can visit a player's post without being invited
                         if(player.hasPermission("telepost.visit.others")) {
                             ATPlayer atPlayer2 = ATPlayer.getPlayer(Objects.requireNonNull(Bukkit.getPlayer(Objects.requireNonNull(Bukkit.getPlayer(args[0])).getUniqueId())));
 

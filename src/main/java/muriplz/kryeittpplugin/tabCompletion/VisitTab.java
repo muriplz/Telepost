@@ -2,9 +2,11 @@ package muriplz.kryeittpplugin.tabCompletion;
 
 import io.github.niestrat99.advancedteleport.api.Warp;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -34,13 +36,20 @@ public class VisitTab implements TabCompleter {
             // Get the name of all online players and add it to allTabs
             Bukkit.getOnlinePlayers().forEach(p -> allTabs.add(p.getName()));
 
-            // Add to "completions" all words that have letters that are contained on "commands" list
-            int i=0;
-            while(i< allTabs.size()){
-                if(allTabs.get(i).toLowerCase().startsWith(args[0].toLowerCase())){
-                    completions.add(allTabs.get(i));
+            Player player = (Player) sender;
+
+            // Add all offline player's names if the player has the right permission node
+            if(player.hasPermission("telepost.visit.others")){
+                for(OfflinePlayer p : Bukkit.getOfflinePlayers()){
+                    allTabs.add(p.getName());
                 }
-                i++;
+            }
+
+            // Add to "completions" all words that have letters that are contained on "commands" list
+            for (String allTab : allTabs) {
+                if (allTab.toLowerCase().startsWith(args[0].toLowerCase())) {
+                    completions.add(allTab);
+                }
             }
             return completions;
         }
