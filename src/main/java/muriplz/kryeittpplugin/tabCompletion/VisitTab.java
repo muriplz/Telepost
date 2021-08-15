@@ -1,5 +1,6 @@
 package muriplz.kryeittpplugin.tabCompletion;
 
+import io.github.niestrat99.advancedteleport.api.ATPlayer;
 import io.github.niestrat99.advancedteleport.api.Warp;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -40,8 +41,13 @@ public class VisitTab implements TabCompleter {
 
             // Add all offline player's names if the player has the right permission node
             if(player.hasPermission("telepost.visit.others")){
-                for(OfflinePlayer p : Bukkit.getOfflinePlayers()){
-                    allTabs.add(p.getName());
+                for(OfflinePlayer p : Bukkit.getServer().getOfflinePlayers()){
+                    if(p.hasPlayedBefore()){
+                        ATPlayer atPlayer = new ATPlayer(p.getUniqueId(),p.getName());
+                        if(atPlayer.hasHome("home")){
+                            allTabs.add(p.getName());
+                        }
+                    }
                 }
             }
 

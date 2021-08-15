@@ -16,7 +16,7 @@ jobs:
     - name: Build with Gradle
       run: |
         chmod +x gradlew
-        ./gradlew build
+        ./gradlew shadowJar
     - name: Export the builded project as an artifact
       uses: actions/upload-artifact@v2
       with:

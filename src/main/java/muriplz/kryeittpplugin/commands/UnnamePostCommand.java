@@ -17,30 +17,34 @@ import java.util.Set;
 
 public class UnnamePostCommand implements CommandExecutor {
 
-    private final KryeitTPPlugin plugin;
+    public KryeitTPPlugin instance = KryeitTPPlugin.getInstance();
 
-    public UnnamePostCommand(KryeitTPPlugin plugin) {
-        this.plugin = plugin;
-    }
 
     // This command aims to be /UnnamePost in-game
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if( ! ( sender instanceof Player)) {
-            Bukkit.getConsoleSender().sendMessage(plugin.name+"You can't execute this command from console.");
+            Bukkit.getConsoleSender().sendMessage(instance.name+"You can't execute this command from console.");
         }else {
             Player player = (Player) sender;
 
             // Permission node
             if(!player.hasPermission("telepost.unnamepost")){
-                PostAPI.sendMessage(player, "&cYou don't have permission to use this command.");
+                player.sendMessage(PostAPI.getMessage("no-permission"));
                 return false;
             }
+
+
 
             // /UnnamePost (this looks for the nearest post)
             if(args.length==0){
 
-                Location nearestPost = PostAPI.getNearPostLocation(player,plugin);
+                if(!player.getWorld().getName().equals("world")){
+                    player.sendMessage(PostAPI.getMessage("not-on-overworld"));
+                    return false;
+                }
+
+                Location nearestPost = PostAPI.getNearPostLocation(player);
                 // For the X axis
                 int postX = nearestPost.getBlockX();
 
@@ -58,7 +62,7 @@ public class UnnamePostCommand implements CommandExecutor {
                     Location loc = Warp.getWarps().get(warpName).getLocation();
                     if( loc.getBlockX()==postX && loc.getBlockZ()==postZ ) {
                         Warp.getWarps().get(warpName).delete(null);
-                        PostAPI.sendMessage(player,"&aThe &6"+warpName+" &apost has been unnamed.");
+                        PostAPI.sendMessage(player,"&6"+warpName+" "+PostAPI.getMessage("unname-named-post"));
                         return true;
                     }
                 }
@@ -69,10 +73,10 @@ public class UnnamePostCommand implements CommandExecutor {
             if(args.length==1){
                 if(Warp.getWarps().containsKey(args[0])){
                     Warp.getWarps().get(args[0]).delete(null);
-                    PostAPI.sendMessage(player,"&aThe &6"+args[0]+"&a post has been unnamed.");
+                    PostAPI.sendMessage(player,"&aThe &6"+args[0]+" "+PostAPI.getMessage("unname-named-post"));
                     return true;
                 }else{
-                    PostAPI.sendMessage(player,"&cNo posts by that name.");
+                    player.sendMessage(PostAPI.getMessage("no-such-post"));
                 }
             }
         }

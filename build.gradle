@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'com.github.johnrengelman.shadow' version '7.0.0'
 }
 
 group 'org.example'
@@ -8,7 +9,7 @@ version 'DevBuild'
 repositories {
     mavenCentral()
     maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots"}
-    maven { url 'http://ci.pluginwiki.us/plugin/repository/everything/'}
+    maven { url 'https://ci.pluginwiki.us/plugin/repository/everything/'}
     maven { url = 'https://papermc.io/repo/repository/maven-public/'}
     maven { url = 'https://jitpack.io'}
 }
@@ -16,9 +17,9 @@ repositories {
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
-    compileOnly "org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT"
-    compile 'io.github.niestrat99:AdvancedTeleport-Bukkit:v5.4.6'
-    compile 'com.github.Thatsmusic99:ConfigurationMaster:v1.0'
+    compileOnly "org.spigotmc:spigot-api:1.17.1-R0.1-SNAPSHOT"
+    compileOnly 'io.github.niestrat99:AdvancedTeleport-Bukkit:v5.5.6'
+    implementation 'com.github.thatsmusic99:ConfigurationMaster:v1.0.3'
 }
 
 test {

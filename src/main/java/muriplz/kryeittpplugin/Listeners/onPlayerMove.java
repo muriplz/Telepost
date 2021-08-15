@@ -15,18 +15,14 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import java.util.Objects;
 
 public class onPlayerMove implements Listener {
-    private final KryeitTPPlugin plugin;
+    public KryeitTPPlugin plugin = KryeitTPPlugin.getInstance();
 
-    public onPlayerMove(KryeitTPPlugin plugin) {
-        this.plugin = plugin;
-    }
     @EventHandler
     public void OnMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();
         Material material = player.getLocation().getBlock().getType();
 
-        // Contains check is necessary for Mohist to not throw errors
-        if(Objects.requireNonNull(Bukkit.getEntity(player.getUniqueId())).isOnGround()&&plugin.blockFall.contains(player.getUniqueId())){
+        if(Objects.requireNonNull(Bukkit.getEntity(player.getUniqueId())).isOnGround()){
             plugin.blockFall.remove(player.getUniqueId());
         }
         if(material== Material.WATER||material==Material.LAVA){
@@ -44,12 +40,12 @@ public class onPlayerMove implements Listener {
                 int gap = plugin.getConfig().getInt("distance-between-posts");
                 // for the X axis
                 int originX = plugin.getConfig().getInt("post-x-location");
-                int postX = PostAPI.getNearPost(player.getLocation().getBlockX(),plugin,originX);
+                int postX = PostAPI.getNearPost(player.getLocation().getBlockX(),originX);
                 // for the Z axis
                 int originZ = plugin.getConfig().getInt("post-z-location");
-                int postZ = PostAPI.getNearPost(player.getLocation().getBlockZ(),plugin,originZ);
+                int postZ = PostAPI.getNearPost(player.getLocation().getBlockZ(),originZ);
 
-                String postName = PostAPI.NearestPostName(player,plugin);
+                String postName = PostAPI.NearestPostName(player);
                 if(postName!=null){
                     player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',"The nearest post is on: &6(" + postX + " , " + postZ + ")&f, it's &6"+postName+"&f.")));
                 }else{

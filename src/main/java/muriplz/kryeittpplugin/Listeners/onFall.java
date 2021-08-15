@@ -9,11 +9,8 @@ import org.bukkit.event.entity.EntityDamageEvent;
 
 public class onFall implements Listener {
 
-    private final KryeitTPPlugin plugin;
+    public KryeitTPPlugin plugin = KryeitTPPlugin.getInstance();
 
-    public onFall(KryeitTPPlugin plugin) {
-        this.plugin = plugin;
-    }
     @EventHandler
     public void preventFirstFall(EntityDamageEvent event) {
         if (event.getEntityType() == EntityType.PLAYER) {

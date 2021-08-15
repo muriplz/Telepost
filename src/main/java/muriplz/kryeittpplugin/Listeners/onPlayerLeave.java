@@ -8,10 +8,8 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import java.util.UUID;
 
 public class onPlayerLeave implements Listener {
-    private final KryeitTPPlugin plugin;
-    public onPlayerLeave(KryeitTPPlugin plugin) {
-        this.plugin = plugin;
-    }
+    public KryeitTPPlugin plugin = KryeitTPPlugin.getInstance();
+
     public void onPlayerQuit(PlayerQuitEvent e){
         if(e instanceof Player){
             UUID uuid = e.getPlayer().getUniqueId();

@@ -14,11 +14,8 @@ import java.util.Objects;
 
 public class HomePostCommand implements CommandExecutor {
 
-    private final KryeitTPPlugin plugin;
+    public KryeitTPPlugin plugin = KryeitTPPlugin.getInstance();
 
-    public HomePostCommand(KryeitTPPlugin plugin) {
-        this.plugin = plugin;
-    }
 
     //  This commands aims to be /HomePost in-game
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -38,7 +35,7 @@ public class HomePostCommand implements CommandExecutor {
 
             // Check if the player is on the right dimension
             if(!player.getWorld().getName().equals("world")){
-                PostAPI.sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cYou have to be in the Overworld to use this command."),plugin);
+                player.sendMessage(PostAPI.getMessage("not-on-overworld"));
                 return false;
             }
 
@@ -48,7 +45,7 @@ public class HomePostCommand implements CommandExecutor {
             }
             int height;
 
-            Location nearestPost = PostAPI.getNearPostLocation(player,plugin);
+            Location nearestPost = PostAPI.getNearPostLocation(player);
             // For the X axis
             int postX = nearestPost.getBlockX();
 
@@ -57,8 +54,8 @@ public class HomePostCommand implements CommandExecutor {
 
             // If the player is not inside a post and does not have telepost.homepost permission, he won't be teleported
             if(!player.hasPermission("telepost.homepost")){
-                if(!PostAPI.isPlayerOnPost(player,plugin)){
-                    PostAPI.sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cYou have to be inside a post."),plugin);
+                if(!PostAPI.isPlayerOnPost(player)){
+                    PostAPI.sendActionBarOrChat(player,PostAPI.getMessage("not-inside-post"));
                     return false;
                 }
             }
@@ -70,7 +67,7 @@ public class HomePostCommand implements CommandExecutor {
                 // You can't /homepost to the same post you are in, except if you have telepost.homepost permission
 
                 if(location.getBlockX()==postX&&location.getBlockZ()==postZ&&!player.hasPermission("telepost.homepost")){
-                    PostAPI.sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cYou are already at your home post."),plugin);
+                    PostAPI.sendActionBarOrChat(player,PostAPI.getMessage("already-at-homepost"));
                     return false;
                 }
 
@@ -83,9 +80,9 @@ public class HomePostCommand implements CommandExecutor {
                     // If the option is false, teleport them to the first block that is air
                     height = PostAPI.getFirstSolidBlockHeight(location.getBlockX(),location.getBlockZ())+2;
                 }
-                String message = "&fWelcome to your home post.";
+                String message = PostAPI.getMessage("own-homepost-arrival");
                 Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
-                PostAPI.launchAndTp(player,newlocation,message,plugin);
+                PostAPI.launchAndTp(player,newlocation,message);
 
                 if(player.getGameMode()== GameMode.SURVIVAL||player.getGameMode()==GameMode.ADVENTURE){
                     if(plugin.getConfig().getBoolean("tp-in-the-air")){
@@ -99,7 +96,7 @@ public class HomePostCommand implements CommandExecutor {
                 return true;
             } else {
                 // Player does not have a homepost
-                PostAPI.sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&fPlease, set a post with &6/SetPost&f first."),plugin);
+                PostAPI.sendActionBarOrChat(player,PostAPI.getMessage("homepost-without-setpost"));
             }
             return true;
         }

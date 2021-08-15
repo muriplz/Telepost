@@ -21,15 +21,12 @@ import java.util.List;
 import java.util.Set;
 
 public class PostsListCommand implements CommandExecutor {
-    private final KryeitTPPlugin plugin;
+    public KryeitTPPlugin instance = KryeitTPPlugin.getInstance();
 
-    public PostsListCommand(KryeitTPPlugin plugin) {
-        this.plugin = plugin;
-    }
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if(!(sender instanceof Player)) {
-            Bukkit.getConsoleSender().sendMessage(plugin.name+"You can't execute this command from console.");
+            Bukkit.getConsoleSender().sendMessage(instance.name+"You can't execute this command from console.");
             return false;
         }else{
             // Get player

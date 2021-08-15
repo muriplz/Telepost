@@ -14,39 +14,36 @@ import java.util.*;
 
 public class RandomPostCommand implements CommandExecutor {
 
-    private final KryeitTPPlugin plugin;
+    public KryeitTPPlugin instance = KryeitTPPlugin.getInstance();
 
-    public RandomPostCommand(KryeitTPPlugin plugin) {
-        this.plugin = plugin;
-    }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
         if (!(sender instanceof Player)) {
-            Bukkit.getConsoleSender().sendMessage(plugin.name + "You can't execute this command from console.");
+            Bukkit.getConsoleSender().sendMessage(instance.name + "You can't execute this command from console.");
             return false;
         } else {
             Player player = (Player) sender;
 
-            if(!plugin.getConfig().getBoolean("random-post")){
+            if(!instance.getConfig().getBoolean("random-post")){
                 PostAPI.sendMessage(player,"This feature has been disabled.");
                 return false;
             }
 
             if(!player.hasPermission("telepost.randompost")){
-                PostAPI.sendMessage(player,"&cYou don't have permission to use this command.");
+                player.sendMessage(PostAPI.getMessage("no-permission"));
                 return false;
             }
 
             // Player has to be in the Overworld
             if (!player.getWorld().getName().equals("world")) {
-                PostAPI.sendMessage(player, "&cYou have to be in the Overworld to use this command.");
+                player.sendMessage(PostAPI.getMessage("not-on-overworld"));
                 return false;
             }
 
-            if(!PostAPI.isPlayerOnPost(player,plugin)){
-                PostAPI.sendMessage(player, "&cYou have to be inside a post.");
+            if(!PostAPI.isPlayerOnPost(player)){
+                player.sendMessage(PostAPI.getMessage("not-inside-post"));
                 return false;
             }
 
@@ -64,7 +61,7 @@ public class RandomPostCommand implements CommandExecutor {
             int height;
 
             allNamedAndHomed = PostAPI.removeLocDuplicates(allNamedAndHomed);
-            allPosts = PostAPI.getAllPostLocations(plugin);
+            allPosts = PostAPI.getAllPostLocations();
 
             for(Location l : allPosts) {
                 if(!allNamedAndHomed.contains(l)){
@@ -86,7 +83,7 @@ public class RandomPostCommand implements CommandExecutor {
 
             Location l = availablePosts.get(index);
             // See if the config has the option set to true, in that case the teleport takes the player to the air
-            if(plugin.getConfig().getBoolean("tp-in-the-air")){
+            if(instance.getConfig().getBoolean("tp-in-the-air")){
                 height = 265;
             }else{
                 // If the option is false, teleport them to the first block that is air
@@ -95,8 +92,8 @@ public class RandomPostCommand implements CommandExecutor {
             l.setX(l.getBlockX()+0.5);
             l.setZ(l.getBlockZ()+0.5);
             l.setY(height);
-            PostAPI.launchAndTp(player,l,"&fYou have been teleported to a random post.",plugin);
-            plugin.blockFall.add(player.getUniqueId());
+            PostAPI.launchAndTp(player,l,"&fYou have been teleported to a random post.");
+            instance.blockFall.add(player.getUniqueId());
 
             return true;
         }

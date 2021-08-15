@@ -17,34 +17,31 @@ import java.util.Set;
 
 public class NamePostCommand implements CommandExecutor {
 
-    private final KryeitTPPlugin plugin;
+    public KryeitTPPlugin instance = KryeitTPPlugin.getInstance();
 
-    public NamePostCommand(KryeitTPPlugin plugin) {
-        this.plugin = plugin;
-    }
 
     // This command aims to be /NamePost in-game
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if( ! ( sender instanceof Player)) {
-            Bukkit.getConsoleSender().sendMessage(plugin.name+"You can't execute this command from console.");
+            Bukkit.getConsoleSender().sendMessage(instance.name+"You can't execute this command from console.");
         }else {
             Player player = (Player) sender;
             if(args.length==0){
-                PostAPI.sendMessage(player,"&fUse /NamePost <PostName> ( &7/posthelp namepost &ffor more info ).");
+                PostAPI.sendMessage(player,PostAPI.getMessage("namepost-usage"));
                 return false;
             }
             if(!player.hasPermission("telepost.namepost")){
-                PostAPI.sendMessage(player,"&cYou don't have permission to use this command.");
+                player.sendMessage(PostAPI.getMessage("no-permission"));
                 return false;
             }
             if(!player.getWorld().getName().equals("world")){
-                PostAPI.sendMessage(player,"&cYou have to be in the Overworld to use this command.");
+                player.sendMessage(PostAPI.getMessage("not-on-overworld"));
                 return false;
             }
             if(args.length==1){
 
-                Location nearestPost = PostAPI.getNearPostLocation(player,plugin);
+                Location nearestPost = PostAPI.getNearPostLocation(player);
                 // For the X axis
                 int postX = nearestPost.getBlockX();
 
@@ -59,7 +56,7 @@ public class NamePostCommand implements CommandExecutor {
                 HashMap<String, Warp> warps = Warp.getWarps();
                 Set<String> warpNames = warps.keySet();
                 for(String warpName: warpNames){
-                    if(Warp.getWarps().get(warpName).getLocation().getBlockX()==postX&&Warp.getWarps().get(warpName).getLocation().getBlockZ()==postZ&&!plugin.getConfig().getBoolean("multiple-names-per-post")){
+                    if(Warp.getWarps().get(warpName).getLocation().getBlockX()==postX&&Warp.getWarps().get(warpName).getLocation().getBlockZ()==postZ&&!instance.getConfig().getBoolean("multiple-names-per-post")){
                         PostAPI.sendMessage(player,"&cThe nearest post is already named, it's &6"+warpName+"&c.");
                         return false;
                     }

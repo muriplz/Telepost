@@ -31,11 +31,7 @@ public class HelpCommand implements CommandExecutor {
         PostAPI.sendMessage(player, message);
     }
 
-    private final KryeitTPPlugin plugin;
-
-    public HelpCommand(KryeitTPPlugin plugin) {
-        this.plugin = plugin;
-    }
+    public KryeitTPPlugin plugin = KryeitTPPlugin.getInstance();
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -140,7 +136,7 @@ public class HelpCommand implements CommandExecutor {
                     sendMessage(player, "- Comming soon: /unnamepost unnames the nearest post.");
                     sendMessage(player, "- This command is only for Admins.");
                 } else if (args[0].equals("randompost")) {
-                    List<Location> allPosts =  PostAPI.getAllPostLocations(plugin);
+                    List<Location> allPosts =  PostAPI.getAllPostLocations();
                     List<Location> allNamedAndHomed = PostAPI.getAllNamedAndHomed();
                     allNamedAndHomed = PostAPI.removeLocDuplicates(allNamedAndHomed);
                     int availablePosts = allPosts.size()-allNamedAndHomed.size();

@@ -15,27 +15,22 @@ import org.jetbrains.annotations.NotNull;
 
 public class NearestPostCommand implements CommandExecutor{
 
-    private final KryeitTPPlugin plugin;
-
-    public NearestPostCommand(KryeitTPPlugin plugin) {
-        this.plugin = plugin;
-    }
-
+    public KryeitTPPlugin instance = KryeitTPPlugin.getInstance();
     //  This commands aims to be /NearestPost in-game
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if( ! ( sender instanceof Player )) {
-            Bukkit.getConsoleSender().sendMessage(plugin.name+"You can't execute this command from console.");
+            Bukkit.getConsoleSender().sendMessage(instance.name+"You can't execute this command from console.");
             return false;
         }else {
             Player player = (Player) sender;
 
             // Player has to be in the Overworld
             if(!player.getWorld().getName().equals("world")){
-                PostAPI.sendMessage(player,"&cYou have to be in the Overworld to use this command.");
+                player.sendMessage(PostAPI.getMessage("not-on-overworld"));
                 return false;
             }
 
-            Location nearestPost = PostAPI.getNearPostLocation(player,plugin);
+            Location nearestPost = PostAPI.getNearPostLocation(player);
             // For the X axis
             int postX = nearestPost.getBlockX();
 
@@ -44,32 +39,32 @@ public class NearestPostCommand implements CommandExecutor{
 
             if(args.length==0) {
 
-                String postName = PostAPI.NearestPostName(player,plugin);
+                String postName = PostAPI.NearestPostName(player);
                 if(postName!=null){
-                    PostAPI.sendMessage(player,"&fThe nearest post is on: &6(" + postX + " , " + postZ + ")&f, it's &6"+postName+"&f.");
+                    PostAPI.sendMessage(player,PostAPI.getMessage("nearestpost-message") + "(" + postX + " , " + postZ + ")&f, it's &6"+postName+"&f.");
                 }else{
-                    PostAPI.sendMessage(player,"&fThe nearest post is on: &6(" + postX + " , " + postZ + ")&f.");
+                    PostAPI.sendMessage(player,PostAPI.getMessage("nearestpost-message") + "(" + postX + " , " + postZ + ")&f.");
                 }
 
             }else if (args.length==1) {
                 if(args[0].equals("on")) {
-                    if (!plugin.showNearest.contains(player.getUniqueId())){
-                        String postName = PostAPI.NearestPostName(player,plugin);
+                    if (!instance.showNearest.contains(player.getUniqueId())){
+                        String postName = PostAPI.NearestPostName(player);
                         if(postName!=null){
                             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',"The nearest post is on: &6(" + postX + " , " + postZ + ")&f, it's &6"+postName+"&f.")));
                         }else{
                             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',"The nearest post is on: &6(" + postX + " , " + postZ + ")&f.")));
                         }
-                        plugin.showNearest.add(player.getUniqueId());
+                        instance.showNearest.add(player.getUniqueId());
                     }else{
-                        PostAPI.sendMessage(player,"&cYou already have the option enabled.");
+                        PostAPI.sendMessage(player,PostAPI.getMessage("nearestpost-already-on"));
                     }
                 }else if (args[0].equals("off")){
-                    if (plugin.showNearest.contains(player.getUniqueId())){
-                        plugin.counterNearest.remove(plugin.showNearest.indexOf(player.getUniqueId()));
-                        plugin.showNearest.remove(player.getUniqueId());
+                    if (instance.showNearest.contains(player.getUniqueId())){
+                        instance.counterNearest.remove(instance.showNearest.indexOf(player.getUniqueId()));
+                        instance.showNearest.remove(player.getUniqueId());
                     }else{
-                        PostAPI.sendMessage(player,"&cYou don't have the option enabled.");
+                        PostAPI.sendMessage(player,PostAPI.getMessage("nearestpost-already-off"));
                     }
 
                 }

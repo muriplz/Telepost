@@ -12,11 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HelpTab implements TabCompleter {
-    private final KryeitTPPlugin plugin;
+    public KryeitTPPlugin instance = KryeitTPPlugin.getInstance();
 
-    public HelpTab(KryeitTPPlugin plugin) {
-        this.plugin = plugin;
-    }
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
@@ -37,7 +34,7 @@ public class HelpTab implements TabCompleter {
             if(player.hasPermission("telepost.unnamepost")){
                 commands.add("unnamepost");
             }
-            if(plugin.getConfig().getBoolean("random-post")){
+            if(instance.getConfig().getBoolean("random-post")){
                 commands.add("randompost");
             }
             commands.add("aliases");

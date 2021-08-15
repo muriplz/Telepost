@@ -7,16 +7,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerKickEvent;
 
 public class onKickEvent implements Listener {
-    private final KryeitTPPlugin plugin;
+    public KryeitTPPlugin instance = KryeitTPPlugin.getInstance();
 
-    public onKickEvent(KryeitTPPlugin plugin) {
-        this.plugin = plugin;
-    }
     @EventHandler
     public void onKick(PlayerKickEvent event) {
         Player p = event.getPlayer();
         if(event.getReason().contains("Fly")||event.getReason().contains("fly")){
-            if(plugin.blockFall.contains(p.getUniqueId())){
+            if(instance.blockFall.contains(p.getUniqueId())){
                 event.setCancelled(true);
             }
         }

@@ -1,6 +1,7 @@
 package muriplz.kryeittpplugin.commands;
 
 import io.github.niestrat99.advancedteleport.api.ATPlayer;
+import javafx.geometry.Pos;
 import muriplz.kryeittpplugin.KryeitTPPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -15,16 +16,13 @@ import java.util.TimerTask;
 
 public class InviteCommand implements CommandExecutor {
 
-    private final KryeitTPPlugin plugin;
+    public KryeitTPPlugin instance = KryeitTPPlugin.getInstance();
 
-    public InviteCommand(KryeitTPPlugin plugin) {
-        this.plugin = plugin;
-    }
 
     // This commands aims to be /Invite in-game
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!(sender instanceof Player)) {
-            Bukkit.getConsoleSender().sendMessage(plugin.name + "You can't execute this command from console.");
+            Bukkit.getConsoleSender().sendMessage(instance.name + "You can't execute this command from console.");
             return false;
         } else {
             Player player = (Player) sender;
@@ -36,13 +34,12 @@ public class InviteCommand implements CommandExecutor {
                             Location location = atPlayer.getHome("home").getLocation();
                             String arg = args[0];
                             Player player2 = Bukkit.getPlayer(arg);
-                            assert player2 != null;
-                            if(player==player2){
-                                PostAPI.sendMessage(player,"&cYou can't invite yourself.");
+                            if(player2==null){
+                                player.sendMessage(PostAPI.getMessage("not-found"));
                                 return false;
                             }
-                            if(!(player2.isOnline())){
-                                PostAPI.sendMessage(player,"&6"+player2+"&c is not online.");
+                            if(player==player2){
+                                player.sendMessage(PostAPI.getMessage("own-invite"));
                                 return false;
                             }
                             ATPlayer atPlayer2 = ATPlayer.getPlayer(player2);
@@ -55,7 +52,7 @@ public class InviteCommand implements CommandExecutor {
                                 @Override
                                 public void run() {
                                     atPlayer2.removeHome(postinvited,null);
-                                    PostAPI.sendMessage(player,"&fThe player &6"+player2.getName()+"&f does not have access to your home post anymore.");
+                                    PostAPI.sendMessage(player,"&6"+player2.getName()+PostAPI.getMessage("invite-expire"));
                                     timer.cancel();
                                 }
                             },300000);

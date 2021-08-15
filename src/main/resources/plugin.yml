@@ -1,9 +1,10 @@
 main: muriplz.kryeittpplugin.KryeitTPPlugin
 version: 5.4
 name: Telepost
+description: Posts to keep people connected!
 authors: [muriplz, BlockOG]
 depend: [AdvancedTeleport]
-api-version: 1.16
+api-version: 1.17
 commands:
   nearestpost:
     description: gets the nearest post location.

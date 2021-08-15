@@ -15,17 +15,14 @@ import org.jetbrains.annotations.NotNull;
 
 public class SetPostCommand implements CommandExecutor {
 
-    private final KryeitTPPlugin plugin;
+    public KryeitTPPlugin instance = KryeitTPPlugin.getInstance();
 
-    public SetPostCommand(KryeitTPPlugin plugin) {
-        this.plugin = plugin;
-    }
 
     //  This commands aims to be /SetPost in-game
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
         if (!(sender instanceof Player)) {
-            Bukkit.getConsoleSender().sendMessage(plugin.name + "You can't execute this command from console.");
+            Bukkit.getConsoleSender().sendMessage(instance.name + "You can't execute this command from console.");
             return false;
         } else {
 
@@ -34,16 +31,16 @@ public class SetPostCommand implements CommandExecutor {
 
             // If the command is not /setpost ONLY then return false
             if(args.length!=0){
-                PostAPI.sendMessage(player,"Use /setpost.");
+                player.sendMessage(PostAPI.getMessage("setpost-usage"));
                 return false;
             }
 
             if(!player.getWorld().getName().equals("world")){
-                PostAPI.sendActionBarOrChat(player, ChatColor.translateAlternateColorCodes('&',"&cYou have to be in the Overworld to use this command."),plugin);
+                player.sendMessage(PostAPI.getMessage("not-on-overworld"));
                 return false;
             }
 
-            Location nearestPost = PostAPI.getNearPostLocation(player,plugin);
+            Location nearestPost = PostAPI.getNearPostLocation(player);
             // For the X axis
             int postX = nearestPost.getBlockX();
 
@@ -56,16 +53,15 @@ public class SetPostCommand implements CommandExecutor {
             // Location of the nearest post
             Location location = new Location(player.getWorld(), postX, 265, postZ,0,0);
 
-            // moving the home if he already has one
-            if (atPlayer.hasMainHome()) {
-                atPlayer.moveHome(atPlayer.getMainHome().getName(), location, null);
-                // Actually this part does not work (TODO)
-                PostAPI.sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&fYou have successfully moved your home post at: &6("+postX+","+postZ+")&f."),plugin);
+            // Moving the home if he already has one
+            if (atPlayer.hasHome("home")) {
+                atPlayer.moveHome("home", location, null);
+                PostAPI.sendActionBarOrChat(player,PostAPI.getMessage("move-post-success")+"("+postX+","+postZ+")&f.");
             }else{
 
-                // setting the post for the first time
+                // Setting the post for the first time
                 atPlayer.addHome("home", location, null);
-                PostAPI.sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&fYou have successfully set your home post at: &6("+postX+","+postZ+")&f."),plugin);
+                PostAPI.sendActionBarOrChat(player,PostAPI.getMessage("set-post-success")+"("+postX+","+postZ+")&f.");
             }
             return true;
         }

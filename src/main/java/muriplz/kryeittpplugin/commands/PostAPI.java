@@ -12,24 +12,22 @@ import org.bukkit.util.Vector;
 import java.util.*;
 
 public class PostAPI {
-    public KryeitTPPlugin plugin;
-    public PostAPI(KryeitTPPlugin plugin) {
-        this.plugin = plugin;
-    }
+    public KryeitTPPlugin instance = KryeitTPPlugin.getInstance();
 
-    public static Location getNearPostLocation ( Player player , KryeitTPPlugin plugin ) {
+
+    public static Location getNearPostLocation ( Player player ) {
         // for the X axis
-        int originX = plugin.getConfig().getInt("post-x-location");
-        int postX = PostAPI.getNearPost(player.getLocation().getBlockX(),plugin,originX);
+        int originX = KryeitTPPlugin.getInstance().getConfig().getInt("post-x-location");
+        int postX = PostAPI.getNearPost(player.getLocation().getBlockX(),originX);
 
         // for the Z axis
-        int originZ = plugin.getConfig().getInt("post-z-location");
-        int postZ = PostAPI.getNearPost(player.getLocation().getBlockZ(),plugin,originZ);
+        int originZ = KryeitTPPlugin.getInstance().getConfig().getInt("post-z-location");
+        int postZ = PostAPI.getNearPost(player.getLocation().getBlockZ(),originZ);
         return new Location(player.getWorld(),postX,265,postZ);
     }
 
-    public static int getNearPost( int playerXorZ, KryeitTPPlugin plugin,int origin) {
-        int gap = plugin.getConfig().getInt("distance-between-posts");
+    public static int getNearPost( int playerXorZ,int origin) {
+        int gap = KryeitTPPlugin.getInstance().getConfig().getInt("distance-between-posts");
 
         // Subtracting origin of posts to get correct calculation
         playerXorZ -= origin;
@@ -56,67 +54,70 @@ public class PostAPI {
     public static void sendMessage( Player player , String message ){
         player.sendMessage( ChatColor.translateAlternateColorCodes( '&' , message ) );
     }
-    public static void sendActionBarOrChat( Player player , String message , KryeitTPPlugin plugin ){
-        message = ChatColor.translateAlternateColorCodes('&',message);
+    public static void sendActionBarOrChat( Player player , String message ){
+        message = colour(message);
         // This will send the message on the action bar, if the option is enabled on config.yml
-        if(plugin.getConfig().getBoolean("send-arrival-messages-on-action-bar")){
+        if(KryeitTPPlugin.getInstance().getConfig().getBoolean("send-arrival-messages-on-action-bar")){
             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
         }else{
             PostAPI.sendMessage(player,message);
         }
     }
 
-    public static void launchAndTp( Player player , Location newlocation , String message , KryeitTPPlugin plugin ){
+    public static void loadChunk(Location l){
+        Objects.requireNonNull(Bukkit.getWorld("world")).getChunkAt(l.getBlockX(),l.getBlockZ()).load();
+    }
+    public static void launchAndTp( Player player , Location newlocation , String message ){
         if(player.getGameMode()==GameMode.CREATIVE||player.getGameMode()==GameMode.SPECTATOR){
             player.teleport(newlocation);
             PostAPI.playSoundAfterTp(player,newlocation);
-            PostAPI.sendActionBarOrChat(player,message,plugin);
+            PostAPI.sendActionBarOrChat(player,message);
             return;
         }
-        if(plugin.getConfig().getBoolean("launch-feature")){
+        if(KryeitTPPlugin.getInstance().getConfig().getBoolean("launch-feature")){
             player.setVelocity(new Vector(0,10,0));
-            Bukkit.getScheduler().runTaskLater(plugin, () -> {
+            Bukkit.getScheduler().runTaskLater(KryeitTPPlugin.getInstance(), () -> {
                 Location location = new Location( player.getWorld() , newlocation.getBlockX() + 0.5 , newlocation.getBlockY() , newlocation.getBlockZ() + 0.5 , player.getLocation().getYaw() , player.getLocation().getPitch() );
                 player.teleport(location);
                 playSoundAfterTp(player,location);
-                sendActionBarOrChat(player,message,plugin);
+                sendActionBarOrChat(player,message);
             }, 30L);
         }else{
             player.teleport(newlocation);
             PostAPI.playSoundAfterTp(player,newlocation);
-            PostAPI.sendActionBarOrChat(player,message,plugin);
+            PostAPI.sendActionBarOrChat(player,message);
         }
     }
 
 
 
-    public static String NearestPostName ( Player player , KryeitTPPlugin plugin ){
-        if(plugin.getConfig().getBoolean("multiple-names-per-post")){
+    public static String NearestPostName ( Player player ){
+        if(KryeitTPPlugin.getInstance().getConfig().getBoolean("multiple-names-per-post")){
             return null;
         }
 
-        int postX = PostAPI.getNearPost(player.getLocation().getBlockX(),plugin,plugin.getConfig().getInt("post-x-location"));
-        int postZ = PostAPI.getNearPost(player.getLocation().getBlockZ(),plugin,plugin.getConfig().getInt("post-z-location"));
+        int postX = PostAPI.getNearPost(player.getLocation().getBlockX(),KryeitTPPlugin.getInstance().getConfig().getInt("post-x-location"));
+        int postZ = PostAPI.getNearPost(player.getLocation().getBlockZ(),KryeitTPPlugin.getInstance().getConfig().getInt("post-z-location"));
 
         HashMap<String, Warp> warps = Warp.getWarps();
         Set<String> warpNames = warps.keySet();
 
         for(String warpName: warpNames){
             Location postLocation = Warp.getWarps().get(warpName).getLocation();
-            if( postLocation.getBlockX()==postX && postLocation.getBlockZ()==postZ && !plugin.getConfig().getBoolean("multiple-names-per-post")){
+            if( postLocation.getBlockX()==postX && postLocation.getBlockZ()==postZ && !KryeitTPPlugin.getInstance().getConfig().getBoolean("multiple-names-per-post")){
                 return warpName;
             }
         }
         return null;
     }
 
-    public static boolean isPlayerOnPost ( Player player , KryeitTPPlugin plugin ) {
-        int width = (plugin.getConfig().getInt("post-width")-1)/2;
-        int originX = plugin.getConfig().getInt("post-x-location");
-        int originZ = plugin.getConfig().getInt("post-z-location");
+    public static boolean isPlayerOnPost ( Player player ) {
+        int width = (KryeitTPPlugin.getInstance().getConfig().getInt("post-width")-1)/2;
+        int originX = KryeitTPPlugin.getInstance().getConfig().getInt("post-x-location");
+        int originZ = KryeitTPPlugin.getInstance().getConfig().getInt("post-z-location");
         // Getting the cords of nearest post to the player
-        int postX = PostAPI.getNearPost(player.getLocation().getBlockX(),plugin,originX);
-        int postZ = PostAPI.getNearPost(player.getLocation().getBlockZ(),plugin,originZ);
+        int postX = PostAPI.getNearPost(player.getLocation().getBlockX(),originX);
+        int postZ = PostAPI.getNearPost(player.getLocation().getBlockZ(),originZ);
 
         // Getting player x and z cords
         int playerX = player.getLocation().getBlockX();
@@ -144,10 +145,10 @@ public class PostAPI {
         }
         return height;
     }
-    public static int getPostAmount ( KryeitTPPlugin plugin ){
-        int originX = plugin.getConfig().getInt("post-x-location");
-        int originZ = plugin.getConfig().getInt("post-z-location");
-        int gap = plugin.getConfig().getInt("distance-between-posts");
+    public static int getPostAmount (){
+        int originX = KryeitTPPlugin.getInstance().getConfig().getInt("post-x-location");
+        int originZ = KryeitTPPlugin.getInstance().getConfig().getInt("post-z-location");
+        int gap = KryeitTPPlugin.getInstance().getConfig().getInt("distance-between-posts");
 
         WorldBorder worldBorder = Objects.requireNonNull(Bukkit.getServer().getWorld("world")).getWorldBorder();
         int size = (int) worldBorder.getSize()/2;
@@ -158,10 +159,10 @@ public class PostAPI {
         double postAmount = postAmountZ*postAmountX;
         return (int) postAmount;
     }
-    public static List<Location> getAllPostLocations ( KryeitTPPlugin plugin ){
-        int originX = plugin.getConfig().getInt("post-x-location");
-        int originZ = plugin.getConfig().getInt("post-z-location");
-        int gap = plugin.getConfig().getInt("distance-between-posts");
+    public static List<Location> getAllPostLocations (){
+        int originX = KryeitTPPlugin.getInstance().getConfig().getInt("post-x-location");
+        int originZ = KryeitTPPlugin.getInstance().getConfig().getInt("post-z-location");
+        int gap = KryeitTPPlugin.getInstance().getConfig().getInt("distance-between-posts");
 
         List<Location> allPosts = new ArrayList<>();
 
@@ -226,6 +227,14 @@ public class PostAPI {
         // return the new list
         return newList;
     }
+    public static String getMessage(String path){
+        return colour(KryeitTPPlugin.getMessages().getString(path));
+    }
+
+    public static String colour(String message){
+        return ChatColor.translateAlternateColorCodes('&',message);
+    }
+
 
 //    public static void unloadAllChunksToBuildThePost(Block block,int width){
 //        // Getting block x and z coords
