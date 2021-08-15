@@ -29,8 +29,9 @@ public class VisitCommand implements CommandExecutor{
             Player player = (Player) sender;
 
             // /v
-            if (args.length == 0) {
-                PostAPI.sendMessage(player,"&fUse /visit <PostName/PlayerName> to visit a post.");
+            if (args.length != 1) {
+                // Command Usage (This command can't have usage: on plugin.yml because it relies on "return true/false;")
+                player.sendMessage(PostAPI.getMessage("visit-usage"));
                 return false;
             }
 
@@ -42,9 +43,6 @@ public class VisitCommand implements CommandExecutor{
                 player.sendMessage(PostAPI.getMessage("not-on-overworld"));
                 return false;
             }
-
-            // For the height that the player will be teleported to
-            int height;
 
             // See if the player is inside a post
             if(!player.hasPermission("telepost.visit")){
@@ -67,156 +65,101 @@ public class VisitCommand implements CommandExecutor{
             }
 
             // /v <something>
-            if (args.length==1){
 
-                // /v <Named Post>
+            // /v <Named Post>
 
-                // Get all warps (named posts)
-                HashMap<String, Warp> warps = Warp.getWarps();
+            // Get all warps (named posts)
+            HashMap<String, Warp> warps = Warp.getWarps();
 
-                // Get all names of named posts and made it into a List
-                Set<String> warpNames = warps.keySet();
-                List<String> allWarpNames = new ArrayList<>(warpNames);
+            // Get all names of named posts and made it into a List
+            Set<String> warpNames = warps.keySet();
+            List<String> allWarpNames = new ArrayList<>(warpNames);
 
-                // If args[0] is the Name of a post
-                if(allWarpNames.contains(args[0])){
+            // If args[0] is the Name of a post
+            if(allWarpNames.contains(args[0])){
 
-                    // Get the warp/named post that the player wants to visit
-                    Warp warp = Warp.getWarps().get(args[0]);
+                // Get the warp/named post that the player wants to visit
+                Warp warp = Warp.getWarps().get(args[0]);
 
-                    // See if the player want to teleport to the nearest post, only with telepost.v permission you can do this
+                // See if the player want to teleport to the nearest post, only with telepost.v permission you can do this
 
-                    if(warp.getLocation().getBlockX()==postX&&warp.getLocation().getBlockZ()==postZ&&!player.hasPermission("telepost.visit")){
-                        PostAPI.sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cYou are already in &6"+warp.getName()+"&c."));
+                if(warp.getLocation().getBlockX()==postX&&warp.getLocation().getBlockZ()==postZ&&!player.hasPermission("telepost.visit")){
+                    PostAPI.sendActionBarOrChat(player,PostAPI.getMessage("already-at-namedpost")+warp.getName()+"&c.");
+                    return false;
+                }
+
+                // Get the location of the post that the player wants to teleport to
+                Location loc = new Location(world, warp.getLocation().getBlockX() + 0.5, 260, warp.getLocation().getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
+
+                String message = PostAPI.colour(PostAPI.getMessage("named-post-arrival") +"&6"+ args[0] + "&f.");
+                // Launches a player to the sky
+                PostAPI.launchAndTp(player,loc,message);
+
+                return true;
+            }
+            // /v <Yourself> which is the same as /homepost
+            if(player.getName().equals(args[0])){
+
+                // Get the atPlayer
+                ATPlayer atPlayer = ATPlayer.getPlayer(player);
+
+                // If player already has a home
+                if(atPlayer.hasHome("home")){
+
+                    // Get the home location
+                    Location location = atPlayer.getHome("home").getLocation();
+
+                    // See if the player is already at his home post, if he has permission he can teleport
+                    if(location.getBlockX()==postX&&location.getBlockZ()==postZ&&!player.hasPermission("telepost.visit")){
+                        PostAPI.sendActionBarOrChat(player,PostAPI.getMessage("already-at-homepost"));
                         return false;
                     }
 
-                    // Get the location of the post that the player wants to teleport to
-                    Location loc = new Location(world, warp.getLocation().getBlockX() + 0.5, 260, warp.getLocation().getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
-
-                    // See if the config has the option set to true, in that case the teleport takes the player to the air
-                    if(instance.getConfig().getBoolean("tp-in-the-air")){
-                        height = 265;
-                    }else{
-                        // If the option is false, teleport them to the first block that is air
-                        height = PostAPI.getFirstSolidBlockHeight(loc.getBlockX(),loc.getBlockZ())+2;
-                    }
-
-                    Location newlocation = new Location(world, loc.getBlockX() + 0.5, height, loc.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
-                    String message = PostAPI.colour(PostAPI.getMessage("named-post-arrival") +"&6"+ args[0] + "&f.");
+                    Location newlocation = new Location(world, location.getBlockX() + 0.5,265, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
+                    String message = PostAPI.getMessage("own-homepost-arrival");
                     // Launches a player to the sky
                     PostAPI.launchAndTp(player,newlocation,message);
-                    if(player.getGameMode()== GameMode.SURVIVAL||player.getGameMode()==GameMode.ADVENTURE){
-                        if(instance.getConfig().getBoolean("tp-in-the-air")){
-                            instance.blockFall.add(player.getUniqueId());
-                        }
-                    }
-                    if(player.isGliding()){
-                        player.setGliding(false);
-                    }
+
                     return true;
+                }else{
+                    // Player does not have a home post yet
+                    player.sendMessage(PostAPI.getMessage("no-homepost"));
+                    return false;
                 }
-                // /v <Yourself> which is the same as /homepost
-                if(player.getName().equals(args[0])){
+            }
+            // /visit <Player post>
 
-                    // Get the atPlayer
-                    ATPlayer atPlayer = ATPlayer.getPlayer(player);
+            // Check if player from (/visit <player>) is actually a player
+            if(!(Bukkit.getPlayer(args[0])==null)){
 
-                    // If player already has a home
-                    if(atPlayer.hasHome("home")){
+                // Get atPlayer for player
+                ATPlayer atPlayer = ATPlayer.getPlayer(player);
 
-                        // Get the home location
-                        Location location = atPlayer.getHome("home").getLocation();
+                // Check if the sender has been invited
+                if (atPlayer.hasHome(args[0])) {
+                    Location location = atPlayer.getHome(args[0]).getLocation();
 
-                        // See if the player is already at his home post, if he has permission he can teleport
-                        if(location.getBlockX()==postX&&location.getBlockZ()==postZ&&!player.hasPermission("telepost.visit")){
-                            PostAPI.sendActionBarOrChat(player,PostAPI.getMessage("already-at-homepost"));
-                            return false;
-                        }
+                    // See if he wants to teleport to a post he is already in, if he has permission this has no effect
 
-                        // See if the config has the option set to true, in that case the teleport takes the player to the air
-                        if(instance.getConfig().getBoolean("tp-in-the-air")){
-                            height = 265;
-                        }else{
-                            // If the option is false, teleport them to the first block that is air
-                            height = PostAPI.getFirstSolidBlockHeight(location.getBlockX(),location.getBlockZ())+2;
-                        }
-
-                        Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
-                        String message = PostAPI.getMessage("own-homepost-arrival");
-                        // Launches a player to the sky
-                        PostAPI.launchAndTp(player,newlocation,message);
-
-                        if(player.getGameMode()== GameMode.SURVIVAL||player.getGameMode()==GameMode.ADVENTURE){
-                            if(instance.getConfig().getBoolean("tp-in-the-air")){
-                                instance.blockFall.add(player.getUniqueId());
-                            }
-                        }
-                        if(player.isGliding()){
-                            player.setGliding(false);
-                        }
-                        return true;
-                    }else{
-                        // Player does not have a home post yet
-                        player.sendMessage(PostAPI.getMessage("no-homepost"));
+                    if(location.getBlockX()==postX&&location.getBlockZ()==postZ&&!player.hasPermission("telepost.visit")){
+                        PostAPI.sendActionBarOrChat(player,PostAPI.getMessage("already-invited-post"));
                         return false;
                     }
-                }
-                // /visit <Player post>
 
-                // Check if player from (/visit <player>) is actually a player
-                if(!(Bukkit.getPlayer(args[0])==null)){
-
-                    // Get atPlayer for player
-                    ATPlayer atPlayer = ATPlayer.getPlayer(player);
-
-                    // Check if the sender has been invited
-                    if (atPlayer.hasHome(args[0])) {
-                        Location location = atPlayer.getHome(args[0]).getLocation();
-
-                        // See if he wants to teleport to a post he is already in, if he has permission this has no effect
-
-                        if(location.getBlockX()==postX&&location.getBlockZ()==postZ&&!player.hasPermission("telepost.visit")){
-                            PostAPI.sendActionBarOrChat(player,ChatColor.translateAlternateColorCodes('&',"&cYou are already at &6"+args[0]+"&c's home post."));
-                            return false;
-                        }
-
-                        // See if the config has the option set to true, in that case the teleport takes the player to the air
-                        if(instance.getConfig().getBoolean("tp-in-the-air")){
-                            height = 265;
-                        }else{
-                            // If the option is false, teleport them to the first block that is air
-                            height = PostAPI.getFirstSolidBlockHeight(location.getBlockX(),location.getBlockZ())+2;
-                        }
-
-                        Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
-                        String message = PostAPI.getMessage("named-post-arrival") + "&6" + args[0] + "&f's post.";
-                        // Launch the player is its true on config.yml
-                        PostAPI.launchAndTp(player,newlocation,message);
-
-                        if(player.getGameMode()== GameMode.SURVIVAL||player.getGameMode()==GameMode.ADVENTURE){
-                            if(instance.getConfig().getBoolean("tp-in-the-air")){
-                                instance.blockFall.add(player.getUniqueId());
-                            }
-                        }
-                        if(player.isGliding()){
-                            player.setGliding(false);
-                        }
-                        return true;
-                    }else {
-                        player.sendMessage(PostAPI.getMessage("visit-not-invited"));
-                        return false;
-
-                    }
+                    Location newlocation = new Location(world, location.getBlockX() + 0.5,265, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
+                    String message = PostAPI.getMessage("named-post-arrival") + "&6" + args[0] + "&f's post.";
+                    // Launch the player is its true on config.yml
+                    PostAPI.launchAndTp(player,newlocation,message);
+                    return true;
                 }else {
-
-
+                    player.sendMessage(PostAPI.getMessage("visit-not-invited"));
+                    return false;
 
                 }
-            }else{
+            }else {
 
-                // Command Usage (This command can't have usage: on plugin.yml because it relies on "return true/false;")
-                player.sendMessage(PostAPI.getMessage("visit-usage"));
+
+
             }
         }return false;
     }

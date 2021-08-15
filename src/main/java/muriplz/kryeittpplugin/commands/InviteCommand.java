@@ -27,43 +27,41 @@ public class InviteCommand implements CommandExecutor {
         } else {
             Player player = (Player) sender;
             ATPlayer atPlayer = ATPlayer.getPlayer(player);
-            if (command.getLabel().equalsIgnoreCase("invite")) {
-                if (args.length > 0) {
-                    if (Bukkit.getPlayer(args[0]) != null) {
-                        if (atPlayer.hasHome("home")) {
-                            Location location = atPlayer.getHome("home").getLocation();
-                            String arg = args[0];
-                            Player player2 = Bukkit.getPlayer(arg);
-                            if(player2==null){
-                                player.sendMessage(PostAPI.getMessage("not-found"));
-                                return false;
-                            }
-                            if(player==player2){
-                                player.sendMessage(PostAPI.getMessage("own-invite"));
-                                return false;
-                            }
-                            ATPlayer atPlayer2 = ATPlayer.getPlayer(player2);
-                            String postinvited = player.getName();
-                            atPlayer2.addHome(postinvited,location,null);
-                            PostAPI.sendMessage(player,"&fYou have invited &6"+player2.getName()+"&f to your home post.");
-                            PostAPI.sendMessage(player2,"&fYou have been invited by &6"+player.getName()+"&f use /v "+player.getName()+" to teleport.");
-                            final Timer timer = new Timer();
-                            timer.schedule(new TimerTask() {
-                                @Override
-                                public void run() {
-                                    atPlayer2.removeHome(postinvited,null);
-                                    PostAPI.sendMessage(player,"&6"+player2.getName()+PostAPI.getMessage("invite-expire"));
-                                    timer.cancel();
-                                }
-                            },300000);
-                            return true;
+
+            if (args.length == 1) {
+                if (Bukkit.getPlayer(args[0]) != null) {
+                    if (atPlayer.hasHome("home")) {
+                        Location location = atPlayer.getHome("home").getLocation();
+                        String arg = args[0];
+                        Player player2 = Bukkit.getPlayer(arg);
+                        if(player2==null){
+                            player.sendMessage(PostAPI.getMessage("not-found"));
+                            return false;
                         }
+                        if(player==player2){
+                            player.sendMessage(PostAPI.getMessage("own-invite"));
+                            return false;
+                        }
+                        ATPlayer atPlayer2 = ATPlayer.getPlayer(player2);
+                        String postinvited = player.getName();
+                        atPlayer2.addHome(postinvited,location,null);
+                        PostAPI.sendMessage(player,PostAPI.getMessage("inviting-part1")+player2.getName()+"&f.");
+                        PostAPI.sendMessage(player2,PostAPI.getMessage("invited-part1")+player.getName()+"&f.");
+                        final Timer timer = new Timer();
+                        timer.schedule(new TimerTask() {
+                            @Override
+                            public void run() {
+                                atPlayer2.removeHome(postinvited,null);
+                                PostAPI.sendMessage(player,"&6"+player2.getName()+PostAPI.getMessage("invite-expire"));
+                                timer.cancel();
+                            }
+                        },300000);
+                        return true;
                     }
                 }
             }
+            player.sendMessage(PostAPI.getMessage("invite-usage"));
         }
-        Player player = (Player) sender;
-        PostAPI.sendMessage(player,"&fUse /invite <Player>.");
         return true;
         }
     }

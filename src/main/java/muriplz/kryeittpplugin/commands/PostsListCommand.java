@@ -26,7 +26,8 @@ public class PostsListCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if(!(sender instanceof Player)) {
-            Bukkit.getConsoleSender().sendMessage(instance.name+"You can't execute this command from console.");
+            Bukkit.getConsoleSender().sendMessage(instance
+                    .name+"You can't execute this command from console.");
             return false;
         }else{
             // Get player
@@ -40,7 +41,7 @@ public class PostsListCommand implements CommandExecutor {
 
             // If there are no named posts (Warps) then just return false
             if(warpNames.isEmpty()) {
-                PostAPI.sendMessage(player,"&cThere are no named posts.");
+                player.sendMessage(PostAPI.getMessage("no-named-posts"));
                 return false;
             }
 

@@ -12,6 +12,7 @@ import org.bukkit.util.Vector;
 import java.util.*;
 
 public class PostAPI {
+
     public KryeitTPPlugin instance = KryeitTPPlugin.getInstance();
 
 
@@ -68,10 +69,30 @@ public class PostAPI {
         Objects.requireNonNull(Bukkit.getWorld("world")).getChunkAt(l.getBlockX(),l.getBlockZ()).load();
     }
     public static void launchAndTp( Player player , Location newlocation , String message ){
+
+        int height;
+        // See if the config has the option set to true, in that case the teleport takes the player to the air
+        if(!KryeitTPPlugin.getInstance().getConfig().getBoolean("tp-in-the-air")){
+            height = 265;
+        }else{
+            // If the option is false, teleport them to the first block that is air
+            height = PostAPI.getFirstSolidBlockHeight(newlocation.getBlockX(),newlocation.getBlockZ())+2;
+        }
+        newlocation.setY(height);
+
         if(player.getGameMode()==GameMode.CREATIVE||player.getGameMode()==GameMode.SPECTATOR){
             player.teleport(newlocation);
             PostAPI.playSoundAfterTp(player,newlocation);
             PostAPI.sendActionBarOrChat(player,message);
+            // Launches a player to the sky
+            if(player.getGameMode()== GameMode.SURVIVAL||player.getGameMode()==GameMode.ADVENTURE){
+                if(KryeitTPPlugin.getInstance().getConfig().getBoolean("tp-in-the-air")){
+                    KryeitTPPlugin.getInstance().blockFall.add(player.getUniqueId());
+                }
+            }
+            if(player.isGliding()){
+                player.setGliding(false);
+            }
             return;
         }
         if(KryeitTPPlugin.getInstance().getConfig().getBoolean("launch-feature")){
@@ -87,6 +108,16 @@ public class PostAPI {
             PostAPI.playSoundAfterTp(player,newlocation);
             PostAPI.sendActionBarOrChat(player,message);
         }
+        // Launches a player to the sky
+        if(player.getGameMode()== GameMode.SURVIVAL||player.getGameMode()==GameMode.ADVENTURE){
+            if(KryeitTPPlugin.getInstance().getConfig().getBoolean("tp-in-the-air")){
+                KryeitTPPlugin.getInstance().blockFall.add(player.getUniqueId());
+            }
+        }
+        if(player.isGliding()){
+            player.setGliding(false);
+        }
+
     }
 
 

@@ -51,7 +51,7 @@ public class RandomPostCommand implements CommandExecutor {
             int size = (int) worldBorder.getSize()/2;
 
             if ( size > 1000000) {
-                PostAPI.sendMessage(player,"The world border is too big or you have not set it right, use /worldborder set <Amount>.");
+                player.sendMessage(PostAPI.getMessage("worldborder-too-big"));
                 return false;
             }
 
@@ -69,10 +69,10 @@ public class RandomPostCommand implements CommandExecutor {
                 }
             }
             if(availablePosts.size()==0){
-                PostAPI.sendMessage(player,"&cThere are no available posts.");
+                player.sendMessage(PostAPI.getMessage("random-no-posts"));
                 return false;
             }else if(availablePosts.size()<5){
-                PostAPI.sendMessage(player,"&cThere is not enough posts to choose from.");
+                player.sendMessage(PostAPI.getMessage("random-not-enough-posts"));
             }
 
             Collections.shuffle(availablePosts);
@@ -82,17 +82,9 @@ public class RandomPostCommand implements CommandExecutor {
 
 
             Location l = availablePosts.get(index);
-            // See if the config has the option set to true, in that case the teleport takes the player to the air
-            if(instance.getConfig().getBoolean("tp-in-the-air")){
-                height = 265;
-            }else{
-                // If the option is false, teleport them to the first block that is air
-                height = PostAPI.getFirstSolidBlockHeight(l.getBlockX(),l.getBlockZ())+2;
-            }
             l.setX(l.getBlockX()+0.5);
             l.setZ(l.getBlockZ()+0.5);
-            l.setY(height);
-            PostAPI.launchAndTp(player,l,"&fYou have been teleported to a random post.");
+            PostAPI.launchAndTp(player,l,PostAPI.getMessage("random-tp"));
             instance.blockFall.add(player.getUniqueId());
 
             return true;

@@ -73,26 +73,9 @@ public class HomePostCommand implements CommandExecutor {
 
                 World world = player.getWorld();
 
-                // See if the config has the option set to true, in that case the teleport takes the player to the air
-                if(plugin.getConfig().getBoolean("tp-in-the-air")){
-                    height = 265;
-                }else{
-                    // If the option is false, teleport them to the first block that is air
-                    height = PostAPI.getFirstSolidBlockHeight(location.getBlockX(),location.getBlockZ())+2;
-                }
                 String message = PostAPI.getMessage("own-homepost-arrival");
-                Location newlocation = new Location(world, location.getBlockX() + 0.5, height, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
+                Location newlocation = new Location(world, location.getBlockX() + 0.5, 265, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                 PostAPI.launchAndTp(player,newlocation,message);
-
-                if(player.getGameMode()== GameMode.SURVIVAL||player.getGameMode()==GameMode.ADVENTURE){
-                    if(plugin.getConfig().getBoolean("tp-in-the-air")){
-                        plugin.blockFall.add(player.getUniqueId());
-                    }
-                }
-                if(player.isGliding()){
-                    player.setGliding(false);
-                }
-
                 return true;
             } else {
                 // Player does not have a homepost

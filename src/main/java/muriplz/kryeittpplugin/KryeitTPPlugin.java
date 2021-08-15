@@ -104,6 +104,8 @@ public class KryeitTPPlugin extends JavaPlugin {
 
                 addDefault("setpost-usage","Use /setpost.");
 
+                addDefault("invite-usage","&fUse /invite <Player>.");
+
                 addDefault("no-permission","&cYou don't have permission to use this command.");
 
                 addDefault("not-on-overworld","&cYou have to be in the Overworld to use this command.");
@@ -141,6 +143,27 @@ public class KryeitTPPlugin extends JavaPlugin {
                 addDefault("unname-named-post","&apost has been unnamed.");
 
                 addDefault("no-such-post","&cNo posts by that name.");
+
+                addDefault("random-tp","&fYou have been teleported to a random post.");
+
+                addDefault("already-invited-post","&cYou are already at his/her home post.");
+
+                addDefault("inviting","&fYou have invited &6");
+
+                addDefault("invited","&fYou have been invited by &6");
+
+                addDefault("nearest-already-named","&cThe nearest post is already named, it's &6");
+
+                addDefault("no-named-posts","&cThere are no named posts.");
+
+                addDefault("already-at-namedpost","&cYou are already in &6");
+
+                addDefault("random-not-enough-posts","&cThere is not enough posts to choose from.");
+
+                addDefault("random-no-posts","&cThere are no available posts.");
+
+                addDefault("worldborder-too-big","The world border is too big or you have not set it right, use /worldborder set <Amount>.");
+
             }
         };
         myMessagesFile.load();
