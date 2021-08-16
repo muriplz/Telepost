@@ -27,9 +27,9 @@ public class HomePostCommand implements CommandExecutor {
             // Getting the player and seeing if he's in the overworld
             Player player = (Player) sender;
 
-            // If the command is not /setpost ONLY then return false
+            // If the command is not /homepost ONLY then return false
             if(args.length!=0){
-                PostAPI.sendMessage(player,"Use /SetPost.");
+                player.sendMessage(PostAPI.getMessage("homepost-usage"));
                 return false;
             }
 

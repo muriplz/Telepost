@@ -41,19 +41,18 @@ public class NearestPostCommand implements CommandExecutor{
 
                 String postName = PostAPI.NearestPostName(player);
                 if(postName!=null){
-                    PostAPI.sendMessage(player,PostAPI.getMessage("nearestpost-message") + "(" + postX + " , " + postZ + ")&f, it's &6"+postName+"&f.");
-                }else{
-                    PostAPI.sendMessage(player,PostAPI.getMessage("nearestpost-message") + "(" + postX + " , " + postZ + ")&f.");
+                    player.sendMessage(PostAPI.getMessage("nearest-message-named").replace("%NEAREST_POST%","(" + postX + " , " + postZ + ")").replace("%POST_NAME%",postName));
+                }else {
+                    player.sendMessage(PostAPI.getMessage("nearest-message").replace("%NEAREST_POST%", "(" + postX + " , " + postZ + ")"));
                 }
-
             }else if (args.length==1) {
                 if(args[0].equals("on")) {
                     if (!instance.showNearest.contains(player.getUniqueId())){
                         String postName = PostAPI.NearestPostName(player);
                         if(postName!=null){
-                            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',"The nearest post is on: &6(" + postX + " , " + postZ + ")&f, it's &6"+postName+"&f.")));
+                            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(PostAPI.colour("The nearest post is on: &6(" + postX + " , " + postZ + ")&f, it's &6"+postName+"&f.")));
                         }else{
-                            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',"The nearest post is on: &6(" + postX + " , " + postZ + ")&f.")));
+                            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(PostAPI.colour("The nearest post is on: &6(" + postX + " , " + postZ + ")&f.")));
                         }
                         instance.showNearest.add(player.getUniqueId());
                     }else{

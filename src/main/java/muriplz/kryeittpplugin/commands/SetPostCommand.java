@@ -56,12 +56,12 @@ public class SetPostCommand implements CommandExecutor {
             // Moving the home if he already has one
             if (atPlayer.hasHome("home")) {
                 atPlayer.moveHome("home", location, null);
-                PostAPI.sendActionBarOrChat(player,PostAPI.getMessage("move-post-success")+"("+postX+","+postZ+")&f.");
+                PostAPI.sendActionBarOrChat(player,PostAPI.getMessage("move-post-success").replace("%NEAREST_POST%","("+postX+","+postZ+")"));
             }else{
 
                 // Setting the post for the first time
                 atPlayer.addHome("home", location, null);
-                PostAPI.sendActionBarOrChat(player,PostAPI.getMessage("set-post-success")+"("+postX+","+postZ+")&f.");
+                PostAPI.sendActionBarOrChat(player,PostAPI.getMessage("set-post-success").replace("%NEAREST_POST%","("+postX+","+postZ+")"));
             }
             return true;
         }

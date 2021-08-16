@@ -49,7 +49,7 @@ public class NamePostCommand implements CommandExecutor {
                 int postZ = nearestPost.getBlockZ();
 
                 if(Warp.getWarps().containsKey(args[0])){
-                    PostAPI.sendMessage(player,"&cThe post &6"+args[0]+"&c already exists.");
+                    player.sendMessage(PostAPI.getMessage("named-post-already-exists").replace("%NAMED_POST%",args[0]));
                     return false;
                 }
                 Location nearestpostLocation = new Location(player.getWorld(), postX , 265, postZ ,0,0);
@@ -57,7 +57,7 @@ public class NamePostCommand implements CommandExecutor {
                 Set<String> warpNames = warps.keySet();
                 for(String warpName: warpNames){
                     if(Warp.getWarps().get(warpName).getLocation().getBlockX()==postX&&Warp.getWarps().get(warpName).getLocation().getBlockZ()==postZ&&!instance.getConfig().getBoolean("multiple-names-per-post")){
-                        PostAPI.sendMessage(player,PostAPI.getMessage("nearest-already-named")+warpName+"&c.");
+                        player.sendMessage(PostAPI.getMessage("nearest-already-named").replace("%NAMED_POST%",warpName));
                         return false;
                     }
                 }
@@ -67,7 +67,7 @@ public class NamePostCommand implements CommandExecutor {
                         nearestpostLocation,
                         System.currentTimeMillis(),
                         System.currentTimeMillis()), callback ->
-                        PostAPI.sendMessage(player,"&fYou have named &6"+args[0]+"&f the nearest post."));
+                        player.sendMessage(PostAPI.getMessage("name-post").replace("%POST_NAME%",args[0])));
                 return true;
         }
         }

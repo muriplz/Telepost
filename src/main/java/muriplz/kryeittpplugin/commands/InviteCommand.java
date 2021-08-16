@@ -45,8 +45,8 @@ public class InviteCommand implements CommandExecutor {
                         ATPlayer atPlayer2 = ATPlayer.getPlayer(player2);
                         String postinvited = player.getName();
                         atPlayer2.addHome(postinvited,location,null);
-                        PostAPI.sendMessage(player,PostAPI.getMessage("inviting-part1")+player2.getName()+"&f.");
-                        PostAPI.sendMessage(player2,PostAPI.getMessage("invited-part1")+player.getName()+"&f.");
+                        PostAPI.sendMessage(player,PostAPI.getMessage("inviting").replace("%PLAYER_NAME%",player2.getName()));
+                        PostAPI.sendMessage(player2,PostAPI.getMessage("invited").replace("%PLAYER_NAME%",player.getName()));
                         final Timer timer = new Timer();
                         timer.schedule(new TimerTask() {
                             @Override

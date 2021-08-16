@@ -109,25 +109,31 @@ public class KryeitTPPlugin extends JavaPlugin {
 
                 addDefault("invite-usage","&fUse /invite <Player>.");
 
+                addDefault("homepost-usage","Use /HomePost.");
+
                 addDefault("no-permission","&cYou don't have permission to use this command.");
 
                 addDefault("not-on-overworld","&cYou have to be in the Overworld to use this command.");
 
-                addDefault("set-post-success","&fYou have successfully set your home post at: &6");
+                addDefault("set-post-success","&fYou have successfully set your home post at: &6%NEAREST_POST%&f.");
 
-                addDefault("move-post-success","&fYou have successfully move your home post at: &6");
+                addDefault("move-post-success","&fYou have successfully move your home post at: &6%NEAREST_POST%&f.");
 
                 addDefault("not-inside-post","&cYou have to be inside a post.");
 
                 addDefault("already-at-homepost","&cYou are already at your home post.");
 
-                addDefault("named-post-arrival","&fWelcome to ");
+                addDefault("named-post-arrival","&fWelcome to &6%NAMED_POST%&f.");
 
-                addDefault("own-homepost-arrival", "&fWelcome to your post.");
+                addDefault("invited-home-arrival","&fWelcome to &6%PLAYER_NAME%&f's home post.");
+
+                addDefault("own-homepost-arrival", "&fWelcome to your home post.");
 
                 addDefault("homepost-without-setpost","&fPlease, set a post with &6/SetPost&f first.");
 
-                addDefault("nearestpost-message","&fThe nearest post is on: &6");
+                addDefault("nearestpost-message","&fThe nearest post is on: &6%NEAREST_POST%&f.");
+
+                addDefault("nearest-message-named","&fThe nearest post is on: &6%NEAREST_POST%&f, it's &6%NAMED_POST%&f.");
 
                 addDefault("nearestpost-already-on","&cYou already have the option enabled.");
 
@@ -143,7 +149,7 @@ public class KryeitTPPlugin extends JavaPlugin {
 
                 addDefault("no-homepost","&cYou do not have a home post yet.");
 
-                addDefault("unname-named-post","&apost has been unnamed.");
+                addDefault("unname-named-post","&6%NAMED_POST% &apost has been unnamed.");
 
                 addDefault("no-such-post","&cNo posts by that name.");
 
@@ -151,15 +157,19 @@ public class KryeitTPPlugin extends JavaPlugin {
 
                 addDefault("already-invited-post","&cYou are already at his/her home post.");
 
-                addDefault("inviting","&fYou have invited &6");
+                addDefault("inviting","&fYou have invited &6%PLAYER_NAME%&f.");
 
-                addDefault("invited","&fYou have been invited by &6");
+                addDefault("invited","&fYou have been invited by &6%PLAYER_NAME%&f.");
 
-                addDefault("nearest-already-named","&cThe nearest post is already named, it's &6");
+                addDefault("nearest-already-named","&cThe nearest post is already named, it's &6%NAMED_POST%&c.");
 
                 addDefault("no-named-posts","&cThere are no named posts.");
 
-                addDefault("already-at-namedpost","&cYou are already in &6");
+                addDefault("name-post","&fYou have given the name &6%POST_NAME%&f to the nearest post.");
+
+                addDefault("named-post-already-exists","&cThe post &6%NAMED_POST%&c already exists.");
+
+                addDefault("already-at-namedpost","&cYou are already in&6 %NAMED_POST%&c.");
 
                 addDefault("random-not-enough-posts","&cThere is not enough posts to choose from.");
 

@@ -35,9 +35,7 @@ public class onPlayerMove implements Listener {
             }else if(plugin.counterNearest.get(index)<35){
                 plugin.counterNearest.add(index,plugin.counterNearest.get(index)+1);
             }else{
-
-                // get Distance between posts from config.yml
-                int gap = plugin.getConfig().getInt("distance-between-posts");
+                
                 // for the X axis
                 int originX = plugin.getConfig().getInt("post-x-location");
                 int postX = PostAPI.getNearPost(player.getLocation().getBlockX(),originX);
