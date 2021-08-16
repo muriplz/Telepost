@@ -1,5 +1,5 @@
 main: muriplz.kryeittpplugin.KryeitTPPlugin
-version: 5.4
+version: 6.0
 name: Telepost
 description: Posts to keep people connected!
 authors: [muriplz, BlockOG]

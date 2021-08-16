@@ -60,6 +60,9 @@ public class KryeitTPPlugin extends JavaPlugin {
         CMFile myConfigFile = new CMFile(this, "config") {
             @Override
             public void loadDefaults() {
+                addLink("GitHub","https://github.com/muriplz/Telepost");
+                addLink("Spigot","https://www.spigotmc.org/resources/telepost.91988");
+
                 addComment("This number has to be higher than 0. (default = 800 blocks)");
                 addDefault("distance-between-posts",800);
 
