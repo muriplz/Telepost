@@ -1,8 +1,9 @@
 main: muriplz.kryeittpplugin.KryeitTPPlugin
 version: 6.1
 name: Telepost
+load: POSTWORLD
 description: Posts to keep people connected!
-authors: [muriplz, BlockOG]
+authors: [MuriPlz, BlockOG]
 depend: [AdvancedTeleport]
 api-version: 1.17
 commands:

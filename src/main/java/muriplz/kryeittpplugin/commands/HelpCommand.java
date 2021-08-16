@@ -1,11 +1,6 @@
 package muriplz.kryeittpplugin.commands;
 
 import muriplz.kryeittpplugin.KryeitTPPlugin;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -17,15 +12,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 public class HelpCommand implements CommandExecutor {
-    public String changeColour(String message){
-        return ChatColor.translateAlternateColorCodes('&',message);
-    }
-    public void setTextComponent(String command, TextComponent textComponent) {
-        String commandString = "/posthelp " + command;
-        textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, commandString));
-        String hoverText = "Click to get more information about " + ChatColor.GOLD + "/" + command + ChatColor.WHITE + ".";
-        textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(hoverText)));
-    }
 
     public void sendMessage(Player player, String message) {
         PostAPI.sendMessage(player, message);
@@ -36,7 +22,7 @@ public class HelpCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!(sender instanceof Player)) {
-            Bukkit.getConsoleSender().sendMessage(plugin.name + "You can't execute this command from console.");
+            Bukkit.getConsoleSender().sendMessage(plugin.name + PostAPI.getMessage("cant-execute-from-console"));
             return false;
         } else {
             Player player = (Player) sender;

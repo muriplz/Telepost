@@ -7,7 +7,6 @@ import muriplz.kryeittpplugin.commands.*;
 import muriplz.kryeittpplugin.tabCompletion.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -24,7 +23,6 @@ public class KryeitTPPlugin extends JavaPlugin {
     public ArrayList<UUID> blockFall;
 
     PluginDescriptionFile pdffile = getDescription();
-    FileConfiguration config = this.getConfig();
     public String name = ChatColor.YELLOW+"["+ChatColor.WHITE+pdffile.getName()+ChatColor.YELLOW+"]";
     public String version = pdffile.getVersion();
 
@@ -99,83 +97,69 @@ public class KryeitTPPlugin extends JavaPlugin {
         CMFile myMessagesFile = new CMFile(this,"messages") {
             @Override
             public void loadDefaults() {
+                addLink("GitHub","https://github.com/muriplz/Telepost");
+                addLink("Spigot","https://www.spigotmc.org/resources/telepost.91988");
 
-
-                addDefault("namepost-usage","&fUse /NamePost <PostName> ( &7/posthelp namepost &ffor more info ).");
-
-                addDefault("visit-usage","&fUse /v <PostName/PlayerName> to visit a post.");
-
-                addDefault("setpost-usage","Use /setpost.");
-
+                addComment("Usage:");
+                addDefault("namepost-usage","&fUse /NamePost <PostName>.");
+                addDefault("visit-usage","&fUse /visit <PostName/PlayerName>.");
+                addDefault("setpost-usage","&fUse /setpost.");
                 addDefault("invite-usage","&fUse /invite <Player>.");
+                addDefault("homepost-usage","&fUse /HomePost.");
 
-                addDefault("homepost-usage","Use /HomePost.");
-
+                addComment("Global:");
+                addDefault("cant-execute-from-console","You can't execute this command from console.");
                 addDefault("no-permission","&cYou don't have permission to use this command.");
-
                 addDefault("not-on-overworld","&cYou have to be in the Overworld to use this command.");
-
-                addDefault("set-post-success","&fYou have successfully set your home post at: &6%NEAREST_POST%&f.");
-
-                addDefault("move-post-success","&fYou have successfully move your home post at: &6%NEAREST_POST%&f.");
-
                 addDefault("not-inside-post","&cYou have to be inside a post.");
 
+                addComment("/PostList:");
+                addDefault("named-posts-translation","&6Named posts");
+                addDefault("hover-postlist","&fClick to teleport to %NAMED_POST% post.\nThis post is at &6%POST_LOCATION%&f.");
+
+                addComment("/SetPost:");
+                addDefault("set-post-success","&fYou have successfully set your home post at: &6%POST_LOCATION%&f.");
+                addDefault("move-post-success","&fYou have successfully moved your home post at: &6%POST_LOCATION%&f.");
+
+                addComment("/HomePost or /Visit:");
                 addDefault("already-at-homepost","&cYou are already at your home post.");
-
                 addDefault("named-post-arrival","&fWelcome to &6%NAMED_POST%&f.");
-
                 addDefault("invited-home-arrival","&fWelcome to &6%PLAYER_NAME%&f's home post.");
-
                 addDefault("own-homepost-arrival", "&fWelcome to your home post.");
-
                 addDefault("homepost-without-setpost","&fPlease, set a post with &6/SetPost&f first.");
-
-                addDefault("nearestpost-message","&fThe nearest post is on: &6%NEAREST_POST%&f.");
-
-                addDefault("nearest-message-named","&fThe nearest post is on: &6%NEAREST_POST%&f, it's &6%NAMED_POST%&f.");
-
-                addDefault("nearestpost-already-on","&cYou already have the option enabled.");
-
-                addDefault("nearestpost-already-off","&cYou don't have the option enabled.");
-
-                addDefault("own-invite","&cYou can't invite yourself.");
-
-                addDefault("not-found", "&cPlayer not found.");
-
-                addDefault("invite-expire","&f does not have access to your home post anymore.");
-
                 addDefault("visit-not-invited","&cYou have not been invited.");
-
                 addDefault("no-homepost","&cYou do not have a home post yet.");
-
-                addDefault("unname-named-post","&6%NAMED_POST% &apost has been unnamed.");
-
-                addDefault("no-such-post","&cNo posts by that name.");
-
-                addDefault("random-tp","&fYou have been teleported to a random post.");
-
                 addDefault("already-invited-post","&cYou are already at his/her home post.");
-
-                addDefault("inviting","&fYou have invited &6%PLAYER_NAME%&f.");
-
-                addDefault("invited","&fYou have been invited by &6%PLAYER_NAME%&f.");
-
-                addDefault("nearest-already-named","&cThe nearest post is already named, it's &6%NAMED_POST%&c.");
-
-                addDefault("no-named-posts","&cThere are no named posts.");
-
-                addDefault("name-post","&fYou have given the name &6%POST_NAME%&f to the nearest post.");
-
-                addDefault("named-post-already-exists","&cThe post &6%NAMED_POST%&c already exists.");
-
                 addDefault("already-at-namedpost","&cYou are already in&6 %NAMED_POST%&c.");
 
+                addComment("/NearestPost:");
+                addDefault("nearestpost-message","&fThe nearest post is on: &6%POST_LOCATION%&f.");
+                addDefault("nearest-message-named","&fThe nearest post is on: &6%POST_LOCATION%&f, it's &6%NAMED_POST%&f.");
+                addDefault("nearestpost-already-on","&cYou already have the option enabled.");
+                addDefault("nearestpost-already-off","&cYou don't have the option enabled.");
+
+                addComment("/Invite:");
+                addDefault("own-invite","&cYou can't invite yourself.");
+                addDefault("not-found", "&cPlayer not found.");
+                addDefault("invite-expire","&6%PLAYER_NAME%&f does not have access to your home post anymore.");
+                addDefault("inviting","&fYou have invited &6%PLAYER_NAME%&f.");
+                addDefault("invited","&fYou have been invited by &6%PLAYER_NAME%&f.");
+
+                addComment("/UnnamePost:");
+                addDefault("unname-named-post","&6%NAMED_POST% &apost has been unnamed.");
+                addDefault("no-such-post","&cNo posts by that name.");
+
+                addComment("/NamePost:");
+                addDefault("nearest-already-named","&cThe nearest post is already named, it's &6%NAMED_POST%&c.");
+                addDefault("no-named-posts","&cThere are no named posts.");
+                addDefault("name-post","&fYou have given the name &6%POST_NAME%&f to the nearest post.");
+                addDefault("named-post-already-exists","&cThe post &6%NAMED_POST%&c already exists.");
+
+                addComment("/RandomPost");
+                addDefault("random-tp","&fYou have been teleported to a random post.");
                 addDefault("random-not-enough-posts","&cThere is not enough posts to choose from.");
-
                 addDefault("random-no-posts","&cThere are no available posts.");
-
-                addDefault("worldborder-too-big","The world border is too big or you have not set it right, use /worldborder set <Amount>.");
+                addDefault("worldborder-too-big","&fThe world border is too big or you have not set it right, use &6/worldborder set <Amount>&f.");
 
             }
         };

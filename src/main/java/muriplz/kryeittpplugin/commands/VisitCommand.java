@@ -2,9 +2,10 @@ package muriplz.kryeittpplugin.commands;
 
 import io.github.niestrat99.advancedteleport.api.ATPlayer;
 import io.github.niestrat99.advancedteleport.api.Warp;
-import javafx.geometry.Pos;
 import muriplz.kryeittpplugin.KryeitTPPlugin;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -21,7 +22,7 @@ public class VisitCommand implements CommandExecutor{
     //  This commands aims to be /visit in-game
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!(sender instanceof Player)) {
-            Bukkit.getConsoleSender().sendMessage(instance.name + "You can't execute this command from console.");
+            Bukkit.getConsoleSender().sendMessage(instance.name + PostAPI.getMessage("cant-execute-from-console"));
             return false;
         } else {
 

@@ -4,7 +4,6 @@ package muriplz.kryeittpplugin.commands;
 import io.github.niestrat99.advancedteleport.api.ATPlayer;
 import muriplz.kryeittpplugin.KryeitTPPlugin;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -22,7 +21,7 @@ public class SetPostCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
         if (!(sender instanceof Player)) {
-            Bukkit.getConsoleSender().sendMessage(instance.name + "You can't execute this command from console.");
+            Bukkit.getConsoleSender().sendMessage(instance.name + PostAPI.getMessage("cant-execute-from-console"));
             return false;
         } else {
 
@@ -56,12 +55,12 @@ public class SetPostCommand implements CommandExecutor {
             // Moving the home if he already has one
             if (atPlayer.hasHome("home")) {
                 atPlayer.moveHome("home", location, null);
-                PostAPI.sendActionBarOrChat(player,PostAPI.getMessage("move-post-success").replace("%NEAREST_POST%","("+postX+","+postZ+")"));
+                PostAPI.sendActionBarOrChat(player,PostAPI.getMessage("move-post-success").replace("%POST_LOCATION%","("+postX+","+postZ+")"));
             }else{
 
                 // Setting the post for the first time
                 atPlayer.addHome("home", location, null);
-                PostAPI.sendActionBarOrChat(player,PostAPI.getMessage("set-post-success").replace("%NEAREST_POST%","("+postX+","+postZ+")"));
+                PostAPI.sendActionBarOrChat(player,PostAPI.getMessage("set-post-success").replace("%POST_LOCATION%","("+postX+","+postZ+")"));
             }
             return true;
         }

@@ -1,7 +1,6 @@
 package muriplz.kryeittpplugin.commands;
 
 import muriplz.kryeittpplugin.KryeitTPPlugin;
-import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -50,9 +49,9 @@ public class NearestPostCommand implements CommandExecutor{
                     if (!instance.showNearest.contains(player.getUniqueId())){
                         String postName = PostAPI.NearestPostName(player);
                         if(postName!=null){
-                            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(PostAPI.colour("The nearest post is on: &6(" + postX + " , " + postZ + ")&f, it's &6"+postName+"&f.")));
+                            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(PostAPI.getMessage("nearest-message-named").replace("%POST_LOCATION%","(" + postX + " , " + postZ + ")").replace("%POST_NAME%",postName)));
                         }else{
-                            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(PostAPI.colour("The nearest post is on: &6(" + postX + " , " + postZ + ")&f.")));
+                            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(PostAPI.getMessage("nearest-message").replace("%POST_LOCATION%", "(" + postX + " , " + postZ + ")")));
                         }
                         instance.showNearest.add(player.getUniqueId());
                     }else{

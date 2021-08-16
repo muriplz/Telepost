@@ -1,7 +1,6 @@
 package muriplz.kryeittpplugin.commands;
 
 import io.github.niestrat99.advancedteleport.api.ATPlayer;
-import javafx.geometry.Pos;
 import muriplz.kryeittpplugin.KryeitTPPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -52,7 +51,7 @@ public class InviteCommand implements CommandExecutor {
                             @Override
                             public void run() {
                                 atPlayer2.removeHome(postinvited,null);
-                                PostAPI.sendMessage(player,"&6"+player2.getName()+PostAPI.getMessage("invite-expire"));
+                                player.sendMessage(PostAPI.getMessage("invite-expire").replace("%PLAYER_NAME%",player2.getName()));
                                 timer.cancel();
                             }
                         },300000);

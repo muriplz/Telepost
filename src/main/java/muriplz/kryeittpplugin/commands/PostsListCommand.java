@@ -54,13 +54,12 @@ public class PostsListCommand implements CommandExecutor {
 
             // Header
             if(Warp.getWarps().size()<9){
-                messagePosts.addExtra(ChatColor.GOLD+"Named posts: ");
+                messagePosts.addExtra(PostAPI.getMessage("named-posts-translation")+":");
             }else{
-                PostAPI.sendMessage(player, "&6-----------------------------------------------------");
-                PostAPI.sendMessage(player, "                                 &6Named posts ");
-                PostAPI.sendMessage(player, "&6-----------------------------------------------------");
+                PostAPI.sendMessage(player, "&7-----------------------------------------------------");
+                PostAPI.sendMessage(player, "                                 "+PostAPI.getMessage("named-posts-translation")+" ");
+                PostAPI.sendMessage(player, "&7-----------------------------------------------------");
             }
-
 
             // Sort all warp names
             java.util.Collections.sort(allWarpNames);
@@ -72,17 +71,17 @@ public class PostsListCommand implements CommandExecutor {
             // Add to messagePosts all components to teleport to every warp
             for (String warpName : allWarpNames) {
                 message = new TextComponent(" " +ChatColor.WHITE+ warpName);
-                commandString = "/v " + warpName;
+                commandString = "/visit " + warpName;
                 message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, commandString ));
                 Location loc = Warp.getWarps().get(warpName).getLocation();
-                hoverText = "Click to teleport to " + warpName + " post.\nThis post is at "+ChatColor.GOLD+"("+loc.getBlockX()+" , "+loc.getBlockZ()+")"+ChatColor.WHITE+".";
+                hoverText = PostAPI.getMessage("hover-postlist").replace("%NAMED_POST%",warpName).replace("%POST_LOCATION%","("+loc.getBlockX()+" , "+loc.getBlockZ()+")");
                 message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(hoverText)));
                 messagePosts.addExtra(message);
             }
             // Send the message with the Text components to the player
             player.spigot().sendMessage(messagePosts);
             if(Warp.getWarps().size()>=9){
-                PostAPI.sendMessage(player, "&6-----------------------------------------------------");
+                PostAPI.sendMessage(player, "&7-----------------------------------------------------");
             }
             return true;
         }

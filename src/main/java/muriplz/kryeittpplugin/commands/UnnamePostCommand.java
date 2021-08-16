@@ -24,7 +24,7 @@ public class UnnamePostCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if( ! ( sender instanceof Player)) {
-            Bukkit.getConsoleSender().sendMessage(instance.name+"You can't execute this command from console.");
+            Bukkit.getConsoleSender().sendMessage(instance.name+PostAPI.getMessage("cant-execute-from-console"));
         }else {
             Player player = (Player) sender;
 
