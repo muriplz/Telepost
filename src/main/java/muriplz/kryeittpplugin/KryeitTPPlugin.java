@@ -14,6 +14,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -23,6 +24,7 @@ public class KryeitTPPlugin extends JavaPlugin {
     public ArrayList<UUID> showNearest;
     public ArrayList<UUID> blockFall;
     public int counter;
+    public HashMap<UUID,String> PAPIsupport;
 
     PluginDescriptionFile pdffile = getDescription();
     public String name = ChatColor.YELLOW+"["+ChatColor.WHITE+pdffile.getName()+ChatColor.YELLOW+"]";
@@ -49,9 +51,7 @@ public class KryeitTPPlugin extends JavaPlugin {
         loadMessages();
 
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
-            if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
-                Bukkit.getPluginManager().registerEvents(new onPlayerMovePAPI(),this);
-            }
+            Bukkit.getPluginManager().registerEvents(new onPlayerMovePAPI(),this);
         }
 
         // Plugin activated at this point
@@ -191,6 +191,7 @@ public class KryeitTPPlugin extends JavaPlugin {
         showNearest = new ArrayList<>();
         counterNearest = new ArrayList<>();
         counter=0;
+        PAPIsupport = new HashMap<>();
     }
 
     public void registerCommands() {
