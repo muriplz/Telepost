@@ -1,6 +1,5 @@
 package muriplz.kryeittpplugin.Listeners;
 
-import me.clip.placeholderapi.PlaceholderAPI;
 import muriplz.kryeittpplugin.KryeitTPPlugin;
 import muriplz.kryeittpplugin.commands.PostAPI;
 import org.bukkit.entity.Player;

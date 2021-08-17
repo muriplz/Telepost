@@ -1,6 +1,5 @@
 package muriplz.kryeittpplugin.Listeners;
 
-import javafx.scene.layout.Priority;
 import muriplz.kryeittpplugin.KryeitTPPlugin;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;

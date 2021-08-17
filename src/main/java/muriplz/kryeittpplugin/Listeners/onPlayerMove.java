@@ -1,9 +1,7 @@
 package muriplz.kryeittpplugin.Listeners;
 
-import me.clip.placeholderapi.PlaceholderAPI;
 import muriplz.kryeittpplugin.KryeitTPPlugin;
 import muriplz.kryeittpplugin.commands.PostAPI;
-import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;

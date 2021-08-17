@@ -2,7 +2,6 @@ package muriplz.kryeittpplugin;
 
 
 import io.github.thatsmusic99.configurationmaster.CMFile;
-import me.clip.placeholderapi.PlaceholderAPI;
 import muriplz.kryeittpplugin.Listeners.*;
 import muriplz.kryeittpplugin.commands.*;
 import muriplz.kryeittpplugin.tabCompletion.*;
@@ -33,6 +32,7 @@ public class KryeitTPPlugin extends JavaPlugin {
     public static KryeitTPPlugin instance;
 
     public void onEnable(){
+        
         // All global lists
         telepostData();
 
