@@ -1,11 +1,12 @@
 main: muriplz.kryeittpplugin.KryeitTPPlugin
-version: 6.2
+version: 6.2.1
 name: Telepost
 load: POSTWORLD
 description: Posts to keep people connected!
 authors: [MuriPlz, BlockOG]
 depend: [AdvancedTeleport]
 api-version: 1.16
+softdepend: [PlaceholderAPI]
 commands:
   nearestpost:
     description: gets the nearest post location.

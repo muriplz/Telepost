@@ -40,9 +40,9 @@ public class NearestPostCommand implements CommandExecutor{
 
                 String postName = PostAPI.NearestPostName(player);
                 if(postName!=null){
-                    player.sendMessage(PostAPI.getMessage("nearest-message-named").replace("%NEAREST_POST%","(" + postX + " , " + postZ + ")").replace("%POST_NAME%",postName));
+                    player.sendMessage(PostAPI.getMessage("nearest-message-named").replace("%POST_LOCATION%","(" + postX + " , " + postZ + ")").replace("%POST_NAME%",postName));
                 }else {
-                    player.sendMessage(PostAPI.getMessage("nearest-message").replace("%NEAREST_POST%", "(" + postX + " , " + postZ + ")"));
+                    player.sendMessage(PostAPI.getMessage("nearest-message").replace("%POST_LOCATION%", "(" + postX + " , " + postZ + ")"));
                 }
             }else if (args.length==1) {
                 if(args[0].equals("on")) {

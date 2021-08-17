@@ -1,5 +1,6 @@
 package muriplz.kryeittpplugin.Listeners;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import muriplz.kryeittpplugin.KryeitTPPlugin;
 import muriplz.kryeittpplugin.commands.PostAPI;
 import net.md_5.bungee.api.ChatColor;
@@ -22,6 +23,10 @@ public class onPlayerMove implements Listener {
         Player player = event.getPlayer();
         Material material = player.getLocation().getBlock().getType();
 
+
+
+
+
         if(Objects.requireNonNull(Bukkit.getEntity(player.getUniqueId())).isOnGround()){
             plugin.blockFall.remove(player.getUniqueId());
         }
@@ -32,10 +37,10 @@ public class onPlayerMove implements Listener {
             int index = plugin.showNearest.indexOf(player.getUniqueId());
             if(plugin.counterNearest.isEmpty()){
                 plugin.counterNearest.add(index,1);
-            }else if(plugin.counterNearest.get(index)<35){
+            }else if(plugin.counterNearest.get(index)<27){
                 plugin.counterNearest.add(index,plugin.counterNearest.get(index)+1);
             }else{
-                
+
                 // for the X axis
                 int originX = plugin.getConfig().getInt("post-x-location");
                 int postX = PostAPI.getNearPost(player.getLocation().getBlockX(),originX);
@@ -44,13 +49,18 @@ public class onPlayerMove implements Listener {
                 int postZ = PostAPI.getNearPost(player.getLocation().getBlockZ(),originZ);
 
                 String postName = PostAPI.NearestPostName(player);
+
+
                 if(postName!=null){
-                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',"The nearest post is on: &6(" + postX + " , " + postZ + ")&f, it's &6"+postName+"&f.")));
+                    sendActionbar(player,PostAPI.getMessage("nearest-message-named").replace("%POST_LOCATION%","(" + postX + " , " + postZ + ")").replace("%POST_NAME%",postName));
                 }else{
-                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',"The nearest post is on: &6(" + postX + " , " + postZ + ")&f.")));
+                    sendActionbar(player,PostAPI.getMessage("nearest-message").replace("%POST_LOCATION%", "(" + postX + " , " + postZ + ")"));
                 }
                 plugin.counterNearest.add(index,0);
             }
         }
+    }
+    public void sendActionbar(Player player,String message){
+        player.spigot().sendMessage(ChatMessageType.ACTION_BAR,TextComponent.fromLegacyText(message));
     }
 }

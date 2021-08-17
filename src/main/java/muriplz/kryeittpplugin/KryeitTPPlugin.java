@@ -2,6 +2,7 @@ package muriplz.kryeittpplugin;
 
 
 import io.github.thatsmusic99.configurationmaster.CMFile;
+import me.clip.placeholderapi.PlaceholderAPI;
 import muriplz.kryeittpplugin.Listeners.*;
 import muriplz.kryeittpplugin.commands.*;
 import muriplz.kryeittpplugin.tabCompletion.*;
@@ -21,6 +22,7 @@ public class KryeitTPPlugin extends JavaPlugin {
     public ArrayList<Integer> counterNearest;
     public ArrayList<UUID> showNearest;
     public ArrayList<UUID> blockFall;
+    public int counter;
 
     PluginDescriptionFile pdffile = getDescription();
     public String name = ChatColor.YELLOW+"["+ChatColor.WHITE+pdffile.getName()+ChatColor.YELLOW+"]";
@@ -45,6 +47,12 @@ public class KryeitTPPlugin extends JavaPlugin {
 
         // Set the messages.yml file
         loadMessages();
+
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+                Bukkit.getPluginManager().registerEvents(new onPlayerMovePAPI(),this);
+            }
+        }
 
         // Plugin activated at this point
         Bukkit.getConsoleSender().sendMessage(name+ChatColor.GRAY+" The plugin has been activated. Version: "+ChatColor.GREEN+version);
@@ -182,6 +190,7 @@ public class KryeitTPPlugin extends JavaPlugin {
         blockFall = new ArrayList<>();
         showNearest = new ArrayList<>();
         counterNearest = new ArrayList<>();
+        counter=0;
     }
 
     public void registerCommands() {
