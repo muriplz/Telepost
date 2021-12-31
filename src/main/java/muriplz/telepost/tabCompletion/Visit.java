@@ -1,4 +1,4 @@
-package muriplz.kryeittpplugin.tabCompletion;
+package muriplz.telepost.tabCompletion;
 
 import io.github.niestrat99.advancedteleport.api.ATPlayer;
 import io.github.niestrat99.advancedteleport.api.Warp;
@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-public class VisitTab implements TabCompleter {
+public class Visit implements TabCompleter {
 
     @Nullable
     @Override

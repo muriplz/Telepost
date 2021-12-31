@@ -1,8 +1,8 @@
-package muriplz.kryeittpplugin.commands;
+package muriplz.telepost.commands;
 
 
 import io.github.niestrat99.advancedteleport.api.ATPlayer;
-import muriplz.kryeittpplugin.KryeitTPPlugin;
+import muriplz.telepost.Telepost;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -12,9 +12,9 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 
-public class SetPostCommand implements CommandExecutor {
+public class SetPost implements CommandExecutor {
 
-    public KryeitTPPlugin instance = KryeitTPPlugin.getInstance();
+    public Telepost instance = Telepost.getInstance();
 
 
     //  This commands aims to be /SetPost in-game

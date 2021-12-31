@@ -1,9 +1,10 @@
-package muriplz.kryeittpplugin.commands;
+package muriplz.telepost.commands;
 
 import io.github.niestrat99.advancedteleport.api.ATPlayer;
 import io.github.niestrat99.advancedteleport.api.Warp;
-import muriplz.kryeittpplugin.KryeitTPPlugin;
+import muriplz.telepost.Telepost;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.Command;
@@ -15,9 +16,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 
-public class VisitCommand implements CommandExecutor{
+public class Visit implements CommandExecutor{
 
-    public KryeitTPPlugin instance = KryeitTPPlugin.getInstance();
+    public Telepost instance = Telepost.getInstance();
 
     //  This commands aims to be /visit in-game
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -40,7 +41,7 @@ public class VisitCommand implements CommandExecutor{
             World world = player.getWorld();
 
             // Checking if the player is on the Overworld, if not stop the command
-            if(!player.getWorld().getName().equals("world")){
+            if(!world.getName().equals("world")){
                 player.sendMessage(PostAPI.getMessage("not-on-overworld"));
                 return false;
             }
@@ -61,7 +62,7 @@ public class VisitCommand implements CommandExecutor{
             int postZ = nearestPost.getBlockZ();
 
             // If the player is not on the ground stop the command
-            if(!Objects.requireNonNull(Bukkit.getEntity(player.getUniqueId())).isOnGround()&&!player.hasPermission("telepost.visit")){
+            if(!Objects.requireNonNull(Bukkit.getEntity(player.getUniqueId())).isOnGround()&&player.getGameMode()!= GameMode.CREATIVE&&player.getGameMode()!=GameMode.SPECTATOR){
                 return false;
             }
 
@@ -98,11 +99,11 @@ public class VisitCommand implements CommandExecutor{
 
                 return true;
             }
+            // Get the atPlayer
+            ATPlayer atPlayer = ATPlayer.getPlayer(player);
+
             // /v <Yourself> which is the same as /homepost
             if(player.getName().equals(args[0])){
-
-                // Get the atPlayer
-                ATPlayer atPlayer = ATPlayer.getPlayer(player);
 
                 // If player already has a home
                 if(atPlayer.hasHome("home")){
@@ -128,19 +129,16 @@ public class VisitCommand implements CommandExecutor{
                     return false;
                 }
             }
-            // /visit <Player post>
+            // /visit <Player>
 
             // Check if player from (/visit <player>) is actually a player
             if(!(Bukkit.getPlayer(args[0])==null)){
-
-                // Get atPlayer for player
-                ATPlayer atPlayer = ATPlayer.getPlayer(player);
 
                 // Check if the sender has been invited
                 if (atPlayer.hasHome(args[0])) {
                     Location location = atPlayer.getHome(args[0]).getLocation();
 
-                    // See if he wants to teleport to a post he is already in, if he has permission this has no effect
+                    // See if he wants to teleport to a post he is already in. If he has permission this has no effect
 
                     if(location.getBlockX()==postX&&location.getBlockZ()==postZ&&!player.hasPermission("telepost.visit")){
                         PostAPI.sendActionBarOrChat(player,PostAPI.getMessage("already-invited-post"));
@@ -154,13 +152,9 @@ public class VisitCommand implements CommandExecutor{
                     return true;
                 }else {
                     player.sendMessage(PostAPI.getMessage("visit-not-invited"));
-                    return false;
-
                 }
             }else {
-
-
-
+                player.sendMessage(PostAPI.getMessage("unknown-post"));
             }
         }return false;
     }

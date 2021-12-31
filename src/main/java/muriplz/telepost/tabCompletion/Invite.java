@@ -1,4 +1,4 @@
-package muriplz.kryeittpplugin.tabCompletion;
+package muriplz.telepost.tabCompletion;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InviteTab implements TabCompleter {
+public class Invite implements TabCompleter {
 
     @Nullable
     @Override

@@ -1,6 +1,6 @@
-package muriplz.kryeittpplugin.Listeners;
+package muriplz.telepost.Listeners;
 
-import muriplz.kryeittpplugin.KryeitTPPlugin;
+import muriplz.telepost.Telepost;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -8,7 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityToggleGlideEvent;
 
 public class onGlide implements Listener {
-    public KryeitTPPlugin instance = KryeitTPPlugin.getInstance();
+    public Telepost instance = Telepost.getInstance();
 
     @EventHandler
     public void preventGliding(EntityToggleGlideEvent event) {

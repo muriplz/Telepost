@@ -1,6 +1,6 @@
-package muriplz.kryeittpplugin.commands;
+package muriplz.telepost.commands;
 
-import muriplz.kryeittpplugin.KryeitTPPlugin;
+import muriplz.telepost.Telepost;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.WorldBorder;
@@ -12,9 +12,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-public class RandomPostCommand implements CommandExecutor {
+public class RandomPost implements CommandExecutor {
 
-    public KryeitTPPlugin instance = KryeitTPPlugin.getInstance();
+    public Telepost instance = Telepost.getInstance();
 
 
     @Override

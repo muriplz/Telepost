@@ -1,7 +1,7 @@
-package muriplz.kryeittpplugin.commands;
+package muriplz.telepost.commands;
 
 import io.github.niestrat99.advancedteleport.api.Warp;
-import muriplz.kryeittpplugin.KryeitTPPlugin;
+import muriplz.telepost.Telepost;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -20,8 +20,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-public class PostsListCommand implements CommandExecutor {
-    public KryeitTPPlugin instance = KryeitTPPlugin.getInstance();
+public class PostsList implements CommandExecutor {
+    public Telepost instance = Telepost.getInstance();
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {

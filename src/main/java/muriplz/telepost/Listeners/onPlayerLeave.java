@@ -1,6 +1,6 @@
-package muriplz.kryeittpplugin.Listeners;
+package muriplz.telepost.Listeners;
 
-import muriplz.kryeittpplugin.KryeitTPPlugin;
+import muriplz.telepost.Telepost;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -8,7 +8,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import java.util.UUID;
 
 public class onPlayerLeave implements Listener {
-    public KryeitTPPlugin plugin = KryeitTPPlugin.getInstance();
+    public Telepost plugin = Telepost.getInstance();
 
     public void onPlayerQuit(PlayerQuitEvent e){
         if(e instanceof Player){

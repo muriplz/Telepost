@@ -1,4 +1,4 @@
-package muriplz.kryeittpplugin.tabCompletion;
+package muriplz.telepost.tabCompletion;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -9,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReturnNullTab implements TabCompleter {
+public class ReturnEmpty implements TabCompleter {
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {

@@ -1,11 +1,12 @@
-package muriplz.kryeittpplugin.commands;
+package muriplz.telepost.commands;
 
 import io.github.niestrat99.advancedteleport.api.ATPlayer;
 import io.github.niestrat99.advancedteleport.api.Warp;
-import muriplz.kryeittpplugin.KryeitTPPlugin;
+import muriplz.telepost.Telepost;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -13,22 +14,22 @@ import java.util.*;
 
 public class PostAPI {
 
-    public KryeitTPPlugin instance = KryeitTPPlugin.getInstance();
+    public Telepost instance = Telepost.getInstance();
 
 
     public static Location getNearPostLocation ( Player player ) {
         // for the X axis
-        int originX = KryeitTPPlugin.getInstance().getConfig().getInt("post-x-location");
+        int originX = Telepost.getInstance().getConfig().getInt("post-x-location");
         int postX = PostAPI.getNearPost(player.getLocation().getBlockX(),originX);
 
         // for the Z axis
-        int originZ = KryeitTPPlugin.getInstance().getConfig().getInt("post-z-location");
+        int originZ = Telepost.getInstance().getConfig().getInt("post-z-location");
         int postZ = PostAPI.getNearPost(player.getLocation().getBlockZ(),originZ);
         return new Location(player.getWorld(),postX,265,postZ);
     }
 
     public static int getNearPost( int playerXorZ,int origin) {
-        int gap = KryeitTPPlugin.getInstance().getConfig().getInt("distance-between-posts");
+        int gap = Telepost.getInstance().getConfig().getInt("distance-between-posts");
 
         // Subtracting origin of posts to get correct calculation
         playerXorZ -= origin;
@@ -56,12 +57,76 @@ public class PostAPI {
         player.sendMessage( ChatColor.translateAlternateColorCodes( '&' , message ) );
     }
     public static void sendActionBarOrChat( Player player , String message ){
-        message = colour(message);
         // This will send the message on the action bar, if the option is enabled on config.yml
-        if(KryeitTPPlugin.getInstance().getConfig().getBoolean("send-arrival-messages-on-action-bar")){
+        if(Telepost.getInstance().getConfig().getBoolean("send-arrival-messages-on-action-bar")){
             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
         }else{
-            PostAPI.sendMessage(player,message);
+            player.sendMessage(message);
+        }
+    }
+
+    public static void buildAPost(Location l){
+        Material base = Material.getMaterial(Objects.requireNonNull(Telepost.getInstance().getConfig().getString("base-material")));
+        Material pilar = Material.getMaterial(Objects.requireNonNull(Telepost.getInstance().getConfig().getString("pillar-material")));
+
+
+        int width = (Telepost.getInstance().getConfig().getInt("post-width")-1)/2;
+
+        int height = getFirstSolidBlockHeight(l.getBlockX(),l.getBlockZ());
+
+        clearPostVolume(l);
+
+        for(int i = l.getBlockX()-width ; i<= l.getBlockX()+width;i++){
+            for(int j = l.getBlockZ()-width;j<=l.getBlockZ()+width;j++){
+                Location loc = new Location(Bukkit.getWorld("world"),i,height,j);
+                Block block = loc.getBlock();
+                block.setType(base);
+            }
+        }
+        l.setY(height+1);
+        for(int i=1;i<4;i++){
+            l.getBlock().setType(pilar);
+            l.setY(l.getBlockY()+1);
+
+        }
+    }
+
+    public static void buildAllPosts(){
+        int i = 1;
+        for(Location l : getAllPostLocations()){
+            final Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    if(!l.getChunk().isLoaded()){
+                        l.getChunk().load();
+                    }
+                    buildAPost(l);
+                    l.getChunk().unload();
+                    Bukkit.getConsoleSender().sendMessage("Post built on: "+"("+l.getBlockX()+" , "+l.getBlockZ()+").");
+                }
+            }, 300L *i);
+            i+=1;
+
+
+        }
+    }
+
+    public static void clearPostVolume(Location l){
+        int width = (Telepost.getInstance().getConfig().getInt("post-width")-1)/2;
+
+        int height = getFirstSolidBlockHeight(l.getBlockX(),l.getBlockZ());
+
+        for(int i = l.getBlockX()-width ; i<= l.getBlockX()+width;i++){
+            for(int j = l.getBlockZ()-width;j<=l.getBlockZ()+width;j++){
+                for(int k = height; k<=265;k++){
+                    Location loc = new Location(Bukkit.getWorld("world"),i,k,j);
+                    Block block = loc.getBlock();
+                    if(!(block.getType()==Material.AIR)){
+                        block.setType(Material.AIR);
+                    }
+                }
+            }
         }
     }
 
@@ -72,7 +137,7 @@ public class PostAPI {
 
         int height;
         // See if the config has the option set to true, in that case the teleport takes the player to the air
-        if(!KryeitTPPlugin.getInstance().getConfig().getBoolean("tp-in-the-air")){
+        if(Telepost.getInstance().getConfig().getBoolean("tp-in-the-air")){
             height = 265;
         }else{
             // If the option is false, teleport them to the first block that is air
@@ -86,8 +151,8 @@ public class PostAPI {
             PostAPI.sendActionBarOrChat(player,message);
             // Launches a player to the sky
             if(player.getGameMode()== GameMode.SURVIVAL||player.getGameMode()==GameMode.ADVENTURE){
-                if(KryeitTPPlugin.getInstance().getConfig().getBoolean("tp-in-the-air")){
-                    KryeitTPPlugin.getInstance().blockFall.add(player.getUniqueId());
+                if(Telepost.getInstance().getConfig().getBoolean("tp-in-the-air")){
+                    Telepost.getInstance().blockFall.add(player.getUniqueId());
                 }
             }
             if(player.isGliding()){
@@ -95,9 +160,9 @@ public class PostAPI {
             }
             return;
         }
-        if(KryeitTPPlugin.getInstance().getConfig().getBoolean("launch-feature")){
+        if(Telepost.getInstance().getConfig().getBoolean("launch-feature")){
             player.setVelocity(new Vector(0,10,0));
-            Bukkit.getScheduler().runTaskLater(KryeitTPPlugin.getInstance(), () -> {
+            Bukkit.getScheduler().runTaskLater(Telepost.getInstance(), () -> {
                 Location location = new Location( player.getWorld() , newlocation.getBlockX() + 0.5 , newlocation.getBlockY() , newlocation.getBlockZ() + 0.5 , player.getLocation().getYaw() , player.getLocation().getPitch() );
                 player.teleport(location);
                 playSoundAfterTp(player,location);
@@ -110,8 +175,8 @@ public class PostAPI {
         }
         // Launches a player to the sky
         if(player.getGameMode()== GameMode.SURVIVAL||player.getGameMode()==GameMode.ADVENTURE){
-            if(KryeitTPPlugin.getInstance().getConfig().getBoolean("tp-in-the-air")){
-                KryeitTPPlugin.getInstance().blockFall.add(player.getUniqueId());
+            if(Telepost.getInstance().getConfig().getBoolean("tp-in-the-air")){
+                Telepost.getInstance().blockFall.add(player.getUniqueId());
             }
         }
         if(player.isGliding()){
@@ -123,19 +188,19 @@ public class PostAPI {
 
 
     public static String NearestPostName ( Player player ){
-        if(KryeitTPPlugin.getInstance().getConfig().getBoolean("multiple-names-per-post")){
+        if(Telepost.getInstance().getConfig().getBoolean("multiple-names-per-post")){
             return null;
         }
 
-        int postX = PostAPI.getNearPost(player.getLocation().getBlockX(),KryeitTPPlugin.getInstance().getConfig().getInt("post-x-location"));
-        int postZ = PostAPI.getNearPost(player.getLocation().getBlockZ(),KryeitTPPlugin.getInstance().getConfig().getInt("post-z-location"));
+        int postX = PostAPI.getNearPost(player.getLocation().getBlockX(), Telepost.getInstance().getConfig().getInt("post-x-location"));
+        int postZ = PostAPI.getNearPost(player.getLocation().getBlockZ(), Telepost.getInstance().getConfig().getInt("post-z-location"));
 
         HashMap<String, Warp> warps = Warp.getWarps();
         Set<String> warpNames = warps.keySet();
 
         for(String warpName: warpNames){
             Location postLocation = Warp.getWarps().get(warpName).getLocation();
-            if( postLocation.getBlockX()==postX && postLocation.getBlockZ()==postZ && !KryeitTPPlugin.getInstance().getConfig().getBoolean("multiple-names-per-post")){
+            if( postLocation.getBlockX()==postX && postLocation.getBlockZ()==postZ && !Telepost.getInstance().getConfig().getBoolean("multiple-names-per-post")){
                 return warpName;
             }
         }
@@ -143,9 +208,9 @@ public class PostAPI {
     }
 
     public static boolean isPlayerOnPost ( Player player ) {
-        int width = (KryeitTPPlugin.getInstance().getConfig().getInt("post-width")-1)/2;
-        int originX = KryeitTPPlugin.getInstance().getConfig().getInt("post-x-location");
-        int originZ = KryeitTPPlugin.getInstance().getConfig().getInt("post-z-location");
+        int width = (Telepost.getInstance().getConfig().getInt("post-width")-1)/2;
+        int originX = Telepost.getInstance().getConfig().getInt("post-x-location");
+        int originZ = Telepost.getInstance().getConfig().getInt("post-z-location");
         // Getting the cords of nearest post to the player
         int postX = PostAPI.getNearPost(player.getLocation().getBlockX(),originX);
         int postZ = PostAPI.getNearPost(player.getLocation().getBlockZ(),originZ);
@@ -164,9 +229,19 @@ public class PostAPI {
         // Looping down and searching for a solid block or water or lava
         while (true){
             Location l = new Location(Bukkit.getWorld("world"), X, height, Z);
-            if(l.getBlock().getType().isSolid() || l.getBlock().getType().equals(Material.WATER) || l.getBlock().getType().equals(Material.LAVA)){
+            Block block = l.getBlock();
+            Material material = block.getType();
+            if(material.equals(Material.WATER) || material.equals(Material.LAVA)){
                 break;
             }
+            if(material.isSolid()){
+                if ((material.equals(Material.ACACIA_LEAVES) || material.equals(Material.BIRCH_LEAVES) || material.equals(Material.OAK_LEAVES) || material.equals(Material.DARK_OAK_LEAVES) || material.equals(Material.JUNGLE_LEAVES) || material.equals(Material.SPRUCE_LEAVES))) {
+
+                }else{
+                    break;
+                }
+            }
+
             height--;
 
             // If height gets to be 5, that means that it cant go lower
@@ -177,9 +252,9 @@ public class PostAPI {
         return height;
     }
     public static int getPostAmount (){
-        int originX = KryeitTPPlugin.getInstance().getConfig().getInt("post-x-location");
-        int originZ = KryeitTPPlugin.getInstance().getConfig().getInt("post-z-location");
-        int gap = KryeitTPPlugin.getInstance().getConfig().getInt("distance-between-posts");
+        int originX = Telepost.getInstance().getConfig().getInt("post-x-location");
+        int originZ = Telepost.getInstance().getConfig().getInt("post-z-location");
+        int gap = Telepost.getInstance().getConfig().getInt("distance-between-posts");
 
         WorldBorder worldBorder = Objects.requireNonNull(Bukkit.getServer().getWorld("world")).getWorldBorder();
         int size = (int) worldBorder.getSize()/2;
@@ -191,9 +266,9 @@ public class PostAPI {
         return (int) postAmount;
     }
     public static List<Location> getAllPostLocations (){
-        int originX = KryeitTPPlugin.getInstance().getConfig().getInt("post-x-location");
-        int originZ = KryeitTPPlugin.getInstance().getConfig().getInt("post-z-location");
-        int gap = KryeitTPPlugin.getInstance().getConfig().getInt("distance-between-posts");
+        int originX = Telepost.getInstance().getConfig().getInt("post-x-location");
+        int originZ = Telepost.getInstance().getConfig().getInt("post-z-location");
+        int gap = Telepost.getInstance().getConfig().getInt("distance-between-posts");
 
         List<Location> allPosts = new ArrayList<>();
 
@@ -206,10 +281,13 @@ public class PostAPI {
         int startZ =(-size)/gap;
         startZ=startZ*gap-originZ;
 
+
         for(int i = startX ; i < Math.abs(startX+2*originX) ; i += gap ){
             for ( int j = startZ ; j < Math.abs(startZ+2*originZ) ; j += gap ){
-                Location loc = new Location(Bukkit.getWorld("world"),i,265,j,0,0);
-                allPosts.add(loc);
+                if(Math.abs(i)<size&&Math.abs(j)<size){
+                    Location loc = new Location(Bukkit.getWorld("world"),i,265,j);
+                    allPosts.add(loc);
+                }
             }
         }
         return allPosts;
@@ -259,7 +337,7 @@ public class PostAPI {
         return newList;
     }
     public static String getMessage(String path){
-        return colour(KryeitTPPlugin.getMessages().getString(path));
+        return colour(Telepost.getMessages().getString(path));
     }
 
     public static String colour(String message){

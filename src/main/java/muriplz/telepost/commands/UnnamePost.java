@@ -1,7 +1,7 @@
-package muriplz.kryeittpplugin.commands;
+package muriplz.telepost.commands;
 
 import io.github.niestrat99.advancedteleport.api.Warp;
-import muriplz.kryeittpplugin.KryeitTPPlugin;
+import muriplz.telepost.Telepost;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -15,9 +15,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-public class UnnamePostCommand implements CommandExecutor {
+public class UnnamePost implements CommandExecutor {
 
-    public KryeitTPPlugin instance = KryeitTPPlugin.getInstance();
+    public Telepost instance = Telepost.getInstance();
 
 
     // This command aims to be /UnnamePost in-game

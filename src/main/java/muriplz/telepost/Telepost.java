@@ -1,10 +1,15 @@
-package muriplz.kryeittpplugin;
+package muriplz.telepost;
 
 
 import io.github.thatsmusic99.configurationmaster.CMFile;
-import muriplz.kryeittpplugin.Listeners.*;
-import muriplz.kryeittpplugin.commands.*;
-import muriplz.kryeittpplugin.tabCompletion.*;
+import muriplz.telepost.Listeners.*;
+import muriplz.telepost.commands.*;
+import muriplz.telepost.tabCompletion.*;
+import muriplz.telepost.tabCompletion.Help;
+import muriplz.telepost.tabCompletion.Invite;
+import muriplz.telepost.tabCompletion.NearestPost;
+import muriplz.telepost.tabCompletion.UnnamePost;
+import muriplz.telepost.tabCompletion.Visit;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -13,26 +18,23 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Objects;
 import java.util.UUID;
 
-public class KryeitTPPlugin extends JavaPlugin {
+public class Telepost extends JavaPlugin {
 
     public ArrayList<Integer> counterNearest;
     public ArrayList<UUID> showNearest;
     public ArrayList<UUID> blockFall;
-    public int counter;
-    public HashMap<UUID,String> PAPIsupport;
 
     PluginDescriptionFile pdffile = getDescription();
     public String name = ChatColor.YELLOW+"["+ChatColor.WHITE+pdffile.getName()+ChatColor.YELLOW+"]";
     public String version = pdffile.getVersion();
 
-    public static KryeitTPPlugin instance;
+    public static Telepost instance;
 
     public void onEnable(){
-        
+
         // All global lists
         telepostData();
 
@@ -49,10 +51,6 @@ public class KryeitTPPlugin extends JavaPlugin {
 
         // Set the messages.yml file
         loadMessages();
-
-        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
-            Bukkit.getPluginManager().registerEvents(new onPlayerMovePAPI(),this);
-        }
 
         // Plugin activated at this point
         Bukkit.getConsoleSender().sendMessage(name+ChatColor.GRAY+" The plugin has been activated. Version: "+ChatColor.GREEN+version);
@@ -78,7 +76,7 @@ public class KryeitTPPlugin extends JavaPlugin {
                 addComment("First post's Z coordinate (default -> z = 0)");
                 addDefault("post-z-location",0);
 
-                addComment("The width of the post, with center on /nearestpost. ( default = 5 blocks, 2 to each coordinate + the center )");
+                addComment("The width of the post, with center on /nearestpost. Only odd, don't even. ( default = 5 blocks, 2 to each coordinate + the center )");
                 addDefault("post-width",5);
 
                 addComment("/homepost and /visit have this feature, this launches you to the sky before teleporting. ( default = true )");
@@ -95,6 +93,12 @@ public class KryeitTPPlugin extends JavaPlugin {
 
                 addComment("Teleports to a random post. Homepost and Named Posts are not in the poll. ( default = true )");
                 addDefault("random-post",true);
+
+                addComment("Material for the base of the post. (Takes in count the width)");
+                addDefault("base-material","STONE_BRICKS");
+
+                addComment("Material for the pillar of the post.");
+                addDefault("pillar-material","GLOWSTONE");
             }
 
         };
@@ -139,9 +143,10 @@ public class KryeitTPPlugin extends JavaPlugin {
                 addDefault("no-homepost","&cYou do not have a home post yet.");
                 addDefault("already-invited-post","&cYou are already at his/her home post.");
                 addDefault("already-at-namedpost","&cYou are already in&6 %NAMED_POST%&c.");
+                addDefault("unknown-post","&fThe post &6%POST_NAME%&f does not exist.");
 
                 addComment("/NearestPost:");
-                addDefault("nearestpost-message","&fThe nearest post is on: &6%POST_LOCATION%&f.");
+                addDefault("nearest-message","&fThe nearest post is on: &6%POST_LOCATION%&f.");
                 addDefault("nearest-message-named","&fThe nearest post is on: &6%POST_LOCATION%&f, it's &6%NAMED_POST%&f.");
                 addDefault("nearestpost-already-on","&cYou already have the option enabled.");
                 addDefault("nearestpost-already-off","&cYou don't have the option enabled.");
@@ -174,7 +179,7 @@ public class KryeitTPPlugin extends JavaPlugin {
         myMessagesFile.load();
     }
 
-    public static KryeitTPPlugin getInstance(){
+    public static Telepost getInstance(){
         return instance;
     }
 
@@ -183,70 +188,75 @@ public class KryeitTPPlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new onFall(), this);
         getServer().getPluginManager().registerEvents(new onPlayerMove(), this);
         getServer().getPluginManager().registerEvents(new onPlayerLeave(), this);
-        getServer().getPluginManager().registerEvents(new onKickEvent(), this);
+        getServer().getPluginManager().registerEvents(new onKick(), this);
     }
 
     public void telepostData(){
         blockFall = new ArrayList<>();
         showNearest = new ArrayList<>();
         counterNearest = new ArrayList<>();
-        counter=0;
-        PAPIsupport = new HashMap<>();
     }
 
     public void registerCommands() {
         // /nearestpost
-        Objects.requireNonNull(getCommand("nearestpost")).setExecutor(new NearestPostCommand());
-        Objects.requireNonNull(getCommand("nearestpost")).setTabCompleter(new NearestPostTab());
+        Objects.requireNonNull(getCommand("nearestpost")).setExecutor(new muriplz.telepost.commands.NearestPost());
+        Objects.requireNonNull(getCommand("nearestpost")).setTabCompleter(new NearestPost());
 
         // /setpost
-        Objects.requireNonNull(getCommand("setpost")).setExecutor(new SetPostCommand());
-        Objects.requireNonNull(getCommand("setpost")).setTabCompleter(new ReturnNullTab());
+        Objects.requireNonNull(getCommand("setpost")).setExecutor(new SetPost());
+        Objects.requireNonNull(getCommand("setpost")).setTabCompleter(new ReturnEmpty());
 
         // /homepost
-        Objects.requireNonNull(getCommand("homepost")).setExecutor(new HomePostCommand());
-        Objects.requireNonNull(getCommand("homepost")).setTabCompleter(new ReturnNullTab());
+        Objects.requireNonNull(getCommand("homepost")).setExecutor(new HomePost());
+        Objects.requireNonNull(getCommand("homepost")).setTabCompleter(new ReturnEmpty());
 
         // /invite <Player>
-        Objects.requireNonNull(getCommand("invite")).setExecutor(new InviteCommand());
-        Objects.requireNonNull(getCommand("invite")).setTabCompleter(new InviteTab());
+        Objects.requireNonNull(getCommand("invite")).setExecutor(new muriplz.telepost.commands.Invite());
+        Objects.requireNonNull(getCommand("invite")).setTabCompleter(new Invite());
 
         // /visit <NamedPost/Player>
-        Objects.requireNonNull(getCommand("v")).setExecutor(new VisitCommand());
-        Objects.requireNonNull(getCommand("v")).setTabCompleter(new VisitTab());
+        Objects.requireNonNull(getCommand("v")).setExecutor(new muriplz.telepost.commands.Visit());
+        Objects.requireNonNull(getCommand("v")).setTabCompleter(new Visit());
 
         // /namepost <Name>
-        Objects.requireNonNull(getCommand("namepost")).setExecutor(new NamePostCommand());
-        Objects.requireNonNull(getCommand("namepost")).setTabCompleter(new ReturnNullTab());
+        Objects.requireNonNull(getCommand("namepost")).setExecutor(new NamePost());
+        Objects.requireNonNull(getCommand("namepost")).setTabCompleter(new ReturnEmpty());
 
         // /unnamepost <Name>
-        Objects.requireNonNull(getCommand("unnamepost")).setExecutor(new UnnamePostCommand());
-        Objects.requireNonNull(getCommand("unnamepost")).setTabCompleter(new UnnamePostTab());
+        Objects.requireNonNull(getCommand("unnamepost")).setExecutor(new muriplz.telepost.commands.UnnamePost());
+        Objects.requireNonNull(getCommand("unnamepost")).setTabCompleter(new UnnamePost());
 
         // /posthelp (command)
         // <> means that has to be used, () is optional
-        Objects.requireNonNull(getCommand("posthelp")).setExecutor( new HelpCommand());
-        Objects.requireNonNull(getCommand("posthelp")).setTabCompleter(new HelpTab());
+        Objects.requireNonNull(getCommand("posthelp")).setExecutor( new muriplz.telepost.commands.Help());
+        Objects.requireNonNull(getCommand("posthelp")).setTabCompleter(new Help());
 
-        // /buildpost (y)
-        // /buildpost (x) (z)
-        // /buildpost (x) (y) (z)
+       //  /buildpost (y)
+       //  /buildpost (x) (z)
+       //  /buildpost (x) (y) (z)
  //       Objects.requireNonNull(this.getCommand("buildpost")).setExecutor( new BuildPostCommand(this));
  //       Objects.requireNonNull(getCommand("buildpost")).setTabCompleter(new BuildPostTab(this));
 
         // /postlist
-        Objects.requireNonNull(getCommand("postlist")).setExecutor( new PostsListCommand());
-        Objects.requireNonNull(getCommand("postlist")).setTabCompleter(new ReturnNullTab());
+        Objects.requireNonNull(getCommand("postlist")).setExecutor( new PostsList());
+        Objects.requireNonNull(getCommand("postlist")).setTabCompleter(new ReturnEmpty());
 
         // /randompost
-        Objects.requireNonNull(getCommand("randompost")).setExecutor( new RandomPostCommand());
-        Objects.requireNonNull(getCommand("randompost")).setTabCompleter(new ReturnNullTab());
+        Objects.requireNonNull(getCommand("randompost")).setExecutor( new RandomPost());
+        Objects.requireNonNull(getCommand("randompost")).setTabCompleter(new ReturnEmpty());
+
+        // /buildallposts
+   //     Objects.requireNonNull(getCommand("buildallposts")).setExecutor(new BuildAllPostsCommand());
+   //     Objects.requireNonNull(getCommand("buildallposts")).setTabCompleter(new ReturnNullTab());
+
+
     }
 
     public static YamlConfiguration getMessages(){
         File messages = new File(getInstance().getDataFolder(), "messages.yml");
         return YamlConfiguration.loadConfiguration(messages);
     }
+
 }
 
 

@@ -1,4 +1,4 @@
-package muriplz.kryeittpplugin.tabCompletion;
+package muriplz.telepost.tabCompletion;
 
 import io.github.niestrat99.advancedteleport.api.Warp;
 import org.bukkit.command.Command;
@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-public class UnnamePostTab implements TabCompleter {
+public class UnnamePost implements TabCompleter {
 
     @Nullable
     @Override

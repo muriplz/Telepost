@@ -1,7 +1,7 @@
-package muriplz.kryeittpplugin.commands;
+package muriplz.telepost.commands;
 
 import io.github.niestrat99.advancedteleport.api.ATPlayer;
-import muriplz.kryeittpplugin.KryeitTPPlugin;
+import muriplz.telepost.Telepost;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -14,10 +14,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 
-public class HomePostCommand implements CommandExecutor {
+public class HomePost implements CommandExecutor {
 
-    public KryeitTPPlugin plugin = KryeitTPPlugin.getInstance();
-
+    Telepost plugin = Telepost.getInstance();
 
     //  This commands aims to be /HomePost in-game
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {

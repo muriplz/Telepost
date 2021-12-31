@@ -1,49 +1,29 @@
-package muriplz.kryeittpplugin.tabCompletion;
+package muriplz.telepost.tabCompletion;
 
-import muriplz.kryeittpplugin.KryeitTPPlugin;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HelpTab implements TabCompleter {
-    public KryeitTPPlugin instance = KryeitTPPlugin.getInstance();
-
+public class NearestPost implements TabCompleter {
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
 
         List<String> completions = new ArrayList<>();
         if(args.length==1){
-            // Getting the Player
-            Player player = (Player) sender;
 
             // Creating the lists with the autocomplete text
             List<String> commands = new ArrayList<>();
 
 
             // Adding the autocomplete text
-            if(player.hasPermission("telepost.namepost")){
-                commands.add("namepost");
-            }
-            if(player.hasPermission("telepost.unnamepost")){
-                commands.add("unnamepost");
-            }
-            if(instance.getConfig().getBoolean("random-post")){
-                commands.add("randompost");
-            }
-            commands.add("aliases");
-            commands.add("nearestpost");
-            commands.add("setpost");
-            commands.add("homepost");
-            commands.add("visit");
-            commands.add("postlist");
-            commands.add("invite");
+            commands.add("on");
+            commands.add("off");
 
             // Add to "completions" all words that have letters that are contained on "commands" list
             for (String allTab : commands) {

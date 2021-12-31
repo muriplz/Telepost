@@ -1,6 +1,6 @@
-package muriplz.kryeittpplugin.commands;
+package muriplz.telepost.commands;
 
-import muriplz.kryeittpplugin.KryeitTPPlugin;
+import muriplz.telepost.Telepost;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -11,13 +11,13 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class HelpCommand implements CommandExecutor {
+public class Help implements CommandExecutor {
 
     public void sendMessage(Player player, String message) {
         PostAPI.sendMessage(player, message);
     }
 
-    public KryeitTPPlugin plugin = KryeitTPPlugin.getInstance();
+    Telepost plugin = Telepost.getInstance();
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {

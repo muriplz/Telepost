@@ -1,6 +1,6 @@
-package muriplz.kryeittpplugin.commands;
+package muriplz.telepost.commands;
 
-import muriplz.kryeittpplugin.KryeitTPPlugin;
+import muriplz.telepost.Telepost;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -11,14 +11,20 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.UUID;
 
-public class NearestPostCommand implements CommandExecutor{
 
-    public KryeitTPPlugin instance = KryeitTPPlugin.getInstance();
+public class NearestPost implements CommandExecutor{
+
+    Telepost plugin = Telepost.getInstance();
+
+
+
     //  This commands aims to be /NearestPost in-game
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if( ! ( sender instanceof Player )) {
-            Bukkit.getConsoleSender().sendMessage(instance.name+"You can't execute this command from console.");
+            Bukkit.getConsoleSender().sendMessage(plugin.name+"You can't execute this command from console.");
             return false;
         }else {
             Player player = (Player) sender;
@@ -40,29 +46,33 @@ public class NearestPostCommand implements CommandExecutor{
 
                 String postName = PostAPI.NearestPostName(player);
                 if(postName!=null){
-                    player.sendMessage(PostAPI.getMessage("nearest-message-named").replace("%POST_LOCATION%","(" + postX + " , " + postZ + ")").replace("%POST_NAME%",postName));
+                    player.sendMessage(PostAPI.colour(PostAPI.getMessage("nearest-message-named").replace("%POST_LOCATION%","(" + postX + " , " + postZ + ")").replace("%POST_NAME%",postName)));
                 }else {
                     player.sendMessage(PostAPI.getMessage("nearest-message").replace("%POST_LOCATION%", "(" + postX + " , " + postZ + ")"));
                 }
             }else if (args.length==1) {
+
+                ArrayList<UUID> showNearest = plugin.showNearest;
+                ArrayList<Integer> counterNearest = plugin.counterNearest;
+
                 if(args[0].equals("on")) {
-                    if (!instance.showNearest.contains(player.getUniqueId())){
+                    if (!showNearest.contains(player.getUniqueId())){
                         String postName = PostAPI.NearestPostName(player);
                         if(postName!=null){
                             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(PostAPI.getMessage("nearest-message-named").replace("%POST_LOCATION%","(" + postX + " , " + postZ + ")").replace("%POST_NAME%",postName)));
                         }else{
                             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(PostAPI.getMessage("nearest-message").replace("%POST_LOCATION%", "(" + postX + " , " + postZ + ")")));
                         }
-                        instance.showNearest.add(player.getUniqueId());
+                        showNearest.add(player.getUniqueId());
                     }else{
-                        PostAPI.sendMessage(player,PostAPI.getMessage("nearestpost-already-on"));
+                        player.sendMessage(PostAPI.getMessage("nearestpost-already-on"));
                     }
                 }else if (args[0].equals("off")){
-                    if (instance.showNearest.contains(player.getUniqueId())){
-                        instance.counterNearest.remove(instance.showNearest.indexOf(player.getUniqueId()));
-                        instance.showNearest.remove(player.getUniqueId());
+                    if (showNearest.contains(player.getUniqueId())){
+                        counterNearest.remove(showNearest.indexOf(player.getUniqueId()));
+                        showNearest.remove(player.getUniqueId());
                     }else{
-                        PostAPI.sendMessage(player,PostAPI.getMessage("nearestpost-already-off"));
+                        player.sendMessage(PostAPI.getMessage("nearestpost-already-off"));
                     }
 
                 }

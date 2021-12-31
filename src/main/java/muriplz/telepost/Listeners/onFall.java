@@ -1,6 +1,6 @@
-package muriplz.kryeittpplugin.Listeners;
+package muriplz.telepost.Listeners;
 
-import muriplz.kryeittpplugin.KryeitTPPlugin;
+import muriplz.telepost.Telepost;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,7 +10,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 
 public class onFall implements Listener {
 
-    public KryeitTPPlugin plugin = KryeitTPPlugin.getInstance();
+    public Telepost plugin = Telepost.getInstance();
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void preventFirstFall(EntityDamageEvent event) {
