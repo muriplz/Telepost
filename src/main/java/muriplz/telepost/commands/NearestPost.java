@@ -23,11 +23,10 @@ public class NearestPost implements CommandExecutor{
 
     //  This commands aims to be /NearestPost in-game
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if( ! ( sender instanceof Player )) {
+        if( ! (sender instanceof Player player)) {
             Bukkit.getConsoleSender().sendMessage(plugin.name+"You can't execute this command from console.");
             return false;
         }else {
-            Player player = (Player) sender;
 
             // Player has to be in the Overworld
             if(!player.getWorld().getName().equals("world")){
@@ -50,33 +49,8 @@ public class NearestPost implements CommandExecutor{
                 }else {
                     player.sendMessage(PostAPI.getMessage("nearest-message").replace("%POST_LOCATION%", "(" + postX + " , " + postZ + ")"));
                 }
-            }else if (args.length==1) {
-
-                ArrayList<UUID> showNearest = plugin.showNearest;
-                ArrayList<Integer> counterNearest = plugin.counterNearest;
-
-                if(args[0].equals("on")) {
-                    if (!showNearest.contains(player.getUniqueId())){
-                        String postName = PostAPI.NearestPostName(player);
-                        if(postName!=null){
-                            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(PostAPI.getMessage("nearest-message-named").replace("%POST_LOCATION%","(" + postX + " , " + postZ + ")").replace("%POST_NAME%",postName)));
-                        }else{
-                            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(PostAPI.getMessage("nearest-message").replace("%POST_LOCATION%", "(" + postX + " , " + postZ + ")")));
-                        }
-                        showNearest.add(player.getUniqueId());
-                    }else{
-                        player.sendMessage(PostAPI.getMessage("nearestpost-already-on"));
-                    }
-                }else if (args[0].equals("off")){
-                    if (showNearest.contains(player.getUniqueId())){
-                        counterNearest.remove(showNearest.indexOf(player.getUniqueId()));
-                        showNearest.remove(player.getUniqueId());
-                    }else{
-                        player.sendMessage(PostAPI.getMessage("nearestpost-already-off"));
-                    }
-
-                }
             }
+
             return true;
         }
     }

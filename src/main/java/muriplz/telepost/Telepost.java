@@ -23,8 +23,6 @@ import java.util.UUID;
 
 public class Telepost extends JavaPlugin {
 
-    public ArrayList<Integer> counterNearest;
-    public ArrayList<UUID> showNearest;
     public ArrayList<UUID> blockFall;
 
     PluginDescriptionFile pdffile = getDescription();
@@ -187,14 +185,11 @@ public class Telepost extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new onGlide(), this);
         getServer().getPluginManager().registerEvents(new onFall(), this);
         getServer().getPluginManager().registerEvents(new onPlayerMove(), this);
-        getServer().getPluginManager().registerEvents(new onPlayerLeave(), this);
         getServer().getPluginManager().registerEvents(new onKick(), this);
     }
 
     public void telepostData(){
         blockFall = new ArrayList<>();
-        showNearest = new ArrayList<>();
-        counterNearest = new ArrayList<>();
     }
 
     public void registerCommands() {
@@ -241,9 +236,6 @@ public class Telepost extends JavaPlugin {
         Objects.requireNonNull(getCommand("postlist")).setExecutor( new PostsList());
         Objects.requireNonNull(getCommand("postlist")).setTabCompleter(new ReturnEmpty());
 
-        // /randompost
-        Objects.requireNonNull(getCommand("randompost")).setExecutor( new RandomPost());
-        Objects.requireNonNull(getCommand("randompost")).setTabCompleter(new ReturnEmpty());
 
         // /buildallposts
    //     Objects.requireNonNull(getCommand("buildallposts")).setExecutor(new BuildAllPostsCommand());

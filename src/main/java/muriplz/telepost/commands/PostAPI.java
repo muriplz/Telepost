@@ -13,9 +13,12 @@ import org.bukkit.util.Vector;
 import java.util.*;
 
 public class PostAPI {
-
+// HERE COMES STATIC ABUSE :D
     public Telepost instance = Telepost.getInstance();
 
+    public static boolean isOnWorld(Player player, String world) {
+        return player.getWorld().getName().equalsIgnoreCase(world);
+    }
 
     public static Location getNearPostLocation ( Player player ) {
         // for the X axis

@@ -12,7 +12,7 @@ public class onFall implements Listener {
 
     public Telepost plugin = Telepost.getInstance();
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void preventFirstFall(EntityDamageEvent event) {
         if (event.getEntityType() == EntityType.PLAYER) {
             Player player = (Player) event.getEntity();
