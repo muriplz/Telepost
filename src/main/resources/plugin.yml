@@ -1,5 +1,5 @@
 main: muriplz.telepost.Telepost
-version: 0.1
+version: 1.0
 name: Telepost
 description: Posts to keep people connected!
 authors: [MuriPlz, BlockOG]
@@ -15,8 +15,8 @@ commands:
   homepost:
     description: teleports to your home post.
     aliases: h
-  v:
-    aliases: visit
+  visit:
+    aliases: v
     description: visits a post.
   namepost:
     description: names the nearest post.
@@ -29,7 +29,3 @@ commands:
   postlist:
     description: shows all the named posts, and lets you teleport by clicking.
     aliases: plist
-  randompost:
-    description: teleports to a random post.
-  buildallposts:
-    description: builds all posts.

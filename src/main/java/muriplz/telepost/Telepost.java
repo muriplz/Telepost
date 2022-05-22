@@ -15,15 +15,17 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Objects;
 import java.util.UUID;
 
 public class Telepost extends JavaPlugin {
 
-    public ArrayList<UUID> blockFall;
+    public ArrayList<String> blockFall;
 
     PluginDescriptionFile pdffile = getDescription();
     public String name = ChatColor.YELLOW+"["+ChatColor.WHITE+pdffile.getName()+ChatColor.YELLOW+"]";
@@ -125,7 +127,7 @@ public class Telepost extends JavaPlugin {
 
                 addComment("/PostList:");
                 addDefault("named-posts-translation","&6Named posts");
-                addDefault("hover-postlist","&fClick to teleport to %NAMED_POST% post.\nThis post is at &6%POST_LOCATION%&f.");
+                addDefault("hover-postlist","&fClick to teleport to %POST_NAME% post.\nThis post is at &6%POST_LOCATION%&f.");
 
                 addComment("/SetPost:");
                 addDefault("set-post-success","&fYou have successfully set your home post at: &6%POST_LOCATION%&f.");
@@ -133,19 +135,19 @@ public class Telepost extends JavaPlugin {
 
                 addComment("/HomePost or /Visit:");
                 addDefault("already-at-homepost","&cYou are already at your home post.");
-                addDefault("named-post-arrival","&fWelcome to &6%NAMED_POST%&f.");
+                addDefault("named-post-arrival","&fWelcome to &6%POST_NAME%&f.");
                 addDefault("invited-home-arrival","&fWelcome to &6%PLAYER_NAME%&f's home post.");
                 addDefault("own-homepost-arrival", "&fWelcome to your home post.");
                 addDefault("homepost-without-setpost","&fPlease, set a post with &6/SetPost&f first.");
                 addDefault("visit-not-invited","&cYou have not been invited.");
                 addDefault("no-homepost","&cYou do not have a home post yet.");
                 addDefault("already-invited-post","&cYou are already at his/her home post.");
-                addDefault("already-at-namedpost","&cYou are already in&6 %NAMED_POST%&c.");
+                addDefault("already-at-namedpost","&cYou are already in&6 %POST_NAME%&c.");
                 addDefault("unknown-post","&fThe post &6%POST_NAME%&f does not exist.");
 
                 addComment("/NearestPost:");
                 addDefault("nearest-message","&fThe nearest post is on: &6%POST_LOCATION%&f.");
-                addDefault("nearest-message-named","&fThe nearest post is on: &6%POST_LOCATION%&f, it's &6%NAMED_POST%&f.");
+                addDefault("nearest-message-named","&fThe nearest post is on: &6%POST_LOCATION%&f, it's &6%POST_NAME%&f.");
                 addDefault("nearestpost-already-on","&cYou already have the option enabled.");
                 addDefault("nearestpost-already-off","&cYou don't have the option enabled.");
 
@@ -157,14 +159,14 @@ public class Telepost extends JavaPlugin {
                 addDefault("invited","&fYou have been invited by &6%PLAYER_NAME%&f.");
 
                 addComment("/UnnamePost:");
-                addDefault("unname-named-post","&6%NAMED_POST% &apost has been unnamed.");
+                addDefault("unname-named-post","&6%POST_NAME% &apost has been unnamed.");
                 addDefault("no-such-post","&cNo posts by that name.");
 
                 addComment("/NamePost:");
-                addDefault("nearest-already-named","&cThe nearest post is already named, it's &6%NAMED_POST%&c.");
+                addDefault("nearest-already-named","&cThe nearest post is already named, it's &6%POST_NAME%&c.");
                 addDefault("no-named-posts","&cThere are no named posts.");
                 addDefault("name-post","&fYou have given the name &6%POST_NAME%&f to the nearest post.");
-                addDefault("named-post-already-exists","&cThe post &6%NAMED_POST%&c already exists.");
+                addDefault("named-post-already-exists","&cThe post &6%POST_NAME%&c already exists.");
 
                 addComment("/RandomPost");
                 addDefault("random-tp","&fYou have been teleported to a random post.");
@@ -210,8 +212,8 @@ public class Telepost extends JavaPlugin {
         Objects.requireNonNull(getCommand("invite")).setTabCompleter(new Invite());
 
         // /visit <NamedPost/Player>
-        Objects.requireNonNull(getCommand("v")).setExecutor(new muriplz.telepost.commands.Visit());
-        Objects.requireNonNull(getCommand("v")).setTabCompleter(new Visit());
+        Objects.requireNonNull(getCommand("visit")).setExecutor(new muriplz.telepost.commands.Visit());
+        Objects.requireNonNull(getCommand("visit")).setTabCompleter(new Visit());
 
         // /namepost <Name>
         Objects.requireNonNull(getCommand("namepost")).setExecutor(new NamePost());

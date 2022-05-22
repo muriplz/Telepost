@@ -25,18 +25,16 @@ public class onPlayerMove implements Listener {
         Player player = event.getPlayer();
         Material material = player.getLocation().getBlock().getType();
 
-        ArrayList<UUID> blockFall = plugin.blockFall;
+        ArrayList<String> blockFall = plugin.blockFall;
 
         // Prevent first fall damage after teleport
-        if(blockFall.contains(player.getUniqueId())){
+        if(blockFall.contains(player.getUniqueId().toString())){
             Entity entity = Bukkit.getEntity(player.getUniqueId());
             if(entity==null){
                 return;
             }
-            if(entity.isOnGround()){
-                blockFall.remove(player.getUniqueId());
-            }else if(material== Material.WATER||material==Material.LAVA){
-                blockFall.remove(player.getUniqueId());
+            if(material== Material.WATER||material==Material.LAVA){
+                blockFall.remove(player.getUniqueId().toString());
             }
         }
     }

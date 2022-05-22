@@ -10,16 +10,15 @@ import org.bukkit.event.entity.EntityDamageEvent;
 
 public class onFall implements Listener {
 
-    public Telepost plugin = Telepost.getInstance();
-
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(ignoreCancelled = true , priority = EventPriority.HIGHEST)
     public void preventFirstFall(EntityDamageEvent event) {
+
         if (event.getEntityType() == EntityType.PLAYER) {
             Player player = (Player) event.getEntity();
             if (event.getCause() == EntityDamageEvent.DamageCause.FALL) {
-                if (plugin.blockFall.contains(player.getUniqueId())) {
+                if(Telepost.getInstance().blockFall.contains(player.getUniqueId().toString())){
                     event.setCancelled(true);
-                    plugin.blockFall.remove(player.getUniqueId());
+                    Telepost.getInstance().blockFall.remove(player.getUniqueId().toString());
                 }
             }
         }

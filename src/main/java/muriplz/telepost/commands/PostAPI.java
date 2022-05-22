@@ -152,12 +152,6 @@ public class PostAPI {
             player.teleport(newlocation);
             PostAPI.playSoundAfterTp(player,newlocation);
             PostAPI.sendActionBarOrChat(player,message);
-            // Launches a player to the sky
-            if(player.getGameMode()== GameMode.SURVIVAL||player.getGameMode()==GameMode.ADVENTURE){
-                if(Telepost.getInstance().getConfig().getBoolean("tp-in-the-air")){
-                    Telepost.getInstance().blockFall.add(player.getUniqueId());
-                }
-            }
             if(player.isGliding()){
                 player.setGliding(false);
             }
@@ -179,7 +173,9 @@ public class PostAPI {
         // Launches a player to the sky
         if(player.getGameMode()== GameMode.SURVIVAL||player.getGameMode()==GameMode.ADVENTURE){
             if(Telepost.getInstance().getConfig().getBoolean("tp-in-the-air")){
-                Telepost.getInstance().blockFall.add(player.getUniqueId());
+                Telepost.getInstance().blockFall.add(player.getUniqueId().toString());
+
+
             }
         }
         if(player.isGliding()){

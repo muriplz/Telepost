@@ -39,12 +39,19 @@ public class SetPost implements CommandExecutor {
                 return false;
             }
 
+            double worldBorderRadius = Bukkit.getServer().getWorld("world").getWorldBorder().getSize()/2;
+
             Location nearestPost = PostAPI.getNearPostLocation(player);
             // For the X axis
             int postX = nearestPost.getBlockX();
 
             // For the Z axis
             int postZ = nearestPost.getBlockZ();
+
+            if(postX > worldBorderRadius || postZ > worldBorderRadius){
+                player.sendMessage(PostAPI.colour("&cThe nearest post is outside the world border, try somewhere else"));
+                return false;
+            }
 
             // get atPlayer (from AdvancedTeleport API)
             ATPlayer atPlayer = ATPlayer.getPlayer(player);

@@ -36,9 +36,6 @@ public class Help implements CommandExecutor {
                 sendMessage(player, "- &6/visit <PostName/Player>&f: teleports you to another post.");
                 sendMessage(player, "- &6/invite <Player>&f: invite a player to your home post.");
                 sendMessage(player, "- &6/postlist&f: shows you all the named posts.");
-                if (plugin.getConfig().getBoolean("random-post")) {
-                    sendMessage(player, "- &6/randompost&f: teleports to a random post.");
-                }
                 if (player.hasPermission("telepost.namepost") || player.hasPermission("telepost.unnamepost") || player.hasPermission("telepost.buildpost")) {
                     sendMessage(player, "&aAdmin commands: ");
                     if (player.hasPermission("telepost.namepost")) {
@@ -121,16 +118,6 @@ public class Help implements CommandExecutor {
                     sendMessage(player, "- You can delete the name of any named post.");
                     sendMessage(player, "- Comming soon: /unnamepost unnames the nearest post.");
                     sendMessage(player, "- This command is only for Admins.");
-                } else if (args[0].equals("randompost")) {
-                    List<Location> allPosts =  PostAPI.getAllPostLocations();
-                    List<Location> allNamedAndHomed = PostAPI.getAllNamedAndHomed();
-                    allNamedAndHomed = PostAPI.removeLocDuplicates(allNamedAndHomed);
-                    int availablePosts = allPosts.size()-allNamedAndHomed.size();
-                    sendMessage(player, "&a/RandomPost guide: ");
-                    sendMessage(player, "- There are &6"+availablePosts+ "&f available posts to randomly teleport.");
-                    sendMessage(player, "- Total post amount: &6"+allPosts.size()+"&f.");
-                    sendMessage(player, "- You can use the command once every 3 days.");
-                    sendMessage(player, "- You have to be standing on a post to use it.");
                 } else {
                     sendMessage(player, "Use /posthelp or /posthelp <Command>");
                     return false;
