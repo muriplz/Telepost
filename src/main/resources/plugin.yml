@@ -1,5 +1,5 @@
 main: muriplz.telepost.Telepost
-version: 1.0
+version: 1.0-DEV1
 name: Telepost
 description: Posts to keep people connected!
 authors: [MuriPlz, BlockOG]

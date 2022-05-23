@@ -86,14 +86,14 @@ public class Visit implements CommandExecutor{
                 // See if the player want to teleport to the nearest post, only with telepost.v permission you can do this
 
                 if(warp.getLocation().getBlockX()==postX&&warp.getLocation().getBlockZ()==postZ&&!player.hasPermission("telepost.visit")){
-                    PostAPI.sendActionBarOrChat(player,PostAPI.getMessage("already-at-namedpost").replace("%NAMED_POST%",warp.getName()));
+                    PostAPI.sendActionBarOrChat(player,PostAPI.getMessage("already-at-namedpost").replace("%POST_NAME%",warp.getName()));
                     return false;
                 }
 
                 // Get the location of the post that the player wants to teleport to
                 Location loc = new Location(world, warp.getLocation().getBlockX() + 0.5, 260, warp.getLocation().getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
 
-                String message = PostAPI.colour(PostAPI.getMessage("named-post-arrival").replace("%NAMED_POST%",args[0]));
+                String message = PostAPI.colour(PostAPI.getMessage("named-post-arrival").replace("%POST_NAME%",args[0]));
                 // Launches a player to the sky
                 PostAPI.launchAndTp(player,loc,message);
 
