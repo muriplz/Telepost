@@ -91,14 +91,8 @@ public class Telepost extends JavaPlugin {
                 addComment("Shows the message on the Action Bar. ( doesn't work for all commands ) ( default = true )");
                 addDefault("messages-on-action-bar",true);
 
-                addComment("Teleports to a random post. Homepost and Named Posts are not in the poll. ( default = true )");
-                addDefault("random-post",true);
-
-                addComment("Material for the base of the post. (Takes in count the width)");
-                addDefault("base-material","STONE_BRICKS");
-
-                addComment("Material for the pillar of the post.");
-                addDefault("pillar-material","GLOWSTONE");
+                addComment("Set this to 319 on 1.18, and 265 on 1.16 or lower");
+                addDefault("world-height",265);
             }
 
         };
@@ -143,13 +137,11 @@ public class Telepost extends JavaPlugin {
                 addDefault("no-homepost","&cYou do not have a home post yet.");
                 addDefault("already-invited-post","&cYou are already at his/her home post.");
                 addDefault("already-at-namedpost","&cYou are already in&6 %POST_NAME%&c.");
-                addDefault("unknown-post","&fThe post &6%POST_NAME%&f does not exist.");
+                addDefault("unknown-post","&6%POST_NAME%&f's post does not exist.");
 
                 addComment("/NearestPost:");
                 addDefault("nearest-message","&fThe nearest post is on: &6%POST_LOCATION%&f.");
                 addDefault("nearest-message-named","&fThe nearest post is on: &6%POST_LOCATION%&f, it's &6%POST_NAME%&f.");
-                addDefault("nearestpost-already-on","&cYou already have the option enabled.");
-                addDefault("nearestpost-already-off","&cYou don't have the option enabled.");
 
                 addComment("/Invite:");
                 addDefault("own-invite","&cYou can't invite yourself.");
@@ -167,13 +159,6 @@ public class Telepost extends JavaPlugin {
                 addDefault("no-named-posts","&cThere are no named posts.");
                 addDefault("name-post","&fYou have given the name &6%POST_NAME%&f to the nearest post.");
                 addDefault("named-post-already-exists","&cThe post &6%POST_NAME%&c already exists.");
-
-                addComment("/RandomPost");
-                addDefault("random-tp","&fYou have been teleported to a random post.");
-                addDefault("random-not-enough-posts","&cThere is not enough posts to choose from.");
-                addDefault("random-no-posts","&cThere are no available posts.");
-                addDefault("worldborder-too-big","&fThe world border is too big or you have not set it right, use &6/worldborder set <Amount>&f.");
-
             }
         };
         myMessagesFile.load();

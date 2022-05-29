@@ -74,6 +74,8 @@ public class Visit implements CommandExecutor{
             Set<String> warpNames = warps.keySet();
             List<String> allWarpNames = new ArrayList<>(warpNames);
 
+            int HEIGHT = Telepost.getInstance().getConfig().getInt("world-height");;
+
             // If args[0] is the Name of a post
             if(allWarpNames.contains(args[0])){
 
@@ -88,7 +90,7 @@ public class Visit implements CommandExecutor{
                 }
 
                 // Get the location of the post that the player wants to teleport to
-                Location loc = new Location(world, warp.getLocation().getBlockX() + 0.5, 260, warp.getLocation().getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
+                Location loc = new Location(world, warp.getLocation().getBlockX() + 0.5, HEIGHT, warp.getLocation().getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
 
                 String message = PostAPI.colour(PostAPI.getMessage("named-post-arrival").replace("%POST_NAME%",args[0]));
                 // Launches a player to the sky
@@ -114,7 +116,7 @@ public class Visit implements CommandExecutor{
                         return false;
                     }
 
-                    Location newlocation = new Location(world, location.getBlockX() + 0.5,265, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
+                    Location newlocation = new Location(world, location.getBlockX() + 0.5,HEIGHT, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                     String message = PostAPI.getMessage("own-homepost-arrival");
                     // Launches a player to the sky
                     PostAPI.launchAndTp(player,newlocation,message);
@@ -142,7 +144,7 @@ public class Visit implements CommandExecutor{
                         return false;
                     }
 
-                    Location newlocation = new Location(world, location.getBlockX() + 0.5,265, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
+                    Location newlocation = new Location(world, location.getBlockX() + 0.5,HEIGHT, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                     String message = PostAPI.getMessage("invited-home-arrival").replace("%PLAYER_NAME%",args[0]);
                     // Launch the player is its true on config.yml
                     PostAPI.launchAndTp(player,newlocation,message);
@@ -170,7 +172,11 @@ public class Visit implements CommandExecutor{
                     // Get the home location
                     Location location = offlineATPlayer.getHome("home").getLocation();
 
-                    player.teleport(location);
+                    Location newlocation = new Location(world, location.getBlockX() + 0.5,HEIGHT, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
+                    String message = PostAPI.getMessage("invited-home-arrival").replace("%PLAYER_NAME%",args[0]);
+                    // Launch the player is its true on config.yml
+                    PostAPI.launchAndTp(player,newlocation,message);
+                    return true;
 
                 }
             }

@@ -15,6 +15,7 @@ import java.util.*;
 public class PostAPI {
 // HERE COMES STATIC ABUSE :D
     public Telepost instance = Telepost.getInstance();
+    public static int HEIGHT = Telepost.getInstance().getConfig().getInt("world-height");
 
     public static boolean isOnWorld(Player player, String world) {
         return player.getWorld().getName().equalsIgnoreCase(world);
@@ -28,7 +29,7 @@ public class PostAPI {
         // for the Z axis
         int originZ = Telepost.getInstance().getConfig().getInt("post-z-location");
         int postZ = PostAPI.getNearPost(player.getLocation().getBlockZ(),originZ);
-        return new Location(player.getWorld(),postX,265,postZ);
+        return new Location(player.getWorld(),postX,HEIGHT,postZ);
     }
 
     public static int getNearPost( int playerXorZ,int origin) {
@@ -68,80 +69,12 @@ public class PostAPI {
         }
     }
 
-    public static void buildAPost(Location l){
-        Material base = Material.getMaterial(Objects.requireNonNull(Telepost.getInstance().getConfig().getString("base-material")));
-        Material pilar = Material.getMaterial(Objects.requireNonNull(Telepost.getInstance().getConfig().getString("pillar-material")));
-
-
-        int width = (Telepost.getInstance().getConfig().getInt("post-width")-1)/2;
-
-        int height = getFirstSolidBlockHeight(l.getBlockX(),l.getBlockZ());
-
-        clearPostVolume(l);
-
-        for(int i = l.getBlockX()-width ; i<= l.getBlockX()+width;i++){
-            for(int j = l.getBlockZ()-width;j<=l.getBlockZ()+width;j++){
-                Location loc = new Location(Bukkit.getWorld("world"),i,height,j);
-                Block block = loc.getBlock();
-                block.setType(base);
-            }
-        }
-        l.setY(height+1);
-        for(int i=1;i<4;i++){
-            l.getBlock().setType(pilar);
-            l.setY(l.getBlockY()+1);
-
-        }
-    }
-
-    public static void buildAllPosts(){
-        int i = 1;
-        for(Location l : getAllPostLocations()){
-            final Timer timer = new Timer();
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    if(!l.getChunk().isLoaded()){
-                        l.getChunk().load();
-                    }
-                    buildAPost(l);
-                    l.getChunk().unload();
-                    Bukkit.getConsoleSender().sendMessage("Post built on: "+"("+l.getBlockX()+" , "+l.getBlockZ()+").");
-                }
-            }, 300L *i);
-            i+=1;
-
-
-        }
-    }
-
-    public static void clearPostVolume(Location l){
-        int width = (Telepost.getInstance().getConfig().getInt("post-width")-1)/2;
-
-        int height = getFirstSolidBlockHeight(l.getBlockX(),l.getBlockZ());
-
-        for(int i = l.getBlockX()-width ; i<= l.getBlockX()+width;i++){
-            for(int j = l.getBlockZ()-width;j<=l.getBlockZ()+width;j++){
-                for(int k = height; k<=265;k++){
-                    Location loc = new Location(Bukkit.getWorld("world"),i,k,j);
-                    Block block = loc.getBlock();
-                    if(!(block.getType()==Material.AIR)){
-                        block.setType(Material.AIR);
-                    }
-                }
-            }
-        }
-    }
-
-    public static void loadChunk(Location l){
-        Objects.requireNonNull(Bukkit.getWorld("world")).getChunkAt(l.getBlockX(),l.getBlockZ()).load();
-    }
     public static void launchAndTp( Player player , Location newlocation , String message ){
 
         int height;
         // See if the config has the option set to true, in that case the teleport takes the player to the air
         if(Telepost.getInstance().getConfig().getBoolean("tp-in-the-air")){
-            height = 265;
+            height = HEIGHT;
         }else{
             // If the option is false, teleport them to the first block that is air
             height = PostAPI.getFirstSolidBlockHeight(newlocation.getBlockX(),newlocation.getBlockZ())+2;
@@ -223,7 +156,7 @@ public class PostAPI {
 
     public static int getFirstSolidBlockHeight ( int X , int Z ){
         // Setting the highest height the post can be at
-        int height = 251;
+        int height = HEIGHT-6;
 
         // Looping down and searching for a solid block or water or lava
         while (true){
@@ -284,7 +217,7 @@ public class PostAPI {
         for(int i = startX ; i < Math.abs(startX+2*originX) ; i += gap ){
             for ( int j = startZ ; j < Math.abs(startZ+2*originZ) ; j += gap ){
                 if(Math.abs(i)<size&&Math.abs(j)<size){
-                    Location loc = new Location(Bukkit.getWorld("world"),i,265,j);
+                    Location loc = new Location(Bukkit.getWorld("world"),i,HEIGHT,j);
                     allPosts.add(loc);
                 }
             }
@@ -297,7 +230,7 @@ public class PostAPI {
             ATPlayer atPlayer = ATPlayer.getPlayer(p);
             if(atPlayer.hasHome("home")){
                 Location home = atPlayer.getHome("home").getLocation();
-                Location loc = new Location(Bukkit.getWorld("world"),home.getBlockX(),265.0,home.getBlockZ(),0,0);
+                Location loc = new Location(Bukkit.getWorld("world"),home.getBlockX(),HEIGHT,home.getBlockZ(),0,0);
                 allNamedAndHomed.add(loc);
             }
         }
@@ -305,13 +238,13 @@ public class PostAPI {
             ATPlayer atPlayer = ATPlayer.getPlayer(p);
             if(atPlayer.hasHome("home")){
                 Location home = atPlayer.getHome("home").getLocation();
-                Location loc = new Location(Bukkit.getWorld("world"),home.getBlockX(),265.0,home.getBlockZ(),0,0);
+                Location loc = new Location(Bukkit.getWorld("world"),home.getBlockX(),HEIGHT,home.getBlockZ(),0,0);
                 allNamedAndHomed.add(loc);
             }
         }
         for(Warp namedPost: Warp.getWarps().values()){
             Location namedLoc = namedPost.getLocation();
-            Location loc = new Location(Bukkit.getWorld("world"),namedLoc.getBlockX(),265.0,namedLoc.getBlockZ(),0,0);
+            Location loc = new Location(Bukkit.getWorld("world"),namedLoc.getBlockX(),HEIGHT,namedLoc.getBlockZ(),0,0);
             allNamedAndHomed.add(loc);
         }
         return allNamedAndHomed;

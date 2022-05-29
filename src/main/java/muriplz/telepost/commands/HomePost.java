@@ -75,7 +75,7 @@ public class HomePost implements CommandExecutor {
                 World world = player.getWorld();
 
                 String message = PostAPI.getMessage("own-homepost-arrival");
-                Location newlocation = new Location(world, location.getBlockX() + 0.5, 265, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
+                Location newlocation = new Location(world, location.getBlockX() + 0.5, Telepost.getInstance().getConfig().getInt("world-height"), location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
                 PostAPI.launchAndTp(player,newlocation,message);
                 return true;
             } else {
