@@ -34,9 +34,6 @@ public class Help implements TabCompleter {
             if(player.hasPermission("telepost.unnamepost")){
                 commands.add("unnamepost");
             }
-            if(instance.getConfig().getBoolean("random-post")){
-                commands.add("randompost");
-            }
             commands.add("aliases");
             commands.add("nearestpost");
             commands.add("setpost");
