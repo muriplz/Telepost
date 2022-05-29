@@ -42,11 +42,10 @@ public class Visit implements TabCompleter {
             // Add all offline player's names if the player has the right permission node
             if(player.hasPermission("telepost.visit.others")){
                 for(OfflinePlayer p : Bukkit.getServer().getOfflinePlayers()){
-                    if(p.hasPlayedBefore()){
-                        ATPlayer atPlayer = new ATPlayer(p.getUniqueId(),p.getName());
-                        if(atPlayer.hasHome("home")){
-                            allTabs.add(p.getName());
-                        }
+                    Bukkit.getServer().broadcastMessage("lel:"+p.getName());
+                    ATPlayer atPlayer = new ATPlayer(p.getUniqueId(),p.getName());
+                    if(atPlayer.hasHome("home")){
+                        allTabs.add(p.getName());
                     }
                 }
             }
