@@ -11,10 +11,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class Visit implements TabCompleter {
 
@@ -42,11 +39,16 @@ public class Visit implements TabCompleter {
             // Add all offline player's names if the player has the right permission node
             if(player.hasPermission("telepost.visit.others")){
                 for(OfflinePlayer p : Bukkit.getServer().getOfflinePlayers()){
-                    Bukkit.getServer().broadcastMessage("lel:"+p.getName());
-                    ATPlayer atPlayer = new ATPlayer(p.getUniqueId(),p.getName());
-                    if(atPlayer.hasHome("home")){
-                        allTabs.add(p.getName());
+                    String name = p.getName();
+                    if(name!=null){
+                        ATPlayer offlineATPlayer = ATPlayer.getPlayer(p);
+
+                        if(offlineATPlayer.hasHome("home")){
+                            allTabs.add(name);
+                        }
                     }
+
+
                 }
             }
 

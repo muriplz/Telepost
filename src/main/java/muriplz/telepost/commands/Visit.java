@@ -3,10 +3,7 @@ package muriplz.telepost.commands;
 import io.github.niestrat99.advancedteleport.api.ATPlayer;
 import io.github.niestrat99.advancedteleport.api.Warp;
 import muriplz.telepost.Telepost;
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -154,7 +151,28 @@ public class Visit implements CommandExecutor{
                     player.sendMessage(PostAPI.getMessage("visit-not-invited"));
                 }
             }else {
-                player.sendMessage(PostAPI.getMessage("unknown-post"));
+                OfflinePlayer offlinePlayer = null;
+                if(player.hasPermission("telepost.visit.others")){
+
+                    for(OfflinePlayer p : Bukkit.getOfflinePlayers()){
+                        if(Objects.equals(p.getName(), args[0])){
+                            offlinePlayer = p;
+                        }
+                    }
+                }
+
+                if(offlinePlayer == null){
+                    player.sendMessage(PostAPI.getMessage("unknown-post").replace("%POST_NAME%",args[0]));
+                    return false;
+                }
+                ATPlayer offlineATPlayer = ATPlayer.getPlayer(offlinePlayer);
+                if(offlineATPlayer.hasHome("home")){
+                    // Get the home location
+                    Location location = offlineATPlayer.getHome("home").getLocation();
+
+                    player.teleport(location);
+
+                }
             }
         }return false;
     }
