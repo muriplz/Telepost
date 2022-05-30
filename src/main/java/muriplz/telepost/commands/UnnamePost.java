@@ -19,6 +19,7 @@ public class UnnamePost implements CommandExecutor {
 
     public Telepost instance = Telepost.getInstance();
 
+    public String worldName = Telepost.getInstance().getConfig().getString("world-name");
 
     // This command aims to be /UnnamePost in-game
     @Override
@@ -39,7 +40,7 @@ public class UnnamePost implements CommandExecutor {
             // /UnnamePost (this looks for the nearest post)
             if(args.length==0){
 
-                if(!player.getWorld().getName().equals("world")){
+                if(!player.getWorld().getName().equals(worldName)){
                     player.sendMessage(PostAPI.getMessage("not-on-overworld"));
                     return false;
                 }

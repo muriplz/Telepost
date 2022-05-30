@@ -16,6 +16,7 @@ import java.util.*;
 public class Visit implements CommandExecutor{
 
     public Telepost instance = Telepost.getInstance();
+    public String worldName = Telepost.getInstance().getConfig().getString("world-name");
 
     //  This commands aims to be /visit in-game
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -38,7 +39,7 @@ public class Visit implements CommandExecutor{
             World world = player.getWorld();
 
             // Checking if the player is on the Overworld, if not stop the command
-            if(!world.getName().equals("world")){
+            if(!world.getName().equals(worldName)){
                 player.sendMessage(PostAPI.getMessage("not-on-overworld"));
                 return false;
             }

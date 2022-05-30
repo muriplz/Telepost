@@ -31,6 +31,7 @@ public class Telepost extends JavaPlugin {
     public String name = ChatColor.YELLOW+"["+ChatColor.WHITE+pdffile.getName()+ChatColor.YELLOW+"]";
     public String version = pdffile.getVersion();
 
+
     public static Telepost instance;
 
     public void onEnable(){
@@ -93,6 +94,9 @@ public class Telepost extends JavaPlugin {
 
                 addComment("Set this to 319 on 1.18, and 265 on 1.16 or lower");
                 addDefault("world-height",265);
+
+                addComment("This is the name of the world folder, by default a minecraft overworld is called 'world'");
+                addDefault("world-name","world");
             }
 
         };

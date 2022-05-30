@@ -16,6 +16,7 @@ public class PostAPI {
 // HERE COMES STATIC ABUSE :D
     public Telepost instance = Telepost.getInstance();
     public static int HEIGHT = Telepost.getInstance().getConfig().getInt("world-height");
+    public static String worldName = Telepost.getInstance().getConfig().getString("world-name");
 
     public static boolean isOnWorld(Player player, String world) {
         return player.getWorld().getName().equalsIgnoreCase(world);
@@ -160,7 +161,7 @@ public class PostAPI {
 
         // Looping down and searching for a solid block or water or lava
         while (true){
-            Location l = new Location(Bukkit.getWorld("world"), X, height, Z);
+            Location l = new Location(Bukkit.getWorld(worldName), X, height, Z);
             Block block = l.getBlock();
             Material material = block.getType();
             if(material.equals(Material.WATER) || material.equals(Material.LAVA)){
@@ -183,91 +184,7 @@ public class PostAPI {
         }
         return height;
     }
-    public static int getPostAmount (){
-        int originX = Telepost.getInstance().getConfig().getInt("post-x-location");
-        int originZ = Telepost.getInstance().getConfig().getInt("post-z-location");
-        int gap = Telepost.getInstance().getConfig().getInt("distance-between-posts");
 
-        WorldBorder worldBorder = Objects.requireNonNull(Bukkit.getServer().getWorld("world")).getWorldBorder();
-        int size = (int) worldBorder.getSize()/2;
-
-        int postAmountX= (size - originX)/gap + (size + originX)/gap;
-        int postAmountZ= (size - originZ)/gap + (size + originZ)/gap;
-
-        double postAmount = postAmountZ*postAmountX;
-        return (int) postAmount;
-    }
-    public static List<Location> getAllPostLocations (){
-        int originX = Telepost.getInstance().getConfig().getInt("post-x-location");
-        int originZ = Telepost.getInstance().getConfig().getInt("post-z-location");
-        int gap = Telepost.getInstance().getConfig().getInt("distance-between-posts");
-
-        List<Location> allPosts = new ArrayList<>();
-
-        WorldBorder worldBorder = Objects.requireNonNull(Bukkit.getServer().getWorld("world")).getWorldBorder();
-        int size = (int) worldBorder.getSize()/2;
-
-        int startX =(-size)/gap;
-        startX=startX*gap-originX;
-
-        int startZ =(-size)/gap;
-        startZ=startZ*gap-originZ;
-
-
-        for(int i = startX ; i < Math.abs(startX+2*originX) ; i += gap ){
-            for ( int j = startZ ; j < Math.abs(startZ+2*originZ) ; j += gap ){
-                if(Math.abs(i)<size&&Math.abs(j)<size){
-                    Location loc = new Location(Bukkit.getWorld("world"),i,HEIGHT,j);
-                    allPosts.add(loc);
-                }
-            }
-        }
-        return allPosts;
-    }
-    public static List<Location> getAllNamedAndHomed () {
-        List<Location> allNamedAndHomed = new ArrayList<>();
-        for(OfflinePlayer p : Bukkit.getServer().getOfflinePlayers()){
-            ATPlayer atPlayer = ATPlayer.getPlayer(p);
-            if(atPlayer.hasHome("home")){
-                Location home = atPlayer.getHome("home").getLocation();
-                Location loc = new Location(Bukkit.getWorld("world"),home.getBlockX(),HEIGHT,home.getBlockZ(),0,0);
-                allNamedAndHomed.add(loc);
-            }
-        }
-        for(Player p : Bukkit.getServer().getOnlinePlayers()){
-            ATPlayer atPlayer = ATPlayer.getPlayer(p);
-            if(atPlayer.hasHome("home")){
-                Location home = atPlayer.getHome("home").getLocation();
-                Location loc = new Location(Bukkit.getWorld("world"),home.getBlockX(),HEIGHT,home.getBlockZ(),0,0);
-                allNamedAndHomed.add(loc);
-            }
-        }
-        for(Warp namedPost: Warp.getWarps().values()){
-            Location namedLoc = namedPost.getLocation();
-            Location loc = new Location(Bukkit.getWorld("world"),namedLoc.getBlockX(),HEIGHT,namedLoc.getBlockZ(),0,0);
-            allNamedAndHomed.add(loc);
-        }
-        return allNamedAndHomed;
-    }
-
-    // Function to remove duplicates from an ArrayList with Location Objects
-    public static List<Location> removeLocDuplicates ( List<Location> list ) {
-        // Create a new ArrayList
-        List<Location> newList = new ArrayList<>();
-
-        // Traverse through the first list
-        for (Location element : list) {
-
-            // If this element is not present in newList
-            // then add it
-            if (!newList.contains(element)) {
-                newList.add(element);
-            }
-        }
-
-        // return the new list
-        return newList;
-    }
     public static String getMessage(String path){
         return colour(Telepost.getMessages().getString(path));
     }
@@ -275,42 +192,4 @@ public class PostAPI {
     public static String colour(String message){
         return ChatColor.translateAlternateColorCodes('&',message);
     }
-
-
-//    public static void unloadAllChunksToBuildThePost(Block block,int width){
-//        // Getting block x and z coords
-//        int x = block.getX();
-//        int z = block.getZ();
-//
-//        // Unloading the chunks that are in the area of the base
-//        for (int i=x-width;i<=x+width;i++) {
-//            for (int j = z - width; j <= z + width; j++) {
-//                // Getting the chunk the block is in
-//                Chunk chunk = Objects.requireNonNull(Bukkit.getWorld("world")).getChunkAt(i, j);
-//
-//                // Checking if the chunk is loaded and if it is unload it
-//                if (chunk.isLoaded()) {
-//                    chunk.unload();
-//                }
-//            }
-//        }
-//    }
-//    public static void loadAllChunksToBuildThePost(Block block, int width){
-//        // Getting block x and z coords
-//        int x = block.getX();
-//        int z = block.getZ();
-//
-//        // Loading the chunks that are in the area of the base
-//        for (int i=x-width;i<=x+width;i++) {
-//            for (int j=z-width;j<=z+width;j++) {
-//                // Getting the chunk the block is in
-//                Chunk chunk = Objects.requireNonNull(Bukkit.getWorld("world")).getChunkAt(i,j);
-//
-//                // Checking if the chunk is unloaded and if it isn't load it
-//                if (!chunk.isLoaded()) {
-//                    chunk.load();
-//                }
-//            }
-//        }
-//    }
 }

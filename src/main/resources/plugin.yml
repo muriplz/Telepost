@@ -1,8 +1,8 @@
 main: muriplz.telepost.Telepost
-version: 1.0-DEV3
+version: 1.0-DEV5
 name: Telepost
 description: Posts to keep people connected!
-authors: [MuriPlz, BlockOG]
+author: MuriPlz
 depend: [AdvancedTeleport]
 api-version: 1.18
 commands:

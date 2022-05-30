@@ -11,10 +11,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 
 public class SetPost implements CommandExecutor {
 
     public Telepost instance = Telepost.getInstance();
+    public String worldName = Telepost.getInstance().getConfig().getString("world-name");
 
 
     //  This commands aims to be /SetPost in-game
@@ -34,12 +37,12 @@ public class SetPost implements CommandExecutor {
                 return false;
             }
 
-            if(!player.getWorld().getName().equals("world")){
+            if(!player.getWorld().getName().equals(worldName)){
                 player.sendMessage(PostAPI.getMessage("not-on-overworld"));
                 return false;
             }
 
-            double worldBorderRadius = Bukkit.getServer().getWorld("world").getWorldBorder().getSize()/2;
+            double worldBorderRadius = Objects.requireNonNull(Bukkit.getServer().getWorld(worldName)).getWorldBorder().getSize()/2;
 
             Location nearestPost = PostAPI.getNearPostLocation(player);
             // For the X axis

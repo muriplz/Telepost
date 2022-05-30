@@ -18,7 +18,7 @@ import java.util.Set;
 public class NamePost implements CommandExecutor {
 
     public Telepost instance = Telepost.getInstance();
-
+    public String worldName = Telepost.getInstance().getConfig().getString("world-name");
 
     // This command aims to be /NamePost in-game
     @Override
@@ -35,7 +35,7 @@ public class NamePost implements CommandExecutor {
                 player.sendMessage(PostAPI.getMessage("no-permission"));
                 return false;
             }
-            if(!player.getWorld().getName().equals("world")){
+            if(!player.getWorld().getName().equals(worldName)){
                 player.sendMessage(PostAPI.getMessage("not-on-overworld"));
                 return false;
             }

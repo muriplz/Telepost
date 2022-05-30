@@ -18,8 +18,7 @@ import java.util.UUID;
 public class NearestPost implements CommandExecutor{
 
     Telepost plugin = Telepost.getInstance();
-
-
+    public String worldName = Telepost.getInstance().getConfig().getString("world-name");
 
     //  This commands aims to be /NearestPost in-game
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -30,7 +29,7 @@ public class NearestPost implements CommandExecutor{
             Player player = (Player) sender;
 
             // Player has to be in the Overworld
-            if(!player.getWorld().getName().equals("world")){
+            if(!player.getWorld().getName().equals(worldName)){
                 player.sendMessage(PostAPI.getMessage("not-on-overworld"));
                 return false;
             }

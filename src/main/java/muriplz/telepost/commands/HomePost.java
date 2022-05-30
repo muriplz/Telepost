@@ -17,6 +17,7 @@ import java.util.Objects;
 public class HomePost implements CommandExecutor {
 
     Telepost plugin = Telepost.getInstance();
+    public String worldName = Telepost.getInstance().getConfig().getString("world-name");
 
     //  This commands aims to be /HomePost in-game
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -35,7 +36,7 @@ public class HomePost implements CommandExecutor {
             }
 
             // Check if the player is on the right dimension
-            if(!player.getWorld().getName().equals("world")){
+            if(!player.getWorld().getName().equals(worldName)){
                 player.sendMessage(PostAPI.getMessage("not-on-overworld"));
                 return false;
             }

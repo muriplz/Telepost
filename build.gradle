@@ -4,7 +4,11 @@ plugins {
 }
 
 group 'org.example'
-version '1.0-DEV3'
+version '1.0-DEV5'
+
+shadowJar{
+    minimize()
+}
 
 repositories {
     mavenCentral()
