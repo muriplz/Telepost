@@ -67,6 +67,9 @@ public class NamePost implements CommandExecutor {
                         System.currentTimeMillis(),
                         System.currentTimeMillis()), callback ->
                         player.sendMessage(PostAPI.getMessage("name-post").replace("%POST_NAME%",args[0])));
+                for(Player p:Bukkit.getOnlinePlayers()){
+                    p.sendMessage(PostAPI.colour("A new post has been named!, &6"+args[0]));
+                }
                 return true;
         }
         }

@@ -25,7 +25,7 @@ public class Visit implements TabCompleter {
             List<String> completions = new ArrayList<>();
 
             // Add all names of named posts and initialize allTabs
-            List<String> allTabs = Warp.getWarps().keySet().stream().toList();
+            List<String> allTabs = new ArrayList<>(Warp.getWarps().keySet());
 
             // Get the name of all online players and add it to allTabs
             Bukkit.getOnlinePlayers().forEach(p -> allTabs.add(p.getName()));

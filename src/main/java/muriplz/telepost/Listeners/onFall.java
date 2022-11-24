@@ -13,10 +13,11 @@ public class onFall implements Listener {
 
     @EventHandler(ignoreCancelled = true , priority = EventPriority.HIGHEST)
     public void preventFirstFall(EntityDamageEvent event) {
+        if (event.getCause() == EntityDamageEvent.DamageCause.FALL) {
 
         if (event.getEntityType() == EntityType.PLAYER) {
             Player player = (Player) event.getEntity();
-            if (event.getCause() == EntityDamageEvent.DamageCause.FALL) {
+
                 if(Telepost.getInstance().blockFall.contains(player.getUniqueId().toString())){
                     event.setCancelled(true);
                     Telepost.getInstance().blockFall.remove(player.getUniqueId().toString());

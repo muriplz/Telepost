@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'org.example'
-version '1.0-DEV9'
+version '1.1'
 
 shadowJar{
     minimize()
@@ -23,7 +23,7 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
     compileOnly "org.spigotmc:spigot-api:1.18.2-R0.1-SNAPSHOT"
-    compileOnly 'io.github.niestrat99:AdvancedTeleport-Bukkit:v5.5.6'
+    compileOnly "io.github.niestrat99:AdvancedTeleport-Bukkit:v5.5.6"
     implementation 'com.github.thatsmusic99:ConfigurationMaster:v1.0.3'
 }
 

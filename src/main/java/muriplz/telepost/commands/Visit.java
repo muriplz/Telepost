@@ -75,12 +75,12 @@ public class Visit implements CommandExecutor{
             // /v <Named Post>
 
 
-            List<String> allWarpNames = Warp.getWarps().keySet().stream().toList();
+            List<String> warpNames = new ArrayList<>(Warp.getWarps().keySet());
 
             int HEIGHT = Telepost.getInstance().getConfig().getInt("world-height");;
 
             // If args[0] is the Name of a post
-            if(allWarpNames.contains(args[0])){
+            if(warpNames.contains(args[0])){
 
                 // Get the warp/named post that the player wants to visit
                 Location warp = Warp.getWarps().get(args[0]).getLocation();

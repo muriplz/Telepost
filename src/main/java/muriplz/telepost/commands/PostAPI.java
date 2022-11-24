@@ -75,12 +75,9 @@ public class PostAPI {
         Location loc = player.getLocation();
         Location aux;
 
-        player.sendMessage("testt");
-
-        for (int i = HEIGHT ; i<=loc.getBlockY()+1 ; i--){
+        for (int i = HEIGHT ; i>=loc.getBlockY()+1 ; i--){
 
             aux = new Location(loc.getWorld(),loc.getX(),i,loc.getZ());
-            player.sendMessage(i+loc.getWorld().getBlockAt(aux).getType().toString());
             if(loc.getWorld().getBlockAt(aux).getType().isSolid()){
                 return true;
             }
@@ -92,6 +89,7 @@ public class PostAPI {
 
 
         newlocation.setY(HEIGHT);
+        player.getWorld().getChunkAt(newlocation).load();
 
         if(player.getGameMode()==GameMode.CREATIVE||player.getGameMode()==GameMode.SPECTATOR){
             player.teleport(newlocation);
@@ -108,7 +106,7 @@ public class PostAPI {
                 Location location = new Location( player.getWorld() , newlocation.getBlockX() + 0.5 , newlocation.getBlockY() , newlocation.getBlockZ() + 0.5 , player.getLocation().getYaw() , player.getLocation().getPitch() );
                 player.teleport(location);
                 sendActionBarOrChat(player,message);
-            }, 25L);
+            }, 50L);
         }else{
             player.teleport(newlocation);
             PostAPI.sendActionBarOrChat(player,message);
@@ -135,7 +133,7 @@ public class PostAPI {
         int postX = PostAPI.getNearPost(player.getLocation().getBlockX(), Telepost.getInstance().getConfig().getInt("post-x-location"));
         int postZ = PostAPI.getNearPost(player.getLocation().getBlockZ(), Telepost.getInstance().getConfig().getInt("post-z-location"));
 
-        List<String> warpNames = Warp.getWarps().keySet().stream().toList();
+        List<String> warpNames = new ArrayList<>(Warp.getWarps().keySet());
 
         for(String warpName: warpNames){
             Location postLocation = Warp.getWarps().get(warpName).getLocation();
