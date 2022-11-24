@@ -17,7 +17,7 @@ import java.util.Objects;
 public class HomePost implements CommandExecutor {
 
     Telepost plugin = Telepost.getInstance();
-    public String worldName = Telepost.getInstance().getConfig().getString("world-name");
+    public String worldName = "world";
 
     //  This commands aims to be /HomePost in-game
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -60,6 +60,11 @@ public class HomePost implements CommandExecutor {
                     PostAPI.sendActionBarOrChat(player,PostAPI.getMessage("not-inside-post"));
                     return false;
                 }
+            }
+
+            if(PostAPI.hasBlockAbove(player)){
+                PostAPI.sendActionBarOrChat(player,PostAPI.getMessage("block-above"));
+                return false;
             }
 
             ATPlayer atPlayer = ATPlayer.getPlayer(player);

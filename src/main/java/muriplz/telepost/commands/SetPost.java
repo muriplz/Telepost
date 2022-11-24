@@ -17,8 +17,7 @@ import java.util.Objects;
 public class SetPost implements CommandExecutor {
 
     public Telepost instance = Telepost.getInstance();
-    public String worldName = Telepost.getInstance().getConfig().getString("world-name");
-
+    public String worldName = "world";
 
     //  This commands aims to be /SetPost in-game
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {

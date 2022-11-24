@@ -18,8 +18,7 @@ import java.util.Set;
 public class NamePost implements CommandExecutor {
 
     public Telepost instance = Telepost.getInstance();
-    public String worldName = Telepost.getInstance().getConfig().getString("world-name");
-
+    public String worldName = "world";
     // This command aims to be /NamePost in-game
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {

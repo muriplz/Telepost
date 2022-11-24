@@ -29,7 +29,10 @@ public class Help implements CommandExecutor {
 
             // /posthelp
             if (args.length == 0) {
-                sendMessage(player, "&aList of commands: &f( + info on /posthelp <Command> )");
+                sendMessage(player, "&bThere is a grid of posts every "+PostAPI.gap+" blocks");
+                sendMessage(player, "&bTo use tp-related commands you need to be inside a post");
+                sendMessage(player, "&aList of commands: &f( + info on &l/posthelp <Command>&r )");
+                sendMessage(player, "&fFor example: &a/posthelp visit&f will tell you more info about /visit");
                 sendMessage(player, "- &6/nearestpost&f: tells you where the nearest post is.");
                 sendMessage(player, "- &6/setpost&f: sets the nearest post as your home post.");
                 sendMessage(player, "- &6/homepost&f: teleports you to your home post.");

@@ -24,12 +24,8 @@ public class Visit implements TabCompleter {
             // completions is the returned Lists, starts empty
             List<String> completions = new ArrayList<>();
 
-            // allTabs is the List that has all possible words that might go onto completions
-            HashMap<String, Warp> warps = Warp.getWarps();
-            Set<String> warpNames = warps.keySet();
-
             // Add all names of named posts and initialize allTabs
-            List<String> allTabs = new ArrayList<>(warpNames);
+            List<String> allTabs = Warp.getWarps().keySet().stream().toList();
 
             // Get the name of all online players and add it to allTabs
             Bukkit.getOnlinePlayers().forEach(p -> allTabs.add(p.getName()));
@@ -38,10 +34,11 @@ public class Visit implements TabCompleter {
 
             // Add all offline player's names if the player has the right permission node
             if(player.hasPermission("telepost.visit.others")){
+                ATPlayer offlineATPlayer;
                 for(OfflinePlayer p : Bukkit.getServer().getOfflinePlayers()){
                     String name = p.getName();
                     if(name!=null){
-                        ATPlayer offlineATPlayer = ATPlayer.getPlayer(p);
+                        offlineATPlayer = ATPlayer.getPlayer(p);
 
                         if(offlineATPlayer.hasHome("home")){
                             allTabs.add(name);

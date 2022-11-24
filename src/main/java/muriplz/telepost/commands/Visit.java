@@ -16,8 +16,7 @@ import java.util.*;
 public class Visit implements CommandExecutor{
 
     public Telepost instance = Telepost.getInstance();
-    public String worldName = Telepost.getInstance().getConfig().getString("world-name");
-
+    public String worldName = "world";
     //  This commands aims to be /visit in-game
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!(sender instanceof Player)) {
@@ -27,6 +26,11 @@ public class Visit implements CommandExecutor{
 
             // Getting the player
             Player player = (Player) sender;
+
+            // If the player is not on the ground stop the command
+            if(!Objects.requireNonNull(Bukkit.getEntity(player.getUniqueId())).isOnGround()&&player.getGameMode()!= GameMode.CREATIVE&&player.getGameMode()!=GameMode.SPECTATOR){
+                return false;
+            }
 
             // /v
             if (args.length != 1) {
@@ -52,6 +56,11 @@ public class Visit implements CommandExecutor{
                 }
             }
 
+            if(PostAPI.hasBlockAbove(player)){
+                PostAPI.sendActionBarOrChat(player,PostAPI.getMessage("block-above"));
+                return false;
+            }
+
             Location nearestPost = PostAPI.getNearPostLocation(player);
             // For the X axis
             int postX = nearestPost.getBlockX();
@@ -59,21 +68,14 @@ public class Visit implements CommandExecutor{
             // For the Z axis
             int postZ = nearestPost.getBlockZ();
 
-            // If the player is not on the ground stop the command
-            if(!Objects.requireNonNull(Bukkit.getEntity(player.getUniqueId())).isOnGround()&&player.getGameMode()!= GameMode.CREATIVE&&player.getGameMode()!=GameMode.SPECTATOR){
-                return false;
-            }
+
 
             // /v <something>
 
             // /v <Named Post>
 
-            // Get all warps (named posts)
-            HashMap<String, Warp> warps = Warp.getWarps();
 
-            // Get all names of named posts and made it into a List
-            Set<String> warpNames = warps.keySet();
-            List<String> allWarpNames = new ArrayList<>(warpNames);
+            List<String> allWarpNames = Warp.getWarps().keySet().stream().toList();
 
             int HEIGHT = Telepost.getInstance().getConfig().getInt("world-height");;
 
@@ -81,17 +83,17 @@ public class Visit implements CommandExecutor{
             if(allWarpNames.contains(args[0])){
 
                 // Get the warp/named post that the player wants to visit
-                Warp warp = Warp.getWarps().get(args[0]);
+                Location warp = Warp.getWarps().get(args[0]).getLocation();
 
                 // See if the player want to teleport to the nearest post, only with telepost.v permission you can do this
 
-                if(warp.getLocation().getBlockX()==postX&&warp.getLocation().getBlockZ()==postZ&&!player.hasPermission("telepost.visit")){
-                    PostAPI.sendActionBarOrChat(player,PostAPI.getMessage("already-at-namedpost").replace("%POST_NAME%",warp.getName()));
+                if(warp.getBlockX()==postX&&warp.getBlockZ()==postZ&&!player.hasPermission("telepost.visit")){
+                    PostAPI.sendActionBarOrChat(player,PostAPI.getMessage("already-at-namedpost").replace("%POST_NAME%",args[0]));
                     return false;
                 }
 
                 // Get the location of the post that the player wants to teleport to
-                Location loc = new Location(world, warp.getLocation().getBlockX() + 0.5, HEIGHT, warp.getLocation().getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
+                Location loc = new Location(world, warp.getBlockX() + 0.5, HEIGHT, warp.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
 
                 String message = PostAPI.colour(PostAPI.getMessage("named-post-arrival").replace("%POST_NAME%",args[0]));
                 // Launches a player to the sky
@@ -132,28 +134,8 @@ public class Visit implements CommandExecutor{
             // /visit <Player>
 
             // Check if player from (/visit <player>) is actually a player
-            if(!(Bukkit.getPlayer(args[0])==null)){
+            if(Bukkit.getPlayer(args[0])==null){
 
-                // Check if the sender has been invited
-                if (atPlayer.hasHome(args[0])) {
-                    Location location = atPlayer.getHome(args[0]).getLocation();
-
-                    // See if he wants to teleport to a post he is already in. If he has permission this has no effect
-
-                    if(location.getBlockX()==postX&&location.getBlockZ()==postZ&&!player.hasPermission("telepost.visit")){
-                        PostAPI.sendActionBarOrChat(player,PostAPI.getMessage("already-invited-post"));
-                        return false;
-                    }
-
-                    Location newlocation = new Location(world, location.getBlockX() + 0.5,HEIGHT, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
-                    String message = PostAPI.getMessage("invited-home-arrival").replace("%PLAYER_NAME%",args[0]);
-                    // Launch the player is its true on config.yml
-                    PostAPI.launchAndTp(player,newlocation,message);
-                    return true;
-                }else {
-                    player.sendMessage(PostAPI.getMessage("visit-not-invited"));
-                }
-            }else {
                 OfflinePlayer offlinePlayer = null;
                 if(player.hasPermission("telepost.visit.others")){
 
@@ -179,6 +161,26 @@ public class Visit implements CommandExecutor{
                     PostAPI.launchAndTp(player,newlocation,message);
                     return true;
 
+                }
+            }else {
+                // Check if the sender has been invited
+                if (atPlayer.hasHome(args[0])) {
+                    Location location = atPlayer.getHome(args[0]).getLocation();
+
+                    // See if he wants to teleport to a post he is already in. If he has permission this has no effect
+
+                    if(location.getBlockX()==postX&&location.getBlockZ()==postZ&&!player.hasPermission("telepost.visit")){
+                        PostAPI.sendActionBarOrChat(player,PostAPI.getMessage("already-invited-post"));
+                        return false;
+                    }
+
+                    Location newlocation = new Location(world, location.getBlockX() + 0.5,HEIGHT, location.getBlockZ() + 0.5,player.getLocation().getYaw(),player.getLocation().getPitch());
+                    String message = PostAPI.getMessage("invited-home-arrival").replace("%PLAYER_NAME%",args[0]);
+                    // Launch the player is its true on config.yml
+                    PostAPI.launchAndTp(player,newlocation,message);
+                    return true;
+                }else {
+                    player.sendMessage(PostAPI.getMessage("visit-not-invited"));
                 }
             }
         }return false;

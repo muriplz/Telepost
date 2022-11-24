@@ -142,6 +142,7 @@ public class Telepost extends JavaPlugin {
                 addDefault("already-invited-post","&cYou are already at his/her home post.");
                 addDefault("already-at-namedpost","&cYou are already in&6 %POST_NAME%&c.");
                 addDefault("unknown-post","&6%POST_NAME%&f's post does not exist.");
+                addDefault("block-above","&cYou have blocks above of you, try on the post structure.");
 
                 addComment("/NearestPost:");
                 addDefault("nearest-message","&fThe nearest post is on: &6%POST_LOCATION%&f.");

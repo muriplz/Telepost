@@ -70,11 +70,11 @@ public class PostsList implements CommandExecutor {
 
             // Add to messagePosts all components to teleport to every warp
             for (String warpName : allWarpNames) {
-                message = new TextComponent(" " +ChatColor.WHITE+ warpName);
+                message = new TextComponent("  " +ChatColor.WHITE+ warpName);
                 commandString = "/visit " + warpName;
                 message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, commandString ));
                 Location loc = Warp.getWarps().get(warpName).getLocation();
-                hoverText = PostAPI.getMessage("hover-postlist").replace("%NAMED_POST%",warpName).replace("%POST_LOCATION%","("+loc.getBlockX()+" , "+loc.getBlockZ()+")");
+                hoverText = PostAPI.getMessage("hover-postlist").replace("%POST_NAME%",warpName).replace("%POST_LOCATION%","("+loc.getBlockX()+" , "+loc.getBlockZ()+")");
                 message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(hoverText)));
                 messagePosts.addExtra(message);
             }

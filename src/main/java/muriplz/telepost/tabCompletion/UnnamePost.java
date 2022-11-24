@@ -21,11 +21,8 @@ public class UnnamePost implements TabCompleter {
             // completions is the returned Lists, starts empty
             List<String> completions = new ArrayList<>();
 
-            // allTabs is the List that has all possible words that might go onto completions
-            HashMap<String, Warp> warps = Warp.getWarps();
-            Set<String> warpNames = warps.keySet();
             // Add all names of named posts and initialize allTabs
-            List<String> allTabs = new ArrayList<>(warpNames);
+            List<String> allTabs = Warp.getWarps().keySet().stream().toList();
 
 
             // Add to "completions" all words that have letters that are contained on "commands" list
