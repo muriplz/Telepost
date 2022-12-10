@@ -1,6 +1,5 @@
 package muriplz.telepost.commands;
 
-import io.github.niestrat99.advancedteleport.api.ATPlayer;
 import io.github.niestrat99.advancedteleport.api.Warp;
 import muriplz.telepost.Telepost;
 import net.md_5.bungee.api.ChatMessageType;
@@ -10,7 +9,8 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PostAPI {
 // HERE COMES STATIC ABUSE :D
@@ -34,6 +34,22 @@ public class PostAPI {
         int postZ = PostAPI.getNearPost(player.getLocation().getBlockZ(),originZ);
         return new Location(player.getWorld(),postX,HEIGHT,postZ);
     }
+
+    public static String getPostName(String[] args){
+        String s ="";
+        for(String word : args){
+            s = s.concat(word+" ");
+        }
+        return s;
+    }
+
+    public static String getPostID(String[] args){
+        return getPostName(args).replace(" ","_");
+    }
+
+
+
+
 
     public static int getNearPost( int playerXorZ,int origin) {
 
@@ -74,11 +90,13 @@ public class PostAPI {
     public static boolean hasBlockAbove(Player player){
         Location loc = player.getLocation();
         Location aux;
+        Block block;
 
         for (int i = HEIGHT ; i>=loc.getBlockY()+1 ; i--){
 
             aux = new Location(loc.getWorld(),loc.getX(),i,loc.getZ());
-            if(loc.getWorld().getBlockAt(aux).getType().isSolid()){
+            block = loc.getWorld().getBlockAt(aux);
+            if(block.getType().isSolid() && block.getType().name().equalsIgnoreCase("oak_sign")){
                 return true;
             }
         }
@@ -123,9 +141,12 @@ public class PostAPI {
 
     }
 
+    public static String idToName(String s){
+        return s.replace("_"," ");
+    }
 
 
-    public static String NearestPostName ( Player player ){
+    public static String getNearestPostID(Player player ){
         if(Telepost.getInstance().getConfig().getBoolean("multiple-names-per-post")){
             return null;
         }

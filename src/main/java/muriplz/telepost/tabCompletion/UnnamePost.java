@@ -1,6 +1,7 @@
 package muriplz.telepost.tabCompletion;
 
 import io.github.niestrat99.advancedteleport.api.Warp;
+import muriplz.telepost.commands.PostAPI;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -8,9 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 public class UnnamePost implements TabCompleter {
 
@@ -27,6 +26,7 @@ public class UnnamePost implements TabCompleter {
 
             // Add to "completions" all words that have letters that are contained on "commands" list
             for (String allTab : allTabs) {
+                allTab = PostAPI.idToName(allTab);
                 if (allTab.toLowerCase().startsWith(args[0].toLowerCase())) {
                     completions.add(allTab);
                 }

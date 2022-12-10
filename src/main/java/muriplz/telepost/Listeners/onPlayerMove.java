@@ -1,9 +1,6 @@
 package muriplz.telepost.Listeners;
 
 import muriplz.telepost.Telepost;
-import muriplz.telepost.commands.PostAPI;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
@@ -14,7 +11,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 public class onPlayerMove implements Listener {
     public Telepost plugin = Telepost.getInstance();

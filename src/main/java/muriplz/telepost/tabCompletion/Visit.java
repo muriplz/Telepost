@@ -2,6 +2,7 @@ package muriplz.telepost.tabCompletion;
 
 import io.github.niestrat99.advancedteleport.api.ATPlayer;
 import io.github.niestrat99.advancedteleport.api.Warp;
+import muriplz.telepost.commands.PostAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -11,7 +12,8 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Visit implements TabCompleter {
 
@@ -34,13 +36,10 @@ public class Visit implements TabCompleter {
 
             // Add all offline player's names if the player has the right permission node
             if(player.hasPermission("telepost.visit.others")){
-                ATPlayer offlineATPlayer;
                 for(OfflinePlayer p : Bukkit.getServer().getOfflinePlayers()){
                     String name = p.getName();
                     if(name!=null){
-                        offlineATPlayer = ATPlayer.getPlayer(p);
-
-                        if(offlineATPlayer.hasHome("home")){
+                        if(ATPlayer.getPlayer(p).hasHome("home")){
                             allTabs.add(name);
                         }
                     }
@@ -51,6 +50,7 @@ public class Visit implements TabCompleter {
 
             // Add to "completions" all words that have letters that are contained on "commands" list
             for (String allTab : allTabs) {
+                allTab = PostAPI.idToName(allTab);
                 if (allTab.toLowerCase().startsWith(args[0].toLowerCase())) {
                     completions.add(allTab);
                 }

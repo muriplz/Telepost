@@ -1,8 +1,6 @@
 package muriplz.telepost.commands;
 
 import muriplz.telepost.Telepost;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -11,9 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.Objects;
-import java.util.UUID;
 
 
 public class NearestPost implements CommandExecutor{
@@ -50,9 +46,9 @@ public class NearestPost implements CommandExecutor{
 
             if(args.length==0) {
 
-                String postName = PostAPI.NearestPostName(player);
+                String postName = PostAPI.getNearestPostID(player);
                 if(postName!=null){
-                    player.sendMessage(PostAPI.colour(PostAPI.getMessage("nearest-message-named").replace("%POST_LOCATION%","(" + postX + " , " + postZ + ")").replace("%POST_NAME%",postName)));
+                    player.sendMessage(PostAPI.colour(PostAPI.getMessage("nearest-message-named").replace("%POST_LOCATION%","(" + postX + " , " + postZ + ")").replace("%POST_NAME%",PostAPI.idToName(postName))));
                 }else {
                     player.sendMessage(PostAPI.getMessage("nearest-message").replace("%POST_LOCATION%", "(" + postX + " , " + postZ + ")"));
                 }

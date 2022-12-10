@@ -2,26 +2,24 @@ package muriplz.telepost;
 
 
 import io.github.thatsmusic99.configurationmaster.CMFile;
-import muriplz.telepost.Listeners.*;
-import muriplz.telepost.commands.*;
+import muriplz.telepost.Listeners.onFall;
+import muriplz.telepost.Listeners.onGlide;
+import muriplz.telepost.Listeners.onKick;
+import muriplz.telepost.Listeners.onPlayerMove;
+import muriplz.telepost.commands.HomePost;
+import muriplz.telepost.commands.NamePost;
+import muriplz.telepost.commands.PostsList;
+import muriplz.telepost.commands.SetPost;
 import muriplz.telepost.tabCompletion.*;
-import muriplz.telepost.tabCompletion.Help;
-import muriplz.telepost.tabCompletion.Invite;
-import muriplz.telepost.tabCompletion.NearestPost;
-import muriplz.telepost.tabCompletion.UnnamePost;
-import muriplz.telepost.tabCompletion.Visit;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Objects;
-import java.util.UUID;
 
 public class Telepost extends JavaPlugin {
 

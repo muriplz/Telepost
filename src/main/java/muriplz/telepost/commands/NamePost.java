@@ -11,7 +11,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 
 
@@ -47,13 +49,18 @@ public class NamePost implements CommandExecutor {
                 // For the Z axis
                 int postZ = nearestPost.getBlockZ();
 
-                if(Warp.getWarps().containsKey(args[0])){
-                    player.sendMessage(PostAPI.getMessage("named-post-already-exists").replace("%NAMED_POST%",args[0]));
+                String postName = PostAPI.getPostName(args);
+                String postID = PostAPI.getPostID(args);
+
+                if(Warp.getWarps().containsKey(postID)){
+                    player.sendMessage(PostAPI.getMessage("named-post-already-exists").replace("%NAMED_POST%",postName));
                     return false;
                 }
+
                 Location nearestpostLocation = new Location(player.getWorld(), postX , 265, postZ ,0,0);
-                HashMap<String, Warp> warps = Warp.getWarps();
-                Set<String> warpNames = warps.keySet();
+
+                List<String> warpNames = new ArrayList<>(Warp.getWarps().keySet());
+
                 for(String warpName: warpNames){
                     if(Warp.getWarps().get(warpName).getLocation().getBlockX()==postX&&Warp.getWarps().get(warpName).getLocation().getBlockZ()==postZ&&!instance.getConfig().getBoolean("multiple-names-per-post")){
                         player.sendMessage(PostAPI.getMessage("nearest-already-named").replace("%NAMED_POST%",warpName));
@@ -66,10 +73,7 @@ public class NamePost implements CommandExecutor {
                         nearestpostLocation,
                         System.currentTimeMillis(),
                         System.currentTimeMillis()), callback ->
-                        player.sendMessage(PostAPI.getMessage("name-post").replace("%POST_NAME%",args[0])));
-                for(Player p:Bukkit.getOnlinePlayers()){
-                    p.sendMessage(PostAPI.colour("A new post has been named!, &6"+args[0]));
-                }
+                        player.sendMessage(PostAPI.getMessage("name-post").replace("%POST_NAME%",postName)));
                 return true;
         }
         }

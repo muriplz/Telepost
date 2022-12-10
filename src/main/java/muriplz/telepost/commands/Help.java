@@ -2,17 +2,13 @@ package muriplz.telepost.commands;
 
 import muriplz.telepost.Telepost;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-
 public class Help implements CommandExecutor {
-
     public void sendMessage(Player player, String message) {
         PostAPI.sendMessage(player, message);
     }
