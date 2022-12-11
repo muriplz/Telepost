@@ -3,3 +3,6 @@
 - Fixed /postlist not showing any post
 - Fixed issue with /visit inputting the names with an space at the end "Agua " instead of "Agua"
 - Fixed issue with /visit and underscores
+1.2-DEV3:
+- Fixed message recieved when using /unnamepost and /namepost
+- Fixed /namepost naming posts with multiple words

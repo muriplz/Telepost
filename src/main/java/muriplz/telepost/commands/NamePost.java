@@ -40,42 +40,39 @@ public class NamePost implements CommandExecutor {
                 player.sendMessage(PostAPI.getMessage("not-on-overworld"));
                 return false;
             }
-            if(args.length==1){
+            Location nearestPost = PostAPI.getNearPostLocation(player);
+            // For the X axis
+            int postX = nearestPost.getBlockX();
 
-                Location nearestPost = PostAPI.getNearPostLocation(player);
-                // For the X axis
-                int postX = nearestPost.getBlockX();
+            // For the Z axis
+            int postZ = nearestPost.getBlockZ();
 
-                // For the Z axis
-                int postZ = nearestPost.getBlockZ();
+            String postName = PostAPI.getPostName(args);
+            String postID = PostAPI.getPostID(args);
 
-                String postName = PostAPI.getPostName(args);
-                String postID = PostAPI.getPostID(args);
+            if(Warp.getWarps().containsKey(postID)){
+                player.sendMessage(PostAPI.getMessage("named-post-already-exists").replace("%POST_NAME%",postName));
+                return false;
+            }
 
-                if(Warp.getWarps().containsKey(postID)){
-                    player.sendMessage(PostAPI.getMessage("named-post-already-exists").replace("%NAMED_POST%",postName));
+            Location nearestpostLocation = new Location(player.getWorld(), postX , 265, postZ ,0,0);
+
+            List<String> warpNames = new ArrayList<>(Warp.getWarps().keySet());
+
+            for(String warpName: warpNames){
+                if(Warp.getWarps().get(warpName).getLocation().getBlockX()==postX&&Warp.getWarps().get(warpName).getLocation().getBlockZ()==postZ&&!instance.getConfig().getBoolean("multiple-names-per-post")){
+                    player.sendMessage(PostAPI.getMessage("nearest-already-named").replace("%POST_NAME%",warpName));
                     return false;
                 }
+            }
 
-                Location nearestpostLocation = new Location(player.getWorld(), postX , 265, postZ ,0,0);
-
-                List<String> warpNames = new ArrayList<>(Warp.getWarps().keySet());
-
-                for(String warpName: warpNames){
-                    if(Warp.getWarps().get(warpName).getLocation().getBlockX()==postX&&Warp.getWarps().get(warpName).getLocation().getBlockZ()==postZ&&!instance.getConfig().getBoolean("multiple-names-per-post")){
-                        player.sendMessage(PostAPI.getMessage("nearest-already-named").replace("%NAMED_POST%",warpName));
-                        return false;
-                    }
-                }
-
-                WarpSQLManager.get().addWarp(new Warp(player.getUniqueId(),
-                        args[0],
-                        nearestpostLocation,
-                        System.currentTimeMillis(),
-                        System.currentTimeMillis()), callback ->
-                        player.sendMessage(PostAPI.getMessage("name-post").replace("%POST_NAME%",postName)));
-                return true;
-        }
+            WarpSQLManager.get().addWarp(new Warp(player.getUniqueId(),
+                    args[0],
+                    nearestpostLocation,
+                    System.currentTimeMillis(),
+                    System.currentTimeMillis()), callback ->
+                    player.sendMessage(PostAPI.getMessage("name-post").replace("%POST_NAME%",postName)));
+            return true;
         }
         return false;
     }}
