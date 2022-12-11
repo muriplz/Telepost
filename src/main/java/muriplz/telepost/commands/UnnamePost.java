@@ -62,7 +62,7 @@ public class UnnamePost implements CommandExecutor {
                     Location loc = Warp.getWarps().get(warpName).getLocation();
                     if( loc.getBlockX()==postX && loc.getBlockZ()==postZ ) {
                         Warp.getWarps().get(warpName).delete(null);
-                        player.sendMessage(PostAPI.getMessage("unname-named-post").replace("%NAMED_POST%",warpName));
+                        player.sendMessage(PostAPI.getMessage("unname-named-post").replace("%NAMED_POST%",PostAPI.idToName(warpName)));
                         return true;
                     }
                 }

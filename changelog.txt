@@ -1,0 +1,2 @@
+1.2-DEV2:
+- Fixed message post format name when using /unnamepost
