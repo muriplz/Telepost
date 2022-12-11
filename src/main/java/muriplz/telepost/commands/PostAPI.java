@@ -39,8 +39,11 @@ public class PostAPI {
         String s ="";
         for(String word : args){
             s = s.concat(word+" ");
+
         }
-        return s;
+        StringBuilder sb= new StringBuilder(s);
+        sb.deleteCharAt(sb.length()-1);
+        return sb.toString();
     }
 
     public static String getPostID(String[] args){
