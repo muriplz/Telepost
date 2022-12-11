@@ -47,7 +47,7 @@ public class PostAPI {
     }
 
     public static String getPostID(String[] args){
-        return getPostName(args).replace(" ","_");
+        return getPostName(args).replace(" ",".");
     }
 
 
@@ -145,7 +145,7 @@ public class PostAPI {
     }
 
     public static String idToName(String s){
-        return s.replace("_"," ");
+        return s.replace("."," ");
     }
 
 

@@ -2,3 +2,4 @@
 - Fixed message post format name when using /unnamepost
 - Fixed /postlist not showing any post
 - Fixed issue with /visit inputting the names with an space at the end "Agua " instead of "Agua"
+- Fixed issue with /visit and underscores
