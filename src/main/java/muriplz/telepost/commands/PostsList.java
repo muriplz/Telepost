@@ -68,15 +68,17 @@ public class PostsList implements CommandExecutor {
             String commandString;
             String hoverText;
 
+            int i = 1;
             // Add to messagePosts all components to teleport to every warp
             for (String warpName : allWarpNames) {
-                message = new TextComponent( ChatColor.WHITE+ PostAPI.idToName(warpName) + "  |   " );
+                message = new TextComponent( i+". "+ChatColor.GRAY+ PostAPI.idToName(warpName)+"\n");
                 commandString = "/visit " + PostAPI.idToName(warpName);
                 message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, commandString ));
                 Location loc = Warp.getWarps().get(warpName).getLocation();
                 hoverText = PostAPI.getMessage("hover-postlist").replace("%POST_NAME%",PostAPI.idToName(warpName)).replace("%POST_LOCATION%","("+loc.getBlockX()+" , "+loc.getBlockZ()+")");
                 message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(hoverText)));
                 messagePosts.addExtra(message);
+                i++;
             }
             // Send the message with the Text components to the player
             player.spigot().sendMessage(messagePosts);

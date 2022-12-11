@@ -86,6 +86,7 @@ public class Visit implements CommandExecutor{
 
             for(String post : warpNames){
                 if(postID.equalsIgnoreCase(post)){
+                    postID = post;
                     condition = true;
                     break;
                 }

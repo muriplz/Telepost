@@ -9,3 +9,6 @@
 - Got rid of "multiple-names-per-post" config option
 1.3-DEV1:
 - Fixed /visit and /unnamepost tab completion when it was a multi-word post name
+- Solved using casing on /visit, now "/visit Agua" and "/visit agua" are the same
+1.3-DEV2:
+- Redid /postlist

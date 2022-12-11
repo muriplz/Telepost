@@ -120,7 +120,7 @@ public class Telepost extends JavaPlugin {
 
                 addComment("/PostList:");
                 addDefault("named-posts-translation","&6Named posts");
-                addDefault("hover-postlist","&fClick to teleport to %POST_NAME% post.\nThis post is at &6%POST_LOCATION%&f.");
+                addDefault("hover-postlist","&fClick to teleport to &7%POST_NAME% &fpost.\nThis post is at &6%POST_LOCATION%&f.");
 
                 addComment("/SetPost:");
                 addDefault("set-post-success","&fYou have successfully set your home post at: &6%POST_LOCATION%&f.");
