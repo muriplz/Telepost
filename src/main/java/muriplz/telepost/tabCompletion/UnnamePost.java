@@ -16,22 +16,22 @@ public class UnnamePost implements TabCompleter {
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-        if(args.length==1){
-            // completions is the returned Lists, starts empty
-            List<String> completions = new ArrayList<>();
-
-            // Add all names of named posts and initialize allTabs
-            List<String> allTabs = new ArrayList<>(Warp.getWarps().keySet());
-
-
-            // Add to "completions" all words that have letters that are contained on "commands" list
-            for (String allTab : allTabs) {
-                allTab = PostAPI.idToName(allTab);
-                if (allTab.toLowerCase().startsWith(args[0].toLowerCase())) {
-                    completions.add(allTab);
-                }
-            }
-            return completions;
+        if(args.length == 0) {
+            return new ArrayList<>();
         }
-        return new ArrayList<>();
+        // completions is the returned Lists, starts empty
+        List<String> completions = new ArrayList<>();
+
+        // Add all names of named posts and initialize allTabs
+        List<String> allTabs = new ArrayList<>(Warp.getWarps().keySet());
+
+
+        // Add to "completions" all words that have letters that are contained on "commands" list
+        for (String allTab : allTabs) {
+            allTab = PostAPI.idToName(allTab);
+            if (allTab.toLowerCase().startsWith(PostAPI.getPostName(args).toLowerCase())) {
+                completions.add(allTab);
+            }
+        }
+        return completions;
     }}

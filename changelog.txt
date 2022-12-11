@@ -7,3 +7,5 @@
 - Fixed message recieved when using /unnamepost and /namepost
 - Fixed /namepost naming posts with multiple words
 - Got rid of "multiple-names-per-post" config option
+1.3-DEV1:
+- Fixed /visit and /unnamepost tab completion when it was a multi-word post name
