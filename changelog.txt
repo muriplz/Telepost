@@ -6,3 +6,4 @@
 1.2-DEV3:
 - Fixed message recieved when using /unnamepost and /namepost
 - Fixed /namepost naming posts with multiple words
+- Got rid of "multiple-names-per-post" config option

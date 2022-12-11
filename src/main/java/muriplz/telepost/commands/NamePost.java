@@ -60,14 +60,14 @@ public class NamePost implements CommandExecutor {
             List<String> warpNames = new ArrayList<>(Warp.getWarps().keySet());
 
             for(String warpName: warpNames){
-                if(Warp.getWarps().get(warpName).getLocation().getBlockX()==postX&&Warp.getWarps().get(warpName).getLocation().getBlockZ()==postZ&&!instance.getConfig().getBoolean("multiple-names-per-post")){
-                    player.sendMessage(PostAPI.getMessage("nearest-already-named").replace("%POST_NAME%",warpName));
+                if(Warp.getWarps().get(warpName).getLocation().getBlockX()==postX&&Warp.getWarps().get(warpName).getLocation().getBlockZ()==postZ){
+                    player.sendMessage(PostAPI.getMessage("nearest-already-named").replace("%POST_NAME%",PostAPI.idToName(warpName)));
                     return false;
                 }
             }
 
             WarpSQLManager.get().addWarp(new Warp(player.getUniqueId(),
-                    args[0],
+                    postID,
                     nearestpostLocation,
                     System.currentTimeMillis(),
                     System.currentTimeMillis()), callback ->

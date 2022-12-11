@@ -70,7 +70,7 @@ public class PostsList implements CommandExecutor {
 
             // Add to messagePosts all components to teleport to every warp
             for (String warpName : allWarpNames) {
-                message = new TextComponent("  |   " +ChatColor.WHITE+ PostAPI.idToName(warpName));
+                message = new TextComponent( ChatColor.WHITE+ PostAPI.idToName(warpName) + "  |   " );
                 commandString = "/visit " + PostAPI.idToName(warpName);
                 message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, commandString ));
                 Location loc = Warp.getWarps().get(warpName).getLocation();

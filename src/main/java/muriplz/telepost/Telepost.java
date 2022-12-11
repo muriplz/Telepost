@@ -81,9 +81,6 @@ public class Telepost extends JavaPlugin {
                 addComment("/homepost and /visit have this feature, this launches you to the sky before teleporting. ( default = true )");
                 addDefault("launch-feature",true);
 
-                addComment("With this option true, you can give multiple names to the same post with /namepost. ( default = false )");
-                addDefault("multiple-names-per-post",false);
-
                 addComment("After using a TP command you get teleported to y = 265 if this is true, if not, it will teleport you to ground level. ( default = true )");
                 addDefault("tp-in-the-air",true);
 
@@ -158,7 +155,6 @@ public class Telepost extends JavaPlugin {
                 addDefault("no-such-post","&cNo posts by that name.");
 
                 addComment("/NamePost:");
-                addDefault("nearest-already-named","&cThe nearest post is already named, it's &6%POST_NAME%&c.");
                 addDefault("no-named-posts","&cThere are no named posts.");
                 addDefault("name-post","&fYou have given the name &6%POST_NAME%&f to the nearest post.");
                 addDefault("named-post-already-exists","&cThe post &6%POST_NAME%&c already exists.");
