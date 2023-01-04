@@ -4,7 +4,6 @@ import muriplz.telepost.Telepost;
 import muriplz.telepost.commands.PostAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
