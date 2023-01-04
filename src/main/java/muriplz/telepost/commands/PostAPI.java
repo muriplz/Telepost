@@ -2,15 +2,19 @@ package muriplz.telepost.commands;
 
 import io.github.niestrat99.advancedteleport.api.Warp;
 import muriplz.telepost.Telepost;
+import muriplz.telepost.leash.LeashAPI;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class PostAPI {
 // HERE COMES STATIC ABUSE :D
@@ -90,6 +94,25 @@ public class PostAPI {
         }
     }
 
+    public static int getFirstBlockHeight(Player player){
+        Location loc = player.getLocation();
+        Location aux;
+        Block block;
+        int i = HEIGHT;
+        while(true){
+
+            aux = new Location(loc.getWorld(),loc.getX(),i,loc.getZ());
+            block = loc.getWorld().getBlockAt(aux);
+            if( block.getType().isSolid() ){
+                return i;
+            }
+            if(i<-60){
+                return i;
+            }
+            i--;
+        }
+    }
+
     public static boolean hasBlockAbove(Player player){
         Location loc = player.getLocation();
         Location aux;
@@ -108,19 +131,33 @@ public class PostAPI {
 
     public static void launchAndTp( Player player , Location newlocation , String message ){
 
-
-        newlocation.setY(HEIGHT);
         player.getWorld().getChunkAt(newlocation).load();
 
+
         if(player.getGameMode()==GameMode.CREATIVE||player.getGameMode()==GameMode.SPECTATOR){
+            newlocation.setY(getFirstBlockHeight(player));
             player.teleport(newlocation);
             PostAPI.playSoundAfterTp(player,newlocation);
             PostAPI.sendActionBarOrChat(player,message);
             if(player.isGliding()){
                 player.setGliding(false);
             }
+
+            Entity e;
+
+            for (UUID id : LeashAPI.getLeashed(player)){
+                e = Bukkit.getEntity(id);
+                if(e == null) {
+                    continue;
+                }
+                e.teleport(newlocation);
+            }
+
             return;
         }
+
+        LeashAPI.teleportLeashed(player,newlocation);
+
         if(Telepost.getInstance().getConfig().getBoolean("launch-feature")){
             player.setVelocity(new Vector(0,10,0));
             Bukkit.getScheduler().runTaskLater(Telepost.getInstance(), () -> {

@@ -2,14 +2,12 @@ package muriplz.telepost;
 
 
 import io.github.thatsmusic99.configurationmaster.CMFile;
-import muriplz.telepost.Listeners.onFall;
-import muriplz.telepost.Listeners.onGlide;
-import muriplz.telepost.Listeners.onKick;
-import muriplz.telepost.Listeners.onPlayerMove;
+import muriplz.telepost.Listeners.*;
 import muriplz.telepost.commands.HomePost;
 import muriplz.telepost.commands.NamePost;
 import muriplz.telepost.commands.PostsList;
 import muriplz.telepost.commands.SetPost;
+import muriplz.telepost.leash.onLeash;
 import muriplz.telepost.tabCompletion.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -18,17 +16,17 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Objects;
+import java.util.*;
 
 public class Telepost extends JavaPlugin {
 
     public ArrayList<String> blockFall;
 
+    public HashMap<UUID,UUID> leashed;
+
     PluginDescriptionFile pdffile = getDescription();
     public String name = ChatColor.YELLOW+"["+ChatColor.WHITE+pdffile.getName()+ChatColor.YELLOW+"]";
     public String version = pdffile.getVersion();
-
 
     public static Telepost instance;
 
@@ -92,6 +90,9 @@ public class Telepost extends JavaPlugin {
 
                 addComment("This is the name of the world folder, by default a minecraft overworld is called 'world'");
                 addDefault("world-name","world");
+
+                addComment("If leashed entities get teteported");
+                addDefault("teleport-leashed",true);
             }
 
         };
@@ -155,6 +156,7 @@ public class Telepost extends JavaPlugin {
                 addDefault("no-such-post","&cNo posts by that name.");
 
                 addComment("/NamePost:");
+                addDefault("nearest-already-named","&cThe nearest post is already named, it's &6%POST_NAME%&c.");
                 addDefault("no-named-posts","&cThere are no named posts.");
                 addDefault("name-post","&fYou have given the name &6%POST_NAME%&f to the nearest post.");
                 addDefault("named-post-already-exists","&cThe post &6%POST_NAME%&c already exists.");
@@ -172,10 +174,16 @@ public class Telepost extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new onFall(), this);
         getServer().getPluginManager().registerEvents(new onPlayerMove(), this);
         getServer().getPluginManager().registerEvents(new onKick(), this);
+        if(getConfig().getBoolean("teleport-leashed")){
+            getServer().getPluginManager().registerEvents(new onLeash(), this);
+
+        }
+
     }
 
     public void telepostData(){
         blockFall = new ArrayList<>();
+        leashed = new HashMap<>();
     }
 
     public void registerCommands() {

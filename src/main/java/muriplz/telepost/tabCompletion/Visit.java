@@ -14,6 +14,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Visit implements TabCompleter {
 
@@ -52,10 +54,20 @@ public class Visit implements TabCompleter {
             }
         }
 
+        int size = args.length;
+        String aux;
+
         // Add to "completions" all words that have letters that are contained on "commands" list
         for (String allTab : allTabs) {
+
             allTab = PostAPI.idToName(allTab);
-            if (allTab.toLowerCase().startsWith(PostAPI.getPostName(args).toLowerCase())) {
+            aux = allTab;
+
+            for(int i=0;i<size-1;i++){
+                allTab = allTab.replaceFirst("(?i)"+args[i]+" ","");
+            }
+
+            if (aux.toLowerCase().startsWith(PostAPI.getPostName(args).toLowerCase())) {
                 completions.add(allTab);
             }
         }

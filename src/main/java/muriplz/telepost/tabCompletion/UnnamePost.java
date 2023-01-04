@@ -26,10 +26,19 @@ public class UnnamePost implements TabCompleter {
         List<String> allTabs = new ArrayList<>(Warp.getWarps().keySet());
 
 
+        String aux;
+
         // Add to "completions" all words that have letters that are contained on "commands" list
         for (String allTab : allTabs) {
+
             allTab = PostAPI.idToName(allTab);
-            if (allTab.toLowerCase().startsWith(PostAPI.getPostName(args).toLowerCase())) {
+            aux = allTab;
+
+            for(int i=0;i< args.length-1;i++){
+                allTab = allTab.replaceFirst("(?i)"+args[i]+" ","");
+            }
+
+            if (aux.toLowerCase().startsWith(PostAPI.getPostName(args).toLowerCase())) {
                 completions.add(allTab);
             }
         }

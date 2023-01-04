@@ -5,17 +5,26 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerKickEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+
+import java.util.HashMap;
+import java.util.UUID;
 
 public class onKick implements Listener {
     public Telepost instance = Telepost.getInstance();
+    public HashMap<UUID,UUID> leashed = Telepost.getInstance().leashed;
 
     @EventHandler
-    public void onKick(PlayerKickEvent event) {
+    public void onKick(PlayerQuitEvent event) {
         Player p = event.getPlayer();
-        if(event.getReason().toLowerCase().contains("fly")){
-            if(instance.blockFall.contains(p.getUniqueId())){
-                event.setCancelled(true);
+
+        if(leashed.containsValue(p.getUniqueId())){
+            for(UUID id : leashed.keySet()){
+                if(leashed.get(id).equals(p.getUniqueId())){
+                    leashed.remove(id);
+                }
             }
         }
+
     }
 }

@@ -12,3 +12,6 @@
 - Solved using casing on /visit, now "/visit Agua" and "/visit agua" are the same
 1.3-DEV2:
 - Redid /postlist
+- Solved issue with /visit not respecting a post name casing when teleporting
+- Solved issue on /visit and /unnamepost with tab completion ith multiple words
+- Solved error on console with /namepost

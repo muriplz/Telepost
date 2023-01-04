@@ -33,11 +33,8 @@ public class PostsList implements CommandExecutor {
             // Get player
             Player player = (Player) sender;
 
-            // Get all warps (named posts)
-            HashMap<String, Warp> warps = Warp.getWarps();
-
             // Get all names of named posts and made it into a List
-            Set<String> warpNames = warps.keySet();
+            Set<String> warpNames = Warp.getWarps().keySet();
 
             // If there are no named posts (Warps) then just return false
             if(warpNames.isEmpty()) {
@@ -56,9 +53,9 @@ public class PostsList implements CommandExecutor {
             if(Warp.getWarps().size()<9){
                 messagePosts.addExtra(PostAPI.getMessage("named-posts-translation")+":");
             }else{
-                PostAPI.sendMessage(player, "&7-----------------------------------------------------");
-                PostAPI.sendMessage(player, "                                 "+PostAPI.getMessage("named-posts-translation")+" ");
-                PostAPI.sendMessage(player, "&7-----------------------------------------------------");
+                PostAPI.sendMessage(player, "&7-----------------");
+                PostAPI.sendMessage(player, PostAPI.getMessage("named-posts-translation")+" ");
+                PostAPI.sendMessage(player, "&7-----------------");
             }
 
             // Sort all warp names
@@ -83,7 +80,7 @@ public class PostsList implements CommandExecutor {
             // Send the message with the Text components to the player
             player.spigot().sendMessage(messagePosts);
             if(Warp.getWarps().size()>=9){
-                PostAPI.sendMessage(player, "&7-----------------------------------------------------");
+                PostAPI.sendMessage(player, "&7-----------------------");
             }
             return true;
         }
