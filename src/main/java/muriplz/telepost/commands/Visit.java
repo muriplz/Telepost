@@ -179,7 +179,7 @@ public class Visit implements CommandExecutor{
                     }
                 }else {
                     // Check if the sender has been invited
-                    if (atPlayer.hasHome(args[0])) {
+                    if (atPlayer.hasHome(args[0]) || player.hasPermission("telepost.visit.others")) {
                         Location location = atPlayer.getHome(args[0]).getLocation();
 
                         // See if he wants to teleport to a post he is already in. If he has permission this has no effect

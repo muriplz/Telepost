@@ -1,6 +1,7 @@
 package muriplz.telepost.Listeners;
 
 import muriplz.telepost.Telepost;
+import muriplz.telepost.commands.PostAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
@@ -32,6 +33,7 @@ public class onPlayerMove implements Listener {
 
             if(entity.isOnGround()){
                 blockFall.remove(player.getUniqueId().toString());
+                PostAPI.playSoundAfterTp(player,player.getLocation());
             }
 
             Material material = player.getLocation().getBlock().getType();
