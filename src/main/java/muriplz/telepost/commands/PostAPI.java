@@ -93,23 +93,20 @@ public class PostAPI {
         }
     }
 
-    public static int getFirstBlockHeight(Player player){
-        Location loc = player.getLocation();
+    public static int getFirstSolid(Location loc){
+
         Location aux;
         Block block;
-        int i = HEIGHT;
-        while(true){
+
+        for (int i = 319 ; i>=loc.getBlockY()+1 ; i--){
 
             aux = new Location(loc.getWorld(),loc.getX(),i,loc.getZ());
             block = loc.getWorld().getBlockAt(aux);
-            if( block.getType().isSolid() ){
+            if(block.getType().isSolid()){
                 return i;
             }
-            if(i<-60){
-                return i;
-            }
-            i--;
         }
+        return 319;
     }
 
     public static boolean hasBlockAbove(Player player){
@@ -117,7 +114,7 @@ public class PostAPI {
         Location aux;
         Block block;
 
-        for (int i = HEIGHT ; i>=loc.getBlockY()+1 ; i--){
+        for (int i = 319 ; i>=loc.getBlockY()+1 ; i--){
 
             aux = new Location(loc.getWorld(),loc.getX(),i,loc.getZ());
             block = loc.getWorld().getBlockAt(aux);
@@ -134,7 +131,7 @@ public class PostAPI {
 
 
         if(player.getGameMode()==GameMode.CREATIVE||player.getGameMode()==GameMode.SPECTATOR){
-            newlocation.setY(getFirstBlockHeight(player));
+            newlocation.setY(getFirstSolid(newlocation));
             player.teleport(newlocation);
             PostAPI.playSoundAfterTp(player,newlocation);
             PostAPI.sendActionBarOrChat(player,message);
@@ -162,18 +159,17 @@ public class PostAPI {
             Bukkit.getScheduler().runTaskLater(Telepost.getInstance(), () -> {
                 Location location = new Location( player.getWorld() , newlocation.getBlockX() + 0.5 , newlocation.getBlockY() , newlocation.getBlockZ() + 0.5 , player.getLocation().getYaw() , player.getLocation().getPitch() );
                 player.teleport(location);
+                Telepost.getInstance().blockFall.add(player.getUniqueId().toString());
                 sendActionBarOrChat(player,message);
             }, 50L);
         }else{
+            newlocation.setY(getFirstSolid(newlocation));
             player.teleport(newlocation);
             PostAPI.sendActionBarOrChat(player,message);
         }
         // Launches a player to the sky
-        if(player.getGameMode()== GameMode.SURVIVAL||player.getGameMode()==GameMode.ADVENTURE){
-            if(Telepost.getInstance().getConfig().getBoolean("tp-in-the-air")){
-                Telepost.getInstance().blockFall.add(player.getUniqueId().toString());
-            }
-        }
+
+
         if(player.isGliding()){
             player.setGliding(false);
         }

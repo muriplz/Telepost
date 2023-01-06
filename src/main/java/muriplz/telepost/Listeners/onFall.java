@@ -28,7 +28,6 @@ public class onFall implements Listener {
                 event.setCancelled(true);
 
                 if(e instanceof Player p){
-                    PostAPI.playSoundAfterTp((Player) e, e.getLocation());
                     Entity ee;
                     for (UUID id : leashed.keySet()){
                         if(!leashed.get(id).equals(p.getName())){

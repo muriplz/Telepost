@@ -69,12 +69,10 @@ public class Telepost extends JavaPlugin {
     public List<String> visitTab(){
         List<String> list = new ArrayList<>();
         for(OfflinePlayer p : Bukkit.getServer().getOfflinePlayers()){
-            String name = p.getName();
-            if(name!=null){
-                if(ATPlayer.getPlayer(p).hasHome("home")){
-                    list.add(name);
-                }
-            }
+            ATPlayer player = ATPlayer.getPlayer(p.getName());
+            if (player == null) continue;
+            if (!player.hasHome("home")) continue;
+            list.add(p.getName());
         }
         return list;
     }

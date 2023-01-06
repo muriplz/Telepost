@@ -53,7 +53,7 @@ public class LeashAPI {
                 Bukkit.getScheduler().runTaskLater(Telepost.getInstance(), () -> {
                     Location l1;
                     if(flyers.contains(finalE.getName().toLowerCase())){
-                        l1 = new Location( finalE.getWorld() , finalNewlocation.getBlockX() + 0.5 , PostAPI.getFirstBlockHeight(p) , finalNewlocation.getBlockZ() + 0.5 );
+                        l1 = new Location( finalE.getWorld() , finalNewlocation.getBlockX() + 0.5 , PostAPI.getFirstSolid(finalNewlocation) , finalNewlocation.getBlockZ() + 0.5 );
                     }else{
                         l1 = new Location( finalE.getWorld() , finalNewlocation.getBlockX() + 0.5 , finalNewlocation.getBlockY() , finalNewlocation.getBlockZ() + 0.5 );
                     }
@@ -62,7 +62,7 @@ public class LeashAPI {
                 }, 65L);
             }else{
                 if(flyers.contains(e.getType().getEntityClass().getName())){
-                    newlocation = new Location( e.getWorld() , newlocation.getBlockX() + 0.5 , PostAPI.getFirstBlockHeight(p) , newlocation.getBlockZ() + 0.5 );
+                    newlocation = new Location( e.getWorld() , newlocation.getBlockX() + 0.5 , PostAPI.getFirstSolid(newlocation) , newlocation.getBlockZ() + 0.5 );
                 }
                 newlocation = new Location( e.getWorld() , newlocation.getBlockX() + 0.5 , newlocation.getBlockY() , newlocation.getBlockZ() + 0.5 );
 
