@@ -1,6 +1,7 @@
 package muriplz.telepost;
 
 
+import io.github.niestrat99.advancedteleport.api.ATPlayer;
 import io.github.thatsmusic99.configurationmaster.CMFile;
 import muriplz.telepost.Listeners.onFall;
 import muriplz.telepost.Listeners.onGlide;
@@ -14,21 +15,21 @@ import muriplz.telepost.leash.onLeash;
 import muriplz.telepost.tabCompletion.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 public class Telepost extends JavaPlugin {
 
     public ArrayList<String> blockFall;
 
     public HashMap<UUID,UUID> leashed;
+
+    public List<String> offlineHomed;
 
     PluginDescriptionFile pdffile = getDescription();
     public String name = ChatColor.YELLOW+"["+ChatColor.WHITE+pdffile.getName()+ChatColor.YELLOW+"]";
@@ -46,6 +47,8 @@ public class Telepost extends JavaPlugin {
 
         instance = this;
 
+        offlineHomed = new ArrayList<>(visitTab());
+
         // Register events
         registerEvents();
 
@@ -61,6 +64,19 @@ public class Telepost extends JavaPlugin {
 
     public void onDisable() {
         Bukkit.getConsoleSender().sendMessage(name+ChatColor.WHITE+" The plugin has been deactivated.");
+    }
+
+    public List<String> visitTab(){
+        List<String> list = new ArrayList<>();
+        for(OfflinePlayer p : Bukkit.getServer().getOfflinePlayers()){
+            String name = p.getName();
+            if(name!=null){
+                if(ATPlayer.getPlayer(p).hasHome("home")){
+                    list.add(name);
+                }
+            }
+        }
+        return list;
     }
 
     void loadConfig (){

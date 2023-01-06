@@ -2,6 +2,7 @@ package muriplz.telepost.tabCompletion;
 
 import io.github.niestrat99.advancedteleport.api.ATPlayer;
 import io.github.niestrat99.advancedteleport.api.Warp;
+import muriplz.telepost.Telepost;
 import muriplz.telepost.commands.PostAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -39,17 +40,8 @@ public class Visit implements TabCompleter {
         Player player = (Player) sender;
 
         // Add all offline player's names if the player has the right permission node
-        if(player.hasPermission("telepost.visit.others")){
-            for(OfflinePlayer p : Bukkit.getServer().getOfflinePlayers()){
-                String name = p.getName();
-                if(name!=null){
-                    if(ATPlayer.getPlayer(p).hasHome("home")){
-                        allTabs.add(name);
-                    }
-                }
-
-
-            }
+        if(player.hasPermission("telepost.visit.others") && args.length<2){
+            allTabs.addAll(Telepost.getInstance().offlineHomed);
         }
 
         int size = args.length;
