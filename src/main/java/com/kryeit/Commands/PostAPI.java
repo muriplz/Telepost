@@ -25,11 +25,12 @@ public class PostAPI {
 
     public static int HEIGHT = 319;
     public static String WORLD_NAME = "world";
-    public static boolean isOnWorld(Player player, String world) {
+
+    public static boolean isOnWorld(Player player , String world) {
         return player.getWorld().getName().equalsIgnoreCase(world);
     }
 
-    public static Location getNearPostLocation ( Player player ) {
+    public static Location getNearPostLocation (Player player) {
         // for the X axis
         int postX = PostAPI.getNearPost(player.getLocation().getBlockX(),ORIGIN_X);
 
@@ -39,7 +40,7 @@ public class PostAPI {
         return new Location(player.getWorld(),postX,HEIGHT,postZ);
     }
 
-    public static String getPostName( String[] args ) {
+    public static String getPostName(String[] args) {
         String s = "";
         for(String word : args) s = s.concat(word + " ");
         StringBuilder sb= new StringBuilder(s);
@@ -47,11 +48,11 @@ public class PostAPI {
         return sb.toString();
     }
 
-    public static String getPostID( String[] args ) {
+    public static String getPostID(String[] args) {
         return getPostName(args).replace(" ",".");
     }
 
-    public static int getNearPost( int playerXorZ , int origin) {
+    public static int getNearPost(int playerXorZ , int origin) {
 
         // Subtracting origin of posts to get correct calculation
         playerXorZ -= origin;
@@ -71,22 +72,22 @@ public class PostAPI {
         return (int) post;
     }
 
-    public static void playSoundAfterTp( Player player , Location location ) {
+    public static void playSoundAfterTp(Player player , Location location) {
         player.playSound( location , Sound.ENTITY_DRAGON_FIREBALL_EXPLODE , 1f , 1f );
     }
 
-    public static void sendMessage( Player player , String message ) {
+    public static void sendMessage(Player player , String message) {
         player.sendMessage( ChatColor.translateAlternateColorCodes( '&' , message ) );
     }
 
-    public static void sendActionBarOrChat( Player player , String message ) {
+    public static void sendActionBarOrChat(Player player , String message) {
         // This will send the message on the action bar, if the option is enabled on config.yml
         if(Telepost.getInstance().getConfig().getBoolean("send-arrival-messages-on-action-bar")) {
             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
         }else player.sendMessage(message);
     }
 
-    public static int getFirstSolid( Location loc ) {
+    public static int getFirstSolid(Location loc) {
         Location aux;
         Block block;
 
@@ -99,12 +100,12 @@ public class PostAPI {
         return HEIGHT;
     }
 
-    public static boolean hasBlockAbove( Player player ) {
+    public static boolean hasBlockAbove(Player player) {
         Location loc = player.getLocation();
         Location aux;
         Block block;
 
-        for (int i = HEIGHT ; i >= loc.getBlockY() + 1 ; i--){
+        for (int i = HEIGHT ; i >= loc.getBlockY() + 1 ; i--) {
 
             aux = new Location(loc.getWorld(),loc.getX(),i,loc.getZ());
             block = loc.getWorld().getBlockAt(aux);
@@ -113,16 +114,14 @@ public class PostAPI {
         return false;
     }
 
-    public static void launchAndTp( Player player , Location newlocation , String message ){
+    public static void launchAndTp(Player player , Location newlocation , String message) {
 
-        if(player.isGliding()) {
-            player.setGliding(false);
-        }
+        if(player.isGliding()) player.setGliding(false);
 
         player.getWorld().getChunkAt(newlocation).load();
 
-        if(player.getGameMode()==GameMode.CREATIVE || player.getGameMode()==GameMode.SPECTATOR){
-            newlocation.setY(getFirstSolid(newlocation));
+        if(player.getGameMode() == GameMode.CREATIVE || player.getGameMode()==GameMode.SPECTATOR) {
+            newlocation = new Location(player.getWorld(),newlocation.getBlockX() + 0.5,getFirstSolid(newlocation),newlocation.getBlockZ() + 0.5);
             player.teleport(newlocation);
             PostAPI.playSoundAfterTp(player,newlocation);
             PostAPI.sendActionBarOrChat(player,message);
@@ -131,7 +130,7 @@ public class PostAPI {
 
             Entity e;
 
-            for (UUID id : LeashAPI.getLeashed(player)){
+            for (UUID id : LeashAPI.getLeashed(player)) {
                 e = Bukkit.getEntity(id);
                 if(e == null) continue;
                 e.teleport(newlocation);
@@ -142,13 +141,14 @@ public class PostAPI {
 
         if(Telepost.getInstance().getConfig().getBoolean("launch-feature")) {
             player.setVelocity(new Vector(0,10,0));
+            Location finalNewlocation = newlocation;
             Bukkit.getScheduler().runTaskLater(Telepost.getInstance(), () -> {
-                Location location = new Location( player.getWorld() , newlocation.getBlockX() + 0.5 , newlocation.getBlockY() , newlocation.getBlockZ() + 0.5 , player.getLocation().getYaw() , player.getLocation().getPitch() );
+                Location location = new Location( player.getWorld() , finalNewlocation.getBlockX() + 0.5 , finalNewlocation.getBlockY() , finalNewlocation.getBlockZ() + 0.5 , player.getLocation().getYaw() , player.getLocation().getPitch() );
                 player.teleport(location);
                 Telepost.getInstance().blockFall.add(player.getUniqueId());
                 sendActionBarOrChat(player,message);
             }, 50L);
-        }else{
+        }else {
             newlocation.setY(getFirstSolid(newlocation));
             player.teleport(newlocation);
             PostAPI.sendActionBarOrChat(player,message);
@@ -160,30 +160,28 @@ public class PostAPI {
 
     }
 
-    public static String idToName( String s ) {
+    public static String idToName(String s) {
         return s.replace("."," ");
     }
 
-    public static String getNearestPostID( Player player ){
-        if(Telepost.getInstance().getConfig().getBoolean("multiple-names-per-post")){
-            return null;
-        }
+    public static String getNearestPostID(Player player){
+        if(Telepost.getInstance().getConfig().getBoolean("multiple-names-per-post")) return null;
 
-        int postX = PostAPI.getNearPost(player.getLocation().getBlockX(), Telepost.getInstance().getConfig().getInt("post-x-location"));
-        int postZ = PostAPI.getNearPost(player.getLocation().getBlockZ(), Telepost.getInstance().getConfig().getInt("post-z-location"));
+        int postX = PostAPI.getNearPost(player.getLocation().getBlockX(), ORIGIN_X);
+        int postZ = PostAPI.getNearPost(player.getLocation().getBlockZ(), ORIGIN_Z);
 
         List<String> warpNames = new ArrayList<>(Warp.getWarps().keySet());
 
-        for(String warpName: warpNames){
+        for(String warpName: warpNames) {
             Location postLocation = Warp.getWarps().get(warpName).getLocation();
-            if( postLocation.getBlockX()==postX && postLocation.getBlockZ()==postZ && !Telepost.getInstance().getConfig().getBoolean("multiple-names-per-post")){
+            if( postLocation.getBlockX() == postX && postLocation.getBlockZ() == postZ && !Telepost.getInstance().getConfig().getBoolean("multiple-names-per-post")){
                 return warpName;
             }
         }
         return null;
     }
 
-    public static boolean isPlayerOnPost ( Player player ) {
+    public static boolean isPlayerOnPost (Player player) {
         int width = (Telepost.getInstance().getConfig().getInt("post-width") - 1) / 2;
 
         // Getting the cords of nearest post to the player
@@ -197,11 +195,11 @@ public class PostAPI {
         return !(playerX < postX - width || playerX > postX + width && playerZ < postZ - width || playerZ > postZ + width);
     }
 
-    public static String getMessage(String path){
+    public static String getMessage(String path) {
         return colour(Telepost.getMessages().getString(path));
     }
 
-    public static String colour(String message){
+    public static String colour(String message) {
         return ChatColor.translateAlternateColorCodes('&',message);
     }
 }
