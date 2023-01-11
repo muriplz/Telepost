@@ -35,7 +35,7 @@ public class NearestPost implements CommandExecutor{
                 return false;
             }
 
-            double worldBorderRadius = Objects.requireNonNull(Bukkit.getServer().getWorld(WORLD_NAME)).getWorldBorder().getSize()/2;
+            double worldBorderRadius = Objects.requireNonNull(Bukkit.getServer().getWorld(WORLD_NAME)).getWorldBorder().getSize() / 2;
 
             Location nearestPost = PostAPI.getNearPostLocation(player);
             // For the X axis

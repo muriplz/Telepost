@@ -1,16 +1,18 @@
 package com.kryeit;
 
 
-import com.kryeit.Commands.HomePost;
-import com.kryeit.Commands.NamePost;
-import com.kryeit.Commands.PostsList;
-import com.kryeit.Commands.SetPost;
+import com.kryeit.Commands.*;
 import com.kryeit.Leash.onLeash;
 import com.kryeit.Listeners.onFall;
 import com.kryeit.Listeners.onGlide;
 import com.kryeit.Listeners.onKick;
 import com.kryeit.Listeners.onPlayerMove;
 import com.kryeit.Tab.*;
+import com.kryeit.Tab.Help;
+import com.kryeit.Tab.Invite;
+import com.kryeit.Tab.NearestPost;
+import com.kryeit.Tab.UnnamePost;
+import com.kryeit.Tab.Visit;
 import io.github.niestrat99.advancedteleport.api.ATPlayer;
 import io.github.thatsmusic99.configurationmaster.CMFile;
 import org.bukkit.Bukkit;
@@ -29,13 +31,11 @@ import java.util.UUID;
 public class Telepost extends JavaPlugin {
 
     public ArrayList<UUID> blockFall;
-
     public HashMap<UUID,UUID> leashed;
-
     public ArrayList<String> offlineHomed;
 
     PluginDescriptionFile pdffile = getDescription();
-    public String name = ChatColor.YELLOW+"["+ChatColor.WHITE+pdffile.getName()+ChatColor.YELLOW+"]";
+    public String name = PostAPI.colour("&e[&f" + pdffile.getName() + "&e]");
     public String version = pdffile.getVersion();
 
     public static Telepost instance;
@@ -53,7 +53,7 @@ public class Telepost extends JavaPlugin {
         offlineHomed = visitTab();
         Bukkit.getConsoleSender().sendMessage("1"+visitTab());
         Bukkit.getConsoleSender().sendMessage("2"+offlineHomed);
-        
+
         // Register events
         registerEvents();
 

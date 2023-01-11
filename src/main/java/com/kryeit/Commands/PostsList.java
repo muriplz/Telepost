@@ -28,7 +28,7 @@ public class PostsList implements CommandExecutor {
             Bukkit.getConsoleSender().sendMessage(instance
                     .name+"You can't execute this command from console.");
             return false;
-        }else{
+        }else {
 
             // Get all names of named posts and made it into a List
             Set<String> warpNames = Warp.getWarps().keySet();
@@ -76,9 +76,7 @@ public class PostsList implements CommandExecutor {
             }
             // Send the message with the Text components to the player
             player.spigot().sendMessage(messagePosts);
-            if(Warp.getWarps().size() >= 9) {
-                PostAPI.sendMessage(player, "&7-----------------------");
-            }
+            if(Warp.getWarps().size() >= 9) PostAPI.sendMessage(player, "&7-----------------------");
             return true;
         }
     }
