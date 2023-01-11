@@ -51,6 +51,9 @@ public class Telepost extends JavaPlugin {
         instance = this;
 
         offlineHomed = visitTab();
+        Bukkit.getConsoleSender().sendMessage("1"+visitTab());
+        Bukkit.getConsoleSender().sendMessage("2"+offlineHomed);
+
 
         // Register events
         registerEvents();
@@ -72,7 +75,8 @@ public class Telepost extends JavaPlugin {
     public ArrayList<String> visitTab(){
         ArrayList<String> list = new ArrayList<>();
         for(OfflinePlayer p : Bukkit.getServer().getOfflinePlayers()){
-            ATPlayer player = ATPlayer.getPlayer(p);
+            ATPlayer player = ATPlayer.getPlayer(Objects.requireNonNull(p.getName()));
+            assert player != null;
             if (!player.hasHome("home")) continue;
             list.add(p.getName());
         }
