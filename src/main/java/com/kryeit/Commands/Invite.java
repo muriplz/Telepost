@@ -33,11 +33,11 @@ public class Invite implements CommandExecutor {
                     Location location = atPlayer.getHome("home").getLocation();
                     String arg = args[0];
                     Player player2 = Bukkit.getPlayer(arg);
-                    if(player2==null){
+                    if(player2 == null) {
                         player.sendMessage(PostAPI.getMessage("not-found"));
                         return false;
                     }
-                    if(player==player2){
+                    if(player == player2) {
                         player.sendMessage(PostAPI.getMessage("own-invite"));
                         return false;
                     }

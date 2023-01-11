@@ -26,18 +26,22 @@ public class NamePost implements CommandExecutor {
         if( ! (sender instanceof Player player)) {
             Bukkit.getConsoleSender().sendMessage(instance.name+PostAPI.getMessage("cant-execute-from-console"));
         }else {
+
             if(args.length == 0) {
                 PostAPI.sendMessage(player,PostAPI.getMessage("namepost-usage"));
                 return false;
             }
+
             if(!player.hasPermission("telepost.namepost")) {
                 player.sendMessage(PostAPI.getMessage("no-permission"));
                 return false;
             }
+
             if(!player.getWorld().getName().equals(worldName)) {
                 player.sendMessage(PostAPI.getMessage("not-on-overworld"));
                 return false;
             }
+
             Location nearestPost = PostAPI.getNearPostLocation(player);
             // For the X axis
             int postX = nearestPost.getBlockX();

@@ -21,13 +21,10 @@ public class Visit implements CommandExecutor{
     public String worldName = "world";
     //  This commands aims to be /visit in-game
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player player)) {
             Bukkit.getConsoleSender().sendMessage(instance.name + PostAPI.getMessage("cant-execute-from-console"));
             return false;
         } else {
-
-            // Getting the player
-            Player player = (Player) sender;
 
             // If the player is not on the ground stop the command
             if(!Objects.requireNonNull(Bukkit.getEntity(player.getUniqueId())).isOnGround()&&player.getGameMode()!= GameMode.CREATIVE&&player.getGameMode()!=GameMode.SPECTATOR){

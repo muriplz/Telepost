@@ -24,7 +24,7 @@ public class NearestPost implements CommandExecutor{
         }else {
 
             // Player has to be in the Overworld
-            if(!player.getWorld().getName().equals(worldName)){
+            if(!player.getWorld().getName().equals(worldName)) {
                 player.sendMessage(PostAPI.getMessage("not-on-overworld"));
                 return false;
             }
@@ -38,15 +38,15 @@ public class NearestPost implements CommandExecutor{
             // For the Z axis
             int postZ = nearestPost.getBlockZ();
 
-            if(postX > worldBorderRadius || postZ > worldBorderRadius){
+            if(postX > worldBorderRadius || postZ > worldBorderRadius) {
                 player.sendMessage(PostAPI.colour("&cThe nearest post is outside the world border, try somewhere else"));
                 return false;
             }
 
-            if(args.length==0) {
+            if(args.length == 0) {
 
                 String postName = PostAPI.getNearestPostID(player);
-                if(postName!=null){
+                if(postName != null) {
                     player.sendMessage(PostAPI.colour(PostAPI.getMessage("nearest-message-named").replace("%POST_LOCATION%","(" + postX + " , " + postZ + ")").replace("%POST_NAME%",PostAPI.idToName(postName))));
                 }else {
                     player.sendMessage(PostAPI.getMessage("nearest-message").replace("%POST_LOCATION%", "(" + postX + " , " + postZ + ")"));

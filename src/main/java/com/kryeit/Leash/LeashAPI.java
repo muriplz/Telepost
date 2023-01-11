@@ -20,8 +20,8 @@ public class LeashAPI {
     public static ArrayList<UUID> getLeashed(Player p) {
         ArrayList<UUID> ids = new ArrayList<>();
 
-        for(UUID id : leashed.keySet()){
-            if(leashed.get(id).equals(p.getUniqueId())){
+        for(UUID id : leashed.keySet()) {
+            if(leashed.get(id).equals(p.getUniqueId())) {
                 ids.add(id);
             }
         }
@@ -67,13 +67,13 @@ public class LeashAPI {
             }else{
                 if(flyers.contains(e.getType().getEntityClass().getName())) {
                     newlocation = new Location( e.getWorld() , newlocation.getBlockX() + 0.5 , PostAPI.getFirstSolid(newlocation) , newlocation.getBlockZ() + 0.5 );
-                }else{
+                }else {
                     newlocation = new Location( e.getWorld() , newlocation.getBlockX() + 0.5 , newlocation.getBlockY() , newlocation.getBlockZ() + 0.5 );
                 }
 
                 e.teleport(newlocation);
             }
-            if(getFlyers().contains(e.getName().toLowerCase())){
+            if(getFlyers().contains(e.getName().toLowerCase())) {
                 leashed.remove(id);
             }
         }
