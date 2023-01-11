@@ -1,4 +1,4 @@
-main: muriplz.telepost.Telepost
+main: com.kryeit.Telepost
 version: 1.3-DEV4
 name: Telepost
 description: Posts to keep people connected!
