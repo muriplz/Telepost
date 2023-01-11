@@ -1,6 +1,6 @@
-package muriplz.telepost.commands;
+package com.kryeit.Commands;
 
-import muriplz.telepost.Telepost;
+import com.kryeit.Telepost;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -17,11 +17,10 @@ public class Help implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player player)) {
             Bukkit.getConsoleSender().sendMessage(plugin.name + PostAPI.getMessage("cant-execute-from-console"));
             return false;
         } else {
-            Player player = (Player) sender;
 
             // /posthelp
             if (args.length == 0) {

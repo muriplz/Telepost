@@ -1,7 +1,7 @@
-package muriplz.telepost.commands;
+package com.kryeit.Commands;
 
+import com.kryeit.Telepost;
 import io.github.niestrat99.advancedteleport.api.Warp;
-import muriplz.telepost.Telepost;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -24,13 +24,11 @@ public class PostsList implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if(!(sender instanceof Player)) {
+        if(!(sender instanceof Player player)) {
             Bukkit.getConsoleSender().sendMessage(instance
                     .name+"You can't execute this command from console.");
             return false;
         }else{
-            // Get player
-            Player player = (Player) sender;
 
             // Get all names of named posts and made it into a List
             Set<String> warpNames = Warp.getWarps().keySet();
@@ -49,9 +47,9 @@ public class PostsList implements CommandExecutor {
             TextComponent message;
 
             // Header
-            if(Warp.getWarps().size()<9){
+            if(Warp.getWarps().size() < 9) {
                 messagePosts.addExtra(PostAPI.getMessage("named-posts-translation")+":");
-            }else{
+            } else {
                 PostAPI.sendMessage(player, "&7-----------------");
                 PostAPI.sendMessage(player, PostAPI.getMessage("named-posts-translation")+" ");
                 PostAPI.sendMessage(player, "&7-----------------");
@@ -78,7 +76,7 @@ public class PostsList implements CommandExecutor {
             }
             // Send the message with the Text components to the player
             player.spigot().sendMessage(messagePosts);
-            if(Warp.getWarps().size()>=9){
+            if(Warp.getWarps().size() >= 9) {
                 PostAPI.sendMessage(player, "&7-----------------------");
             }
             return true;

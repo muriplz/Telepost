@@ -1,4 +1,4 @@
-package muriplz.telepost.tabCompletion;
+package com.kryeit.Tab;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

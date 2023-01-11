@@ -1,6 +1,6 @@
-package muriplz.telepost.leash;
+package com.kryeit.Leash;
 
-import muriplz.telepost.Telepost;
+import com.kryeit.Telepost;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerLeashEntityEvent;

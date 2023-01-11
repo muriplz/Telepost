@@ -1,4 +1,4 @@
-package muriplz.telepost.tabCompletion;
+package com.kryeit.Tab;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -15,7 +15,7 @@ public class Invite implements TabCompleter {
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-        if(args.length==1){
+        if(args.length == 1){
             // Initialize Lists
 
             // completions is the returned Lists, starts empty

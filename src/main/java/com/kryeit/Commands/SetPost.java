@@ -1,8 +1,8 @@
-package muriplz.telepost.commands;
+package com.kryeit.Commands;
 
 
+import com.kryeit.Telepost;
 import io.github.niestrat99.advancedteleport.api.ATPlayer;
-import muriplz.telepost.Telepost;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -22,13 +22,10 @@ public class SetPost implements CommandExecutor {
     //  This commands aims to be /SetPost in-game
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player player)) {
             Bukkit.getConsoleSender().sendMessage(instance.name + PostAPI.getMessage("cant-execute-from-console"));
             return false;
         } else {
-
-            // Get the Player
-            Player player = (Player) sender;
 
             // If the command is not /setpost ONLY then return false
             if(args.length!=0){

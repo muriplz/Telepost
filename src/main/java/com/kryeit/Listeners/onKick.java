@@ -1,6 +1,6 @@
-package muriplz.telepost.Listeners;
+package com.kryeit.Listeners;
 
-import muriplz.telepost.Telepost;
+import com.kryeit.Telepost;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,7 +14,7 @@ public class onKick implements Listener {
     public HashMap<UUID,UUID> leashed = Telepost.getInstance().leashed;
 
     @EventHandler
-    public void onKick(PlayerQuitEvent event) {
+    public void onKickK(PlayerQuitEvent event) {
         Player p = event.getPlayer();
 
         if(leashed.containsValue(p.getUniqueId())){

@@ -1,7 +1,7 @@
-package muriplz.telepost.commands;
+package com.kryeit.Commands;
 
+import com.kryeit.Telepost;
 import io.github.niestrat99.advancedteleport.api.ATPlayer;
-import muriplz.telepost.Telepost;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -21,13 +21,10 @@ public class HomePost implements CommandExecutor {
 
     //  This commands aims to be /HomePost in-game
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if( ! ( sender instanceof Player )) {
+        if( ! (sender instanceof Player player)) {
             Bukkit.getConsoleSender().sendMessage(plugin.name+PostAPI.getMessage("cant-execute-from-console"));
             return false;
         }else {
-
-            // Getting the player and seeing if he's in the overworld
-            Player player = (Player) sender;
 
             // If the command is not /homepost ONLY then return false
             if(args.length!=0){

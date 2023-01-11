@@ -1,7 +1,7 @@
-package muriplz.telepost.leash;
+package com.kryeit.Leash;
 
-import muriplz.telepost.Telepost;
-import muriplz.telepost.commands.PostAPI;
+import com.kryeit.Commands.PostAPI;
+import com.kryeit.Telepost;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -29,7 +29,7 @@ public class LeashAPI {
         return ids;
     }
 
-    public static ArrayList<String> getFlyers(){
+    public static ArrayList<String> getFlyers() {
         ArrayList<String> flyers = new ArrayList<>();
         flyers.add("chicken");
         flyers.add("parrot");
@@ -37,16 +37,20 @@ public class LeashAPI {
         return flyers;
     }
 
-    public static void teleportLeashed(Player p, Location newlocation){
+    public static boolean hasLeashed( Player p ) {
+        return leashed.containsValue(p.getUniqueId());
+    }
+
+    public static void teleportLeashed( Player p, Location newlocation ) {
         Entity e;
         List<String> flyers = getFlyers();
-        for ( UUID id : getLeashed(p)){
+        for (UUID id : getLeashed(p)) {
             e = Bukkit.getEntity(id);
             if( e == null ) {
                 leashed.remove(id);
                 continue;
             }
-            if(Telepost.getInstance().getConfig().getBoolean("launch-feature")){
+            if(Telepost.getInstance().getConfig().getBoolean("launch-feature")) {
                 e.setVelocity(new Vector(0,4,0));
                 Entity finalE = e;
                 Location finalNewlocation = newlocation;
@@ -61,10 +65,11 @@ public class LeashAPI {
 
                 }, 65L);
             }else{
-                if(flyers.contains(e.getType().getEntityClass().getName())){
+                if(flyers.contains(e.getType().getEntityClass().getName())) {
                     newlocation = new Location( e.getWorld() , newlocation.getBlockX() + 0.5 , PostAPI.getFirstSolid(newlocation) , newlocation.getBlockZ() + 0.5 );
+                }else{
+                    newlocation = new Location( e.getWorld() , newlocation.getBlockX() + 0.5 , newlocation.getBlockY() , newlocation.getBlockZ() + 0.5 );
                 }
-                newlocation = new Location( e.getWorld() , newlocation.getBlockX() + 0.5 , newlocation.getBlockY() , newlocation.getBlockZ() + 0.5 );
 
                 e.teleport(newlocation);
             }

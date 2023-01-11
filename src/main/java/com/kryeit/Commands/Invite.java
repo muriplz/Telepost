@@ -1,7 +1,7 @@
-package muriplz.telepost.commands;
+package com.kryeit.Commands;
 
+import com.kryeit.Telepost;
 import io.github.niestrat99.advancedteleport.api.ATPlayer;
-import muriplz.telepost.Telepost;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -20,12 +20,11 @@ public class Invite implements CommandExecutor {
 
     // This commands aims to be /Invite in-game
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player player)) {
             Bukkit.getConsoleSender().sendMessage(instance.name + "You can't execute this command from console.");
             return false;
         }
 
-        Player player = (Player) sender;
         ATPlayer atPlayer = ATPlayer.getPlayer(player);
 
         if (args.length == 1) {

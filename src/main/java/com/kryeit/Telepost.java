@@ -1,18 +1,18 @@
-package muriplz.telepost;
+package com.kryeit;
 
 
+import com.kryeit.Commands.HomePost;
+import com.kryeit.Commands.NamePost;
+import com.kryeit.Commands.PostsList;
+import com.kryeit.Commands.SetPost;
+import com.kryeit.Leash.onLeash;
+import com.kryeit.Listeners.onFall;
+import com.kryeit.Listeners.onGlide;
+import com.kryeit.Listeners.onKick;
+import com.kryeit.Listeners.onPlayerMove;
+import com.kryeit.Tab.*;
 import io.github.niestrat99.advancedteleport.api.ATPlayer;
 import io.github.thatsmusic99.configurationmaster.CMFile;
-import muriplz.telepost.Listeners.onFall;
-import muriplz.telepost.Listeners.onGlide;
-import muriplz.telepost.Listeners.onKick;
-import muriplz.telepost.Listeners.onPlayerMove;
-import muriplz.telepost.commands.HomePost;
-import muriplz.telepost.commands.NamePost;
-import muriplz.telepost.commands.PostsList;
-import muriplz.telepost.commands.SetPost;
-import muriplz.telepost.leash.onLeash;
-import muriplz.telepost.tabCompletion.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -21,15 +21,18 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Objects;
+import java.util.UUID;
 
 public class Telepost extends JavaPlugin {
 
-    public ArrayList<String> blockFall;
+    public ArrayList<UUID> blockFall;
 
     public HashMap<UUID,UUID> leashed;
 
-    public List<String> offlineHomed;
+    public ArrayList<String> offlineHomed;
 
     PluginDescriptionFile pdffile = getDescription();
     public String name = ChatColor.YELLOW+"["+ChatColor.WHITE+pdffile.getName()+ChatColor.YELLOW+"]";
@@ -47,7 +50,7 @@ public class Telepost extends JavaPlugin {
 
         instance = this;
 
-        offlineHomed = new ArrayList<>(visitTab());
+        offlineHomed = visitTab();
 
         // Register events
         registerEvents();
@@ -66,11 +69,10 @@ public class Telepost extends JavaPlugin {
         Bukkit.getConsoleSender().sendMessage(name+ChatColor.WHITE+" The plugin has been deactivated.");
     }
 
-    public List<String> visitTab(){
-        List<String> list = new ArrayList<>();
+    public ArrayList<String> visitTab(){
+        ArrayList<String> list = new ArrayList<>();
         for(OfflinePlayer p : Bukkit.getServer().getOfflinePlayers()){
-            ATPlayer player = ATPlayer.getPlayer(p.getName());
-            if (player == null) continue;
+            ATPlayer player = ATPlayer.getPlayer(p);
             if (!player.hasHome("home")) continue;
             list.add(p.getName());
         }
@@ -208,7 +210,7 @@ public class Telepost extends JavaPlugin {
 
     public void registerCommands() {
         // /nearestpost
-        Objects.requireNonNull(getCommand("nearestpost")).setExecutor(new muriplz.telepost.commands.NearestPost());
+        Objects.requireNonNull(getCommand("nearestpost")).setExecutor(new com.kryeit.Commands.NearestPost());
         Objects.requireNonNull(getCommand("nearestpost")).setTabCompleter(new NearestPost());
 
         // /setpost
@@ -220,11 +222,11 @@ public class Telepost extends JavaPlugin {
         Objects.requireNonNull(getCommand("homepost")).setTabCompleter(new ReturnEmpty());
 
         // /invite <Player>
-        Objects.requireNonNull(getCommand("invite")).setExecutor(new muriplz.telepost.commands.Invite());
+        Objects.requireNonNull(getCommand("invite")).setExecutor(new com.kryeit.Commands.Invite());
         Objects.requireNonNull(getCommand("invite")).setTabCompleter(new Invite());
 
         // /visit <NamedPost/Player>
-        Objects.requireNonNull(getCommand("visit")).setExecutor(new muriplz.telepost.commands.Visit());
+        Objects.requireNonNull(getCommand("visit")).setExecutor(new com.kryeit.Commands.Visit());
         Objects.requireNonNull(getCommand("visit")).setTabCompleter(new Visit());
 
         // /namepost <Name>
@@ -232,12 +234,12 @@ public class Telepost extends JavaPlugin {
         Objects.requireNonNull(getCommand("namepost")).setTabCompleter(new ReturnEmpty());
 
         // /unnamepost <Name>
-        Objects.requireNonNull(getCommand("unnamepost")).setExecutor(new muriplz.telepost.commands.UnnamePost());
+        Objects.requireNonNull(getCommand("unnamepost")).setExecutor(new com.kryeit.Commands.UnnamePost());
         Objects.requireNonNull(getCommand("unnamepost")).setTabCompleter(new UnnamePost());
 
         // /posthelp (command)
         // <> means that has to be used, () is optional
-        Objects.requireNonNull(getCommand("posthelp")).setExecutor( new muriplz.telepost.commands.Help());
+        Objects.requireNonNull(getCommand("posthelp")).setExecutor( new com.kryeit.Commands.Help());
         Objects.requireNonNull(getCommand("posthelp")).setTabCompleter(new Help());
 
        //  /buildpost (y)

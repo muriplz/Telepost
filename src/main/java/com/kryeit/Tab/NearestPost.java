@@ -1,4 +1,4 @@
-package muriplz.telepost.tabCompletion;
+package com.kryeit.Tab;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -15,7 +15,7 @@ public class NearestPost implements TabCompleter {
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
 
         List<String> completions = new ArrayList<>();
-        if(args.length==1){
+        if(args.length == 1){
 
             // Creating the lists with the autocomplete text
             List<String> commands = new ArrayList<>();

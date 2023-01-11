@@ -1,6 +1,6 @@
-package muriplz.telepost.Listeners;
+package com.kryeit.Listeners;
 
-import muriplz.telepost.Telepost;
+import com.kryeit.Telepost;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -11,6 +11,6 @@ public class onGlide implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void preventGliding(EntityToggleGlideEvent event) {
-        instance.blockFall.remove(event.getEntity().getUniqueId().toString());
+        instance.blockFall.remove(event.getEntity().getUniqueId());
     }
 }

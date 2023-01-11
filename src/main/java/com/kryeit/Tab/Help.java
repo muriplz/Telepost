@@ -1,6 +1,6 @@
-package muriplz.telepost.tabCompletion;
+package com.kryeit.Tab;
 
-import muriplz.telepost.Telepost;
+import com.kryeit.Telepost;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -19,7 +19,7 @@ public class Help implements TabCompleter {
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
 
         List<String> completions = new ArrayList<>();
-        if(args.length==1){
+        if(args.length == 1){
             // Getting the Player
             Player player = (Player) sender;
 

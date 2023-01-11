@@ -1,8 +1,8 @@
-package muriplz.telepost.commands;
+package com.kryeit.Commands;
 
+import com.kryeit.Telepost;
 import io.github.niestrat99.advancedteleport.api.ATPlayer;
 import io.github.niestrat99.advancedteleport.api.Warp;
-import muriplz.telepost.Telepost;
 import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -179,7 +179,25 @@ public class Visit implements CommandExecutor{
                     }
                 }else {
                     // Check if the sender has been invited
-                    if (atPlayer.hasHome(args[0]) || player.hasPermission("telepost.visit.others")) {
+                    if(player.hasPermission("telepost.visit.others")){
+                        boolean is = false;
+                        for(OfflinePlayer offlinePlayer : Bukkit.getServer().getOfflinePlayers()) {
+                            if (Objects.equals(offlinePlayer.getName(), args[0])) {
+                                is = true;
+                            }
+                        }
+                        if(is){
+                            ATPlayer atPlayer1 = ATPlayer.getPlayer(args[0]);
+                            if(atPlayer1.hasHome("home")){
+                                Location l = atPlayer1.getHome("home").getLocation();
+                                String message = PostAPI.getMessage("invited-home-arrival").replace("%PLAYER_NAME%",args[0]);
+                                PostAPI.launchAndTp(player,l,message);
+                                return true;
+                            }else{
+
+                            }
+                        }
+                    } else if (atPlayer.hasHome(args[0])) {
                         Location location = atPlayer.getHome(args[0]).getLocation();
 
                         // See if he wants to teleport to a post he is already in. If he has permission this has no effect
@@ -194,7 +212,7 @@ public class Visit implements CommandExecutor{
                         // Launch the player is its true on config.yml
                         PostAPI.launchAndTp(player,newlocation,message);
                         return true;
-                    }else {
+                    } else {
                         player.sendMessage(PostAPI.getMessage("visit-not-invited"));
                     }
                 }

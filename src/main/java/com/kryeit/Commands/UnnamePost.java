@@ -1,7 +1,7 @@
-package muriplz.telepost.commands;
+package com.kryeit.Commands;
 
+import com.kryeit.Telepost;
 import io.github.niestrat99.advancedteleport.api.Warp;
-import muriplz.telepost.Telepost;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -23,10 +23,9 @@ public class UnnamePost implements CommandExecutor {
     // This command aims to be /UnnamePost in-game
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if( ! ( sender instanceof Player)) {
+        if( ! (sender instanceof Player player)) {
             Bukkit.getConsoleSender().sendMessage(instance.name+PostAPI.getMessage("cant-execute-from-console"));
         }else {
-            Player player = (Player) sender;
 
             // Permission node
             if(!player.hasPermission("telepost.unnamepost")){
