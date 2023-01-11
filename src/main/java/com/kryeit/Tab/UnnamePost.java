@@ -34,7 +34,7 @@ public class UnnamePost implements TabCompleter {
             allTab = PostAPI.idToName(allTab);
             aux = allTab;
 
-            for(int i=0;i< args.length-1;i++){
+            for(int i = 0 ; i < args.length - 1 ; i++) {
                 allTab = allTab.replaceFirst("(?i)"+args[i]+" ","");
             }
 

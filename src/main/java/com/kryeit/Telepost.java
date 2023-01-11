@@ -40,7 +40,7 @@ public class Telepost extends JavaPlugin {
 
     public static Telepost instance;
 
-    public void onEnable(){
+    public void onEnable() {
 
         // All global lists
         telepostData();
@@ -53,8 +53,7 @@ public class Telepost extends JavaPlugin {
         offlineHomed = visitTab();
         Bukkit.getConsoleSender().sendMessage("1"+visitTab());
         Bukkit.getConsoleSender().sendMessage("2"+offlineHomed);
-
-
+        
         // Register events
         registerEvents();
 
@@ -72,7 +71,7 @@ public class Telepost extends JavaPlugin {
         Bukkit.getConsoleSender().sendMessage(name+ChatColor.WHITE+" The plugin has been deactivated.");
     }
 
-    public ArrayList<String> visitTab(){
+    public ArrayList<String> visitTab() {
         ArrayList<String> list = new ArrayList<>();
         for(OfflinePlayer p : Bukkit.getServer().getOfflinePlayers()){
             ATPlayer player = ATPlayer.getPlayer(Objects.requireNonNull(p.getName()));
@@ -83,7 +82,7 @@ public class Telepost extends JavaPlugin {
         return list;
     }
 
-    void loadConfig (){
+    void loadConfig () {
         CMFile myConfigFile = new CMFile(this, "config") {
             @Override
             public void loadDefaults() {
@@ -120,7 +119,6 @@ public class Telepost extends JavaPlugin {
                 addComment("If leashed entities get teteported");
                 addDefault("teleport-leashed",true);
             }
-
         };
         myConfigFile.load();
     }
@@ -191,23 +189,21 @@ public class Telepost extends JavaPlugin {
         myMessagesFile.load();
     }
 
-    public static Telepost getInstance(){
+    public static Telepost getInstance() {
         return instance;
     }
 
-    public void registerEvents(){
+    public void registerEvents() {
         getServer().getPluginManager().registerEvents(new onGlide(), this);
         getServer().getPluginManager().registerEvents(new onFall(), this);
         getServer().getPluginManager().registerEvents(new onPlayerMove(), this);
         getServer().getPluginManager().registerEvents(new onKick(), this);
-        if(getConfig().getBoolean("teleport-leashed")){
+        if(getConfig().getBoolean("teleport-leashed")) {
             getServer().getPluginManager().registerEvents(new onLeash(), this);
-
         }
-
     }
 
-    public void telepostData(){
+    public void telepostData() {
         blockFall = new ArrayList<>();
         leashed = new HashMap<>();
     }
@@ -256,15 +252,13 @@ public class Telepost extends JavaPlugin {
         Objects.requireNonNull(getCommand("postlist")).setExecutor( new PostsList());
         Objects.requireNonNull(getCommand("postlist")).setTabCompleter(new ReturnEmpty());
 
-
         // /buildallposts
    //     Objects.requireNonNull(getCommand("buildallposts")).setExecutor(new BuildAllPostsCommand());
    //     Objects.requireNonNull(getCommand("buildallposts")).setTabCompleter(new ReturnNullTab());
 
-
     }
 
-    public static YamlConfiguration getMessages(){
+    public static YamlConfiguration getMessages() {
         File messages = new File(getInstance().getDataFolder(), "messages.yml");
         return YamlConfiguration.loadConfiguration(messages);
     }

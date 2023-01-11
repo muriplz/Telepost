@@ -13,11 +13,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
+import static com.kryeit.Commands.PostAPI.WORLD_NAME;
+
 
 public class SetPost implements CommandExecutor {
 
     public Telepost instance = Telepost.getInstance();
-    public String worldName = "world";
 
     //  This commands aims to be /SetPost in-game
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -28,17 +29,17 @@ public class SetPost implements CommandExecutor {
         } else {
 
             // If the command is not /setpost ONLY then return false
-            if(args.length!=0){
+            if(args.length != 0) {
                 player.sendMessage(PostAPI.getMessage("setpost-usage"));
                 return false;
             }
 
-            if(!player.getWorld().getName().equals(worldName)){
+            if(!player.getWorld().getName().equals(WORLD_NAME)) {
                 player.sendMessage(PostAPI.getMessage("not-on-overworld"));
                 return false;
             }
 
-            double worldBorderRadius = Objects.requireNonNull(Bukkit.getServer().getWorld(worldName)).getWorldBorder().getSize()/2;
+            double worldBorderRadius = Objects.requireNonNull(Bukkit.getServer().getWorld(WORLD_NAME)).getWorldBorder().getSize()/2;
 
             Location nearestPost = PostAPI.getNearPostLocation(player);
             // For the X axis
@@ -47,7 +48,7 @@ public class SetPost implements CommandExecutor {
             // For the Z axis
             int postZ = nearestPost.getBlockZ();
 
-            if(postX > worldBorderRadius || postZ > worldBorderRadius){
+            if(postX > worldBorderRadius || postZ > worldBorderRadius) {
                 player.sendMessage(PostAPI.colour("&cThe nearest post is outside the world border, try somewhere else"));
                 return false;
             }
@@ -62,7 +63,7 @@ public class SetPost implements CommandExecutor {
             if (atPlayer.hasHome("home")) {
                 atPlayer.moveHome("home", location, null);
                 PostAPI.sendActionBarOrChat(player,PostAPI.getMessage("move-post-success").replace("%POST_LOCATION%","("+postX+","+postZ+")"));
-            }else{
+            }else {
 
                 // Setting the post for the first time
                 atPlayer.addHome("home", location, null);

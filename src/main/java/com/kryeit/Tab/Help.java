@@ -19,7 +19,7 @@ public class Help implements TabCompleter {
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
 
         List<String> completions = new ArrayList<>();
-        if(args.length == 1){
+        if(args.length == 1) {
             // Getting the Player
             Player player = (Player) sender;
 
@@ -28,10 +28,10 @@ public class Help implements TabCompleter {
 
 
             // Adding the autocomplete text
-            if(player.hasPermission("telepost.namepost")){
+            if(player.hasPermission("telepost.namepost")) {
                 commands.add("namepost");
             }
-            if(player.hasPermission("telepost.unnamepost")){
+            if(player.hasPermission("telepost.unnamepost")) {
                 commands.add("unnamepost");
             }
             commands.add("aliases");

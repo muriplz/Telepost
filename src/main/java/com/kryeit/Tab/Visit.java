@@ -40,7 +40,7 @@ public class Visit implements TabCompleter {
         Player player = (Player) sender;
 
         // Add all offline player's names if the player has the right permission node
-        if(player.hasPermission("telepost.visit.others") && size < 2){
+        if(player.hasPermission("telepost.visit.others") && size == 1) {
             allTabs.addAll(Telepost.getInstance().offlineHomed);
         }
 

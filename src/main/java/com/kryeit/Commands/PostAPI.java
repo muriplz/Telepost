@@ -120,7 +120,7 @@ public class PostAPI {
 
         player.getWorld().getChunkAt(newlocation).load();
 
-        if(player.getGameMode() == GameMode.CREATIVE || player.getGameMode()==GameMode.SPECTATOR) {
+        if(isGod(player)) {
             newlocation = new Location(player.getWorld(),newlocation.getBlockX() + 0.5,getFirstSolid(newlocation),newlocation.getBlockZ() + 0.5);
             player.teleport(newlocation);
             PostAPI.playSoundAfterTp(player,newlocation);
@@ -174,11 +174,15 @@ public class PostAPI {
 
         for(String warpName: warpNames) {
             Location postLocation = Warp.getWarps().get(warpName).getLocation();
-            if( postLocation.getBlockX() == postX && postLocation.getBlockZ() == postZ && !Telepost.getInstance().getConfig().getBoolean("multiple-names-per-post")){
+            if( postLocation.getBlockX() == postX && postLocation.getBlockZ() == postZ && !Telepost.getInstance().getConfig().getBoolean("multiple-names-per-post")) {
                 return warpName;
             }
         }
         return null;
+    }
+
+    public static boolean isGod(Player player) {
+        return player.getGameMode() == GameMode.CREATIVE || player.getGameMode() == GameMode.SPECTATOR;
     }
 
     public static boolean isPlayerOnPost (Player player) {

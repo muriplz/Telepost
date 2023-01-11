@@ -13,11 +13,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
+import static com.kryeit.Commands.PostAPI.WORLD_NAME;
+
 
 public class HomePost implements CommandExecutor {
 
     Telepost plugin = Telepost.getInstance();
-    public String worldName = "world";
 
     //  This commands aims to be /HomePost in-game
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -27,19 +28,19 @@ public class HomePost implements CommandExecutor {
         }else {
 
             // If the command is not /homepost ONLY then return false
-            if(args.length!=0){
+            if(args.length != 0) {
                 player.sendMessage(PostAPI.getMessage("homepost-usage"));
                 return false;
             }
 
             // Check if the player is on the right dimension
-            if(!player.getWorld().getName().equals(worldName)){
+            if(!player.getWorld().getName().equals(WORLD_NAME)) {
                 player.sendMessage(PostAPI.getMessage("not-on-overworld"));
                 return false;
             }
 
             // If the player is not on the ground stop the command
-            if(!Objects.requireNonNull(Bukkit.getEntity(player.getUniqueId())).isOnGround()&&!player.hasPermission("telepost.homepost")){
+            if(!Bukkit.getEntity(player.getUniqueId()).isOnGround() && !player.hasPermission("telepost.homepost")) {
                 return false;
             }
             int height;
@@ -52,14 +53,14 @@ public class HomePost implements CommandExecutor {
             int postZ = nearestPost.getBlockZ();
 
             // If the player is not inside a post and does not have telepost.homepost permission, he won't be teleported
-            if(!player.hasPermission("telepost.homepost")){
+            if(!player.hasPermission("telepost.homepost")) {
                 if(!PostAPI.isPlayerOnPost(player)){
                     PostAPI.sendActionBarOrChat(player,PostAPI.getMessage("not-inside-post"));
                     return false;
                 }
             }
 
-            if(PostAPI.hasBlockAbove(player)){
+            if(PostAPI.hasBlockAbove(player)) {
                 PostAPI.sendActionBarOrChat(player,PostAPI.getMessage("block-above"));
                 return false;
             }
@@ -70,7 +71,7 @@ public class HomePost implements CommandExecutor {
 
                 // You can't /homepost to the same post you are in, except if you have telepost.homepost permission
 
-                if(location.getBlockX()==postX&&location.getBlockZ()==postZ&&!player.hasPermission("telepost.homepost")){
+                if(location.getBlockX() == postX && location.getBlockZ() == postZ && !player.hasPermission("telepost.homepost")) {
                     PostAPI.sendActionBarOrChat(player,PostAPI.getMessage("already-at-homepost"));
                     return false;
                 }

@@ -37,11 +37,11 @@ public class LeashAPI {
         return flyers;
     }
 
-    public static boolean hasLeashed( Player p ) {
+    public static boolean hasLeashed(Player p) {
         return leashed.containsValue(p.getUniqueId());
     }
 
-    public static void teleportLeashed( Player p, Location newlocation ) {
+    public static void teleportLeashed(Player p, Location newlocation) {
         Entity e;
         List<String> flyers = getFlyers();
         for (UUID id : getLeashed(p)) {

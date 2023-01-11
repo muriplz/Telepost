@@ -27,40 +27,43 @@ public class Invite implements CommandExecutor {
 
         ATPlayer atPlayer = ATPlayer.getPlayer(player);
 
-        if (args.length == 1) {
-            if (Bukkit.getPlayer(args[0]) != null) {
-                if (atPlayer.hasHome("home")) {
-                    Location location = atPlayer.getHome("home").getLocation();
-                    String arg = args[0];
-                    Player player2 = Bukkit.getPlayer(arg);
-                    if(player2 == null) {
-                        player.sendMessage(PostAPI.getMessage("not-found"));
-                        return false;
-                    }
-                    if(player == player2) {
-                        player.sendMessage(PostAPI.getMessage("own-invite"));
-                        return false;
-                    }
-                    ATPlayer atPlayer2 = ATPlayer.getPlayer(player2);
-                    String postinvited = player.getName();
-
-                    atPlayer2.addHome(postinvited,location,null);
-                    player.sendMessage(PostAPI.getMessage("inviting").replace("%PLAYER_NAME%",player2.getName()));
-                    player2.sendMessage(PostAPI.getMessage("invited").replace("%PLAYER_NAME%",player.getName()));
-                    final Timer timer = new Timer();
-                    timer.schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                            atPlayer2.removeHome(postinvited,null);
-                            player.sendMessage(PostAPI.getMessage("invite-expire").replace("%PLAYER_NAME%",player2.getName()));
-                            timer.cancel();
-                        }
-                    },300000);
-                    return true;
-                }
-            }
+        if (args.length != 1) {
+            player.sendMessage(PostAPI.getMessage("invite-usage"));
+            return false;
         }
-        player.sendMessage(PostAPI.getMessage("invite-usage"));
+
+        Player inviting = Bukkit.getPlayer(args[0]);
+
+        if (inviting == null) {
+            player.sendMessage(PostAPI.getMessage("not-found"));
+            return false;
+        }
+        if (atPlayer.hasHome("home")) {
+            Location location = atPlayer.getHome("home").getLocation();
+
+            if(player == inviting) {
+                player.sendMessage(PostAPI.getMessage("own-invite"));
+                return false;
+            }
+
+            ATPlayer atPlayer2 = ATPlayer.getPlayer(inviting);
+            String postinvited = player.getName();
+
+            atPlayer2.addHome(postinvited,location,null);
+            player.sendMessage(PostAPI.getMessage("inviting").replace("%PLAYER_NAME%",inviting.getName()));
+            inviting.sendMessage(PostAPI.getMessage("invited").replace("%PLAYER_NAME%",player.getName()));
+            final Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    atPlayer2.removeHome(postinvited,null);
+                    player.sendMessage(PostAPI.getMessage("invite-expire").replace("%PLAYER_NAME%",inviting.getName()));
+                    timer.cancel();
+                }
+            },300000);
+            return true;
+        }
+
 
         return true;
         }

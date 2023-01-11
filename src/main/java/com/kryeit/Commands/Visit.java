@@ -14,11 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static com.kryeit.Commands.PostAPI.WORLD_NAME;
 
-public class Visit implements CommandExecutor{
+
+public class Visit implements CommandExecutor {
 
     public Telepost instance = Telepost.getInstance();
-    public String worldName = "world";
+
     //  This commands aims to be /visit in-game
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!(sender instanceof Player player)) {
@@ -27,7 +29,7 @@ public class Visit implements CommandExecutor{
         } else {
 
             // If the player is not on the ground stop the command
-            if(!Objects.requireNonNull(Bukkit.getEntity(player.getUniqueId())).isOnGround()&&player.getGameMode()!= GameMode.CREATIVE&&player.getGameMode()!=GameMode.SPECTATOR){
+            if(!Bukkit.getEntity(player.getUniqueId()).isOnGround() && !PostAPI.isGod(player)) {
                 return false;
             }
 
@@ -42,20 +44,20 @@ public class Visit implements CommandExecutor{
             World world = player.getWorld();
 
             // Checking if the player is on the Overworld, if not stop the command
-            if(!world.getName().equals(worldName)){
+            if(!world.getName().equals(WORLD_NAME)) {
                 player.sendMessage(PostAPI.getMessage("not-on-overworld"));
                 return false;
             }
 
             // See if the player is inside a post
-            if(!player.hasPermission("telepost.visit")){
-                if(!PostAPI.isPlayerOnPost(player)){
+            if(!player.hasPermission("telepost.visit")) {
+                if(!PostAPI.isPlayerOnPost(player)) {
                     PostAPI.sendActionBarOrChat(player,PostAPI.getMessage("not-inside-post"));
                     return false;
                 }
             }
 
-            if(PostAPI.hasBlockAbove(player)){
+            if(PostAPI.hasBlockAbove(player) && !PostAPI.isGod(player)) {
                 PostAPI.sendActionBarOrChat(player,PostAPI.getMessage("block-above"));
                 return false;
             }
@@ -112,21 +114,26 @@ public class Visit implements CommandExecutor{
                 return true;
             }
 
-            if(args.length ==1){
+            if(args.length ==1) {
                 // Get the atPlayer
                 ATPlayer atPlayer = ATPlayer.getPlayer(player);
 
                 // /v <Yourself> which is the same as /homepost
-                if(player.getName().equals(args[0])){
+                if(player.getName().equals(args[0])) {
 
                     // If player already has a home
-                    if(atPlayer.hasHome("home")){
+                    if(!atPlayer.hasHome("home")) {
+                        // Player does not have a home post yet
+                        player.sendMessage(PostAPI.getMessage("no-homepost"));
+                        return false;
+
+                    }else {
 
                         // Get the home location
                         Location location = atPlayer.getHome("home").getLocation();
 
                         // See if the player is already at his home post, if he has permission he can teleport
-                        if(location.getBlockX()==postX&&location.getBlockZ()==postZ&&!player.hasPermission("telepost.visit")){
+                        if(location.getBlockX() == postX && location.getBlockZ() == postZ && !player.hasPermission("telepost.visit")) {
                             PostAPI.sendActionBarOrChat(player,PostAPI.getMessage("already-at-homepost"));
                             return false;
                         }
@@ -137,33 +144,29 @@ public class Visit implements CommandExecutor{
                         PostAPI.launchAndTp(player,newlocation,message);
 
                         return true;
-                    }else{
-                        // Player does not have a home post yet
-                        player.sendMessage(PostAPI.getMessage("no-homepost"));
-                        return false;
                     }
                 }
                 // /visit <Player>
 
                 // Check if player from (/visit <player>) is actually a player
-                if(Bukkit.getPlayer(args[0])==null){
+                if(Bukkit.getPlayer(args[0]) == null) {
 
                     OfflinePlayer offlinePlayer = null;
-                    if(player.hasPermission("telepost.visit.others")){
+                    if(player.hasPermission("telepost.visit.others")) {
 
-                        for(OfflinePlayer p : Bukkit.getOfflinePlayers()){
-                            if(Objects.equals(p.getName(), args[0])){
+                        for(OfflinePlayer p : Bukkit.getOfflinePlayers()) {
+                            if(Objects.equals(p.getName(), args[0])) {
                                 offlinePlayer = p;
                             }
                         }
                     }
 
-                    if(offlinePlayer == null){
+                    if(offlinePlayer == null) {
                         player.sendMessage(PostAPI.getMessage("unknown-post").replace("%POST_NAME%",args[0]));
                         return false;
                     }
                     ATPlayer offlineATPlayer = ATPlayer.getPlayer(offlinePlayer);
-                    if(offlineATPlayer.hasHome("home")){
+                    if(offlineATPlayer.hasHome("home")) {
                         // Get the home location
                         Location location = offlineATPlayer.getHome("home").getLocation();
 
@@ -176,21 +179,21 @@ public class Visit implements CommandExecutor{
                     }
                 }else {
                     // Check if the sender has been invited
-                    if(player.hasPermission("telepost.visit.others")){
+                    if(player.hasPermission("telepost.visit.others")) {
                         boolean is = false;
                         for(OfflinePlayer offlinePlayer : Bukkit.getServer().getOfflinePlayers()) {
                             if (Objects.equals(offlinePlayer.getName(), args[0])) {
                                 is = true;
                             }
                         }
-                        if(is){
+                        if(is) {
                             ATPlayer atPlayer1 = ATPlayer.getPlayer(args[0]);
-                            if(atPlayer1.hasHome("home")){
+                            if(atPlayer1.hasHome("home")) {
                                 Location l = atPlayer1.getHome("home").getLocation();
                                 String message = PostAPI.getMessage("invited-home-arrival").replace("%PLAYER_NAME%",args[0]);
                                 PostAPI.launchAndTp(player,l,message);
                                 return true;
-                            }else{
+                            }else {
 
                             }
                         }
@@ -199,7 +202,7 @@ public class Visit implements CommandExecutor{
 
                         // See if he wants to teleport to a post he is already in. If he has permission this has no effect
 
-                        if(location.getBlockX()==postX&&location.getBlockZ()==postZ&&!player.hasPermission("telepost.visit")){
+                        if(location.getBlockX() == postX && location.getBlockZ() == postZ && !player.hasPermission("telepost.visit")) {
                             PostAPI.sendActionBarOrChat(player,PostAPI.getMessage("already-invited-post"));
                             return false;
                         }
