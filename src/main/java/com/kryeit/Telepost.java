@@ -23,19 +23,16 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 public class Telepost extends JavaPlugin {
 
     public ArrayList<UUID> blockFall;
     public HashMap<UUID,UUID> leashed;
-    public ArrayList<String> offlineHomed;
+    public static Set<OfflinePlayer> offlinePlayers;
 
     PluginDescriptionFile pdffile = getDescription();
-    public String name = PostAPI.colour("&e[&f" + pdffile.getName() + "&e]");
+    public String name = ChatColor.YELLOW + "[" + ChatColor.WHITE + pdffile.getName() + ChatColor.YELLOW + "]"+ ChatColor.WHITE;
     public String version = pdffile.getVersion();
 
     public static Telepost instance;
@@ -50,9 +47,9 @@ public class Telepost extends JavaPlugin {
 
         instance = this;
 
-        offlineHomed = visitTab();
-        Bukkit.getConsoleSender().sendMessage("1"+visitTab());
-        Bukkit.getConsoleSender().sendMessage("2"+offlineHomed);
+        offlinePlayers = new HashSet<>();
+
+        offlinePlayers.addAll(Arrays.asList(Bukkit.getServer().getOfflinePlayers()));
 
         // Register events
         registerEvents();
@@ -69,17 +66,6 @@ public class Telepost extends JavaPlugin {
 
     public void onDisable() {
         Bukkit.getConsoleSender().sendMessage(name+ChatColor.WHITE+" The plugin has been deactivated.");
-    }
-
-    public ArrayList<String> visitTab() {
-        ArrayList<String> list = new ArrayList<>();
-        for(OfflinePlayer p : Bukkit.getServer().getOfflinePlayers()){
-            ATPlayer player = ATPlayer.getPlayer(Objects.requireNonNull(p.getName()));
-            assert player != null;
-            if (!player.hasHome("home")) continue;
-            list.add(p.getName());
-        }
-        return list;
     }
 
     void loadConfig () {

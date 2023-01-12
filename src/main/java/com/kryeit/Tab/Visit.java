@@ -4,6 +4,7 @@ import com.kryeit.Commands.PostAPI;
 import com.kryeit.Telepost;
 import io.github.niestrat99.advancedteleport.api.Warp;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -41,13 +42,18 @@ public class Visit implements TabCompleter {
 
         // Add all offline player's names if the player has the right permission node
         if(player.hasPermission("telepost.visit.others") && size == 1) {
-            allTabs.addAll(Telepost.getInstance().offlineHomed);
+            for(OfflinePlayer offlinePlayer : Telepost.offlinePlayers) {
+                if(offlinePlayer == null) continue;
+                allTabs.add(offlinePlayer.getName());
+            }
         }
 
         String aux;
 
         // Add to "completions" all words that have letters that are contained on "commands" list
         for (String allTab : allTabs) {
+
+            if(allTab == null) continue;
 
             allTab = PostAPI.idToName(allTab);
             aux = allTab;
