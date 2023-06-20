@@ -1,17 +1,16 @@
-package com.kryeit.Leash;
+package com.kryeit.leash;
 
-import com.kryeit.Commands.PostAPI;
 import com.kryeit.Telepost;
+import com.kryeit.commands.PostAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+
+import static com.kryeit.commands.PostAPI.WORLD;
 
 public class LeashAPI {
 
@@ -41,12 +40,16 @@ public class LeashAPI {
         return leashed.containsValue(p.getUniqueId());
     }
 
+    public static int getSafeHeight(Location location) {
+        return WORLD.getHighestBlockAt(location).getLocation().getBlockY() + 1;
+    }
+
     public static void teleportLeashed(Player p, Location newlocation) {
         Entity e;
         List<String> flyers = getFlyers();
         for (UUID id : getLeashed(p)) {
             e = Bukkit.getEntity(id);
-            if( e == null ) {
+            if(e == null) {
                 leashed.remove(id);
                 continue;
             }
@@ -57,15 +60,15 @@ public class LeashAPI {
                 Bukkit.getScheduler().runTaskLater(Telepost.getInstance(), () -> {
                     Location l1;
                     if(flyers.contains(finalE.getName().toLowerCase())){
-                        l1 = new Location( finalE.getWorld() , finalNewlocation.getBlockX() + 0.5 , PostAPI.getFirstSolid(finalNewlocation) , finalNewlocation.getBlockZ() + 0.5 );
+                        l1 = new Location( finalE.getWorld() , finalNewlocation.getBlockX() + 0.5 , getSafeHeight(finalNewlocation) , finalNewlocation.getBlockZ() + 0.5 );
                     }else{
-                        l1 = new Location( finalE.getWorld() , finalNewlocation.getBlockX() + 0.5 , finalNewlocation.getBlockY() , finalNewlocation.getBlockZ() + 0.5 );
+                        l1 = new Location( finalE.getWorld() , finalNewlocation.getBlockX() + 0.5 , getSafeHeight(finalNewlocation) , finalNewlocation.getBlockZ() + 0.5 );
                     }
                     finalE.teleport(l1);
 
                 }, 65L);
             }else{
-                if(flyers.contains(e.getType().getEntityClass().getName())) {
+                if(flyers.contains(Objects.requireNonNull(e.getType().getEntityClass()).getName())) {
                     newlocation = new Location( e.getWorld() , newlocation.getBlockX() + 0.5 , PostAPI.getFirstSolid(newlocation) , newlocation.getBlockZ() + 0.5 );
                 }else {
                     newlocation = new Location( e.getWorld() , newlocation.getBlockX() + 0.5 , newlocation.getBlockY() , newlocation.getBlockZ() + 0.5 );

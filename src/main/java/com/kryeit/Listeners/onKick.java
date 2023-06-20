@@ -1,4 +1,4 @@
-package com.kryeit.Listeners;
+package com.kryeit.listeners;
 
 import com.kryeit.Telepost;
 import org.bukkit.entity.Player;
@@ -10,18 +10,15 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class onKick implements Listener {
-    public Telepost instance = Telepost.getInstance();
-    public HashMap<UUID,UUID> leashed = Telepost.getInstance().leashed;
 
     @EventHandler
-    public void onKickK(PlayerQuitEvent event) {
+    public void onKickK (PlayerQuitEvent event) {
         Player p = event.getPlayer();
-
-        if(leashed.containsValue(p.getUniqueId())){
-            for(UUID id : leashed.keySet()){
-                if(leashed.get(id).equals(p.getUniqueId())){
-                    leashed.remove(id);
-                }
+        HashMap<UUID,UUID> leashed = Telepost.getInstance().leashed;
+        if (leashed.containsValue(p.getUniqueId())) return;
+        for (UUID id : leashed.keySet()) {
+            if (leashed.get(id).equals(p.getUniqueId())) {
+                leashed.remove(id);
             }
         }
 

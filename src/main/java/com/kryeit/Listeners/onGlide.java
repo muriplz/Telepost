@@ -1,4 +1,4 @@
-package com.kryeit.Listeners;
+package com.kryeit.listeners;
 
 import com.kryeit.Telepost;
 import org.bukkit.event.EventHandler;

@@ -1,58 +1,67 @@
 package com.kryeit;
 
-
-import com.kryeit.Commands.*;
-import com.kryeit.Leash.onLeash;
-import com.kryeit.Listeners.onFall;
-import com.kryeit.Listeners.onGlide;
-import com.kryeit.Listeners.onKick;
-import com.kryeit.Listeners.onPlayerMove;
-import com.kryeit.Tab.*;
-import com.kryeit.Tab.Help;
-import com.kryeit.Tab.Invite;
-import com.kryeit.Tab.NearestPost;
-import com.kryeit.Tab.UnnamePost;
-import com.kryeit.Tab.Visit;
-import io.github.niestrat99.advancedteleport.api.ATPlayer;
+import com.kryeit.commands.*;
+import com.kryeit.leash.onLeash;
+import com.kryeit.listeners.onFall;
+import com.kryeit.listeners.onGlide;
+import com.kryeit.listeners.onKick;
+import com.kryeit.listeners.onPlayerMove;
+import com.kryeit.storage.CommandDumpDB;
+import com.kryeit.storage.IDatabase;
+import com.kryeit.storage.LevelDBImpl;
+import com.kryeit.storage.PlayerNamedPosts;
+import com.kryeit.tab.*;
+import com.kryeit.util.ArrayListHashMap;
 import io.github.thatsmusic99.configurationmaster.CMFile;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.PluginCommand;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.util.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
 
 public class Telepost extends JavaPlugin {
 
-    public ArrayList<UUID> blockFall;
-    public HashMap<UUID,UUID> leashed;
-    public static Set<OfflinePlayer> offlinePlayers;
+    // All global lists
+    public final ArrayList<UUID> blockFall = new ArrayList<>();
+    public final HashMap<UUID, UUID> leashed = new HashMap<>();
+    public final List<String> offline = new ArrayList<>();
 
     PluginDescriptionFile pdffile = getDescription();
-    public String name = ChatColor.YELLOW + "[" + ChatColor.WHITE + pdffile.getName() + ChatColor.YELLOW + "]"+ ChatColor.WHITE;
-    public String version = pdffile.getVersion();
+    public final String name = ChatColor.YELLOW + "[" + ChatColor.WHITE + pdffile.getName() + ChatColor.YELLOW + "]" + ChatColor.WHITE;
+    public final String version = pdffile.getVersion();
 
     public static Telepost instance;
 
+    public final ArrayListHashMap<UUID, UUID> invites = new ArrayListHashMap<>();
+
+    public PlayerNamedPosts playerNamedPosts;
+    public IDatabase database;
+
+    @Override
+    public void onLoad() {
+        database = new LevelDBImpl();
+        try {
+            playerNamedPosts = new PlayerNamedPosts("plugins/Telepost/PlayerPosts");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public YamlConfiguration messages;
+
+    @Override
     public void onEnable() {
-
-        // All global lists
-        telepostData();
-
-        // Register all commands and tab completions
-        registerCommands();
-
-        instance = this;
-
-        offlinePlayers = new HashSet<>();
-
-        offlinePlayers.addAll(Arrays.asList(Bukkit.getServer().getOfflinePlayers()));
-
-        // Register events
-        registerEvents();
 
         // Set the config.yml file
         loadConfig();
@@ -60,116 +69,129 @@ public class Telepost extends JavaPlugin {
         // Set the messages.yml file
         loadMessages();
 
+        instance = this;
+
+        // Register all commands and tab completions
+        registerCommands();
+
+        // Register events
+        registerEvents();
+
+        messages = YamlConfiguration.loadConfiguration(new File(getInstance().getDataFolder(), "messages.yml"));
+
         // Plugin activated at this point
-        Bukkit.getConsoleSender().sendMessage(name+ChatColor.GRAY+" The plugin has been activated. Version: "+ChatColor.GREEN+version);
+        Bukkit.getConsoleSender().sendMessage(name + ChatColor.GRAY + " The plugin has been activated. Version: " + ChatColor.GREEN + version);
     }
 
+    @Override
     public void onDisable() {
-        Bukkit.getConsoleSender().sendMessage(name+ChatColor.WHITE+" The plugin has been deactivated.");
+        database.stop();
+        Bukkit.getConsoleSender().sendMessage(name + ChatColor.WHITE + " The plugin has been deactivated.");
     }
 
-    void loadConfig () {
+    private void loadConfig() {
         CMFile myConfigFile = new CMFile(this, "config") {
             @Override
             public void loadDefaults() {
-                addLink("GitHub","https://github.com/muriplz/Telepost");
-                addLink("Spigot","https://www.spigotmc.org/resources/telepost.91988");
+                addLink("GitHub", "https://github.com/Kryeit/Telepost");
+                addLink("Modrinth", "https://modrinth.com/plugin/telepost");
 
                 addComment("This number has to be higher than 0. (default = 800 blocks)");
-                addDefault("distance-between-posts",800);
+                addDefault("distance-between-posts", 800);
 
                 addComment("First post's X coordinate (default -> x = 0)");
-                addDefault("post-x-location",0);
+                addDefault("post-x-location", 0);
 
                 addComment("First post's Z coordinate (default -> z = 0)");
-                addDefault("post-z-location",0);
+                addDefault("post-z-location", 0);
 
                 addComment("The width of the post, with center on /nearestpost. Only odd, don't even. ( default = 5 blocks, 2 to each coordinate + the center )");
-                addDefault("post-width",5);
+                addDefault("post-width", 5);
 
                 addComment("/homepost and /visit have this feature, this launches you to the sky before teleporting. ( default = true )");
-                addDefault("launch-feature",true);
+                addDefault("launch-feature", true);
 
                 addComment("After using a TP command you get teleported to y = 265 if this is true, if not, it will teleport you to ground level. ( default = true )");
-                addDefault("tp-in-the-air",true);
+                addDefault("tp-in-the-air", true);
 
                 addComment("Shows the message on the Action Bar. ( doesn't work for all commands ) ( default = true )");
-                addDefault("messages-on-action-bar",true);
-
-                addComment("Set this to 319 on 1.18, and 265 on 1.16 or lower");
-                addDefault("world-height",265);
-
-                addComment("This is the name of the world folder, by default a minecraft overworld is called 'world'");
-                addDefault("world-name","world");
+                addDefault("messages-on-action-bar", true);
 
                 addComment("If leashed entities get teteported");
-                addDefault("teleport-leashed",true);
+                addDefault("teleport-leashed", true);
+
+                addComment("ClaimBlocks needed to name a post. This needs to have GriefDefender installed on the server.");
+                addDefault("needed-blocks", 40000);
             }
         };
         myConfigFile.load();
     }
 
-    void loadMessages (){
-        CMFile myMessagesFile = new CMFile(this,"messages") {
+    private void loadMessages() {
+        CMFile myMessagesFile = new CMFile(this, "messages") {
             @Override
             public void loadDefaults() {
-                addLink("GitHub","https://github.com/muriplz/Telepost");
-                addLink("Spigot","https://www.spigotmc.org/resources/telepost.91988");
+                addLink("GitHub", "https://github.com/Kryeit/Telepost");
+                addLink("Spigot", "https://www.spigotmc.org/resources/telepost.91988");
 
                 addComment("Usage:");
-                addDefault("namepost-usage","&fUse /NamePost <PostName>.");
-                addDefault("visit-usage","&fUse /visit <PostName/PlayerName>.");
-                addDefault("setpost-usage","&fUse /setpost.");
-                addDefault("invite-usage","&fUse /invite <Player>.");
-                addDefault("homepost-usage","&fUse /HomePost.");
+                addDefault("namepost-usage", "&fUse /NamePost <PostName>.");
+                addDefault("visit-usage", "&fUse /visit <PostName/PlayerName>.");
+                addDefault("setpost-usage", "&fUse /setpost.");
+                addDefault("invite-usage", "&fUse /invite <Player>.");
+                addDefault("homepost-usage", "&fUse /HomePost.");
 
                 addComment("Global:");
-                addDefault("cant-execute-from-console","You can't execute this command from console.");
-                addDefault("no-permission","&cYou don't have permission to use this command.");
-                addDefault("not-on-overworld","&cYou have to be in the Overworld to use this command.");
-                addDefault("not-inside-post","&cYou have to be inside a post.");
+                addDefault("cant-execute-from-console", "You can't execute this command from console.");
+                addDefault("no-permission", "&cYou don't have permission to use this command.");
+                addDefault("not-on-overworld", "&cYou have to be in the Overworld to use this command.");
+                addDefault("not-inside-post", "&cYou have to be inside a post.");
 
                 addComment("/PostList:");
-                addDefault("named-posts-translation","&6Named posts");
-                addDefault("hover-postlist","&fClick to teleport to &7%POST_NAME% &fpost.\nThis post is at &6%POST_LOCATION%&f.");
+                addDefault("named-posts-translation", "&6Named posts");
+                addDefault("hover-postlist", "&fClick to teleport to &7%POST_NAME% &fpost.\nThis post is at &6%POST_LOCATION%&f.");
 
                 addComment("/SetPost:");
-                addDefault("set-post-success","&fYou have successfully set your home post at: &6%POST_LOCATION%&f.");
-                addDefault("move-post-success","&fYou have successfully moved your home post at: &6%POST_LOCATION%&f.");
+                addDefault("set-post-success", "&fYou have successfully set your home post at: &6%POST_LOCATION%&f.");
+                addDefault("move-post-success", "&fYou have successfully moved your home post at: &6%POST_LOCATION%&f.");
 
                 addComment("/HomePost or /Visit:");
-                addDefault("already-at-homepost","&cYou are already at your home post.");
-                addDefault("named-post-arrival","&fWelcome to &6%POST_NAME%&f.");
-                addDefault("invited-home-arrival","&fWelcome to &6%PLAYER_NAME%&f's home post.");
+                addDefault("already-at-homepost", "&cYou are already at your home post.");
+                addDefault("named-post-arrival", "&fWelcome to &6%POST_NAME%&f.");
+                addDefault("invited-home-arrival", "&fWelcome to &6%PLAYER_NAME%&f's home post.");
                 addDefault("own-homepost-arrival", "&fWelcome to your home post.");
-                addDefault("homepost-without-setpost","&fPlease, set a post with &6/SetPost&f first.");
-                addDefault("visit-not-invited","&cYou have not been invited.");
-                addDefault("no-homepost","&cYou do not have a home post yet.");
-                addDefault("already-invited-post","&cYou are already at his/her home post.");
-                addDefault("already-at-namedpost","&cYou are already in&6 %POST_NAME%&c.");
-                addDefault("unknown-post","&6%POST_NAME%&f's post does not exist.");
-                addDefault("block-above","&cYou have blocks above of you, try on the post structure.");
+                addDefault("homepost-without-setpost", "&fPlease, set a post with &6/SetPost&f first.");
+                addDefault("visit-not-invited", "&cYou have not been invited.");
+                addDefault("no-homepost", "&cYou do not have a home post yet.");
+                addDefault("already-invited-post", "&cYou are already at his/her home post.");
+                addDefault("already-at-namedpost", "&cYou are already in&6 %POST_NAME%&c.");
+                addDefault("unknown-post", "&6%POST_NAME%&f's post does not exist.");
+                addDefault("block-above", "&cYou have blocks above of you, try on the post structure.");
 
                 addComment("/NearestPost:");
-                addDefault("nearest-message","&fThe nearest post is on: &6%POST_LOCATION%&f.");
-                addDefault("nearest-message-named","&fThe nearest post is on: &6%POST_LOCATION%&f, it's &6%POST_NAME%&f.");
+                addDefault("nearest-message", "&fThe nearest post is on: &6%POST_LOCATION%&f. It's &6%DISTANCE% &7blocks away.");
+                addDefault("nearest-message-named", "&fThe nearest post is on: &6%POST_LOCATION%&f, it's &6%POST_NAME%&f. It's &6%DISTANCE% &fblocks away.");
 
                 addComment("/Invite:");
-                addDefault("own-invite","&cYou can't invite yourself.");
+                addDefault("own-invite", "&cYou can't invite yourself.");
                 addDefault("not-found", "&cPlayer not found.");
-                addDefault("invite-expire","&6%PLAYER_NAME%&f does not have access to your home post anymore.");
-                addDefault("inviting","&fYou have invited &6%PLAYER_NAME%&f.");
-                addDefault("invited","&fYou have been invited by &6%PLAYER_NAME%&f.");
+                addDefault("invite-expire", "&6%PLAYER_NAME%&f does not have access to your home post anymore.");
+                addDefault("inviting", "&fYou have invited &6%PLAYER_NAME%&f.");
+                addDefault("invited", "&fYou have been invited by &6%PLAYER_NAME%&f.");
 
                 addComment("/UnnamePost:");
-                addDefault("unname-named-post","&6%POST_NAME% &apost has been unnamed.");
-                addDefault("no-such-post","&cNo posts by that name.");
+                addDefault("unname-named-post", "&6%POST_NAME% &apost has been unnamed.");
+                addDefault("no-such-post", "&cNo posts by that name.");
 
                 addComment("/NamePost:");
-                addDefault("nearest-already-named","&cThe nearest post is already named, it's &6%POST_NAME%&c.");
-                addDefault("no-named-posts","&cThere are no named posts.");
-                addDefault("name-post","&fYou have given the name &6%POST_NAME%&f to the nearest post.");
-                addDefault("named-post-already-exists","&cThe post &6%POST_NAME%&c already exists.");
+                addDefault("not-enough-claimblocks","&cYou don't have enough claimblocks to name this post, you need %CLAIM_BLOCKS% CB's");
+                addDefault("nearest-already-named", "&cThe nearest post is already named, it's &6%POST_NAME%&c.");
+                addDefault("no-named-posts", "&cThere are no named posts.");
+                addDefault("name-post", "&fYou have given the name &6%POST_NAME%&f to the nearest post.");
+                addDefault("named-post-already-exists", "&cThe post &6%POST_NAME%&c already exists.");
+
+                addComment("Post Building");
+                addDefault("unnamed-post","Unnamed post");
             }
         };
         myMessagesFile.load();
@@ -179,79 +201,66 @@ public class Telepost extends JavaPlugin {
         return instance;
     }
 
-    public void registerEvents() {
+    private void registerEvents() {
         getServer().getPluginManager().registerEvents(new onGlide(), this);
         getServer().getPluginManager().registerEvents(new onFall(), this);
         getServer().getPluginManager().registerEvents(new onPlayerMove(), this);
         getServer().getPluginManager().registerEvents(new onKick(), this);
-        if(getConfig().getBoolean("teleport-leashed")) {
+        if (getConfig().getBoolean("teleport-leashed")) {
             getServer().getPluginManager().registerEvents(new onLeash(), this);
         }
     }
 
-    public void telepostData() {
-        blockFall = new ArrayList<>();
-        leashed = new HashMap<>();
-    }
-
     public void registerCommands() {
+
+        registerCommand("claimposts", new ClaimPostsCommand());
         // /nearestpost
-        Objects.requireNonNull(getCommand("nearestpost")).setExecutor(new com.kryeit.Commands.NearestPost());
-        Objects.requireNonNull(getCommand("nearestpost")).setTabCompleter(new NearestPost());
+        registerCommand("nearestpost", new NearestPostCommand());
 
         // /setpost
-        Objects.requireNonNull(getCommand("setpost")).setExecutor(new SetPost());
-        Objects.requireNonNull(getCommand("setpost")).setTabCompleter(new ReturnEmpty());
+        registerCommand("setpost", new SetPostCommand());
 
         // /homepost
-        Objects.requireNonNull(getCommand("homepost")).setExecutor(new HomePost());
-        Objects.requireNonNull(getCommand("homepost")).setTabCompleter(new ReturnEmpty());
+        registerCommand("homepost", new HomePostCommand());
 
         // /invite <Player>
-        Objects.requireNonNull(getCommand("invite")).setExecutor(new com.kryeit.Commands.Invite());
-        Objects.requireNonNull(getCommand("invite")).setTabCompleter(new Invite());
+        registerCommand("invite", new InviteCommand(), new InviteTab());
 
         // /visit <NamedPost/Player>
-        Objects.requireNonNull(getCommand("visit")).setExecutor(new com.kryeit.Commands.Visit());
-        Objects.requireNonNull(getCommand("visit")).setTabCompleter(new Visit());
+        registerCommand("visit", new VisitCommand(), new VisitTab());
 
         // /namepost <Name>
-        Objects.requireNonNull(getCommand("namepost")).setExecutor(new NamePost());
-        Objects.requireNonNull(getCommand("namepost")).setTabCompleter(new ReturnEmpty());
+        registerCommand("namepost", new NamePostCommand());
 
-        // /unnamepost <Name>
-        Objects.requireNonNull(getCommand("unnamepost")).setExecutor(new com.kryeit.Commands.UnnamePost());
-        Objects.requireNonNull(getCommand("unnamepost")).setTabCompleter(new UnnamePost());
+        // /unnamepost (Name)
+        registerCommand("unnamepost", new UnnamePostCommand(), new UnnamePost());
 
         // /posthelp (command)
         // <> means that has to be used, () is optional
-        Objects.requireNonNull(getCommand("posthelp")).setExecutor( new com.kryeit.Commands.Help());
-        Objects.requireNonNull(getCommand("posthelp")).setTabCompleter(new Help());
-
-       //  /buildpost (y)
-       //  /buildpost (x) (z)
-       //  /buildpost (x) (y) (z)
- //       Objects.requireNonNull(this.getCommand("buildpost")).setExecutor( new BuildPostCommand(this));
- //       Objects.requireNonNull(getCommand("buildpost")).setTabCompleter(new BuildPostTab(this));
+        registerCommand("posthelp", new HelpCommand(), new HelpTab());
 
         // /postlist
-        Objects.requireNonNull(getCommand("postlist")).setExecutor( new PostsList());
-        Objects.requireNonNull(getCommand("postlist")).setTabCompleter(new ReturnEmpty());
+        registerCommand("postlist", new PostListCommand(), new PostListTab());
 
-        // /buildallposts
-   //     Objects.requireNonNull(getCommand("buildallposts")).setExecutor(new BuildAllPostsCommand());
-   //     Objects.requireNonNull(getCommand("buildallposts")).setTabCompleter(new ReturnNullTab());
+        // /dumpdb
+        registerCommand("dumpdb", new CommandDumpDB());
 
     }
 
-    public static YamlConfiguration getMessages() {
-        File messages = new File(getInstance().getDataFolder(), "messages.yml");
-        return YamlConfiguration.loadConfiguration(messages);
+    private void registerCommand(String name, CommandExecutor executor) {
+        registerCommand(name, executor, new ReturnEmptyTab());
     }
 
+    private void registerCommand(String name, CommandExecutor executor, TabCompleter tabCompleter) {
+        PluginCommand command = getCommand(name);
+        if (command == null)
+            throw new RuntimeException("Failed to register command \"" + name + "\"! Add it to plugin.yml!");
+
+        command.setExecutor(executor);
+        if (tabCompleter != null) command.setTabCompleter(tabCompleter);
+    }
+
+    public static IDatabase getDB() {
+        return getInstance().database;
+    }
 }
-
-
-
-
-

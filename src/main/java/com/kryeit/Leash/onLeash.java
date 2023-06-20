@@ -1,4 +1,4 @@
-package com.kryeit.Leash;
+package com.kryeit.leash;
 
 import com.kryeit.Telepost;
 import org.bukkit.event.EventHandler;

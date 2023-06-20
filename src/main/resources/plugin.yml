@@ -1,26 +1,25 @@
 main: com.kryeit.Telepost
-version: 1.3-DEV4
+version: 1.6.5
 name: Telepost
 description: Posts to keep people connected!
-author: MuriPlz
-depend: [AdvancedTeleport]
+authors: [MuriPlz,MrRedRhino]
+softdepend: [GriefDefender]
 api-version: 1.18
 commands:
   nearestpost:
     description: gets the nearest post location.
   setpost:
-    description: sets the nearest post as your home.
+    description: sets the nearest post as your homepost.
   invite:
-    description: invite a player to your home post.
+    description: invite a player to your homepost.
   homepost:
-    description: teleports to your home post.
+    description: teleports to your homepost.
     aliases: h
   visit:
-    aliases: v
     description: visits a post.
+    aliases: v
   namepost:
     description: names the nearest post.
-    permission: telepost.namepost
   unnamepost:
     description: unnames a post.
     permission: telepost.unnamepost
@@ -28,4 +27,9 @@ commands:
     description: tells info about Telepost commands.
   postlist:
     description: shows all the named posts, and lets you teleport by clicking.
-    aliases: plist
+  dumpdb:
+    description: Dumps the database
+    permission: telepost.dumpdb
+  claimposts:
+    description: Claims all posts
+    permission: telepost.claimposts
