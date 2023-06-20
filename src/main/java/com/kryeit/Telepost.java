@@ -1,6 +1,9 @@
 package com.kryeit;
 
+import com.griefdefender.api.GriefDefender;
 import com.kryeit.commands.*;
+import com.kryeit.compat.CompatAddon;
+import com.kryeit.compat.GriefDefenderImpl;
 import com.kryeit.leash.onLeash;
 import com.kryeit.listeners.onFall;
 import com.kryeit.listeners.onGlide;
@@ -213,7 +216,9 @@ public class Telepost extends JavaPlugin {
 
     public void registerCommands() {
 
-        registerCommand("claimposts", new ClaimPostsCommand());
+        if(CompatAddon.GRIEF_DEFENDER.isLoaded()) {
+            registerCommand("claimposts", new ClaimPostsCommand());
+        }
         // /nearestpost
         registerCommand("nearestpost", new NearestPostCommand());
 

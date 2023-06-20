@@ -4,7 +4,13 @@ plugins {
 }
 
 group 'com.kryeit'
-version '1.6.5'
+version '1.7'
+
+compileJava.options.encoding = 'UTF-8'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
 
 repositories {
     mavenCentral()
