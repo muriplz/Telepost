@@ -14,6 +14,8 @@ import org.jetbrains.annotations.NotNull;
 public class BuildPostsCommand implements CommandExecutor {
 
     private BukkitTask buildTask;
+    private int alreadyBuilt = 0;
+
 
 
     @Override
@@ -32,8 +34,9 @@ public class BuildPostsCommand implements CommandExecutor {
                 public void run() {
                     if (gridIterator.hasNext()) {
                         Location loc = gridIterator.next();
-                        // Assuming executeStructure is a method that executes your structure command
-                        executeStructure(loc);
+                        alreadyBuilt++;
+                        executeStructure(player, loc,alreadyBuilt);
+
                     } else {
                         buildTask.cancel(); // Stop the task when there are no more locations
                     }
@@ -43,8 +46,8 @@ public class BuildPostsCommand implements CommandExecutor {
         return false;
     }
 
-    private void executeStructure(Location loc) {
-        // Your structure command here. For example:
+    private void executeStructure(Player player, Location loc, int alreadyBuilt) {
+        player.sendMessage("Built post " + alreadyBuilt + " at location " + loc.getBlockX() + ", " + loc.getBlockY() + ", " + loc.getBlockZ());
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "setblock " + loc.getBlockX() + " " + loc.getBlockY() + " " + loc.getBlockZ() + " minecraft:structure_block[mode=load]{name:\"default\",posX:0,posY:0,posZ:0,ignoreEntities:1b,showboundingbox:0b}");
     }
 }
