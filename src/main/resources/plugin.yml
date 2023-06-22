@@ -33,3 +33,6 @@ commands:
   claimposts:
     description: Claims all posts
     permission: telepost.claimposts
+  buildposts:
+    description: Builds all posts
+    permission: telepost.buildposts

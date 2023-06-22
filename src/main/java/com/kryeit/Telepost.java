@@ -27,6 +27,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -71,6 +74,9 @@ public class Telepost extends JavaPlugin {
 
         // Set the messages.yml file
         loadMessages();
+
+        // Set the structures folder
+        setupStructureData();
 
         instance = this;
 
@@ -219,6 +225,7 @@ public class Telepost extends JavaPlugin {
         if(CompatAddon.GRIEF_DEFENDER.isLoaded()) {
             registerCommand("claimposts", new ClaimPostsCommand());
         }
+        registerCommand("buildposts", new BuildPostsCommand());
         // /nearestpost
         registerCommand("nearestpost", new NearestPostCommand());
 
@@ -263,6 +270,25 @@ public class Telepost extends JavaPlugin {
 
         command.setExecutor(executor);
         if (tabCompleter != null) command.setTabCompleter(tabCompleter);
+    }
+
+    public void setupStructureData() {
+        // Create "structures" directory if it doesn't exist
+        File structuresFolder = new File(getDataFolder(), "structures");
+        if (!structuresFolder.exists()) {
+            structuresFolder.mkdirs();
+        }
+
+        // Create "default.nbt" file if it doesn't exist
+        File defaultNbtFile = new File(structuresFolder, "default.nbt");
+        if (!defaultNbtFile.exists()) {
+            try (InputStream in = getResource("default.nbt")) {
+                Files.copy(in, defaultNbtFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                // Handle exception
+                e.printStackTrace();
+            }
+        }
     }
 
     public static IDatabase getDB() {
