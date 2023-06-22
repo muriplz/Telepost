@@ -35,7 +35,7 @@ public class ClaimPostsCommand implements CommandExecutor {
         } else {
 
             int i = 0;
-            GridIterator gridIterator = new GridIterator(WORLD, -WORLDBORDER_RADIUS, -WORLDBORDER_RADIUS, WORLDBORDER_RADIUS, WORLDBORDER_RADIUS);
+            GridIterator gridIterator = new GridIterator();
             while (gridIterator.hasNext()) {
                 Location location = gridIterator.next();
 

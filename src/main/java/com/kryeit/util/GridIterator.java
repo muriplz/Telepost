@@ -6,7 +6,7 @@ import org.bukkit.World;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import static com.kryeit.commands.PostAPI.GAP;
+import static com.kryeit.commands.PostAPI.*;
 
 public class GridIterator implements Iterator<Location> {
 
@@ -16,12 +16,14 @@ public class GridIterator implements Iterator<Location> {
     private int endZ;
     private World world;
 
-    public GridIterator(World world, int startX, int startZ, int endX, int endZ) {
-        this.world = world;
-        this.x = startX;
-        this.z = startZ;
-        this.endX = endX;
-        this.endZ = endZ;
+    public GridIterator() {
+
+        this.world = WORLD;
+        int worldBorder = WORLDBORDER_RADIUS;
+        this.x = ORIGIN_X - worldBorder;
+        this.z = ORIGIN_Z - worldBorder;
+        this.endX = ORIGIN_X + worldBorder;
+        this.endZ = ORIGIN_Z + worldBorder;
     }
 
     @Override
