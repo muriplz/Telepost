@@ -18,6 +18,7 @@ import com.kryeit.util.ArrayListHashMap;
 import io.github.thatsmusic99.configurationmaster.CMFile;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.World;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabCompleter;
@@ -29,11 +30,15 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
+
+import static com.kryeit.commands.PostAPI.WORLD;
 
 public class Telepost extends JavaPlugin {
 
@@ -289,6 +294,18 @@ public class Telepost extends JavaPlugin {
                 e.printStackTrace();
             }
         }
+        Path sourcePath = Paths.get(getDataFolder().getAbsolutePath(), "structures", "default.nbt");
+        Path worldDirectory = Bukkit.getServer().getWorldContainer().toPath();
+        Path targetPath = worldDirectory.resolve(Paths.get("world", "generated", "minecraft", "structures", "default.nbt"));
+
+        try {
+            Files.createDirectories(targetPath.getParent());
+            Files.copy(sourcePath, targetPath, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     public static IDatabase getDB() {

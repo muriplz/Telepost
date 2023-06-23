@@ -1,15 +1,28 @@
 package com.kryeit.commands;
 
+import com.github.shynixn.structureblocklib.api.bukkit.StructureBlockLibApi;
 import com.kryeit.Telepost;
 import com.kryeit.util.GridIterator;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.Structure;
+import org.bukkit.block.structure.UsageMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.logging.Level;
+
+import static com.kryeit.commands.PostAPI.WORLD;
+import static com.kryeit.commands.PostAPI.instance;
 
 public class BuildPostsCommand implements CommandExecutor {
 
@@ -34,6 +47,7 @@ public class BuildPostsCommand implements CommandExecutor {
                 public void run() {
                     if (gridIterator.hasNext()) {
                         Location loc = gridIterator.next();
+                        loc = new Location(WORLD,loc.getX(),WORLD.getHighestBlockYAt(loc),loc.getBlockZ());
                         alreadyBuilt++;
                         executeStructure(player, loc,alreadyBuilt);
 
@@ -48,6 +62,14 @@ public class BuildPostsCommand implements CommandExecutor {
 
     private void executeStructure(Player player, Location loc, int alreadyBuilt) {
         player.sendMessage("Built post " + alreadyBuilt + " at location " + loc.getBlockX() + ", " + loc.getBlockY() + ", " + loc.getBlockZ());
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "setblock " + loc.getBlockX() + " " + loc.getBlockY() + " " + loc.getBlockZ() + " minecraft:structure_block[mode=load]{name:\"default\",posX:0,posY:0,posZ:0,ignoreEntities:1b,showboundingbox:0b}");
+
+        Path path = Paths.get(instance.getDataFolder().getAbsolutePath(), "structures", "default.nbt");
+        StructureBlockLibApi.INSTANCE
+                .loadStructure(instance)
+                .at(new Location(Bukkit.getWorld("world"), 100, 100, 100))
+                .loadFromPath(path)
+                .onException(e -> instance.getLogger().log(Level.SEVERE, "Failed to load structure.", e))
+                .onResult(e -> instance.getLogger().log(Level.INFO, ChatColor.GREEN + "Loaded structure 'mystructure'."));
+
     }
 }

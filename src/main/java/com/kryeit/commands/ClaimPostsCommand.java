@@ -40,8 +40,8 @@ public class ClaimPostsCommand implements CommandExecutor {
                 Location location = gridIterator.next();
 
                 // Calculate the corners of the claim
-                Vector3i lowerCorner = new Vector3i(location.getBlockX() - width, 0, location.getBlockZ() - width);
-                Vector3i upperCorner = new Vector3i(location.getBlockX() + width, 255, location.getBlockZ() + width); // Set 255 as max Y value for the upper corner
+                Vector3i lowerCorner = new Vector3i(location.getBlockX() - width, location.getBlockY() - 5, location.getBlockZ() - width);
+                Vector3i upperCorner = new Vector3i(location.getBlockX() + width, 319, location.getBlockZ() + width); // Set 255 as max Y value for the upper corner
 
                 // Create the claim
                 ClaimResult claimResult = Claim.builder()
