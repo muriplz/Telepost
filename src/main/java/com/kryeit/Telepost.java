@@ -119,7 +119,8 @@ public class Telepost extends JavaPlugin {
                 addComment("First post's Z coordinate (default -> z = 0)");
                 addDefault("post-z-location", 0);
 
-                addComment("The width of the post, with center on /nearestpost. Only odd, don't even. ( default = 5 blocks, 2 to each coordinate + the center )");
+                addComment("The width of the post, with center on /nearestpost. Only odd, don't even. ( default = 5 blocks, 2 to each coordinate + the center )\n" +
+                        "Please, keep in mind that default.nbt (or any other post .nbt) should have the same width as stated here.");
                 addDefault("post-width", 5);
 
                 addComment("/homepost and /visit have this feature, this launches you to the sky before teleporting. ( default = true )");

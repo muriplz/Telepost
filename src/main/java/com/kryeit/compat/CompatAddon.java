@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 public enum CompatAddon {
+    STRUCTURE_BLOCK_LIB("StructureBlockLib"),
     GRIEF_DEFENDER("GriefDefender");
 
     private final String id;
