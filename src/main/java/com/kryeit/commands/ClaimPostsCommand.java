@@ -40,15 +40,15 @@ public class ClaimPostsCommand implements CommandExecutor {
                 Location location = gridIterator.next();
 
                 // Calculate the corners of the claim
-                Vector3i lowerCorner = new Vector3i(location.getBlockX() - width, location.getBlockY() - 5, location.getBlockZ() - width);
+                Vector3i lowerCorner = new Vector3i(location.getBlockX() - width, location.getBlockY() - 6, location.getBlockZ() - width);
                 Vector3i upperCorner = new Vector3i(location.getBlockX() + width, 319, location.getBlockZ() + width); // Set 255 as max Y value for the upper corner
 
                 // Create the claim
                 ClaimResult claimResult = Claim.builder()
                         .bounds(lowerCorner, upperCorner)
-                        .world(location.getWorld().getUID())
-                        .cuboid(true) // set to true if the claim should be a cuboid
-                        .type(ClaimTypes.ADMIN)// change this to the appropriate claim type
+                        .world(WORLD.getUID())
+                        .cuboid(true)
+                        .type(ClaimTypes.ADMIN)
                         .build();
                 if(claimResult.getClaim() == null) continue;
                 // Set the claim group
