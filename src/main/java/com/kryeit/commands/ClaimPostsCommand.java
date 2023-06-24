@@ -15,12 +15,17 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 
 import static com.kryeit.commands.PostAPI.WORLD;
 import static com.kryeit.commands.PostAPI.WORLDBORDER_RADIUS;
 
 public class ClaimPostsCommand implements CommandExecutor {
+
+    private BukkitTask buildTask;
+    int i = 0;
+
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -34,31 +39,43 @@ public class ClaimPostsCommand implements CommandExecutor {
             Bukkit.getConsoleSender().sendMessage(instance.name + PostAPI.getMessage("cant-execute-from-console"));
         } else {
 
-            int i = 0;
             GridIterator gridIterator = new GridIterator();
-            while (gridIterator.hasNext()) {
-                Location location = gridIterator.next();
 
-                // Calculate the corners of the claim
-                Vector3i lowerCorner = new Vector3i(location.getBlockX() - width, location.getBlockY() - 6, location.getBlockZ() - width);
-                Vector3i upperCorner = new Vector3i(location.getBlockX() + width, 319, location.getBlockZ() + width); // Set 255 as max Y value for the upper corner
+            buildTask = Bukkit.getScheduler().runTaskTimer(instance, new Runnable() {
+                @Override
+                public void run() {
+                    if (gridIterator.hasNext()) {
+                        Location loc = gridIterator.next();
+                        i++;
+                        player.sendMessage("Claimed post " + i + " at location " + loc.getBlockX() + ", " + loc.getBlockY() + ", " + loc.getBlockZ());
 
-                // Create the claim
-                ClaimResult claimResult = Claim.builder()
-                        .bounds(lowerCorner, upperCorner)
-                        .world(WORLD.getUID())
-                        .cuboid(true)
-                        .type(ClaimTypes.ADMIN)
-                        .build();
-                if(claimResult.getClaim() == null) continue;
-                // Set the claim group
-                ClaimData claimData = claimResult.getClaim().getData();
-                claimData.setClaimGroupUniqueId(claimGroup.getUniqueId());
-                i++;
-            }
+                        makeClaim(loc, width, claimGroup);
+                    } else {
+                        buildTask.cancel(); // Stop the task when there are no more locations
+                    }
+                }
+            }, 0L, 5L);
             player.sendMessage("Done! All posts claimed. Total posts claimed: " + i);
         }
 
         return false;
+    }
+
+    public void makeClaim(Location location, int width, ClaimGroup claimGroup) {
+        // Calculate the corners of the claim
+        Vector3i lowerCorner = new Vector3i(location.getBlockX() - width, location.getBlockY() - 6, location.getBlockZ() - width);
+        Vector3i upperCorner = new Vector3i(location.getBlockX() + width, 319, location.getBlockZ() + width); // Set 255 as max Y value for the upper corner
+
+        // Create the claim
+        ClaimResult claimResult = Claim.builder()
+                .bounds(lowerCorner, upperCorner)
+                .world(WORLD.getUID())
+                .cuboid(true)
+                .type(ClaimTypes.ADMIN)
+                .build();
+        if(claimResult.getClaim() == null) return;
+        // Set the claim group
+        ClaimData claimData = claimResult.getClaim().getData();
+        claimData.setClaimGroupUniqueId(claimGroup.getUniqueId());
     }
 }
