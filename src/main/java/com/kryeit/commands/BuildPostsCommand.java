@@ -7,10 +7,6 @@ import com.kryeit.util.GridIterator;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.Structure;
-import org.bukkit.block.structure.UsageMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -18,8 +14,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.logging.Level;
 
 import static com.kryeit.commands.PostAPI.WORLD;

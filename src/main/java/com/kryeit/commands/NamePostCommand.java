@@ -1,5 +1,8 @@
 package com.kryeit.commands;
 
+import com.griefdefender.api.GriefDefender;
+import com.griefdefender.api.claim.Claim;
+import com.griefdefender.api.claim.TrustTypes;
 import com.kryeit.Builder.SignBuilderAPI;
 import com.kryeit.Telepost;
 import com.kryeit.compat.CompatAddon;
@@ -16,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.util.Optional;
 
-import static com.kryeit.commands.PostAPI.WORLD_NAME;
+import static com.kryeit.commands.PostAPI.*;
 import static com.kryeit.compat.GriefDefenderImpl.NEEDED_CLAIMBLOCKS;
 
 public class NamePostCommand implements CommandExecutor {
@@ -88,8 +91,20 @@ public class NamePostCommand implements CommandExecutor {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            giveBuilderTrust(player);
         }
         SignBuilderAPI.placeSignWhenNamed(player,nearestPost, postName,true);
         return true;
+    }
+
+    public void giveBuilderTrust(Player player) {
+        if(CompatAddon.GRIEF_DEFENDER.isLoaded()) {
+            Claim claim = GriefDefender.getCore().getClaimAt(getNearPostLocation(player));
+
+            if(claim != null && claim.isAdminClaim()){
+                claim.addUserTrust(player.getUniqueId(), TrustTypes.BUILDER);
+                player.sendMessage(colour("&aYou've been trusted with BUILDER access in the post claim"));
+            }
+        }
     }
 }

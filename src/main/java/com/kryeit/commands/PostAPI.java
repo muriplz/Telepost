@@ -12,7 +12,9 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import java.util.*;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.UUID;
 
 public class PostAPI {
     // HERE COMES STATIC ABUSE :D
@@ -40,7 +42,7 @@ public class PostAPI {
         // for the Z axis
         int postZ = PostAPI.getNearPost(player.getLocation().getBlockZ(), ORIGIN_Z);
 
-        return new Location(player.getWorld(), postX, HEIGHT, postZ);
+        return new Location(WORLD, postX, WORLD.getHighestBlockYAt(postX,postZ), postZ);
     }
 
     public static String getPostID(String[] args) {

@@ -1,9 +1,7 @@
 package com.kryeit;
 
-import com.griefdefender.api.GriefDefender;
 import com.kryeit.commands.*;
 import com.kryeit.compat.CompatAddon;
-import com.kryeit.compat.GriefDefenderImpl;
 import com.kryeit.leash.onLeash;
 import com.kryeit.listeners.onFall;
 import com.kryeit.listeners.onGlide;
@@ -18,7 +16,6 @@ import com.kryeit.util.ArrayListHashMap;
 import io.github.thatsmusic99.configurationmaster.CMFile;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.World;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabCompleter;
@@ -37,8 +34,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
-
-import static com.kryeit.commands.PostAPI.WORLD;
 
 public class Telepost extends JavaPlugin {
 

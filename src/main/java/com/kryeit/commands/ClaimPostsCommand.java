@@ -19,7 +19,6 @@ import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 
 import static com.kryeit.commands.PostAPI.WORLD;
-import static com.kryeit.commands.PostAPI.WORLDBORDER_RADIUS;
 
 public class ClaimPostsCommand implements CommandExecutor {
 
