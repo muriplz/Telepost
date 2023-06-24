@@ -47,7 +47,7 @@ public class ClaimPostsCommand implements CommandExecutor {
                 ClaimResult claimResult = Claim.builder()
                         .bounds(lowerCorner, upperCorner)
                         .world(location.getWorld().getUID())
-                        .cuboid(false) // set to true if the claim should be a cuboid
+                        .cuboid(true) // set to true if the claim should be a cuboid
                         .type(ClaimTypes.ADMIN)// change this to the appropriate claim type
                         .build();
                 if(claimResult.getClaim() == null) continue;
