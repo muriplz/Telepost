@@ -67,7 +67,7 @@ public class BuildPostsCommand implements CommandExecutor {
     private void executeStructure(Player player, Location loc, int alreadyBuilt) {
         player.sendMessage("Built post " + alreadyBuilt + " at location " + loc.getBlockX() + ", " + loc.getBlockY() + ", " + loc.getBlockZ());
 
-        Location newlocation = new Location(WORLD,loc.getX() - width, loc.getBlockY(), loc.getZ() - width);
+        Location newlocation = new Location(WORLD,loc.getBlockX() - width, loc.getBlockY(), loc.getBlockZ() - width);
 
         StructureBlockLibApi.INSTANCE
                 .loadStructure(instance)
