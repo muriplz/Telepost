@@ -3,6 +3,7 @@ package com.kryeit.commands;
 import com.github.shynixn.structureblocklib.api.bukkit.StructureBlockLibApi;
 import com.kryeit.Telepost;
 import com.kryeit.compat.CompatAddon;
+import com.kryeit.util.BlockFinder;
 import com.kryeit.util.GridIterator;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -45,7 +46,7 @@ public class BuildPostsCommand implements CommandExecutor {
                 public void run() {
                     if (gridIterator.hasNext()) {
                         Location loc = gridIterator.next();
-                        loc = new Location(WORLD,loc.getX(),WORLD.getHighestBlockYAt(loc),loc.getBlockZ());
+                        BlockFinder.clearArea(loc,width);
                         alreadyBuilt++;
                         executeStructure(player, loc, alreadyBuilt);
 
@@ -61,8 +62,9 @@ public class BuildPostsCommand implements CommandExecutor {
     private void executeStructure(Player player, Location loc, int alreadyBuilt) {
         player.sendMessage("Built post " + alreadyBuilt + " at location " + loc.getBlockX() + ", " + loc.getBlockY() + ", " + loc.getBlockZ());
 
+        Location signlocation = new Location(WORLD,loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
+        Bukkit.broadcastMessage(signlocation.getBlock().getType()+"");
         Location newlocation = new Location(WORLD,loc.getBlockX() - width, loc.getBlockY(), loc.getBlockZ() - width);
-
         StructureBlockLibApi.INSTANCE
                 .loadStructure(instance)
                 .at(newlocation)

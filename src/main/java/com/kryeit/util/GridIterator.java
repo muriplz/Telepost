@@ -38,7 +38,7 @@ public class GridIterator implements Iterator<Location> {
             throw new NoSuchElementException();
         }
 
-        Location location = new Location(world, currentX, WORLD.getHighestBlockYAt(currentX,currentZ), currentZ);
+        Location location = new Location(world, currentX, BlockFinder.getFirstSolidBlockY(currentX,currentZ), currentZ);
 
         // Move to the next location in the grid.
         currentX += GAP;

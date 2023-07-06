@@ -1,6 +1,7 @@
 package com.kryeit.commands;
 
 import com.kryeit.Telepost;
+import com.kryeit.compat.CompatAddon;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -34,7 +35,7 @@ public class HelpCommand implements CommandExecutor {
                 sendMessage(player, "- &6/postlist&f: shows you all the named posts.");
                 if (player.hasPermission("telepost.namepost") || player.hasPermission("telepost.unnamepost")) {
                     sendMessage(player, "&aAdmin commands: ");
-                    if (player.hasPermission("telepost.namepost")) {
+                    if (player.hasPermission("telepost.namepost") || CompatAddon.GRIEF_DEFENDER.isLoaded()) {
                         sendMessage(player, "- &6/namepost <Name>&f: names the nearest post.");
                     }
                     if (player.hasPermission("telepost.unnamepost")) {
@@ -48,7 +49,7 @@ public class HelpCommand implements CommandExecutor {
                     sendMessage(player, "&aAll aliases for your commands: ");
                     sendMessage(player, "- &6/h&f: alias for /homepost.");
                     sendMessage(player, "- &6/v&f: alias for /visit.");
-                    sendMessage(player, "- &6/plist&f: alias for /postlist.");
+                    sendMessage(player, "- &6/post&f: alias for /nearestpost.");
 
                 } else if (args[0].equals("nearestpost")) {
                     sendMessage(player, "&a/NearestPost guide: ");
@@ -89,7 +90,7 @@ public class HelpCommand implements CommandExecutor {
                     sendMessage(player, "- He will have 5 minutes to teleport as much as he wants.");
                     sendMessage(player, "- This command can be used anywhere.");
                     sendMessage(player, "- You will get notified if an invite expires.");
-                } else if (args[0].equals("namepost") && player.hasPermission("telepost.namepost")) {
+                } else if (args[0].equals("namepost") && (player.hasPermission("telepost.namepost") || CompatAddon.GRIEF_DEFENDER.isLoaded())) {
                     sendMessage(player, "&a/NamePost guide: ");
                     sendMessage(player, "- You can set a name for the nearest post.");
                     sendMessage(player, "- The named post will be accesible for everyone.");
@@ -98,7 +99,7 @@ public class HelpCommand implements CommandExecutor {
                     } else {
                         sendMessage(player, "- You can only set one name per post.");
                     }
-                    sendMessage(player, "- This command is only for Admins.");
+                    sendMessage(player, "- This command is only for Admins, unless GriefDefender is installed.");
                 } else if (args[0].equals("unnamepost") && player.hasPermission("telepost.unnamepost")) {
                     sendMessage(player, "&a/UnnamePost guide: ");
                     sendMessage(player, "- You can delete the name of any named post.");

@@ -1,5 +1,5 @@
 main: com.kryeit.Telepost
-version: 2.1
+version: 2.1.1
 name: Telepost
 description: Posts to keep people connected!
 authors: [MuriPlz,MrRedRhino]
@@ -8,6 +8,7 @@ api-version: 1.18
 commands:
   nearestpost:
     description: gets the nearest post location.
+    aliases: post
   setpost:
     description: sets the nearest post as your homepost.
   invite:
